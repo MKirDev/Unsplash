@@ -17,3 +17,4 @@ rootProject.name = "Unsplash"
 include(":app")
 include(":core:ui")
 include(":core:navigation")
+include(":data")
