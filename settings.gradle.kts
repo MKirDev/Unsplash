@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Unsplash"
 include(":app")
-include(":ui")
+include(":core:ui")
