@@ -40,6 +40,7 @@ android {
 
 dependencies {
 
+    // core
     implementation(libs.core.ktx)
 
     // presentation compose
