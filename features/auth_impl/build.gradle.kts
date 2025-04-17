@@ -49,7 +49,6 @@ dependencies {
 
     // presentation
     implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.runtime.compose)
 
     // presentation compose
