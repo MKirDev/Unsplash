@@ -47,6 +47,10 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
 
+    // navigation
+    implementation(libs.navigation)
+    implementation(libs.androidx.navigation.runtime.ktx)
+
     // presentation
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
