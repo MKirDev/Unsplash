@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mkirdev.unsplash.auth"
+    namespace = "com.mkirdev.unsplash.onboarding"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -19,7 +19,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -33,11 +34,12 @@ android {
 }
 
 dependencies {
+
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":domain"))
 
-    implementation(project(":features:auth_api"))
+    implementation(project(":features:onboarding_api"))
 
     // di
     implementation(libs.dagger)
@@ -53,6 +55,7 @@ dependencies {
 
     // presentation
     implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.runtime.compose)
 
     // presentation compose

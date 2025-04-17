@@ -6,12 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.mkirdev.unsplash.auth"
+    namespace = "com.mkirdev.unsplash.bottom_menu"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -19,7 +20,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -33,11 +35,12 @@ android {
 }
 
 dependencies {
+
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":domain"))
 
-    implementation(project(":features:auth_api"))
+    implementation(project(":features:bottom_menu_api"))
 
     // di
     implementation(libs.dagger)
@@ -67,4 +70,5 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
+
 }
