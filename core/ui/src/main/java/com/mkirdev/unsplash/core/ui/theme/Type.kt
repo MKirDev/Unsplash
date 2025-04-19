@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.ui.theme
+package com.mkirdev.unsplash.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

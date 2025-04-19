@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.ui.theme
+package com.mkirdev.unsplash.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
