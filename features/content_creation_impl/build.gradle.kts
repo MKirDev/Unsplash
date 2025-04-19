@@ -36,7 +36,6 @@ android {
 dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
-    implementation(project(":domain"))
 
     implementation(project(":features:content_creation_api"))
 
