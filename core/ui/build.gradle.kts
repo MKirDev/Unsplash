@@ -43,6 +43,9 @@ dependencies {
     // core
     implementation(libs.core.ktx)
 
+    // presentation
+    implementation(libs.lifecycle.runtime.compose)
+
     // presentation compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
