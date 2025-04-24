@@ -2,4 +2,10 @@
     <string name="app_name">Unsplash</string>
     <string name="unsplash_logo">Unsplash logo</string>
     <string name="auth">Sign in via Unsplash</string>
+    <string name="successfully_auth">Authentication was successful</string>
+    <string name="close_notification">Close notification</string>
+    <string name="photo_successfully_uploaded">Photo successfully uploaded</string>
+    <string name="download_network_error">Network error: download will continue later</string>
+    <string name="auth_network_error">Network error: failed to retrieve token</string>
+    <string name="test_error">Test error</string>
 </resources>

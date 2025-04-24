@@ -2,12 +2,14 @@ package com.mkirdev.unsplash.core.ui.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.theme.green
 
 @Composable
@@ -35,5 +37,17 @@ fun WavyRow(
         horizontalArrangement = horizontalArrangement
     ) {
         function()
+    }
+}
+
+@Preview
+@Composable
+fun WavyRowPreview() {
+    WavyRow(
+        modifier = Modifier.fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+
     }
 }
