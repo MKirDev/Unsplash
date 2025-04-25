@@ -27,8 +27,7 @@ class AuthScreenTests {
                 onAuthClick = {}
             )
         }
-        composeTestRule.onNodeWithTag(AuthScreenTags.NOTIFICATION_INFO).assertDoesNotExist()
-        composeTestRule.onNodeWithTag(AuthScreenTags.NOTIFICATION_ERROR).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(AuthScreenTags.NOTIFICATION_EMPTY).assertExists()
     }
 
     @Test
