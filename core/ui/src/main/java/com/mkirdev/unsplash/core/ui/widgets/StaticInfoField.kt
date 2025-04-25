@@ -38,7 +38,7 @@ fun StaticInfoField(
         Text(
             text = text.uppercase(),
             modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.onError,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 2,
             softWrap = true,
             style = textStyle
