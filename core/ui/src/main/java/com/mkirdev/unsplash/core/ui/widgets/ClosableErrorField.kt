@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
+import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.space_10
 import com.mkirdev.unsplash.core.ui.theme.space_16
 
@@ -61,10 +62,12 @@ fun ClosableErrorField(
 @Preview(showBackground = true)
 @Composable
 fun ClosableErrorFieldPreview() {
-    ClosableErrorField(
-        modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.download_network_error),
-        textStyle = TextStyle.Default
-    ) {
+    UnsplashTheme(dynamicColor = false) {
+        ClosableErrorField(
+            modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.download_network_error),
+            textStyle = TextStyle.Default
+        ) {
 
+        }
     }
 }

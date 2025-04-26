@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.auth.impl
 
 import androidx.lifecycle.ViewModel
-import com.mkirdev.unsplash.auth.impl.AuthContract
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
