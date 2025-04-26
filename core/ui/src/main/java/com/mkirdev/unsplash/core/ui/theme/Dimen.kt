@@ -2,7 +2,9 @@ package com.mkirdev.unsplash.core.ui.theme
 
 import androidx.compose.ui.unit.dp
 
+val padding_10 = 10.dp
 val padding_30 = 30.dp
+val padding_60 = 60.dp
 val padding_80 = 100.dp
 val padding_100 = 100.dp
 val padding_200 = 100.dp

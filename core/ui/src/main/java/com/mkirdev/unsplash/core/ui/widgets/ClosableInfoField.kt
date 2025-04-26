@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
+import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.space_10
 import com.mkirdev.unsplash.core.ui.theme.space_16
 
@@ -37,7 +38,7 @@ fun ClosableInfoField(
         Text(
             text = text.uppercase(),
             modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onSecondary,
             maxLines = 2,
             softWrap = true,
             style = textStyle
@@ -51,7 +52,7 @@ fun ClosableInfoField(
                 contentDescription = stringResource(
                     id = R.string.close_notification
                 ),
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onSecondary
             )
         }
         Spacer(modifier = Modifier.width(space_10))
@@ -61,10 +62,12 @@ fun ClosableInfoField(
 @Preview(showBackground = true)
 @Composable
 fun ClosableInfoFieldPreview() {
-    ClosableInfoField(
-        modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.photo_successfully_uploaded),
-        textStyle = TextStyle.Default
-    ) {
+    UnsplashTheme(dynamicColor = false) {
+        ClosableInfoField(
+            modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.photo_successfully_uploaded),
+            textStyle = TextStyle.Default
+        ) {
 
+        }
     }
 }

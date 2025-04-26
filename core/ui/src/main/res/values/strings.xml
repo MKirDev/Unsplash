@@ -8,4 +8,6 @@
     <string name="download_network_error">Network error: download will continue later</string>
     <string name="auth_network_error">Network error: failed to retrieve token</string>
     <string name="test_error">Test error</string>
+    <string name="background_cameras">Background cameras</string>
+    <string name="upload_and_track">Upload your favorite photos and track your statistics</string>
 </resources>
