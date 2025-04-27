@@ -10,4 +10,5 @@
     <string name="test_error">Test error</string>
     <string name="background_cameras">Background cameras</string>
     <string name="upload_and_track">Upload your favorite photos and track your statistics</string>
+    <string name="content_creation">Create shots, publish, build an audience, get feedback!</string>
 </resources>
