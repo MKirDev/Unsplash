@@ -7,7 +7,7 @@ val padding_30 = 30.dp
 val padding_60 = 60.dp
 val padding_80 = 100.dp
 val padding_100 = 100.dp
-val padding_200 = 100.dp
+val padding_150 = 150.dp
 
 val space_10 = 10.dp
 val space_16 = 16.dp
