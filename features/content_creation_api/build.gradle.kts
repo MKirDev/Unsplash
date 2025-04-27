@@ -34,7 +34,7 @@ android {
 
 dependencies {
 
-    // navigation
-    implementation(libs.navigation)
-    implementation(libs.androidx.navigation.runtime.ktx)
+    // presentation compose
+    implementation(platform(libs.compose.bom))
+    implementation(libs.ui)
 }
