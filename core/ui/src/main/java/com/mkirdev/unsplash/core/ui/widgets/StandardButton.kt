@@ -32,7 +32,7 @@ fun StandardButton(modifier: Modifier, text: String, textStyle: TextStyle, color
 
 @Preview(showBackground = true)
 @Composable
-fun StandardButtonPreview() {
+private fun StandardButtonPreview() {
     UnsplashTheme(dynamicColor = false) {
         StandardButton(
             modifier = Modifier.fillMaxWidth(),

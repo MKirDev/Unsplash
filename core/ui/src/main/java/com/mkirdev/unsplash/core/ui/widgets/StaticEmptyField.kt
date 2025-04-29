@@ -18,7 +18,7 @@ fun StaticEmptyField(modifier: Modifier) {
 
 @Preview
 @Composable
-fun StaticEmptyFieldPreview() {
+private fun StaticEmptyFieldPreview() {
     UnsplashTheme(dynamicColor = false) {
         StaticEmptyField(Modifier.fillMaxSize())
     }

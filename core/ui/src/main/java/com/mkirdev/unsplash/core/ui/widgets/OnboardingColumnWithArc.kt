@@ -59,7 +59,7 @@ fun OnboardingColumnWithArc(
 
 @Preview
 @Composable
-fun OnboardingColumnWithArcPreview() {
+private fun OnboardingColumnWithArcPreview() {
     UnsplashTheme {
         OnboardingColumnWithArc(
             modifier = Modifier

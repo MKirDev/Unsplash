@@ -39,7 +39,7 @@ fun WavyColumn(
 
 @Preview
 @Composable
-fun WavyRowPreview() {
+private fun WavyRowPreview() {
     UnsplashTheme(dynamicColor = false) {
         WavyColumn(
             modifier = Modifier.fillMaxSize()
