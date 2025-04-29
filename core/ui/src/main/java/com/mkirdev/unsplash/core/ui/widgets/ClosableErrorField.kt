@@ -61,7 +61,7 @@ fun ClosableErrorField(
 
 @Preview(showBackground = true)
 @Composable
-fun ClosableErrorFieldPreview() {
+private fun ClosableErrorFieldPreview() {
     UnsplashTheme(dynamicColor = false) {
         ClosableErrorField(
             modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.download_network_error),

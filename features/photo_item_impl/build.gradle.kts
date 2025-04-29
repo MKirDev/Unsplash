@@ -30,6 +30,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composecompiler.get()
+    }
 }
 
 dependencies {
@@ -37,14 +43,19 @@ dependencies {
     implementation(project(":core:ui"))
 
     implementation(project(":features:photo_item_api"))
+    implementation(project(":features:photo_feed_api"))
 
     // core
     implementation(libs.core.ktx)
+
+    // presentation
+    implementation(libs.glide)
 
     // presentation compose
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
 }

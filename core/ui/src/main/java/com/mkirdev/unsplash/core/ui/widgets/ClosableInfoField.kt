@@ -61,7 +61,7 @@ fun ClosableInfoField(
 
 @Preview(showBackground = true)
 @Composable
-fun ClosableInfoFieldPreview() {
+private fun ClosableInfoFieldPreview() {
     UnsplashTheme(dynamicColor = false) {
         ClosableInfoField(
             modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.photo_successfully_uploaded),

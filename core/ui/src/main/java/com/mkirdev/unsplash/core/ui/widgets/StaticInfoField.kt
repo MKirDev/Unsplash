@@ -45,7 +45,7 @@ fun StaticInfoField(
 
 @Preview(showBackground = true)
 @Composable
-fun StaticInfoFieldPreview() {
+private fun StaticInfoFieldPreview() {
     UnsplashTheme(dynamicColor = false) {
         StaticInfoField(
             modifier = Modifier

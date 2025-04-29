@@ -12,4 +12,8 @@
     <string name="upload_and_track">Upload your favorite photos and track your statistics</string>
     <string name="content_creation">Create shots, publish, build an audience, get feedback!</string>
     <string name="social_collections">Share with friends, build collections</string>
+    <string name="photo_item">Photo item</string>
+    <string name="user_image">User image</string>
+    <string name="like">Like</string>
+    <string name="username_format">\@%1$s</string>
 </resources>
