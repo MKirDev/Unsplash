@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.auth
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -44,10 +43,10 @@ class AuthScreenTests {
 
     @Test
     fun auth_whenUiStateIsError_showsNotificationError() {
-        val uiStateErrorFake = AuthContract.State.Error(composeTestRule.activity.getString(R.string.test_error))
+        val uiStateErrorStub = AuthContract.State.Error(composeTestRule.activity.getString(R.string.test_error))
         composeTestRule.setContent {
             AuthScreen(
-                uiState = uiStateErrorFake,
+                uiState = uiStateErrorStub,
                 onNotificationClick = {},
                 onAuthClick = {}
             )
