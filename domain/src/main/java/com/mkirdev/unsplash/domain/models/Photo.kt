@@ -2,6 +2,8 @@ package com.mkirdev.unsplash.domain.models
 
 data class Photo(
     val id: String,
+    val width: Int,
+    val height: Int,
     val imageUrl: String,
     val downloadUrl: String,
     val likes: Int,
