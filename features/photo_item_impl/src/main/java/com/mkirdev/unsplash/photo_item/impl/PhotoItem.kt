@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -90,7 +91,7 @@ fun PhotoItem(
             Icon(
                 painter = painterResource(id = if (isLiked) R.drawable.like_enabled else R.drawable.like_unenabled),
                 contentDescription = stringResource(
-                    id = R.string.like
+                    id = if (isLiked) R.string.like else R.string.unlike
                 ),
                 modifier = Modifier.clickable {
                     isLiked = if (isLiked) {
@@ -100,12 +101,16 @@ fun PhotoItem(
                         onLike(photoItemModel.id)
                         !isLiked
                     }
-                },
+                }.testTag(PhotoItemTags.BUTTON),
                 tint = if (isLiked) red else white
             )
 
         }
     }
+}
+
+object PhotoItemTags {
+    const val BUTTON = "PhotoItemTags:BUTTON"
 }
 
 
