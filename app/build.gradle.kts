@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -53,6 +54,14 @@ android {
 dependencies {
 
     implementation(project(":core:ui"))
+    implementation(project(":features:photo_item_api"))
+    implementation(project(":features:photo_item_impl"))
+    implementation(project(":features:photo_feed_api"))
+    implementation(project(":features:photo_feed_impl"))
+
+    // di
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 
     // core
     implementation(libs.core.ktx)
