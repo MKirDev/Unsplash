@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.photo_item.preview
 
-import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
-import com.mkirdev.unsplash.photo_item.models.UserModel
+import com.mkirdev.unsplash.photo_item.api.models.PhotoItemModel
+import com.mkirdev.unsplash.photo_item.api.models.UserModel
 
 internal fun createPreviewData() = PhotoItemModel(
     id = "IOsig125yhdf",

@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.photo_item.models
+package com.mkirdev.unsplash.photo_item.api.models
 
 data class UserModel(
     val name: String,

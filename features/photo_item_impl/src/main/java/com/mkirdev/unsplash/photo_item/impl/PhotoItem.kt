@@ -34,7 +34,7 @@ import com.mkirdev.unsplash.core.ui.theme.red
 import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.theme.white
 import com.mkirdev.unsplash.core.ui.widgets.UserInfo
-import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
+import com.mkirdev.unsplash.photo_item.api.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPreviewData
 
 @OptIn(ExperimentalGlideComposeApi::class)

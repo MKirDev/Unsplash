@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.photo_item.utils.stubs
 
-import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
-import com.mkirdev.unsplash.photo_item.models.UserModel
+import com.mkirdev.unsplash.photo_item.api.models.PhotoItemModel
+import com.mkirdev.unsplash.photo_item.api.models.UserModel
 
 class PhotoItemStub {
     companion object {

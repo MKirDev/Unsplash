@@ -2,7 +2,7 @@ package com.mkirdev.unsplash.photo_item.api
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
+import com.mkirdev.unsplash.photo_item.api.models.PhotoItemModel
 
 interface PhotoItemFeatureApi {
     @Composable
