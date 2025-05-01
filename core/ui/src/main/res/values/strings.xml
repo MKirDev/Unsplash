@@ -17,4 +17,5 @@
     <string name="like">Like</string>
     <string name="unlike">Unlike</string>
     <string name="username_format">\@%1$s</string>
+    <string name="more">More</string>
 </resources>
