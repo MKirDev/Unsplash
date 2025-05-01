@@ -45,9 +45,6 @@ dependencies {
     implementation(project(":core:ui"))
     testImplementation(project(":core:ui"))
 
-    implementation(project(":features:photo_item_api"))
-    implementation(project(":features:photo_feed_api"))
-
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
 
