@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -43,9 +44,6 @@ dependencies {
 
     implementation(project(":core:ui"))
     testImplementation(project(":core:ui"))
-
-    implementation(project(":features:photo_item_api"))
-    implementation(project(":features:photo_feed_api"))
 
     // core
     implementation(libs.core.ktx)
