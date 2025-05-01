@@ -45,7 +45,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(project(":features:photo_feed_api"))
-    implementation(project(":features:photo_item_impl"))
+    implementation(project(":features:photo_item_feature"))
 
     // di
     implementation(libs.dagger)

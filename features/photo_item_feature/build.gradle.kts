@@ -45,9 +45,6 @@ dependencies {
     implementation(project(":core:ui"))
     testImplementation(project(":core:ui"))
 
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
     // core
     implementation(libs.core.ktx)
 

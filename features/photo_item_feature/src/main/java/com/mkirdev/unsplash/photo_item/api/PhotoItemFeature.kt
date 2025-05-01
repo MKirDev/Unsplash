@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import com.mkirdev.unsplash.photo_item.impl.PhotoItem
 import com.mkirdev.unsplash.photo_item.api.models.PhotoItemModel
 
-class PhotoItemFeatureApiImpl : PhotoItemFeatureApi {
+class PhotoItemFeature {
     @Composable
-    override fun PhotoItemFeature(
+    fun Composable(
         modifier: Modifier,
         photoItemModel: PhotoItemModel,
         onLike: (String) -> Unit,

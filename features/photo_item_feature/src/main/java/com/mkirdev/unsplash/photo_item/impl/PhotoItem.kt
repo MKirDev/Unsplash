@@ -39,7 +39,7 @@ import com.mkirdev.unsplash.photo_item.preview.createPreviewData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PhotoItem(
+internal fun PhotoItem(
     modifier: Modifier,
     photoItemModel: PhotoItemModel,
     onLike: (String) -> Unit,
@@ -126,5 +126,4 @@ private fun PhotoItemPreview() {
             onRemoveLike = {}
         )
     }
-
 }

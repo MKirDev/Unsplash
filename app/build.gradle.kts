@@ -54,7 +54,7 @@ android {
 dependencies {
 
     implementation(project(":core:ui"))
-    implementation(project(":features:photo_item_impl"))
+    implementation(project(":features:photo_item_feature"))
     implementation(project(":features:photo_feed_api"))
     implementation(project(":features:photo_feed_impl"))
 
