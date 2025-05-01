@@ -35,7 +35,7 @@ import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.theme.white
 import com.mkirdev.unsplash.core.ui.widgets.UserInfo
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
-import com.mkirdev.unsplash.photo_item.preview.createPreviewData
+import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -117,7 +117,7 @@ object PhotoItemTags {
 @Preview
 @Composable
 private fun PhotoItemPreview() {
-    val photoItemModel = createPreviewData()
+    val photoItemModel = createPhotoItemPreviewData()
     UnsplashTheme(dynamicColor = false) {
         PhotoItem(
             modifier = Modifier.aspectRatio(2.5f),
