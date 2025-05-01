@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.photo_item.impl
+package com.mkirdev.unsplash.photo_item.feature
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,12 +34,12 @@ import com.mkirdev.unsplash.core.ui.theme.red
 import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.theme.white
 import com.mkirdev.unsplash.core.ui.widgets.UserInfo
-import com.mkirdev.unsplash.photo_item.api.models.PhotoItemModel
+import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPreviewData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-internal fun PhotoItem(
+fun PhotoItem(
     modifier: Modifier,
     photoItemModel: PhotoItemModel,
     onLike: (String) -> Unit,

@@ -9,8 +9,8 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.photo_item.utils.stubs.PhotoItemStub
-import com.mkirdev.unsplash.photo_item.impl.PhotoItem
-import com.mkirdev.unsplash.photo_item.impl.PhotoItemTags
+import com.mkirdev.unsplash.photo_item.feature.PhotoItem
+import com.mkirdev.unsplash.photo_item.feature.PhotoItemTags
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
