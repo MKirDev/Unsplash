@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PhotoItemTests {
+internal class PhotoItemTests {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
