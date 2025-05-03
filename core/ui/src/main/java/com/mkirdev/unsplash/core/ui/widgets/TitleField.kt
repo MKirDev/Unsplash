@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.core.ui.widgets
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
+import com.mkirdev.unsplash.core.ui.theme.rounded_corner_0
 
 private const val EMPTY_STRING = ""
 
@@ -46,6 +47,7 @@ fun TitleField(
                 )
             }
         },
+        shape = RoundedCornerShape(rounded_corner_0),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
