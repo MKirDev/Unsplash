@@ -1,9 +1,9 @@
 package com.mkirdev.unsplash.core.ui.widgets
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
+import com.mkirdev.unsplash.core.ui.theme.rounded_corner_0
 
 private const val EMPTY_STRING = ""
 private const val ONE_LINE = 1
@@ -77,6 +78,7 @@ fun SearchField(
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         maxLines = ONE_LINE,
+        shape = RoundedCornerShape(rounded_corner_0),
         colors = TextFieldDefaults.colors(
             focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,

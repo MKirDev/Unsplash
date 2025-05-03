@@ -31,3 +31,5 @@ val image_size_14 = 14.dp
 val image_size_18 = 18.dp
 val image_size_28 = 28.dp
 val image_size_340 = 340.dp
+
+val rounded_corner_0 = 0.dp
