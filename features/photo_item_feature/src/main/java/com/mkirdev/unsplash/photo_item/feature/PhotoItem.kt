@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.photo_item.feature
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +28,7 @@ import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodySmallWithoutLineHeight
 import com.mkirdev.unsplash.core.ui.theme.image_size_18
+import com.mkirdev.unsplash.core.ui.theme.item_size_18
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.red
@@ -88,12 +89,8 @@ fun PhotoItem(
                 color = MaterialTheme.colorScheme.onSecondary,
                 style = MaterialTheme.typography.bodySmallWithoutLineHeight
             )
-            Icon(
-                painter = painterResource(id = if (isLiked) R.drawable.like_enabled else R.drawable.like_unenabled),
-                contentDescription = stringResource(
-                    id = if (isLiked) R.string.like else R.string.unlike
-                ),
-                modifier = Modifier.clickable {
+            IconButton(
+                onClick = {
                     isLiked = if (isLiked) {
                         onRemoveLike(photoItemModel.id)
                         !isLiked
@@ -101,9 +98,19 @@ fun PhotoItem(
                         onLike(photoItemModel.id)
                         !isLiked
                     }
-                }.testTag(PhotoItemTags.BUTTON),
-                tint = if (isLiked) red else white
-            )
+                },
+                modifier = Modifier
+                    .size(item_size_18)
+                    .testTag(PhotoItemTags.BUTTON),
+            ) {
+                Icon(
+                    painter = painterResource(id = if (isLiked) R.drawable.like_enabled else R.drawable.like_unenabled),
+                    contentDescription = stringResource(
+                        id = if (isLiked) R.string.like else R.string.unlike
+                    ),
+                    tint = if (isLiked) red else white
+                )
+            }
 
         }
     }
