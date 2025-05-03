@@ -116,7 +116,7 @@ fun PhotoItem(
     }
 }
 
-object PhotoItemTags {
+internal object PhotoItemTags {
     const val BUTTON = "PhotoItemTags:BUTTON"
 }
 
