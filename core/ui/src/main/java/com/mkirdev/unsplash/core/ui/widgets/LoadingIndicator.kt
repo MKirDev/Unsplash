@@ -10,9 +10,9 @@ import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
 
 @Composable
-fun LoadingIndicator() {
+fun LoadingIndicator(modifier: Modifier) {
     CircularProgressIndicator(
-        modifier = Modifier.width(item_width_64),
+        modifier = modifier,
         color = MaterialTheme.colorScheme.onPrimaryContainer,
         trackColor = MaterialTheme.colorScheme.primaryContainer,
     )
@@ -22,6 +22,6 @@ fun LoadingIndicator() {
 @Composable
 private fun LoadingIndicatorPreview() {
     UnsplashTheme(dynamicColor = false) {
-        LoadingIndicator()
+        LoadingIndicator(Modifier.width(item_width_64))
     }
 }
