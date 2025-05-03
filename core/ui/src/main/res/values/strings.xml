@@ -18,4 +18,8 @@
     <string name="unlike">Unlike</string>
     <string name="username_format">\@%1$s</string>
     <string name="more">More</string>
+    <string name="search">Search</string>
+    <string name="close">Close</string>
+    <string name="photo_feed">Photo feed</string>
+    <string name="details">Details</string>
 </resources>
