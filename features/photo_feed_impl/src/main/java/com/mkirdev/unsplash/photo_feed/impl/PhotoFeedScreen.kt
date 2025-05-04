@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -20,9 +21,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
+import com.mkirdev.unsplash.core.ui.theme.image_size_18
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_14
@@ -31,12 +37,14 @@ import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.CustomOutlinedButton
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.SearchField
+import com.mkirdev.unsplash.core.ui.widgets.UserInfo
 import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 
 private const val FIXED_COUNT = 2
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PhotoFeedScreen(
     uiState: PhotoFeedContract.State,
@@ -97,6 +105,21 @@ fun PhotoFeedScreen(
                                         onClickPhoto(it.id)
                                     },
                                 photoItemModel = it,
+                                userImage = {
+                                    GlideImage(
+                                        model = it.user.userImage,
+                                        contentDescription = stringResource(id = R.string.user_image),
+                                        modifier = Modifier.size(image_size_18)
+                                    )
+                                },
+                                userInfo = {
+                                    UserInfo(
+                                        name = it.user.name,
+                                        nameStyle = MaterialTheme.typography.labelMedium,
+                                        userName = it.user.userName,
+                                        userNameStyle = MaterialTheme.typography.labelSmall
+                                    )
+                                },
                                 onLike = onLike,
                                 onRemoveLike = onRemoveLike
                             )
@@ -150,6 +173,21 @@ fun PhotoFeedScreen(
                                     .aspectRatio(it.aspectRatioImage)
                                     .testTag(PhotoFeedTags.ITEM),
                                 photoItemModel = it,
+                                userImage = {
+                                    GlideImage(
+                                        model = it.user.userImage,
+                                        contentDescription = stringResource(id = R.string.user_image),
+                                        modifier = Modifier.size(image_size_18)
+                                    )
+                                },
+                                userInfo = {
+                                    UserInfo(
+                                        name = it.user.name,
+                                        nameStyle = MaterialTheme.typography.labelMedium,
+                                        userName = it.user.userName,
+                                        userNameStyle = MaterialTheme.typography.labelSmall
+                                    )
+                                },
                                 onLike = onLike,
                                 onRemoveLike = onRemoveLike
                             )
