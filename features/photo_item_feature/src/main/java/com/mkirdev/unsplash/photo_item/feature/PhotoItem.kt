@@ -27,14 +27,14 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodySmallWithoutLineHeight
-import com.mkirdev.unsplash.core.ui.theme.image_size_18
 import com.mkirdev.unsplash.core.ui.theme.item_size_18
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.red
 import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.theme.white
-import com.mkirdev.unsplash.core.ui.widgets.UserInfo
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
 
@@ -114,7 +114,6 @@ internal object PhotoItemTags {
 }
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Preview
 @Composable
 private fun PhotoItemPreview() {
@@ -124,18 +123,12 @@ private fun PhotoItemPreview() {
             modifier = Modifier.aspectRatio(2.5f),
             photoItemModel = photoItemModel,
             userImage = {
-                GlideImage(
-                    model = photoItemModel.user.userImage,
-                    contentDescription = stringResource(id = R.string.user_image),
-                    modifier = Modifier.size(image_size_18)
-                )
+                UserImageSmall(imageUrl = photoItemModel.user.userImage)
             },
             userInfo = {
-                UserInfo(
+                UserInfoSmall(
                     name = photoItemModel.user.name,
-                    nameStyle = MaterialTheme.typography.labelMedium,
-                    userName = photoItemModel.user.userName,
-                    userNameStyle = MaterialTheme.typography.labelSmall
+                    userName = photoItemModel.user.userName
                 )
             },
             onLike = {},

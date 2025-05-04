@@ -1,20 +1,15 @@
 package com.mkirdev.unsplash.photo_item
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.mkirdev.unsplash.core.ui.R
-import com.mkirdev.unsplash.core.ui.theme.image_size_18
-import com.mkirdev.unsplash.core.ui.widgets.UserInfo
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.utils.stubs.PhotoItemStub
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 import com.mkirdev.unsplash.photo_item.feature.PhotoItemTags
@@ -28,7 +23,6 @@ internal class PhotoItemTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    @OptIn(ExperimentalGlideComposeApi::class)
     @Test
     fun iconButton_whenUserLikePhoto_showsCorrectlyIcon() {
         val photoItemStub = PhotoItemStub.create(false)
@@ -37,18 +31,12 @@ internal class PhotoItemTests {
                 modifier = Modifier,
                 photoItemModel = photoItemStub,
                 userImage = {
-                    GlideImage(
-                        model = photoItemStub.user.userImage,
-                        contentDescription = stringResource(id = R.string.user_image),
-                        modifier = Modifier.size(image_size_18)
-                    )
+                    UserImageSmall(imageUrl = photoItemStub.user.userImage)
                 },
                 userInfo = {
-                    UserInfo(
+                    UserInfoSmall(
                         name = photoItemStub.user.name,
-                        nameStyle = MaterialTheme.typography.labelMedium,
-                        userName = photoItemStub.user.userName,
-                        userNameStyle = MaterialTheme.typography.labelSmall
+                        userName = photoItemStub.user.userName
                     )
                 },
                 onLike = {},
@@ -60,7 +48,6 @@ internal class PhotoItemTests {
             .assertExists()
     }
 
-    @OptIn(ExperimentalGlideComposeApi::class)
     @Test
     fun iconButton_whenUserUnlikePhoto_showsCorrectlyIcon() {
         val photoItemStub = PhotoItemStub.create(true)
@@ -69,18 +56,12 @@ internal class PhotoItemTests {
                 modifier = Modifier,
                 photoItemModel = photoItemStub,
                 userImage = {
-                    GlideImage(
-                        model = photoItemStub.user.userImage,
-                        contentDescription = stringResource(id = R.string.user_image),
-                        modifier = Modifier.size(image_size_18)
-                    )
+                    UserImageSmall(imageUrl = photoItemStub.user.userImage)
                 },
                 userInfo = {
-                    UserInfo(
+                    UserInfoSmall(
                         name = photoItemStub.user.name,
-                        nameStyle = MaterialTheme.typography.labelMedium,
-                        userName = photoItemStub.user.userName,
-                        userNameStyle = MaterialTheme.typography.labelSmall
+                        userName = photoItemStub.user.userName
                     )
                 },
                 onLike = {},
