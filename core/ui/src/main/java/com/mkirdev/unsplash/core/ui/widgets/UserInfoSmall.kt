@@ -14,18 +14,20 @@ import com.mkirdev.unsplash.core.ui.theme.space_1
 
 
 @Composable
-fun UserInfo(
+fun UserInfoSmall(
     name: String,
-    nameStyle: TextStyle,
-    userName: String,
-    userNameStyle: TextStyle
+    userName: String
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(space = space_1)) {
-        Text(text = name, color = MaterialTheme.colorScheme.onPrimary, style = nameStyle)
+        Text(
+            text = name,
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = MaterialTheme.typography.labelMedium
+        )
         Text(
             text = stringResource(id = R.string.username_format, userName),
             color = MaterialTheme.colorScheme.onPrimary,
-            style = userNameStyle
+            style = MaterialTheme.typography.labelSmall
         )
     }
 }
@@ -33,13 +35,11 @@ fun UserInfo(
 
 @Preview(showBackground = true)
 @Composable
-private fun ImageInfoPreview() {
+private fun ImageInfoSmallPreview() {
     UnsplashTheme(dynamicColor = false) {
-        UserInfo(
+        UserInfoSmall(
             name = "SumUp",
-            nameStyle = MaterialTheme.typography.labelMedium,
             userName = "sumup",
-            userNameStyle = MaterialTheme.typography.labelSmall
         )
     }
 }

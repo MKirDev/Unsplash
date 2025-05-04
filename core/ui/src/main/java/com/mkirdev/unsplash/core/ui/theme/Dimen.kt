@@ -18,6 +18,7 @@ val space_6 = 6.dp
 val space_10 = 10.dp
 val space_16 = 16.dp
 val space_20 = 20.dp
+val space_40 = 40.dp
 
 val item_width_64 = 64.dp
 val item_width_360 = 360.dp
@@ -31,5 +32,6 @@ val image_size_14 = 14.dp
 val image_size_18 = 18.dp
 val image_size_28 = 28.dp
 val image_size_340 = 340.dp
+val image_size_344 = 344.dp
 
 val rounded_corner_0 = 0.dp

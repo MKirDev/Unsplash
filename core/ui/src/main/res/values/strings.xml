@@ -22,4 +22,5 @@
     <string name="close">Close</string>
     <string name="photo_feed">Photo feed</string>
     <string name="details">Details</string>
+    <string name="photo_details">Photo Details</string>
 </resources>
