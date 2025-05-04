@@ -43,6 +43,8 @@ import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
 fun PhotoItem(
     modifier: Modifier,
     photoItemModel: PhotoItemModel,
+    userImage: @Composable () -> Unit,
+    userInfo: @Composable () -> Unit,
     onLike: (String) -> Unit,
     onRemoveLike: (String) -> Unit
 ) {
@@ -65,17 +67,8 @@ fun PhotoItem(
                 .padding(start = padding_4, bottom = padding_4),
             horizontalArrangement = Arrangement.spacedBy(space_4)
         ) {
-            GlideImage(
-                model = photoItemModel.user.userImage,
-                contentDescription = stringResource(id = R.string.user_image),
-                modifier = Modifier.size(image_size_18)
-            )
-            UserInfo(
-                name = photoItemModel.user.name,
-                nameStyle = MaterialTheme.typography.labelMedium,
-                userName = photoItemModel.user.userName,
-                userNameStyle = MaterialTheme.typography.labelSmall
-            )
+            userImage()
+            userInfo()
         }
         Row(
             modifier = Modifier
@@ -121,6 +114,7 @@ internal object PhotoItemTags {
 }
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Preview
 @Composable
 private fun PhotoItemPreview() {
@@ -129,6 +123,21 @@ private fun PhotoItemPreview() {
         PhotoItem(
             modifier = Modifier.aspectRatio(2.5f),
             photoItemModel = photoItemModel,
+            userImage = {
+                GlideImage(
+                    model = photoItemModel.user.userImage,
+                    contentDescription = stringResource(id = R.string.user_image),
+                    modifier = Modifier.size(image_size_18)
+                )
+            },
+            userInfo = {
+                UserInfo(
+                    name = photoItemModel.user.name,
+                    nameStyle = MaterialTheme.typography.labelMedium,
+                    userName = photoItemModel.user.userName,
+                    userNameStyle = MaterialTheme.typography.labelSmall
+                )
+            },
             onLike = {},
             onRemoveLike = {}
         )
