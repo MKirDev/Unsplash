@@ -20,9 +20,12 @@ val space_16 = 16.dp
 val space_20 = 20.dp
 val space_40 = 40.dp
 
+val item_width_12 = 12.dp
+val item_width_20 = 20.dp
 val item_width_64 = 64.dp
 val item_width_360 = 360.dp
 
+val item_height_14 = 14.dp
 val item_height_54 = 54.dp
 val item_height_378 = 378.dp
 
