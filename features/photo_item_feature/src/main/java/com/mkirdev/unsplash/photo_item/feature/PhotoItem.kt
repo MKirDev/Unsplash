@@ -5,36 +5,27 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
-import com.mkirdev.unsplash.core.ui.theme.bodySmallWithoutLineHeight
-import com.mkirdev.unsplash.core.ui.theme.item_size_18
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
-import com.mkirdev.unsplash.core.ui.theme.red
+import com.mkirdev.unsplash.core.ui.theme.padding_60
 import com.mkirdev.unsplash.core.ui.theme.space_4
-import com.mkirdev.unsplash.core.ui.theme.white
-import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
+import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
+import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
+import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
 
@@ -45,13 +36,16 @@ fun PhotoItem(
     photoItemModel: PhotoItemModel,
     userImage: @Composable () -> Unit,
     userInfo: @Composable () -> Unit,
+    likesInfo: @Composable (
+        Modifier,
+        onLike: (String) -> Unit,
+        onRemoveLike: (String) -> Unit
+    ) -> Unit,
+    downloadText: (@Composable (Modifier, onDownload: (String) -> Unit) -> Unit)? = null,
     onLike: (String) -> Unit,
-    onRemoveLike: (String) -> Unit
+    onRemoveLike: (String) -> Unit,
+    onDownload: ((String) -> Unit)? = null
 ) {
-
-    var isLiked by remember {
-        mutableStateOf(photoItemModel.isLiked)
-    }
 
     Box(
         modifier = modifier
@@ -70,47 +64,30 @@ fun PhotoItem(
             userImage()
             userInfo()
         }
-        Row(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = padding_6, bottom = padding_6),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space_4)
-        ) {
-            Text(
-                text = photoItemModel.likes,
-                color = MaterialTheme.colorScheme.onSecondary,
-                style = MaterialTheme.typography.bodySmallWithoutLineHeight
-            )
-            IconButton(
-                onClick = {
-                    isLiked = if (isLiked) {
-                        onRemoveLike(photoItemModel.id)
-                        !isLiked
-                    } else {
-                        onLike(photoItemModel.id)
-                        !isLiked
-                    }
-                },
-                modifier = Modifier
-                    .size(item_size_18)
-                    .testTag(PhotoItemTags.BUTTON),
-            ) {
-                Icon(
-                    painter = painterResource(id = if (isLiked) R.drawable.like_enabled else R.drawable.like_unenabled),
-                    contentDescription = stringResource(
-                        id = if (isLiked) R.string.like else R.string.unlike
-                    ),
-                    tint = if (isLiked) red else white
+        downloadText?.let {
+            onDownload?.let { onDownload ->
+                it(
+                    Modifier
+                        .wrapContentWidth()
+                        .align(Alignment.BottomEnd)
+                        .testTag(PhotoItemTags.DOWNLOAD_TEXT),
+                    onDownload
                 )
             }
-
         }
+        likesInfo(
+            Modifier
+                .align(Alignment.BottomEnd)
+                .testTag(PhotoItemTags.BUTTON),
+            onLike,
+            onRemoveLike
+        )
     }
 }
 
 internal object PhotoItemTags {
     const val BUTTON = "PhotoItemTags:BUTTON"
+    const val DOWNLOAD_TEXT = "PhotoItemTags:DOWNLOAD_TEXT"
 }
 
 
@@ -123,16 +100,37 @@ private fun PhotoItemPreview() {
             modifier = Modifier.aspectRatio(2.5f),
             photoItemModel = photoItemModel,
             userImage = {
-                UserImageSmall(imageUrl = photoItemModel.user.userImage)
+                UserImageMedium(imageUrl = photoItemModel.user.userImage)
             },
             userInfo = {
-                UserInfoSmall(
+                UserInfoMedium(
                     name = photoItemModel.user.name,
                     userName = photoItemModel.user.userName
                 )
             },
+            likesInfo = { modifier, onLike, onRemoveLike ->
+                LikesInfo(
+                    modifier = modifier.padding(end = padding_6, bottom = padding_6),
+                    photoId = photoItemModel.id,
+                    likes = photoItemModel.likes,
+                    isLikedPhoto = photoItemModel.isLiked,
+                    onRemoveLike = onRemoveLike,
+                    onLike = onLike
+                )
+            },
+            downloadText = { modifier, onDownload ->
+                HyperlinkText(
+                    downloadText = stringResource(id = R.string.download),
+                    downloadUrl = photoItemModel.downloadUrl,
+                    downloads = photoItemModel.downloads,
+                    modifier = modifier.padding(end = padding_60, bottom = padding_6),
+                    textStyle = MaterialTheme.typography.headlineMedium,
+                    onDownload = onDownload
+                )
+            },
             onLike = {},
-            onRemoveLike = {}
+            onRemoveLike = {},
+            onDownload = {}
         )
     }
 }
