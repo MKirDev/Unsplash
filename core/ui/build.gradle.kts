@@ -45,6 +45,7 @@ dependencies {
 
     // presentation
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.glide)
 
     // presentation compose
     implementation(libs.activity.compose)

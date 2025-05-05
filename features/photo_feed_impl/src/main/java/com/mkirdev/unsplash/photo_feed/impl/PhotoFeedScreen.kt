@@ -26,16 +26,19 @@ import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_14
+import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.space_6
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.CustomOutlinedButton
+import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.SearchField
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 
 private const val FIXED_COUNT = 2
-
 
 @Composable
 fun PhotoFeedScreen(
@@ -97,6 +100,25 @@ fun PhotoFeedScreen(
                                         onClickPhoto(it.id)
                                     },
                                 photoItemModel = it,
+                                userImage = {
+                                    UserImageSmall(imageUrl = it.user.userImage)
+                                },
+                                userInfo = {
+                                    UserInfoSmall(
+                                        name = it.user.name,
+                                        userName = it.user.userName
+                                    )
+                                },
+                                likesInfo = { modifier, onLike, onRemoveLike ->
+                                    LikesInfo(
+                                        modifier = modifier.padding(end = padding_6, bottom = padding_6),
+                                        photoId = it.id,
+                                        likes = it.likes,
+                                        isLikedPhoto = it.isLiked,
+                                        onRemoveLike = onRemoveLike,
+                                        onLike = onLike
+                                    )
+                                },
                                 onLike = onLike,
                                 onRemoveLike = onRemoveLike
                             )
@@ -150,6 +172,25 @@ fun PhotoFeedScreen(
                                     .aspectRatio(it.aspectRatioImage)
                                     .testTag(PhotoFeedTags.ITEM),
                                 photoItemModel = it,
+                                userImage = {
+                                    UserImageSmall(imageUrl = it.user.userImage)
+                                },
+                                userInfo = {
+                                    UserInfoSmall(
+                                        name = it.user.name,
+                                        userName = it.user.userName
+                                    )
+                                },
+                                likesInfo = { modifier, onLike, onRemoveLike ->
+                                    LikesInfo(
+                                        modifier = modifier.padding(end = padding_6, bottom = padding_6),
+                                        photoId = it.id,
+                                        likes = it.likes,
+                                        isLikedPhoto = it.isLiked,
+                                        onRemoveLike = onRemoveLike,
+                                        onLike = onLike
+                                    )
+                                },
                                 onLike = onLike,
                                 onRemoveLike = onRemoveLike
                             )
