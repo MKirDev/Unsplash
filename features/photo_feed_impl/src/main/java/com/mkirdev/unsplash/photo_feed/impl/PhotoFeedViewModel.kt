@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.photo_feed.impl
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
@@ -57,7 +56,7 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
         when (event) {
             PhotoFeedContract.Event.PhotosLoadEvent -> onPhotosLoad()
             PhotoFeedContract.Event.FieldCloseEvent -> onFieldClose()
-            is PhotoFeedContract.Event.PhotoClickEvent -> onPhotoClick(photoId = event.photoId)
+            is PhotoFeedContract.Event.PhotoDetailsEvent -> onPhotoClick(photoId = event.photoId)
             is PhotoFeedContract.Event.PhotoLikeEvent -> onPhotoSend(
                 photoId = event.photoId,
                 isLiked = LIKED

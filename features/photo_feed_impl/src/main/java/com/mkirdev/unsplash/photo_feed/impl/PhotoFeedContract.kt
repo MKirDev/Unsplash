@@ -29,7 +29,7 @@ interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFee
     sealed interface Event {
         data class SearchEvent(val search: String) : Event
 
-        data class PhotoClickEvent(val photoId: String) : Event
+        data class PhotoDetailsEvent(val photoId: String) : Event
 
         data class PhotoLikeEvent(val photoId: String) : Event
 
