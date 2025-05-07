@@ -8,7 +8,7 @@ data class PhotoItemModel(
     val imageUrl: String,
     val aspectRatioImage: Float,
     val user: UserModel,
-    val downloadUrl: String,
+    val downloadLink: String,
     val downloads: String,
     val likes: String,
     val isLiked: Boolean
