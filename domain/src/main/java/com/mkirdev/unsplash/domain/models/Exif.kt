@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.domain.models
 
 data class Exif(
-    val tags: String,
     val make: String,
     val model: String,
     val name: String,
