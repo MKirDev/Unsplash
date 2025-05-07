@@ -25,7 +25,7 @@ fun TitleField(
     trailingIcon: Int,
     modifier: Modifier,
     onClick: () -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateUp: () -> Unit
 ) {
     TextField(
         value = EMPTY_STRING,
@@ -34,7 +34,7 @@ fun TitleField(
         enabled = false,
         textStyle = MaterialTheme.typography.headlineMedium,
         leadingIcon = {
-            IconButton(onClick = onNavigateBack) {
+            IconButton(onClick = onNavigateUp) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_keyboard_backspace_24),
                     contentDescription = stringResource(id = R.string.close),
@@ -46,7 +46,7 @@ fun TitleField(
             IconButton(onClick = onClick) {
                 Icon(
                     painter = painterResource(id = trailingIcon),
-                    contentDescription = stringResource(id = R.string.close),
+                    contentDescription = stringResource(id = R.string.trailing_icon),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -78,7 +78,7 @@ private fun TitleFieldPreview() {
             trailingIcon = R.drawable.ic_baseline_share_24,
             modifier = Modifier.fillMaxWidth(),
             onClick = {},
-            onNavigateBack = {}
+            onNavigateUp = {}
         )
     }
 }

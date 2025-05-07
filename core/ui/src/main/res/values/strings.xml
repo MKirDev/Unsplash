@@ -5,7 +5,8 @@
     <string name="successfully_auth">Authentication was successful</string>
     <string name="close_notification">Close notification</string>
     <string name="photo_successfully_uploaded">Photo successfully uploaded</string>
-    <string name="download_network_error">Network error: download will continue later</string>
+    <string name="download_photo_network_error">Network error: download will continue later</string>
+    <string name="download_photo_success">The photo was successfully downloaded</string>
     <string name="auth_network_error">Network error: failed to retrieve token</string>
     <string name="test_error">Test error</string>
     <string name="background_cameras">Background cameras</string>
@@ -20,10 +21,12 @@
     <string name="more">More</string>
     <string name="search">Search</string>
     <string name="close">Close</string>
+    <string name="trailing_icon">Trailing icon</string>
     <string name="photo_feed">Photo feed</string>
     <string name="details">Details</string>
     <string name="photo_details">Photo Details</string>
     <string name="download">Download</string>
     <string name="downloads">(%s)</string>
     <string name="download_icon">Download icon</string>
+    <string name="location">Location</string>
 </resources>
