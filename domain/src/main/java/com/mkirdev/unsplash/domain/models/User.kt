@@ -6,4 +6,5 @@ data class User(
     val userName: String,
     val imageUrl: String,
     val bio: String,
+    val location: String
 )

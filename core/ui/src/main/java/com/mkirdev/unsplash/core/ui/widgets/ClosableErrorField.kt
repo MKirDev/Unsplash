@@ -64,7 +64,7 @@ fun ClosableErrorField(
 private fun ClosableErrorFieldPreview() {
     UnsplashTheme(dynamicColor = false) {
         ClosableErrorField(
-            modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.download_network_error),
+            modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.download_photo_network_error),
             textStyle = TextStyle.Default
         ) {
 
