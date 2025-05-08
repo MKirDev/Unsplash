@@ -63,13 +63,14 @@ class PhotoFeedScreenTests {
         val searchStub = PhotoFeedSearchStub.create()
         val modelsStub = PhotoFeedStub.create()
         val errorStub = PhotoFeedErrorStub.create()
+        val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
                     error = errorStub,
-                    updatedCount = UpdatedCountStub.create()
+                    updatedCount = updatedCountStub
                 ),
                 onSearch = {},
                 onClickPhoto = {},
@@ -126,13 +127,14 @@ class PhotoFeedScreenTests {
         val searchStub = PhotoFeedSearchStub.create()
         val modelsStub = PhotoFeedStub.create()
         val errorStub = PhotoFeedErrorStub.create()
+        val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
                     error = errorStub,
-                    updatedCount = UpdatedCountStub.create()
+                    updatedCount = updatedCountStub
                 ),
                 onSearch = {},
                 onClickPhoto = {},
@@ -155,13 +157,14 @@ class PhotoFeedScreenTests {
         val searchStub = PhotoFeedSearchStub.create()
         val modelsStub = PhotoFeedStub.create()
         val errorStub = PhotoFeedErrorStub.create()
+        val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
                     error = errorStub,
-                    updatedCount = UpdatedCountStub.create()
+                    updatedCount = updatedCountStub
                 ),
                 onSearch = {},
                 onClickPhoto = {},
