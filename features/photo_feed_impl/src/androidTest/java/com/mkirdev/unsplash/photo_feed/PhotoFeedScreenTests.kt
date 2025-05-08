@@ -25,6 +25,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val UPDATED_COUNT = 0
+
 @RunWith(AndroidJUnit4::class)
 class PhotoFeedScreenTests {
 
@@ -67,7 +69,8 @@ class PhotoFeedScreenTests {
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
-                    error = errorStub
+                    error = errorStub,
+                    updatedCount = UPDATED_COUNT
                 ),
                 onSearch = {},
                 onClickPhoto = {},
@@ -129,7 +132,8 @@ class PhotoFeedScreenTests {
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
-                    error = errorStub
+                    error = errorStub,
+                    updatedCount = UPDATED_COUNT
                 ),
                 onSearch = {},
                 onClickPhoto = {},
@@ -157,7 +161,8 @@ class PhotoFeedScreenTests {
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
-                    error = errorStub
+                    error = errorStub,
+                    updatedCount = UPDATED_COUNT
                 ),
                 onSearch = {},
                 onClickPhoto = {},
