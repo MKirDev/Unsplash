@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 private const val EMPTY_STRING = ""
+private const val UPDATED_COUNT = 0
 private const val LIKED = true
 private const val UNLIKED = false
 
@@ -22,10 +23,12 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
         PhotoFeedContract.State.Idle
     )
 
+    @Stable
     override val uiState: StateFlow<PhotoFeedContract.State> = _uiState.asStateFlow()
 
     private val _effect = MutableStateFlow<PhotoFeedContract.Effect?>(null)
 
+    @Stable
     override val effect: StateFlow<PhotoFeedContract.Effect?> = _effect.asStateFlow()
 
     init {
@@ -45,7 +48,8 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
                 PhotoFeedContract.State.Failure(
                     search = EMPTY_STRING,
                     models = persistentListOf(),
-                    error = e.message.toString()
+                    error = e.message.toString(),
+                    updatedCount = UPDATED_COUNT
                 )
             }
         }
@@ -145,7 +149,8 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
                     PhotoFeedContract.State.Failure(
                         search = text,
                         models = (it as PhotoFeedContract.State.Success).models,
-                        error = e.message.toString()
+                        error = e.message.toString(),
+                        updatedCount = UPDATED_COUNT
                     )
                 }
             }
@@ -173,7 +178,8 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
         if (_uiState.value is PhotoFeedContract.State.Failure) {
             _uiState.update {
                 (it as PhotoFeedContract.State.Failure).copy(
-                    error = error
+                    error = error,
+                    updatedCount = it.updatedCount + 1
                 )
             }
         } else if (_uiState.value is PhotoFeedContract.State.Success) {
@@ -181,7 +187,8 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
                 PhotoFeedContract.State.Failure(
                     search = (it as PhotoFeedContract.State.Success).search,
                     models = it.models,
-                    error = error
+                    error = error,
+                    updatedCount = UPDATED_COUNT
                 )
             }
         }

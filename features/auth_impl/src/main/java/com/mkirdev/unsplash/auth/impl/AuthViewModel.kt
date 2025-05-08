@@ -1,11 +1,13 @@
 package com.mkirdev.unsplash.auth.impl
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+@Stable
 class AuthViewModel : ViewModel(), AuthContract {
 
     private val _uiState = MutableStateFlow<AuthContract.State>(
@@ -13,7 +15,9 @@ class AuthViewModel : ViewModel(), AuthContract {
     )
     private val _effect = MutableStateFlow<AuthContract.Effect?>(null)
 
+    @Stable
     override val uiState: StateFlow<AuthContract.State> = _uiState.asStateFlow()
+    @Stable
     override val effect: StateFlow<AuthContract.Effect?> = _effect.asStateFlow()
 
     override fun handleEvent(event: AuthContract.Event) {

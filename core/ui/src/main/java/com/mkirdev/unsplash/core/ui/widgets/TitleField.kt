@@ -22,10 +22,10 @@ private const val EMPTY_STRING = ""
 @Composable
 fun TitleField(
     titleText: String,
-    trailingIcon: Int,
+    trailingIcon: Int? = null,
     modifier: Modifier,
-    onClick: () -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onTrailingClick: (() -> Unit)? = null,
 ) {
     TextField(
         value = EMPTY_STRING,
@@ -43,12 +43,16 @@ fun TitleField(
             }
         },
         trailingIcon = {
-            IconButton(onClick = onClick) {
-                Icon(
-                    painter = painterResource(id = trailingIcon),
-                    contentDescription = stringResource(id = R.string.trailing_icon),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+            trailingIcon?.let {
+                onTrailingClick?.let {
+                    IconButton(onClick = onTrailingClick) {
+                        Icon(
+                            painter = painterResource(id = trailingIcon),
+                            contentDescription = stringResource(id = R.string.trailing_icon),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
             }
         },
         prefix = {
@@ -77,7 +81,7 @@ private fun TitleFieldPreview() {
             titleText = stringResource(id = R.string.details),
             trailingIcon = R.drawable.ic_baseline_share_24,
             modifier = Modifier.fillMaxWidth(),
-            onClick = {},
+            onTrailingClick = {},
             onNavigateUp = {}
         )
     }

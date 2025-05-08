@@ -49,3 +49,9 @@ class PhotoFeedErrorStub {
         fun create() = "Test Error"
     }
 }
+
+class UpdatedCountStub {
+    companion object {
+        fun create() = 0
+    }
+}
