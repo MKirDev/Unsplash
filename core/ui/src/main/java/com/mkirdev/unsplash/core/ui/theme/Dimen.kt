@@ -3,12 +3,14 @@ package com.mkirdev.unsplash.core.ui.theme
 import androidx.compose.ui.unit.dp
 
 val padding_0 = 0.dp
+val padding_2 = 2.dp
 val padding_4 = 4.dp
 val padding_6 = 6.dp
 val padding_10 = 10.dp
 val padding_14 = 14.dp
 val padding_16 = 16.dp
 val padding_20 = 20.dp
+val padding_24 = 24.dp
 val padding_28 = 28.dp
 val padding_30 = 30.dp
 val padding_48 = 48.dp
