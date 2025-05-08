@@ -30,14 +30,14 @@ private const val START_LENGTH = 0
 @Composable
 fun HyperlinkText(
     downloadText: String,
-    downloadUrl: String,
+    downloadLink: String,
     downloads: String,
     modifier: Modifier,
     textStyle: TextStyle,
     onDownload: (String) -> Unit
 ) {
     val annotatedString = buildAnnotatedString {
-        pushStringAnnotation(tag = TAG, annotation = downloadUrl)
+        pushStringAnnotation(tag = TAG, annotation = downloadLink)
         withStyle(
             style = SpanStyle(
                 color = MaterialTheme.colorScheme.onPrimary,
@@ -90,7 +90,7 @@ private fun HyperlinkTextPreview() {
     UnsplashTheme(dynamicColor = false) {
         HyperlinkText(
             downloadText = stringResource(id = R.string.download),
-            downloadUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             downloads = "100",
             modifier = Modifier,
             textStyle = MaterialTheme.typography.headlineMedium,

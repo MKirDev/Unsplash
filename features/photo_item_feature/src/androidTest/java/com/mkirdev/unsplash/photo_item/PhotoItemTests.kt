@@ -136,7 +136,7 @@ internal class PhotoItemTests {
                 downloadText = { modifier, onDownload ->
                     HyperlinkText(
                         downloadText = stringResource(id = R.string.download),
-                        downloadUrl = photoItemStub.downloadLink,
+                        downloadLink = photoItemStub.downloadLink,
                         downloads = photoItemStub.downloads,
                         modifier = modifier.padding(end = padding_60, bottom = padding_10),
                         textStyle = MaterialTheme.typography.headlineMedium,

@@ -121,7 +121,7 @@ private fun PhotoItemPreview() {
             downloadText = { modifier, onDownload ->
                 HyperlinkText(
                     downloadText = stringResource(id = R.string.download),
-                    downloadUrl = photoItemModel.downloadLink,
+                    downloadLink = photoItemModel.downloadLink,
                     downloads = photoItemModel.downloads,
                     modifier = modifier.padding(end = padding_60, bottom = padding_6),
                     textStyle = MaterialTheme.typography.headlineMedium,
