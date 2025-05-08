@@ -139,7 +139,7 @@ internal class PhotoItemTests {
                         downloadLink = photoItemStub.downloadLink,
                         downloads = photoItemStub.downloads,
                         modifier = modifier.padding(end = padding_60, bottom = padding_10),
-                        textStyle = MaterialTheme.typography.headlineMedium,
+                        textStyle = MaterialTheme.typography.bodyLarge,
                         onDownload = onDownload
                     )
                 },
