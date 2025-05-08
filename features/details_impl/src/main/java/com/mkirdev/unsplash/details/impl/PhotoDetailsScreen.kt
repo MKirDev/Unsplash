@@ -1,0 +1,161 @@
+package com.mkirdev.unsplash.details.impl
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.mkirdev.unsplash.core.ui.R
+import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
+import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
+import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
+import com.mkirdev.unsplash.core.ui.widgets.ClosableInfoField
+import com.mkirdev.unsplash.details.models.CoordinatesModel
+import com.mkirdev.unsplash.details.preview.createPhotoDetailsPreview
+import com.mkirdev.unsplash.details.widgets.MainContent
+
+@Composable
+fun PhotoDetailsScreen(
+    uiState: PhotoDetailsContract.State,
+    onShare: (String) -> Unit,
+    onLike: (String) -> Unit,
+    onRemoveLike: (String) -> Unit,
+    onLocation: (CoordinatesModel) -> Unit,
+    onDownload: (String) -> Unit,
+    onNavigateUp: () -> Unit,
+    onNavigateBack: () -> Unit,
+    onCloseField: () -> Unit
+) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState())
+    ) {
+        BackHandler(enabled = true) {
+            onNavigateBack()
+        }
+        when (uiState) {
+            is PhotoDetailsContract.State.DownloadFailure -> {
+                MainContent(
+                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
+                    photoDetailsModel = uiState.photoDetailsModel,
+                    onShare = onShare,
+                    onLike = onLike,
+                    onRemoveLike = onRemoveLike,
+                    onLocation = onLocation,
+                    onDownload = onDownload,
+                    onNavigateUp = onNavigateUp
+                )
+                ClosableErrorField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .alpha(0.9f)
+                        .testTag(PhotoDetailsTags.DOWNLOAD_ERROR_FIELD),
+                    text = stringResource(id = R.string.download_photo_network_error),
+                    textStyle = MaterialTheme.typography.bodyLargeMedium,
+                    onClick = onCloseField
+                )
+            }
+
+            is PhotoDetailsContract.State.DownloadSuccess -> {
+                MainContent(
+                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
+                    photoDetailsModel = uiState.photoDetailsModel,
+                    onShare = onShare,
+                    onLike = onLike,
+                    onRemoveLike = onRemoveLike,
+                    onLocation = onLocation,
+                    onDownload = onDownload,
+                    onNavigateUp = onNavigateUp
+                )
+                ClosableInfoField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .alpha(0.9f)
+                        .testTag(PhotoDetailsTags.DOWNLOAD_INFO_FIELD),
+                    text = stringResource(id = R.string.download_photo_success),
+                    textStyle = MaterialTheme.typography.bodyLargeMedium,
+                    onClick = onCloseField
+                )
+            }
+
+            is PhotoDetailsContract.State.Failure -> {
+                MainContent(
+                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
+                    photoDetailsModel = uiState.photoDetailsModel,
+                    onShare = onShare,
+                    onLike = onLike,
+                    onRemoveLike = onRemoveLike,
+                    onLocation = onLocation,
+                    onDownload = onDownload,
+                    onNavigateUp = onNavigateUp
+                )
+                ClosableErrorField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .alpha(0.9f)
+                        .testTag(PhotoDetailsTags.ERROR_FIELD),
+                    text = uiState.error,
+                    textStyle = MaterialTheme.typography.bodyLargeMedium,
+                    onClick = onCloseField
+                )
+            }
+
+            is PhotoDetailsContract.State.Success -> {
+                MainContent(
+                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
+                    photoDetailsModel = uiState.photoDetailsModel,
+                    onShare = onShare,
+                    onLike = onLike,
+                    onRemoveLike = onRemoveLike,
+                    onLocation = onLocation,
+                    onDownload = onDownload,
+                    onNavigateUp = onNavigateUp
+                )
+            }
+
+            PhotoDetailsContract.State.Idle -> {}
+        }
+    }
+}
+
+object PhotoDetailsTags {
+    const val ERROR_FIELD = "PhotoDetailsTags:ERROR_FIELD"
+    const val DOWNLOAD_ERROR_FIELD = "PhotoDetailsTags:ERROR_FIELD"
+    const val DOWNLOAD_INFO_FIELD = "PhotoDetailsTags:INFO_FIELD"
+    const val MAIN_CONTENT = "PhotoDetailsTags:MAIN_CONTENT"
+}
+
+@Preview
+@Composable
+private fun PhotoDetailsScreenPreview() {
+    UnsplashTheme(dynamicColor = false) {
+        PhotoDetailsScreen(
+            uiState = PhotoDetailsContract.State.DownloadSuccess(
+                photoDetailsModel = createPhotoDetailsPreview()
+            ),
+            onShare = {},
+            onLike = {},
+            onRemoveLike = {},
+            onLocation = {},
+            onDownload = {},
+            onNavigateUp = {},
+            onNavigateBack = {},
+            onCloseField = {}
+        )
+    }
+}
