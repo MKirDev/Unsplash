@@ -18,7 +18,8 @@ interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFee
         data class Failure(
             val search: String,
             val models: ImmutableList<PhotoItemModel>,
-            val error: String
+            val error: String,
+            val updatedCount: Int
         ) : State
 
         data object Loading : State
