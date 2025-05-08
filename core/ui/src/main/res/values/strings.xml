@@ -29,4 +29,11 @@
     <string name="downloads">(%s)</string>
     <string name="download_icon">Download icon</string>
     <string name="location">Location</string>
+    <string name="made_with">Made with: %s</string>
+    <string name="model">Model: %s</string>
+    <string name="exposure">Exposure: %s</string>
+    <string name="aperture">Aperture: %s</string>
+    <string name="focal_length">Focal Length: %s</string>
+    <string name="iso">ISO: %s</string>
+    <string name="about_user_name">About \@%s:</string>
 </resources>
