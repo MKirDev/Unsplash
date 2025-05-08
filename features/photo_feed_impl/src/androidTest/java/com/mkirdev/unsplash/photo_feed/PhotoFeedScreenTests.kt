@@ -21,11 +21,10 @@ import com.mkirdev.unsplash.photo_feed.utils.stubs.PhotoFeedErrorStub
 import com.mkirdev.unsplash.photo_feed.utils.stubs.PhotoFeedSearchStub
 import com.mkirdev.unsplash.photo_feed.utils.stubs.PhotoFeedStub
 import com.mkirdev.unsplash.core.ui.R
+import com.mkirdev.unsplash.photo_feed.utils.stubs.UpdatedCountStub
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-private const val UPDATED_COUNT = 0
 
 @RunWith(AndroidJUnit4::class)
 class PhotoFeedScreenTests {
@@ -70,7 +69,7 @@ class PhotoFeedScreenTests {
                     search = searchStub,
                     models = modelsStub,
                     error = errorStub,
-                    updatedCount = UPDATED_COUNT
+                    updatedCount = UpdatedCountStub.create()
                 ),
                 onSearch = {},
                 onClickPhoto = {},
@@ -133,7 +132,7 @@ class PhotoFeedScreenTests {
                     search = searchStub,
                     models = modelsStub,
                     error = errorStub,
-                    updatedCount = UPDATED_COUNT
+                    updatedCount = UpdatedCountStub.create()
                 ),
                 onSearch = {},
                 onClickPhoto = {},
@@ -162,7 +161,7 @@ class PhotoFeedScreenTests {
                     search = searchStub,
                     models = modelsStub,
                     error = errorStub,
-                    updatedCount = UPDATED_COUNT
+                    updatedCount = UpdatedCountStub.create()
                 ),
                 onSearch = {},
                 onClickPhoto = {},
