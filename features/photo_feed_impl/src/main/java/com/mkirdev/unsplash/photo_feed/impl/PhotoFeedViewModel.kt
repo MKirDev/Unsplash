@@ -23,10 +23,12 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
         PhotoFeedContract.State.Idle
     )
 
+    @Stable
     override val uiState: StateFlow<PhotoFeedContract.State> = _uiState.asStateFlow()
 
     private val _effect = MutableStateFlow<PhotoFeedContract.Effect?>(null)
 
+    @Stable
     override val effect: StateFlow<PhotoFeedContract.Effect?> = _effect.asStateFlow()
 
     init {
