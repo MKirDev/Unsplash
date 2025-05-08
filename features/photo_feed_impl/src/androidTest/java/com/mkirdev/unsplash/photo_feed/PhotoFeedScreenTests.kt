@@ -35,9 +35,9 @@ class PhotoFeedScreenTests {
 
     @Test
     fun photoFeed_whenUiStateIsSuccess_showsPhotos() {
+        val searchStub = PhotoFeedSearchStub.create()
+        val modelsStub = PhotoFeedStub.create()
         composeTestRule.setContent {
-            val searchStub = PhotoFeedSearchStub.create()
-            val modelsStub = PhotoFeedStub.create()
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Success(
                     search = searchStub,
@@ -61,10 +61,10 @@ class PhotoFeedScreenTests {
 
     @Test
     fun photoFeed_whenUiStateIsFailure_showsErrorField() {
+        val searchStub = PhotoFeedSearchStub.create()
+        val modelsStub = PhotoFeedStub.create()
+        val errorStub = PhotoFeedErrorStub.create()
         composeTestRule.setContent {
-            val searchStub = PhotoFeedSearchStub.create()
-            val modelsStub = PhotoFeedStub.create()
-            val errorStub = PhotoFeedErrorStub.create()
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
@@ -124,10 +124,10 @@ class PhotoFeedScreenTests {
 
     @Test
     fun searchField_whenUserClickOnSearchingIcon_enabled_inUiStateIsFailure() {
+        val searchStub = PhotoFeedSearchStub.create()
+        val modelsStub = PhotoFeedStub.create()
+        val errorStub = PhotoFeedErrorStub.create()
         composeTestRule.setContent {
-            val searchStub = PhotoFeedSearchStub.create()
-            val modelsStub = PhotoFeedStub.create()
-            val errorStub = PhotoFeedErrorStub.create()
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
@@ -153,10 +153,10 @@ class PhotoFeedScreenTests {
 
     @Test
     fun searchField_whenUserClickOnClosableIcon_notEnabled_inUiStateIsFailure() {
+        val searchStub = PhotoFeedSearchStub.create()
+        val modelsStub = PhotoFeedStub.create()
+        val errorStub = PhotoFeedErrorStub.create()
         composeTestRule.setContent {
-            val searchStub = PhotoFeedSearchStub.create()
-            val modelsStub = PhotoFeedStub.create()
-            val errorStub = PhotoFeedErrorStub.create()
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
@@ -187,9 +187,9 @@ class PhotoFeedScreenTests {
 
     @Test
     fun searchField_whenUserClickOnSearchingIcon_enabled_inUiStateIsSuccess() {
+        val searchStub = PhotoFeedSearchStub.create()
+        val modelsStub = PhotoFeedStub.create()
         composeTestRule.setContent {
-            val searchStub = PhotoFeedSearchStub.create()
-            val modelsStub = PhotoFeedStub.create()
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Success(
                     search = searchStub,
@@ -213,9 +213,9 @@ class PhotoFeedScreenTests {
 
     @Test
     fun searchField_whenUserClickOnClosableIcon_notEnabled_inUiStateIsSuccess() {
+        val searchStub = PhotoFeedSearchStub.create()
+        val modelsStub = PhotoFeedStub.create()
         composeTestRule.setContent {
-            val searchStub = PhotoFeedSearchStub.create()
-            val modelsStub = PhotoFeedStub.create()
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Success(
                     search = searchStub,
