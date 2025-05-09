@@ -38,13 +38,13 @@ fun PhotoItem(
     userInfo: @Composable () -> Unit,
     likesInfo: @Composable (
         Modifier,
-        onLike: (String) -> Unit,
-        onRemoveLike: (String) -> Unit
+        onLikeClick: (String) -> Unit,
+        onRemoveLikeClick: (String) -> Unit
     ) -> Unit,
-    downloadText: (@Composable (Modifier, onDownload: (String) -> Unit) -> Unit)? = null,
-    onLike: (String) -> Unit,
-    onRemoveLike: (String) -> Unit,
-    onDownload: ((String) -> Unit)? = null
+    downloadText: (@Composable (Modifier, onDownloadClick: (String) -> Unit) -> Unit)? = null,
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit,
+    onDownloadClick: ((String) -> Unit)? = null
 ) {
 
     Box(
@@ -65,13 +65,13 @@ fun PhotoItem(
             userInfo()
         }
         downloadText?.let {
-            onDownload?.let { onDownload ->
+            onDownloadClick?.let { onDownloadClick ->
                 it(
                     Modifier
                         .wrapContentWidth()
                         .align(Alignment.BottomEnd)
                         .testTag(PhotoItemTags.DOWNLOAD_TEXT),
-                    onDownload
+                    onDownloadClick
                 )
             }
         }
@@ -79,8 +79,8 @@ fun PhotoItem(
             Modifier
                 .align(Alignment.BottomEnd)
                 .testTag(PhotoItemTags.BUTTON),
-            onLike,
-            onRemoveLike
+            onLikeClick,
+            onRemoveLikeClick
         )
     }
 }
@@ -128,9 +128,9 @@ private fun PhotoItemPreview() {
                     onDownload = onDownload
                 )
             },
-            onLike = {},
-            onRemoveLike = {},
-            onDownload = {}
+            onLikeClick = {},
+            onRemoveLikeClick = {},
+            onDownloadClick = {}
         )
     }
 }

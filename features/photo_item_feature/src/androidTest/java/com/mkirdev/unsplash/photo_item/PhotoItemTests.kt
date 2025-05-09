@@ -63,8 +63,8 @@ internal class PhotoItemTests {
                         onLike = onLike
                     )
                 },
-                onLike = {},
-                onRemoveLike = {}
+                onLikeClick = {},
+                onRemoveLikeClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoItemTags.BUTTON).performClick()
@@ -98,8 +98,8 @@ internal class PhotoItemTests {
                         onLike = onLike
                     )
                 },
-                onLike = {},
-                onRemoveLike = {}
+                onLikeClick = {},
+                onRemoveLikeClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoItemTags.BUTTON).performClick()
@@ -143,9 +143,9 @@ internal class PhotoItemTests {
                         onDownload = onDownload
                     )
                 },
-                onLike = {},
-                onRemoveLike = {},
-                onDownload = {}
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onDownloadClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoItemTags.DOWNLOAD_TEXT).assertIsEnabled()

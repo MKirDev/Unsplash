@@ -31,10 +31,7 @@ import com.mkirdev.unsplash.core.ui.theme.padding_28
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.space_10
-import com.mkirdev.unsplash.core.ui.theme.space_20
-import com.mkirdev.unsplash.core.ui.theme.space_30
 import com.mkirdev.unsplash.core.ui.theme.space_40
-import com.mkirdev.unsplash.core.ui.theme.space_60
 import com.mkirdev.unsplash.core.ui.widgets.BioInfo
 import com.mkirdev.unsplash.core.ui.widgets.ExifInfo
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
@@ -102,8 +99,8 @@ fun MainContent(
                             onRemoveLike = onRemoveLike
                         )
                     },
-                    onLike = onLike,
-                    onRemoveLike = onRemoveLike
+                    onLikeClick = onLike,
+                    onRemoveLikeClick = onRemoveLike
                 )
                 Spacer(modifier = Modifier.height(space_10))
                 Row(

@@ -119,8 +119,8 @@ fun PhotoFeedScreen(
                                         onLike = onLike
                                     )
                                 },
-                                onLike = onLikeClick,
-                                onRemoveLike = onRemoveLikeClick
+                                onLikeClick = onLikeClick,
+                                onRemoveLikeClick = onRemoveLikeClick
                             )
                         }
 
@@ -191,8 +191,8 @@ fun PhotoFeedScreen(
                                         onLike = onLike
                                     )
                                 },
-                                onLike = onLikeClick,
-                                onRemoveLike = onRemoveLikeClick
+                                onLikeClick = onLikeClick,
+                                onRemoveLikeClick = onRemoveLikeClick
                             )
                         }
 
