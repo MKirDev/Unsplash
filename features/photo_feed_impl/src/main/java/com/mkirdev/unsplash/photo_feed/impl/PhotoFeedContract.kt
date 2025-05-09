@@ -42,8 +42,6 @@ interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFee
     }
 
     sealed interface Effect {
-        data object BackPressed : Effect
-
         data class Details(val photoId: String) : Effect
     }
 }

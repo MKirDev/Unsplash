@@ -21,7 +21,6 @@ class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
                 function = { effect ->
                 when (effect) {
                     is PhotoFeedContract.Effect.Details -> { onNavigateToDetails(effect.photoId) }
-                    PhotoFeedContract.Effect.BackPressed -> Unit
                     null -> Unit
                 }
             })
