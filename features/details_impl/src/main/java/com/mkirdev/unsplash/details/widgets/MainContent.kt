@@ -95,8 +95,8 @@ fun MainContent(
                             photoId = photoDetailsModel.photoItemModel.id,
                             likes = photoDetailsModel.photoItemModel.likes,
                             isLikedPhoto = photoDetailsModel.photoItemModel.isLiked,
-                            onLike = onLike,
-                            onRemoveLike = onRemoveLike
+                            onLikeClick = onLike,
+                            onRemoveLikeClick = onRemoveLike
                         )
                     },
                     onLikeClick = onLikeClick,
@@ -135,7 +135,7 @@ fun MainContent(
                         downloads = photoDetailsModel.photoItemModel.downloads,
                         modifier = Modifier.padding(top = padding_2),
                         textStyle = MaterialTheme.typography.bodyLarge,
-                        onDownload = onDownloadClick
+                        onDownloadClick = onDownloadClick
                     )
                 }
                 Text(

@@ -2,7 +2,6 @@ package com.mkirdev.unsplash.core.ui.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +21,6 @@ import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodySmallWithoutLineHeight
 import com.mkirdev.unsplash.core.ui.theme.item_size_18
-import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.red
 import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.theme.white
@@ -34,8 +31,8 @@ fun LikesInfo(
     photoId: String,
     likes: String,
     isLikedPhoto: Boolean,
-    onLike: (String) -> Unit,
-    onRemoveLike: (String) -> Unit
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit
 ) {
 
     var isLiked by remember {
@@ -55,10 +52,10 @@ fun LikesInfo(
         IconButton(
             onClick = {
                 isLiked = if (isLiked) {
-                    onRemoveLike(photoId)
+                    onRemoveLikeClick(photoId)
                     !isLiked
                 } else {
-                    onLike(photoId)
+                    onLikeClick(photoId)
                     !isLiked
                 }
             },
@@ -85,8 +82,8 @@ private fun LikesInfoPreview() {
             photoId = "1415",
             likes = "3.4k",
             isLikedPhoto = false,
-            onLike = {},
-            onRemoveLike = {}
+            onLikeClick = {},
+            onRemoveLikeClick = {}
         )
     }
 }

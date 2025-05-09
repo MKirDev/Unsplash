@@ -114,8 +114,8 @@ private fun PhotoItemPreview() {
                     photoId = photoItemModel.id,
                     likes = photoItemModel.likes,
                     isLikedPhoto = photoItemModel.isLiked,
-                    onRemoveLike = onRemoveLike,
-                    onLike = onLike
+                    onRemoveLikeClick = onRemoveLike,
+                    onLikeClick = onLike
                 )
             },
             downloadText = { modifier, onDownload ->
@@ -125,7 +125,7 @@ private fun PhotoItemPreview() {
                     downloads = photoItemModel.downloads,
                     modifier = modifier.padding(end = padding_60, bottom = padding_6),
                     textStyle = MaterialTheme.typography.bodyLarge,
-                    onDownload = onDownload
+                    onDownloadClick = onDownload
                 )
             },
             onLikeClick = {},

@@ -115,8 +115,8 @@ fun PhotoFeedScreen(
                                         photoId = it.id,
                                         likes = it.likes,
                                         isLikedPhoto = it.isLiked,
-                                        onRemoveLike = onRemoveLike,
-                                        onLike = onLike
+                                        onRemoveLikeClick = onRemoveLike,
+                                        onLikeClick = onLike
                                     )
                                 },
                                 onLikeClick = onLikeClick,
@@ -187,8 +187,8 @@ fun PhotoFeedScreen(
                                         photoId = it.id,
                                         likes = it.likes,
                                         isLikedPhoto = it.isLiked,
-                                        onRemoveLike = onRemoveLike,
-                                        onLike = onLike
+                                        onRemoveLikeClick = onRemoveLike,
+                                        onLikeClick = onLike
                                     )
                                 },
                                 onLikeClick = onLikeClick,
