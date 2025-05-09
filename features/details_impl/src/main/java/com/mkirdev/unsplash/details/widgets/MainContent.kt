@@ -48,11 +48,11 @@ import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 fun MainContent(
     modifier: Modifier,
     photoDetailsModel: PhotoDetailsModel?,
-    onShare: (String) -> Unit,
-    onLike: (String) -> Unit,
-    onRemoveLike: (String) -> Unit,
-    onLocation: (CoordinatesModel) -> Unit,
-    onDownload: (String) -> Unit,
+    onShareClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit,
+    onLocationClick: (CoordinatesModel) -> Unit,
+    onDownloadClick: (String) -> Unit,
     onNavigateUp: () -> Unit
 ) {
 
@@ -63,7 +63,7 @@ fun MainContent(
             modifier = Modifier.fillMaxWidth(),
             onTrailingClick = {
                 photoDetailsModel?.let {
-                    onShare(photoDetailsModel.shareLink)
+                    onShareClick(photoDetailsModel.shareLink)
                 }
             },
             onNavigateUp = onNavigateUp
@@ -99,8 +99,8 @@ fun MainContent(
                             onRemoveLike = onRemoveLike
                         )
                     },
-                    onLikeClick = onLike,
-                    onRemoveLikeClick = onRemoveLike
+                    onLikeClick = onLikeClick,
+                    onRemoveLikeClick = onRemoveLikeClick
                 )
                 Spacer(modifier = Modifier.height(space_10))
                 Row(
@@ -111,7 +111,7 @@ fun MainContent(
                         photoDetailsModel.location.coordinatesModel?.let {
                             IconButton(
                                 onClick = {
-                                    onLocation(photoDetailsModel.location.coordinatesModel)
+                                    onLocationClick(photoDetailsModel.location.coordinatesModel)
                                 },
                                 modifier = Modifier.size(icon_size_24)
                             ) {
@@ -135,7 +135,7 @@ fun MainContent(
                         downloads = photoDetailsModel.photoItemModel.downloads,
                         modifier = Modifier.padding(top = padding_2),
                         textStyle = MaterialTheme.typography.bodyLarge,
-                        onDownload = onDownload
+                        onDownload = onDownloadClick
                     )
                 }
                 Text(
@@ -181,11 +181,11 @@ private fun MainContentPreview() {
         MainContent(
             modifier = Modifier,
             photoDetailsModel = createPhotoDetailsPreview(),
-            onShare = {},
-            onLike = {},
-            onRemoveLike = {},
-            onLocation = {},
-            onDownload = {},
+            onShareClick = {},
+            onLikeClick = {},
+            onRemoveLikeClick = {},
+            onLocationClick = {},
+            onDownloadClick = {},
             onNavigateUp = {}
         )
     }
