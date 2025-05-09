@@ -27,14 +27,14 @@ import com.mkirdev.unsplash.details.widgets.MainContent
 @Composable
 fun PhotoDetailsScreen(
     uiState: PhotoDetailsContract.State,
-    onShare: (String) -> Unit,
-    onLike: (String) -> Unit,
-    onRemoveLike: (String) -> Unit,
-    onLocation: (CoordinatesModel) -> Unit,
-    onDownload: (String) -> Unit,
+    onShareClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit,
+    onLocationClick: (CoordinatesModel) -> Unit,
+    onDownloadClick: (String) -> Unit,
+    onCloseFieldClick: () -> Unit,
     onNavigateUp: () -> Unit,
     onNavigateBack: () -> Unit,
-    onCloseField: () -> Unit
 ) {
     Box(
         Modifier
@@ -50,11 +50,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShare,
-                    onLike = onLike,
-                    onRemoveLike = onRemoveLike,
-                    onLocation = onLocation,
-                    onDownload = onDownload,
+                    onShare = onShareClick,
+                    onLike = onLikeClick,
+                    onRemoveLike = onRemoveLikeClick,
+                    onLocation = onLocationClick,
+                    onDownload = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
                 ClosableErrorField(
@@ -65,7 +65,7 @@ fun PhotoDetailsScreen(
                         .testTag(PhotoDetailsTags.DOWNLOAD_ERROR_FIELD),
                     text = stringResource(id = R.string.download_photo_network_error),
                     textStyle = MaterialTheme.typography.bodyLargeMedium,
-                    onClick = onCloseField
+                    onClick = onCloseFieldClick
                 )
             }
 
@@ -73,11 +73,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShare,
-                    onLike = onLike,
-                    onRemoveLike = onRemoveLike,
-                    onLocation = onLocation,
-                    onDownload = onDownload,
+                    onShare = onShareClick,
+                    onLike = onLikeClick,
+                    onRemoveLike = onRemoveLikeClick,
+                    onLocation = onLocationClick,
+                    onDownload = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
                 ClosableInfoField(
@@ -88,7 +88,7 @@ fun PhotoDetailsScreen(
                         .testTag(PhotoDetailsTags.DOWNLOAD_INFO_FIELD),
                     text = stringResource(id = R.string.download_photo_success),
                     textStyle = MaterialTheme.typography.bodyLargeMedium,
-                    onClick = onCloseField
+                    onClick = onCloseFieldClick
                 )
             }
 
@@ -96,11 +96,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShare,
-                    onLike = onLike,
-                    onRemoveLike = onRemoveLike,
-                    onLocation = onLocation,
-                    onDownload = onDownload,
+                    onShare = onShareClick,
+                    onLike = onLikeClick,
+                    onRemoveLike = onRemoveLikeClick,
+                    onLocation = onLocationClick,
+                    onDownload = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
                 ClosableErrorField(
@@ -111,7 +111,7 @@ fun PhotoDetailsScreen(
                         .testTag(PhotoDetailsTags.ERROR_FIELD),
                     text = uiState.error,
                     textStyle = MaterialTheme.typography.bodyLargeMedium,
-                    onClick = onCloseField
+                    onClick = onCloseFieldClick
                 )
             }
 
@@ -119,11 +119,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShare,
-                    onLike = onLike,
-                    onRemoveLike = onRemoveLike,
-                    onLocation = onLocation,
-                    onDownload = onDownload,
+                    onShare = onShareClick,
+                    onLike = onLikeClick,
+                    onRemoveLike = onRemoveLikeClick,
+                    onLocation = onLocationClick,
+                    onDownload = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
             }
@@ -148,14 +148,14 @@ private fun PhotoDetailsScreenPreview() {
             uiState = PhotoDetailsContract.State.DownloadSuccess(
                 photoDetailsModel = createPhotoDetailsPreview()
             ),
-            onShare = {},
-            onLike = {},
-            onRemoveLike = {},
-            onLocation = {},
-            onDownload = {},
+            onShareClick = {},
+            onLikeClick = {},
+            onRemoveLikeClick = {},
+            onLocationClick = {},
+            onDownloadClick = {},
             onNavigateUp = {},
             onNavigateBack = {},
-            onCloseField = {}
+            onCloseFieldClick = {}
         )
     }
 }
