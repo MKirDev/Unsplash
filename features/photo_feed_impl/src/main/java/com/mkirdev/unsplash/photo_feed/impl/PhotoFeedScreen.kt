@@ -44,11 +44,11 @@ private const val FIXED_COUNT = 2
 fun PhotoFeedScreen(
     uiState: PhotoFeedContract.State,
     onSearch: (String) -> Unit,
-    onClickPhoto: (String) -> Unit,
-    onLike: (String) -> Unit,
-    onRemoveLike: (String) -> Unit,
-    onLoadPhotos: () -> Unit,
-    onCloseField: () -> Unit
+    onPhotoClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit,
+    onLoadPhotosClick: () -> Unit,
+    onCloseFieldClick: () -> Unit
 ) {
     when (uiState) {
         PhotoFeedContract.State.Idle -> {
@@ -97,7 +97,7 @@ fun PhotoFeedScreen(
                                 modifier = Modifier
                                     .aspectRatio(it.aspectRatioImage)
                                     .clickable {
-                                        onClickPhoto(it.id)
+                                        onPhotoClick(it.id)
                                     },
                                 photoItemModel = it,
                                 userImage = {
@@ -119,8 +119,8 @@ fun PhotoFeedScreen(
                                         onLike = onLike
                                     )
                                 },
-                                onLike = onLike,
-                                onRemoveLike = onRemoveLike
+                                onLike = onLikeClick,
+                                onRemoveLike = onRemoveLikeClick
                             )
                         }
 
@@ -141,7 +141,7 @@ fun PhotoFeedScreen(
                             .testTag(PhotoFeedTags.ERROR_FIELD),
                         text = uiState.error,
                         textStyle = MaterialTheme.typography.bodyLargeMedium,
-                        onClick = onCloseField
+                        onClick = onCloseFieldClick
                     )
                 }
             }
@@ -191,8 +191,8 @@ fun PhotoFeedScreen(
                                         onLike = onLike
                                     )
                                 },
-                                onLike = onLike,
-                                onRemoveLike = onRemoveLike
+                                onLike = onLikeClick,
+                                onRemoveLike = onRemoveLikeClick
                             )
                         }
 
@@ -201,7 +201,7 @@ fun PhotoFeedScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = padding_14),
-                                onClick = onLoadPhotos
+                                onClick = onLoadPhotosClick
                             )
                         }
                     }
@@ -228,11 +228,11 @@ private fun PhotoFeedScreenPreview() {
                 models = createPhotoFeedPreviewData()
             ),
             onSearch = {},
-            onClickPhoto = {},
-            onLike = {},
-            onRemoveLike = {},
-            onLoadPhotos = {},
-            onCloseField = {}
+            onPhotoClick = {},
+            onLikeClick = {},
+            onRemoveLikeClick = {},
+            onLoadPhotosClick = {},
+            onCloseFieldClick = {}
         )
     }
 }

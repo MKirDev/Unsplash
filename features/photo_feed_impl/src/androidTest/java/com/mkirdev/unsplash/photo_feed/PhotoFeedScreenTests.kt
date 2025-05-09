@@ -43,11 +43,11 @@ class PhotoFeedScreenTests {
                     models = modelsStub
                 ),
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
 
@@ -73,11 +73,11 @@ class PhotoFeedScreenTests {
                     updatedCount = updatedCountStub
                 ),
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.ERROR_FIELD).assertIsDisplayed()
@@ -89,11 +89,11 @@ class PhotoFeedScreenTests {
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Loading,
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.LOADING_INDICATOR).assertIsDisplayed()
@@ -105,11 +105,11 @@ class PhotoFeedScreenTests {
             PhotoFeedScreen(
                 uiState = PhotoFeedContract.State.Idle,
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onAllNodesWithTag(PhotoFeedTags.ITEM).apply {
@@ -137,11 +137,11 @@ class PhotoFeedScreenTests {
                     updatedCount = updatedCountStub
                 ),
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
@@ -167,11 +167,11 @@ class PhotoFeedScreenTests {
                     updatedCount = updatedCountStub
                 ),
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
@@ -198,11 +198,11 @@ class PhotoFeedScreenTests {
                     models = modelsStub
                 ),
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
@@ -224,11 +224,11 @@ class PhotoFeedScreenTests {
                     models = modelsStub
                 ),
                 onSearch = {},
-                onClickPhoto = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLoadPhotos = {},
-                onCloseField = {}
+                onPhotoClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLoadPhotosClick = {},
+                onCloseFieldClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
