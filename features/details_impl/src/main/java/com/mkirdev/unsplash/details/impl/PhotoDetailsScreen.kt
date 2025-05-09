@@ -50,11 +50,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShareClick,
-                    onLike = onLikeClick,
-                    onRemoveLike = onRemoveLikeClick,
-                    onLocation = onLocationClick,
-                    onDownload = onDownloadClick,
+                    onShareClick = onShareClick,
+                    onLikeClick = onLikeClick,
+                    onRemoveLikeClick = onRemoveLikeClick,
+                    onLocationClick = onLocationClick,
+                    onDownloadClick = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
                 ClosableErrorField(
@@ -73,11 +73,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShareClick,
-                    onLike = onLikeClick,
-                    onRemoveLike = onRemoveLikeClick,
-                    onLocation = onLocationClick,
-                    onDownload = onDownloadClick,
+                    onShareClick = onShareClick,
+                    onLikeClick = onLikeClick,
+                    onRemoveLikeClick = onRemoveLikeClick,
+                    onLocationClick = onLocationClick,
+                    onDownloadClick = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
                 ClosableInfoField(
@@ -96,11 +96,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShareClick,
-                    onLike = onLikeClick,
-                    onRemoveLike = onRemoveLikeClick,
-                    onLocation = onLocationClick,
-                    onDownload = onDownloadClick,
+                    onShareClick = onShareClick,
+                    onLikeClick = onLikeClick,
+                    onRemoveLikeClick = onRemoveLikeClick,
+                    onLocationClick = onLocationClick,
+                    onDownloadClick = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
                 ClosableErrorField(
@@ -119,11 +119,11 @@ fun PhotoDetailsScreen(
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
                     photoDetailsModel = uiState.photoDetailsModel,
-                    onShare = onShareClick,
-                    onLike = onLikeClick,
-                    onRemoveLike = onRemoveLikeClick,
-                    onLocation = onLocationClick,
-                    onDownload = onDownloadClick,
+                    onShareClick = onShareClick,
+                    onLikeClick = onLikeClick,
+                    onRemoveLikeClick = onRemoveLikeClick,
+                    onLocationClick = onLocationClick,
+                    onDownloadClick = onDownloadClick,
                     onNavigateUp = onNavigateUp
                 )
             }
