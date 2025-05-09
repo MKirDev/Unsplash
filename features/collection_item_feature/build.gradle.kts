@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mkirdev.unsplash.photo_item"
+    namespace = "com.mkirdev.unsplash.collection_item"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":core:ui"))
     testImplementation(project(":core:ui"))
 
