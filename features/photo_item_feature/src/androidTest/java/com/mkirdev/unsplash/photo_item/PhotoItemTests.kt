@@ -59,12 +59,12 @@ internal class PhotoItemTests {
                         photoId = photoItemStub.id,
                         likes = photoItemStub.likes,
                         isLikedPhoto = photoItemStub.isLiked,
-                        onRemoveLike = onRemoveLike,
-                        onLike = onLike
+                        onRemoveLikeClick = onRemoveLike,
+                        onLikeClick = onLike
                     )
                 },
-                onLike = {},
-                onRemoveLike = {}
+                onLikeClick = {},
+                onRemoveLikeClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoItemTags.BUTTON).performClick()
@@ -94,12 +94,12 @@ internal class PhotoItemTests {
                         photoId = photoItemStub.id,
                         likes = photoItemStub.likes,
                         isLikedPhoto = photoItemStub.isLiked,
-                        onRemoveLike = onRemoveLike,
-                        onLike = onLike
+                        onRemoveLikeClick = onRemoveLike,
+                        onLikeClick = onLike
                     )
                 },
-                onLike = {},
-                onRemoveLike = {}
+                onLikeClick = {},
+                onRemoveLikeClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoItemTags.BUTTON).performClick()
@@ -129,8 +129,8 @@ internal class PhotoItemTests {
                         photoId = photoItemStub.id,
                         likes = photoItemStub.likes,
                         isLikedPhoto = photoItemStub.isLiked,
-                        onRemoveLike = onRemoveLike,
-                        onLike = onLike
+                        onRemoveLikeClick = onRemoveLike,
+                        onLikeClick = onLike
                     )
                 },
                 downloadText = { modifier, onDownload ->
@@ -140,12 +140,12 @@ internal class PhotoItemTests {
                         downloads = photoItemStub.downloads,
                         modifier = modifier.padding(end = padding_60, bottom = padding_10),
                         textStyle = MaterialTheme.typography.bodyLarge,
-                        onDownload = onDownload
+                        onDownloadClick = onDownload
                     )
                 },
-                onLike = {},
-                onRemoveLike = {},
-                onDownload = {}
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onDownloadClick = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoItemTags.DOWNLOAD_TEXT).assertIsEnabled()

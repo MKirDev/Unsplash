@@ -21,7 +21,6 @@ class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
                 function = { effect ->
                 when (effect) {
                     is PhotoFeedContract.Effect.Details -> { onNavigateToDetails(effect.photoId) }
-                    PhotoFeedContract.Effect.BackPressed -> Unit
                     null -> Unit
                 }
             })
@@ -29,11 +28,11 @@ class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
             PhotoFeedScreen(
                 uiState = uiState,
                 onSearch = { viewModel.handleEvent(PhotoFeedContract.Event.SearchEvent(it)) },
-                onClickPhoto = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoDetailsEvent(it)) },
-                onLike = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikeEvent(it)) },
-                onRemoveLike = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikeEvent(it)) },
-                onLoadPhotos = { viewModel.handleEvent(PhotoFeedContract.Event.PhotosLoadEvent) },
-                onCloseField = { viewModel.handleEvent(PhotoFeedContract.Event.FieldCloseEvent) })
+                onPhotoClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoDetailsEvent(it)) },
+                onLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikeEvent(it)) },
+                onRemoveLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikeEvent(it)) },
+                onLoadPhotosClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotosLoadEvent) },
+                onCloseFieldClick = { viewModel.handleEvent(PhotoFeedContract.Event.FieldCloseEvent) })
         }
     }
 }

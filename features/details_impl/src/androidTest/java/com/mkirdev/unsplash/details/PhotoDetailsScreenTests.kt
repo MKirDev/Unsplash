@@ -29,14 +29,14 @@ class PhotoDetailsScreenTests {
                 uiState = PhotoDetailsContract.State.DownloadSuccess(
                     photoDetailsModel = photoDetailsStub
                 ),
-                onShare = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLocation = {},
-                onDownload = {},
+                onShareClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLocationClick = {},
+                onDownloadClick = {},
                 onNavigateUp = {},
                 onNavigateBack = {},
-                onCloseField = {}
+                onCloseFieldClick = {}
                 )
         }
 
@@ -51,14 +51,14 @@ class PhotoDetailsScreenTests {
                 uiState = PhotoDetailsContract.State.DownloadFailure(
                     photoDetailsModel = photoDetailsStub
                 ),
-                onShare = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLocation = {},
-                onDownload = {},
+                onShareClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLocationClick = {},
+                onDownloadClick = {},
                 onNavigateUp = {},
                 onNavigateBack = {},
-                onCloseField = {}
+                onCloseFieldClick = {}
             )
         }
 
@@ -77,14 +77,14 @@ class PhotoDetailsScreenTests {
                     photoDetailsModel = photoDetailsStub,
                     updatedCount = updatedCountStub
                 ),
-                onShare = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLocation = {},
-                onDownload = {},
+                onShareClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLocationClick = {},
+                onDownloadClick = {},
                 onNavigateUp = {},
                 onNavigateBack = {},
-                onCloseField = {}
+                onCloseFieldClick = {}
             )
         }
 
@@ -99,14 +99,14 @@ class PhotoDetailsScreenTests {
                 uiState = PhotoDetailsContract.State.Success(
                     photoDetailsModel = photoDetailsStub,
                 ),
-                onShare = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLocation = {},
-                onDownload = {},
+                onShareClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLocationClick = {},
+                onDownloadClick = {},
                 onNavigateUp = {},
                 onNavigateBack = {},
-                onCloseField = {}
+                onCloseFieldClick = {}
             )
         }
 
@@ -118,14 +118,14 @@ class PhotoDetailsScreenTests {
         composeTestRule.setContent {
             PhotoDetailsScreen(
                 uiState = PhotoDetailsContract.State.Idle,
-                onShare = {},
-                onLike = {},
-                onRemoveLike = {},
-                onLocation = {},
-                onDownload = {},
+                onShareClick = {},
+                onLikeClick = {},
+                onRemoveLikeClick = {},
+                onLocationClick = {},
+                onDownloadClick = {},
                 onNavigateUp = {},
                 onNavigateBack = {},
-                onCloseField = {}
+                onCloseFieldClick = {}
             )
         }
 

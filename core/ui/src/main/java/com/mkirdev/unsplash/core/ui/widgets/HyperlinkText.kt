@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
@@ -35,7 +34,7 @@ fun HyperlinkText(
     downloads: String,
     modifier: Modifier,
     textStyle: TextStyle,
-    onDownload: (String) -> Unit
+    onDownloadClick: (String) -> Unit
 ) {
     val annotatedString = buildAnnotatedString {
         pushStringAnnotation(tag = TAG, annotation = downloadLink)
@@ -64,7 +63,7 @@ fun HyperlinkText(
             ) {
                 annotatedString.getStringAnnotations(TAG, START_LENGTH, annotatedString.length)
                     .firstOrNull()?.let { annotation ->
-                        onDownload(annotation.item)
+                        onDownloadClick(annotation.item)
                     }
             },
             style = textStyle
@@ -95,7 +94,7 @@ private fun HyperlinkTextPreview() {
             downloads = "100",
             modifier = Modifier,
             textStyle = MaterialTheme.typography.bodyLarge,
-            onDownload = {}
+            onDownloadClick = {}
         )
     }
 }
