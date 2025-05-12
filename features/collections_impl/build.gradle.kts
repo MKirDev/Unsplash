@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -31,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composecompiler.get()
+    }
 }
 
 dependencies {
@@ -40,6 +47,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(project(":features:collections_api"))
+    implementation(project(":features:collection_item_feature"))
 
     // di
     implementation(libs.dagger)
@@ -48,6 +56,7 @@ dependencies {
     // core
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.collections.immutable)
 
     // navigation
     implementation(libs.navigation)
@@ -56,18 +65,23 @@ dependencies {
     // presentation
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.paging.compose)
     implementation(libs.glide)
 
     // presentation compose
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.paging.compose)
 
     // tests
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.compose.ui.test.manifest)
 }
