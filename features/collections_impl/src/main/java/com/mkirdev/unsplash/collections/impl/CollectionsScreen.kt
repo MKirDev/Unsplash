@@ -90,7 +90,7 @@ fun CollectionsScreen(
                         onLoadError()
                     }
                 }
-                when (uiState.isLoadingError) {
+                when (uiState.isPagingLoadingError) {
                     true -> {
                         item {
                             ClosableErrorField(
@@ -146,7 +146,7 @@ private fun CollectionsPreview() {
         CollectionsScreen(
             uiState = CollectionsContract.State.Success(
                 collectionItemsModel = collectionItemsModel,
-                isLoadingError = true
+                isPagingLoadingError = true
             ),
             onCollectionClick = {},
             onLoadError = {},

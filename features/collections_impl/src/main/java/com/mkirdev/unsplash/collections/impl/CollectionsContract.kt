@@ -11,7 +11,7 @@ interface CollectionsContract :
     sealed interface State {
         data class Success(
             val collectionItemsModel: Flow<PagingData<CollectionItemModel>>,
-            val isLoadingError: Boolean
+            val isPagingLoadingError: Boolean
         ) : State
 
         data class Failure(
