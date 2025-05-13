@@ -35,7 +35,7 @@ class DetailsFeatureApiImpl : DetailsFeatureApi {
                     is PhotoDetailsContract.Effect.Share -> {
 
                     }
-                    PhotoDetailsContract.Effect.PhotoFeed -> { onNavigateUp() }
+                    PhotoDetailsContract.Effect.UpPressed -> { onNavigateUp() }
                     PhotoDetailsContract.Effect.BackPressed -> { onNavigateBack() }
                     null -> Unit
                 }

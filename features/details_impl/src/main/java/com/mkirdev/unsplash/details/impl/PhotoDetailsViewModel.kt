@@ -145,7 +145,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
 
     private fun onPhotoFeed() {
         _effect.update {
-            PhotoDetailsContract.Effect.PhotoFeed
+            PhotoDetailsContract.Effect.UpPressed
         }
     }
 

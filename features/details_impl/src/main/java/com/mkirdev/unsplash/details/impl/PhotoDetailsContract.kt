@@ -55,7 +55,7 @@ interface PhotoDetailsContract : UniFlowViewModel<
 
     sealed interface Effect {
         data object BackPressed : Effect
-        data object PhotoFeed : Effect
+        data object UpPressed : Effect
         data class Location(val coordinatesModel: CoordinatesModel) : Effect
 
         data class Share(val link: String) : Effect
