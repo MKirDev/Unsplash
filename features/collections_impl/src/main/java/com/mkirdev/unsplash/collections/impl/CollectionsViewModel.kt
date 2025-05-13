@@ -25,7 +25,7 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
             _uiState.update {
                 CollectionsContract.State.Success(
                     collectionItemsModel = createCollectionsPreviewData().cachedIn(viewModelScope),
-                    isError = false
+                    isLoadingError = false
                 )
             }
         } catch (t: Throwable) {
@@ -59,7 +59,7 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
     private fun onErrorLoad() {
         _uiState.update {
             (it as CollectionsContract.State.Success).copy(
-                isError = true
+                isLoadingError = true
             )
         }
     }
@@ -68,14 +68,14 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
         if (_uiState.value is CollectionsContract.State.Success) {
             _uiState.update {
                 (it as CollectionsContract.State.Success).copy(
-                    isError = false
+                    isLoadingError = false
                 )
             }
         } else {
             _uiState.update {
                 CollectionsContract.State.Success(
                     collectionItemsModel = MutableStateFlow(PagingData.empty()),
-                    isError = false
+                    isLoadingError = false
                 )
             }
         }
