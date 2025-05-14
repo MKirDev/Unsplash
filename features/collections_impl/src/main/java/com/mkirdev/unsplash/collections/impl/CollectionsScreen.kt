@@ -29,6 +29,7 @@ import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
+import com.mkirdev.unsplash.core.ui.widgets.TitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
 
@@ -58,55 +59,61 @@ fun CollectionsScreen(
         }
 
         is CollectionsContract.State.Success -> {
-            val pagedItems: LazyPagingItems<CollectionItemModel> =
-                uiState.collectionItemsModel.collectAsLazyPagingItems()
-            LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                items(
-                    pagedItems.itemCount,
-                    key = pagedItems.itemKey { collectionItem -> collectionItem.id }) { index ->
-                    val item = pagedItems[index]
-                    item?.let {
-                        CollectionItem(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onCollectionClick(item.id)
-                                },
-                            photoItemModel = it,
-                            userImage = {
-                                UserImageMedium(imageUrl = it.user.userImage)
-                            },
-                            userInfo = {
-                                UserInfoMedium(
-                                    name = it.user.name,
-                                    userName = it.user.userName
-                                )
-                            }
-                        )
-                    }
-                }
-                pagedItems.apply {
-                    if (loadState.append is LoadState.Error) {
-                        onLoadError()
-                    }
-                }
-                when (uiState.isPagingLoadingError) {
-                    true -> {
-                        item {
-                            ClosableErrorField(
+            Column {
+                TitleField(
+                    titleText = stringResource(id = R.string.collections_title),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                val pagedItems: LazyPagingItems<CollectionItemModel> =
+                    uiState.collectionItemsModel.collectAsLazyPagingItems()
+                LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                    items(
+                        pagedItems.itemCount,
+                        key = pagedItems.itemKey { collectionItem -> collectionItem.id }) { index ->
+                        val item = pagedItems[index]
+                        item?.let {
+                            CollectionItem(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .testTag(CollectionsTags.ERROR_FIELD),
-                                text = stringResource(id = R.string.collections_network_error),
-                                textStyle = MaterialTheme.typography.bodyLargeMedium,
-                                onClick = {
-                                    onCloseFieldClick()
+                                    .clickable {
+                                        onCollectionClick(item.id)
+                                    },
+                                photoItemModel = it,
+                                userImage = {
+                                    UserImageMedium(imageUrl = it.user.userImage)
+                                },
+                                userInfo = {
+                                    UserInfoMedium(
+                                        name = it.user.name,
+                                        userName = it.user.userName
+                                    )
                                 }
                             )
                         }
                     }
-                    false -> {
-                        pagedItems.retry()
+                    pagedItems.apply {
+                        if (loadState.append is LoadState.Error) {
+                            onLoadError()
+                        }
+                    }
+                    when (uiState.isPagingLoadingError) {
+                        true -> {
+                            item {
+                                ClosableErrorField(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .testTag(CollectionsTags.ERROR_FIELD),
+                                    text = stringResource(id = R.string.collections_network_error),
+                                    textStyle = MaterialTheme.typography.bodyLargeMedium,
+                                    onClick = {
+                                        onCloseFieldClick()
+                                    }
+                                )
+                            }
+                        }
+                        false -> {
+                            pagedItems.retry()
+                        }
                     }
                 }
             }
