@@ -66,7 +66,9 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
 
             PhotoDetailsContract.Event.FieldCloseEvent -> onCloseFieldClick()
 
-            PhotoDetailsContract.Event.PhotoFeedEvent -> onPhotoFeed()
+            PhotoDetailsContract.Event.NavigateUpEvent -> onNavigateOn()
+
+            PhotoDetailsContract.Event.NavigateBackEvent -> onNavigateBack()
         }
     }
 
@@ -143,9 +145,15 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onPhotoFeed() {
+    private fun onNavigateOn() {
         _effect.update {
             PhotoDetailsContract.Effect.UpPressed
+        }
+    }
+
+    private fun onNavigateBack() {
+        _effect.update {
+            PhotoDetailsContract.Effect.BackPressed
         }
     }
 

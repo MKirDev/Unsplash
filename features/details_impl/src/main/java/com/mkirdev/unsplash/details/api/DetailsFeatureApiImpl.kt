@@ -49,8 +49,8 @@ class DetailsFeatureApiImpl : DetailsFeatureApi {
                 onLocationClick = { viewModel.handleEvent(PhotoDetailsContract.Event.LocationEvent(it)) },
                 onDownloadClick = { viewModel.handleEvent(PhotoDetailsContract.Event.DownloadEvent(it)) },
                 onCloseFieldClick = { viewModel.handleEvent(PhotoDetailsContract.Event.FieldCloseEvent) },
-                onNavigateUp = { viewModel.handleEvent(PhotoDetailsContract.Event.PhotoFeedEvent) },
-                onNavigateBack = { viewModel.handleEvent(PhotoDetailsContract.Event.PhotoFeedEvent) }
+                onNavigateUp = { viewModel.handleEvent(PhotoDetailsContract.Event.NavigateUpEvent) },
+                onNavigateBack = { viewModel.handleEvent(PhotoDetailsContract.Event.NavigateBackEvent) }
                 )
         }
     }
