@@ -51,22 +51,24 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
 
     override fun handleEvent(event: PhotoDetailsContract.Event) {
         when (event) {
-            is PhotoDetailsContract.Event.DownloadEvent -> onDownload(event.link)
-            is PhotoDetailsContract.Event.LocationEvent -> onLocation(event.coordinatesModel)
-            is PhotoDetailsContract.Event.ShareEvent -> onShare(event.link)
-            is PhotoDetailsContract.Event.PhotoLikeEvent -> onPhotoSend(
+            is PhotoDetailsContract.Event.DownloadEvent -> onDownloadClick(event.link)
+            is PhotoDetailsContract.Event.LocationEvent -> onLocationClick(event.coordinatesModel)
+            is PhotoDetailsContract.Event.ShareEvent -> onShareClick(event.link)
+            is PhotoDetailsContract.Event.PhotoLikeEvent -> onLikeClick(
                 photoId = event.photoId,
                 isLiked = LIKED
             )
 
-            is PhotoDetailsContract.Event.PhotoRemoveLikeEvent -> onPhotoSend(
+            is PhotoDetailsContract.Event.PhotoRemoveLikeEvent -> onLikeClick(
                 photoId = event.photoId,
                 isLiked = UNLIKED
             )
 
-            PhotoDetailsContract.Event.FieldCloseEvent -> onFieldClose()
+            PhotoDetailsContract.Event.FieldCloseEvent -> onCloseFieldClick()
 
-            PhotoDetailsContract.Event.PhotoFeedEvent -> onPhotoFeed()
+            PhotoDetailsContract.Event.NavigateUpEvent -> onNavigateUp()
+
+            PhotoDetailsContract.Event.NavigateBackEvent -> onNavigateBack()
         }
     }
 
@@ -74,7 +76,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         _effect.update { null }
     }
 
-    private fun onLocation(coordinatesModel: CoordinatesModel) {
+    private fun onLocationClick(coordinatesModel: CoordinatesModel) {
         _effect.update {
             PhotoDetailsContract.Effect.Location(
                 coordinatesModel = coordinatesModel
@@ -82,7 +84,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onShare(link: String) {
+    private fun onShareClick(link: String) {
         _effect.update {
             PhotoDetailsContract.Effect.Share(
                 link = link
@@ -90,7 +92,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onPhotoSend(photoId: String, isLiked: Boolean) {
+    private fun onLikeClick(photoId: String, isLiked: Boolean) {
         try {
             if (isLiked) {
                 // send liked photo
@@ -117,7 +119,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onFieldClose() {
+    private fun onCloseFieldClick() {
 
         when (_uiState.value) {
             is PhotoDetailsContract.State.DownloadFailure -> {
@@ -143,13 +145,19 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onPhotoFeed() {
+    private fun onNavigateUp() {
         _effect.update {
-            PhotoDetailsContract.Effect.PhotoFeed
+            PhotoDetailsContract.Effect.UpPressed
         }
     }
 
-    private fun onDownload(link: String) {
+    private fun onNavigateBack() {
+        _effect.update {
+            PhotoDetailsContract.Effect.BackPressed
+        }
+    }
+
+    private fun onDownloadClick(link: String) {
         try {
             preloadingPhoto()
 

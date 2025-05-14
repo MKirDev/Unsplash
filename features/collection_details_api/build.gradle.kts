@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mkirdev.unsplash.photo_feed.api"
+    namespace = "com.mkirdev.unsplash.collection_details.api"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -18,7 +18,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -32,9 +33,7 @@ android {
 }
 
 dependencies {
-
     // navigation
     implementation(libs.navigation)
     implementation(libs.androidx.navigation.runtime.ktx)
-
 }

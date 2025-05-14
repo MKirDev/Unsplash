@@ -48,14 +48,17 @@ interface PhotoDetailsContract : UniFlowViewModel<
         data class PhotoRemoveLikeEvent(val photoId: String) : Event
 
         data class LocationEvent(val coordinatesModel: CoordinatesModel) : Event
+
         data object FieldCloseEvent : Event
 
-        data object PhotoFeedEvent : Event
+        data object NavigateUpEvent : Event
+
+        data object NavigateBackEvent : Event
     }
 
     sealed interface Effect {
         data object BackPressed : Effect
-        data object PhotoFeed : Effect
+        data object UpPressed : Effect
         data class Location(val coordinatesModel: CoordinatesModel) : Effect
 
         data class Share(val link: String) : Effect
