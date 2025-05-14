@@ -66,7 +66,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
 
             PhotoDetailsContract.Event.FieldCloseEvent -> onCloseFieldClick()
 
-            PhotoDetailsContract.Event.NavigateUpEvent -> onNavigateOn()
+            PhotoDetailsContract.Event.NavigateUpEvent -> onNavigateUp()
 
             PhotoDetailsContract.Event.NavigateBackEvent -> onNavigateBack()
         }
@@ -145,7 +145,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onNavigateOn() {
+    private fun onNavigateUp() {
         _effect.update {
             PhotoDetailsContract.Effect.UpPressed
         }
