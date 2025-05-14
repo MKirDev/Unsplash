@@ -51,9 +51,9 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
 
     override fun handleEvent(event: PhotoDetailsContract.Event) {
         when (event) {
-            is PhotoDetailsContract.Event.DownloadEvent -> onDownload(event.link)
-            is PhotoDetailsContract.Event.LocationEvent -> onLocation(event.coordinatesModel)
-            is PhotoDetailsContract.Event.ShareEvent -> onShare(event.link)
+            is PhotoDetailsContract.Event.DownloadEvent -> onDownloadClick(event.link)
+            is PhotoDetailsContract.Event.LocationEvent -> onLocationClick(event.coordinatesModel)
+            is PhotoDetailsContract.Event.ShareEvent -> onShareClick(event.link)
             is PhotoDetailsContract.Event.PhotoLikeEvent -> onLikeClick(
                 photoId = event.photoId,
                 isLiked = LIKED
@@ -64,7 +64,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
                 isLiked = UNLIKED
             )
 
-            PhotoDetailsContract.Event.FieldCloseEvent -> onFieldClose()
+            PhotoDetailsContract.Event.FieldCloseEvent -> onCloseFieldClick()
 
             PhotoDetailsContract.Event.PhotoFeedEvent -> onPhotoFeed()
         }
@@ -74,7 +74,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         _effect.update { null }
     }
 
-    private fun onLocation(coordinatesModel: CoordinatesModel) {
+    private fun onLocationClick(coordinatesModel: CoordinatesModel) {
         _effect.update {
             PhotoDetailsContract.Effect.Location(
                 coordinatesModel = coordinatesModel
@@ -82,7 +82,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onShare(link: String) {
+    private fun onShareClick(link: String) {
         _effect.update {
             PhotoDetailsContract.Effect.Share(
                 link = link
@@ -117,7 +117,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onFieldClose() {
+    private fun onCloseFieldClick() {
 
         when (_uiState.value) {
             is PhotoDetailsContract.State.DownloadFailure -> {
@@ -149,7 +149,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onDownload(link: String) {
+    private fun onDownloadClick(link: String) {
         try {
             preloadingPhoto()
 
