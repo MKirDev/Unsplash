@@ -54,12 +54,12 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
             is PhotoDetailsContract.Event.DownloadEvent -> onDownload(event.link)
             is PhotoDetailsContract.Event.LocationEvent -> onLocation(event.coordinatesModel)
             is PhotoDetailsContract.Event.ShareEvent -> onShare(event.link)
-            is PhotoDetailsContract.Event.PhotoLikeEvent -> onPhotoSend(
+            is PhotoDetailsContract.Event.PhotoLikeEvent -> onLikeClick(
                 photoId = event.photoId,
                 isLiked = LIKED
             )
 
-            is PhotoDetailsContract.Event.PhotoRemoveLikeEvent -> onPhotoSend(
+            is PhotoDetailsContract.Event.PhotoRemoveLikeEvent -> onLikeClick(
                 photoId = event.photoId,
                 isLiked = UNLIKED
             )
@@ -90,7 +90,7 @@ class PhotoDetailsViewModel : ViewModel(), PhotoDetailsContract {
         }
     }
 
-    private fun onPhotoSend(photoId: String, isLiked: Boolean) {
+    private fun onLikeClick(photoId: String, isLiked: Boolean) {
         try {
             if (isLiked) {
                 // send liked photo
