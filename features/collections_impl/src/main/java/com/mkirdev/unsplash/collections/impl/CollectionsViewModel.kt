@@ -71,6 +71,11 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
                     isPagingLoadingError = false
                 )
             }
+            _uiState.update {
+                (it as CollectionsContract.State.Success).copy(
+                    isPagingLoadingError = null
+                )
+            }
         } else {
             _uiState.update {
                 CollectionsContract.State.Success(
