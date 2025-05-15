@@ -25,7 +25,7 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
             _uiState.update {
                 CollectionsContract.State.Success(
                     collectionItemsModel = createCollectionsPreviewData().cachedIn(viewModelScope),
-                    isPagingLoadingError = false
+                    isPagingLoadingError = null
                 )
             }
         } catch (t: Throwable) {

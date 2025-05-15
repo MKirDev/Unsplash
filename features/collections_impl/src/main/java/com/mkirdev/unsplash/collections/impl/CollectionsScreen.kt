@@ -114,6 +114,8 @@ fun CollectionsScreen(
                         false -> {
                             pagedItems.retry()
                         }
+
+                        else -> {}
                     }
                 }
             }
