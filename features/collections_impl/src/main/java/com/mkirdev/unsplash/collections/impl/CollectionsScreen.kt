@@ -66,7 +66,7 @@ fun CollectionsScreen(
                 )
                 val pagedItems: LazyPagingItems<CollectionItemModel> =
                     uiState.collectionItemsModel.collectAsLazyPagingItems()
-                LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.secondary)) {
                     items(
                         pagedItems.itemCount,
                         key = pagedItems.itemKey { collectionItem -> collectionItem.id }) { index ->
