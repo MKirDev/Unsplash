@@ -66,7 +66,10 @@ fun CollectionsScreen(
                 )
                 val pagedItems: LazyPagingItems<CollectionItemModel> =
                     uiState.collectionItemsModel.collectAsLazyPagingItems()
-                LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.secondary)) {
+                LazyColumn(modifier = Modifier
+                    .background(MaterialTheme.colorScheme.secondary)
+                    .testTag(CollectionsTags.LAZY_COLUMN)
+                ) {
                     items(
                         pagedItems.itemCount,
                         key = pagedItems.itemKey { collectionItem -> collectionItem.id }) { index ->
@@ -102,7 +105,7 @@ fun CollectionsScreen(
                                 ClosableErrorField(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .testTag(CollectionsTags.ERROR_FIELD),
+                                        .testTag(CollectionsTags.PAGING_ERROR_FIELD),
                                     text = stringResource(id = R.string.collections_network_error),
                                     textStyle = MaterialTheme.typography.bodyLargeMedium,
                                     onClick = {
@@ -142,8 +145,10 @@ fun CollectionsScreen(
 }
 
 object CollectionsTags {
+    const val LAZY_COLUMN = "CollectionsTags:LAZY_COLUMN"
     const val LOADING_INDICATOR = "CollectionsTags:LOADING_INDICATOR"
     const val ERROR_FIELD = "CollectionsTags:ERROR_FIELD"
+    const val PAGING_ERROR_FIELD = "CollectionsTags:PAGING_ERROR_FIELD"
 }
 
 
