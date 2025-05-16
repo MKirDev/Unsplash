@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.core.ui.widgets
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -31,7 +31,7 @@ fun TitleField(
     onNavigateUp: (() -> Unit)? = null,
     onTrailingClick: (() -> Unit)? = null,
 ) {
-    Box {
+    Row {
         val isBackIconEnabled by remember {
             derivedStateOf {
                 onNavigateUp != null
@@ -42,7 +42,7 @@ fun TitleField(
                 TextField(
                     value = EMPTY_STRING,
                     onValueChange = {},
-                    modifier = modifier,
+                    modifier = modifier.fillMaxWidth(),
                     enabled = false,
                     textStyle = MaterialTheme.typography.headlineMedium,
                     leadingIcon = {
@@ -82,7 +82,8 @@ fun TitleField(
                         disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                         disabledPrefixColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 )
             }
@@ -90,7 +91,7 @@ fun TitleField(
                 TextField(
                     value = EMPTY_STRING,
                     onValueChange = {},
-                    modifier = modifier,
+                    modifier = modifier.fillMaxWidth(),
                     enabled = false,
                     textStyle = MaterialTheme.typography.headlineMedium,
                     trailingIcon = {
@@ -119,7 +120,8 @@ fun TitleField(
                         disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                         disabledPrefixColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 )
             }

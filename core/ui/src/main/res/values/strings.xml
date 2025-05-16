@@ -39,4 +39,9 @@
     <string name="about_user_name">About \@%s:</string>
     <string name="number_of_photo">%s photos</string>
     <string name="collections_title">Collections</string>
+    <string name="collection_details_title">Collection details</string>
+    <string name="preview_photo">Preview photo</string>
+    <string name="count_of_images">%s images</string>
+    <string name="by_user">by \@%1$s</string>
+    <string name="preview_error">Preview error</string>
 </resources>
