@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.paging.compose)
 
     // tests
     testImplementation(libs.junit)
