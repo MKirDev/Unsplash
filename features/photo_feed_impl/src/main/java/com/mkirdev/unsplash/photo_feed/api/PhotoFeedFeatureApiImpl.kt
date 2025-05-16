@@ -38,5 +38,5 @@ class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
 }
 
 object PhotoFeedDestination : ProjectNavDestination {
-    override val route: String = "photoFeed"
+    override val route: String = "photo_feed"
 }
