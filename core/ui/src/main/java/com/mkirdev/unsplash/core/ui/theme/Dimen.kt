@@ -6,6 +6,7 @@ val padding_0 = 0.dp
 val padding_2 = 2.dp
 val padding_4 = 4.dp
 val padding_6 = 6.dp
+val padding_8 = 8.dp
 val padding_10 = 10.dp
 val padding_14 = 14.dp
 val padding_16 = 16.dp
@@ -25,6 +26,7 @@ val space_6 = 6.dp
 val space_10 = 10.dp
 val space_16 = 16.dp
 val space_20 = 20.dp
+val space_24 = 24.dp
 val space_30 = 30.dp
 val space_40 = 40.dp
 val space_60 = 60.dp
@@ -39,6 +41,7 @@ val item_width_360 = 360.dp
 
 val item_height_14 = 14.dp
 val item_height_54 = 54.dp
+val item_height_138 = 138.dp
 val item_height_378 = 378.dp
 
 val item_size_18 = 18.dp
