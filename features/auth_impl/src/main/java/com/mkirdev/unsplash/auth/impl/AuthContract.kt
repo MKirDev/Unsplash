@@ -16,11 +16,11 @@ interface AuthContract : UniFlowViewModel<AuthContract.Event, AuthContract.State
 
     sealed interface Event {
 
-        data object NotificationEvent : Event
-        data object AuthEvent : Event
-        data class TokenReceivedEventSuccess(val token: String): Event
+        data object NotificationReceivedEvent : Event
+        data object AuthRequestedEvent : Event
+        data class TokenReceivedSuccessEvent(val token: String): Event
 
-        data class TokenReceivedEventFailure(val error: String) : Event
+        data class TokenReceivedFailureEvent(val error: String) : Event
 
     }
 

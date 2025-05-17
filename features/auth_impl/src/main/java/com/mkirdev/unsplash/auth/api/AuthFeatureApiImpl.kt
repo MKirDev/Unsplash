@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.auth.api
 
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -35,8 +34,8 @@ class AuthFeatureApiImpl : AuthFeatureApi {
             )
             AuthScreen(
                 uiState = uiState,
-                onAuthClick = { viewModel.handleEvent(AuthContract.Event.AuthEvent) },
-                onNotificationClick = { viewModel.handleEvent(AuthContract.Event.NotificationEvent) }
+                onAuthClick = { viewModel.handleEvent(AuthContract.Event.AuthRequestedEvent) },
+                onNotificationClick = { viewModel.handleEvent(AuthContract.Event.NotificationReceivedEvent) }
             )
         }
     }
