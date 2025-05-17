@@ -31,19 +31,19 @@ interface CollectionDetailsContract :
     }
 
     sealed interface Event {
-        data class DownloadEvent(val link: String) : Event
+        data class DownloadRequestedEvent(val link: String) : Event
 
-        data class PhotoLikeEvent(val photoId: String) : Event
+        data class PhotoLikedEvent(val photoId: String) : Event
 
-        data class PhotoRemoveLikeEvent(val photoId: String) : Event
+        data class PhotoUnlikedEvent(val photoId: String) : Event
 
-        data class PhotoDetailsEvent(val photoId: String) : Event
+        data class PhotoDetailsOpenedEvent(val photoId: String) : Event
 
-        data object ErrorLoadEvent : Event
+        data object LoadingErrorEvent : Event
 
-        data object FieldCloseEvent : Event
+        data object FieldClosedEvent : Event
 
-        data object PagingFieldCloseEvent : Event
+        data object PagingFieldClosedEvent : Event
 
         data object NavigateUpEvent : Event
 
