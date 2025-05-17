@@ -40,14 +40,14 @@ import com.mkirdev.unsplash.core.ui.widgets.TitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
 import com.mkirdev.unsplash.details.models.CoordinatesModel
-import com.mkirdev.unsplash.details.models.PhotoDetailsModel
+import com.mkirdev.unsplash.details.models.DetailsModel
 import com.mkirdev.unsplash.details.preview.createPhotoDetailsPreview
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 
 @Composable
 fun MainContent(
     modifier: Modifier,
-    photoDetailsModel: PhotoDetailsModel?,
+    detailsModel: DetailsModel?,
     onShareClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
@@ -62,14 +62,14 @@ fun MainContent(
             trailingIcon = R.drawable.ic_baseline_share_24,
             modifier = Modifier.fillMaxWidth(),
             onTrailingClick = {
-                photoDetailsModel?.let {
-                    onShareClick(photoDetailsModel.shareLink)
+                detailsModel?.let {
+                    onShareClick(detailsModel.shareLink)
                 }
             },
             onNavigateUp = onNavigateUp
         )
         Spacer(modifier = Modifier.height(space_40))
-        photoDetailsModel?.let {
+        detailsModel?.let {
             Column(
                 modifier = Modifier
                     .background(color = MaterialTheme.colorScheme.background)
@@ -79,22 +79,22 @@ fun MainContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(image_size_344),
-                    photoItemModel = photoDetailsModel.photoItemModel,
+                    photoItemModel = detailsModel.photoItemModel,
                     userImage = {
-                        UserImageMedium(imageUrl = photoDetailsModel.photoItemModel.user.userImage)
+                        UserImageMedium(imageUrl = detailsModel.photoItemModel.user.userImage)
                     },
                     userInfo = {
                         UserInfoMedium(
-                            name = photoDetailsModel.photoItemModel.user.name,
-                            userName = photoDetailsModel.photoItemModel.user.userName
+                            name = detailsModel.photoItemModel.user.name,
+                            userName = detailsModel.photoItemModel.user.userName
                         )
                     },
                     likesInfo = { modifier, onLike, onRemoveLike ->
                         LikesInfo(
                             modifier = modifier.padding(end = padding_6, bottom = padding_10),
-                            photoId = photoDetailsModel.photoItemModel.id,
-                            likes = photoDetailsModel.photoItemModel.likes,
-                            isLikedPhoto = photoDetailsModel.photoItemModel.isLiked,
+                            photoId = detailsModel.photoItemModel.id,
+                            likes = detailsModel.photoItemModel.likes,
+                            isLikedPhoto = detailsModel.photoItemModel.isLiked,
                             onLikeClick = onLike,
                             onRemoveLikeClick = onRemoveLike
                         )
@@ -108,10 +108,10 @@ fun MainContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row {
-                        photoDetailsModel.location.coordinatesModel?.let {
+                        detailsModel.location.coordinatesModel?.let {
                             IconButton(
                                 onClick = {
-                                    onLocationClick(photoDetailsModel.location.coordinatesModel)
+                                    onLocationClick(detailsModel.location.coordinatesModel)
                                 },
                                 modifier = Modifier.size(icon_size_24)
                             ) {
@@ -123,7 +123,7 @@ fun MainContent(
                             }
                         }
                         Text(
-                            text = photoDetailsModel.location.place,
+                            text = detailsModel.location.place,
                             modifier = Modifier.padding(start = padding_4, top = padding_4),
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.bodyLarge
@@ -131,15 +131,15 @@ fun MainContent(
                     }
                     HyperlinkText(
                         downloadText = stringResource(id = R.string.download),
-                        downloadLink = photoDetailsModel.photoItemModel.downloadLink,
-                        downloads = photoDetailsModel.photoItemModel.downloads,
+                        downloadLink = detailsModel.photoItemModel.downloadLink,
+                        downloads = detailsModel.photoItemModel.downloads,
                         modifier = Modifier.padding(top = padding_2),
                         textStyle = MaterialTheme.typography.bodyLarge,
                         onDownloadClick = onDownloadClick
                     )
                 }
                 Text(
-                    text = photoDetailsModel.tags,
+                    text = detailsModel.tags,
                     modifier = Modifier.padding(
                         start = padding_28,
                         top = padding_10,
@@ -154,18 +154,18 @@ fun MainContent(
                 ) {
                     ExifInfo(
                         modifier = Modifier.width(item_width_158),
-                        make = photoDetailsModel.exif.make,
-                        model = photoDetailsModel.exif.model,
-                        exposureTime = photoDetailsModel.exif.exposureTime,
-                        aperture = photoDetailsModel.exif.aperture,
-                        focalLength = photoDetailsModel.exif.focalLength,
-                        iso = photoDetailsModel.exif.iso,
+                        make = detailsModel.exif.make,
+                        model = detailsModel.exif.model,
+                        exposureTime = detailsModel.exif.exposureTime,
+                        aperture = detailsModel.exif.aperture,
+                        focalLength = detailsModel.exif.focalLength,
+                        iso = detailsModel.exif.iso,
                         textStyle = MaterialTheme.typography.bodyLarge
                     )
                     BioInfo(
                         modifier = Modifier.width(item_width_158),
-                        userName = photoDetailsModel.photoItemModel.user.userName,
-                        bio = photoDetailsModel.bio,
+                        userName = detailsModel.photoItemModel.user.userName,
+                        bio = detailsModel.bio,
                         textStyle = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -180,7 +180,7 @@ private fun MainContentPreview() {
     UnsplashTheme(dynamicColor = false) {
         MainContent(
             modifier = Modifier,
-            photoDetailsModel = createPhotoDetailsPreview(),
+            detailsModel = createPhotoDetailsPreview(),
             onShareClick = {},
             onLikeClick = {},
             onRemoveLikeClick = {},

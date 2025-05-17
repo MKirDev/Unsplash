@@ -3,13 +3,13 @@ package com.mkirdev.unsplash.details.utils.stubs
 import com.mkirdev.unsplash.details.models.CoordinatesModel
 import com.mkirdev.unsplash.details.models.ExifModel
 import com.mkirdev.unsplash.details.models.LocationModel
-import com.mkirdev.unsplash.details.models.PhotoDetailsModel
+import com.mkirdev.unsplash.details.models.DetailsModel
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.models.UserModel
 
 internal class PhotoDetailsStub {
     companion object {
-        fun create() = PhotoDetailsModel(
+        fun create() = DetailsModel(
             photoItemModel = PhotoItemStub.create(),
             shareLink = "",
             location = LocationStub.create(),

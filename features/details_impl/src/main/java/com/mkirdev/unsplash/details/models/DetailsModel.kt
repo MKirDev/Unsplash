@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 
 @Immutable
-data class PhotoDetailsModel(
+data class DetailsModel(
     val photoItemModel: PhotoItemModel,
     val shareLink: String,
     val location: LocationModel,

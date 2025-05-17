@@ -6,7 +6,7 @@ import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mkirdev.unsplash.details.impl.PhotoDetailsContract
+import com.mkirdev.unsplash.details.impl.DetailsContract
 import com.mkirdev.unsplash.details.impl.PhotoDetailsScreen
 import com.mkirdev.unsplash.details.impl.PhotoDetailsTags
 import com.mkirdev.unsplash.details.utils.stubs.ErrorStub
@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PhotoDetailsScreenTests {
+class DetailsScreenTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -26,8 +26,8 @@ class PhotoDetailsScreenTests {
         val photoDetailsStub = PhotoDetailsStub.create()
         composeTestRule.setContent {
             PhotoDetailsScreen(
-                uiState = PhotoDetailsContract.State.DownloadSuccess(
-                    photoDetailsModel = photoDetailsStub
+                uiState = DetailsContract.State.DownloadSuccess(
+                    detailsModel = photoDetailsStub
                 ),
                 onShareClick = {},
                 onLikeClick = {},
@@ -48,8 +48,8 @@ class PhotoDetailsScreenTests {
         val photoDetailsStub = PhotoDetailsStub.create()
         composeTestRule.setContent {
             PhotoDetailsScreen(
-                uiState = PhotoDetailsContract.State.DownloadFailure(
-                    photoDetailsModel = photoDetailsStub
+                uiState = DetailsContract.State.DownloadFailure(
+                    detailsModel = photoDetailsStub
                 ),
                 onShareClick = {},
                 onLikeClick = {},
@@ -72,9 +72,9 @@ class PhotoDetailsScreenTests {
         val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
             PhotoDetailsScreen(
-                uiState = PhotoDetailsContract.State.Failure(
+                uiState = DetailsContract.State.Failure(
                     error = errorStub,
-                    photoDetailsModel = photoDetailsStub,
+                    detailsModel = photoDetailsStub,
                     updatedCount = updatedCountStub
                 ),
                 onShareClick = {},
@@ -96,8 +96,8 @@ class PhotoDetailsScreenTests {
         val photoDetailsStub = PhotoDetailsStub.create()
         composeTestRule.setContent {
             PhotoDetailsScreen(
-                uiState = PhotoDetailsContract.State.Success(
-                    photoDetailsModel = photoDetailsStub,
+                uiState = DetailsContract.State.Success(
+                    detailsModel = photoDetailsStub,
                 ),
                 onShareClick = {},
                 onLikeClick = {},
@@ -117,7 +117,7 @@ class PhotoDetailsScreenTests {
     fun detailsScreen_whenUiStateIdle_showsNothing() {
         composeTestRule.setContent {
             PhotoDetailsScreen(
-                uiState = PhotoDetailsContract.State.Idle,
+                uiState = DetailsContract.State.Idle,
                 onShareClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},

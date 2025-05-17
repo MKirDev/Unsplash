@@ -1,13 +1,13 @@
 package com.mkirdev.unsplash.details.preview
 
 import com.mkirdev.unsplash.details.models.CoordinatesModel
+import com.mkirdev.unsplash.details.models.DetailsModel
 import com.mkirdev.unsplash.details.models.ExifModel
 import com.mkirdev.unsplash.details.models.LocationModel
-import com.mkirdev.unsplash.details.models.PhotoDetailsModel
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.models.UserModel
 
-fun createPhotoDetailsPreview() = PhotoDetailsModel(
+fun createPhotoDetailsPreview() = DetailsModel(
     photoItemModel = createPhotoItemPreview(),
     shareLink = createShareLink(),
     location = createLocationPreview(),
