@@ -117,7 +117,7 @@ fun CollectionDetailsScreen(
                                         userInfo = {
                                             UserInfoMedium(
                                                 name = it.user.name,
-                                                userName = it.user.userName
+                                                userName = it.user.username
                                             )
                                         },
                                         likesInfo = { modifier, onLike, onRemoveLike ->
@@ -224,7 +224,7 @@ fun CollectionDetailsScreen(
                                 userInfo = {
                                     UserInfoMedium(
                                         name = it.user.name,
-                                        userName = it.user.userName
+                                        userName = it.user.username
                                     )
                                 },
                                 likesInfo = { modifier, onLike, onRemoveLike ->

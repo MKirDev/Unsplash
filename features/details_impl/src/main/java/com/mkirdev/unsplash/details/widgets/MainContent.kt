@@ -86,7 +86,7 @@ fun MainContent(
                     userInfo = {
                         UserInfoMedium(
                             name = detailsModel.photoItemModel.user.name,
-                            userName = detailsModel.photoItemModel.user.userName
+                            userName = detailsModel.photoItemModel.user.username
                         )
                     },
                     likesInfo = { modifier, onLike, onRemoveLike ->
@@ -164,7 +164,7 @@ fun MainContent(
                     )
                     BioInfo(
                         modifier = Modifier.width(item_width_158),
-                        userName = detailsModel.photoItemModel.user.userName,
+                        userName = detailsModel.photoItemModel.user.username,
                         bio = detailsModel.bio,
                         textStyle = MaterialTheme.typography.bodyLarge
                     )

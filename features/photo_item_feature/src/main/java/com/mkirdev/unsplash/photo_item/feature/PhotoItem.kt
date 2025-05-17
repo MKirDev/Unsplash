@@ -105,7 +105,7 @@ private fun PhotoItemPreview() {
             userInfo = {
                 UserInfoMedium(
                     name = photoItemModel.user.name,
-                    userName = photoItemModel.user.userName
+                    userName = photoItemModel.user.username
                 )
             },
             likesInfo = { modifier, onLike, onRemoveLike ->
