@@ -104,7 +104,7 @@ class CollectionDetailsScreenTests {
     }
 
     @Test
-    fun field_whenUiStateIsFailure_and_paging_whenLoadStateIsAppendAndHasError_showErrors() {
+    fun fields_whenUiStateIsFailure_and_paging_whenLoadStateIsAppendAndHasError_showErrors() {
         val errorStub = ErrorStub.create()
         val pagingErrorStub = PagingErrorStub.create(isError = true)
         val updatedCountStub = UpdatedCountStub.create()
