@@ -2,7 +2,7 @@ package com.mkirdev.unsplash.domain.models
 
 data class Profile(
     val id: String,
-    val userName: String,
+    val username: String,
     val firstName: String,
     val lastName: String,
     val bio: String?,
