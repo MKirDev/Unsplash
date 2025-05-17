@@ -28,11 +28,11 @@ class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
             PhotoFeedScreen(
                 uiState = uiState,
                 onSearch = { viewModel.handleEvent(PhotoFeedContract.Event.SearchEvent(it)) },
-                onPhotoClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoDetailsEvent(it)) },
-                onLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikeEvent(it)) },
-                onRemoveLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikeEvent(it)) },
-                onLoadPhotosClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotosLoadEvent) },
-                onCloseFieldClick = { viewModel.handleEvent(PhotoFeedContract.Event.FieldCloseEvent) })
+                onPhotoClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoDetailsOpenedEvent(it)) },
+                onLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikedEvent(it)) },
+                onRemoveLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikedEvent(it)) },
+                onLoadPhotosClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotosLoadingRequestedEvent) },
+                onCloseFieldClick = { viewModel.handleEvent(PhotoFeedContract.Event.FieldClosedEvent) })
         }
     }
 }
