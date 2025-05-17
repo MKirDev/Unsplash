@@ -22,10 +22,10 @@ class AuthViewModel : ViewModel(), AuthContract {
 
     override fun handleEvent(event: AuthContract.Event) {
         when (event) {
-            AuthContract.Event.NotificationEvent -> onNotificationClose()
-            AuthContract.Event.AuthEvent -> onAuth()
-            is AuthContract.Event.TokenReceivedEventSuccess -> onTokenReceivedSuccess(event.token)
-            is AuthContract.Event.TokenReceivedEventFailure -> onTokenReceivedFailure(event.error)
+            AuthContract.Event.NotificationReceivedEvent -> onNotificationClose()
+            AuthContract.Event.AuthRequestedEvent -> onAuth()
+            is AuthContract.Event.TokenReceivedSuccessEvent -> onTokenReceivedSuccess(event.token)
+            is AuthContract.Event.TokenReceivedFailureEvent -> onTokenReceivedFailure(event.error)
         }
     }
 

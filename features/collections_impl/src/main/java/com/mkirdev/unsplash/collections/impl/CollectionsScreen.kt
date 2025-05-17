@@ -88,7 +88,7 @@ fun CollectionsScreen(
                                 userInfo = {
                                     UserInfoMedium(
                                         name = it.user.name,
-                                        userName = it.user.userName
+                                        userName = it.user.username
                                     )
                                 }
                             )

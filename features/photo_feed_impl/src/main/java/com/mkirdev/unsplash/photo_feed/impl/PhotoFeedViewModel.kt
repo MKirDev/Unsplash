@@ -58,15 +58,15 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
 
     override fun handleEvent(event: PhotoFeedContract.Event) {
         when (event) {
-            PhotoFeedContract.Event.PhotosLoadEvent -> onPhotosLoad()
-            PhotoFeedContract.Event.FieldCloseEvent -> onFieldClose()
-            is PhotoFeedContract.Event.PhotoDetailsEvent -> onPhotoClick(photoId = event.photoId)
-            is PhotoFeedContract.Event.PhotoLikeEvent -> onPhotoSend(
+            PhotoFeedContract.Event.PhotosLoadingRequestedEvent -> onPhotosLoad()
+            PhotoFeedContract.Event.FieldClosedEvent -> onFieldClose()
+            is PhotoFeedContract.Event.PhotoDetailsOpenedEvent -> onPhotoClick(photoId = event.photoId)
+            is PhotoFeedContract.Event.PhotoLikedEvent -> onPhotoSend(
                 photoId = event.photoId,
                 isLiked = LIKED
             )
 
-            is PhotoFeedContract.Event.PhotoRemoveLikeEvent -> onPhotoSend(
+            is PhotoFeedContract.Event.PhotoUnlikedEvent -> onPhotoSend(
                 photoId = event.photoId,
                 isLiked = UNLIKED
             )

@@ -40,9 +40,9 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
 
     override fun handleEvent(event: CollectionsContract.Event) {
         when (event) {
-            is CollectionsContract.Event.CollectionDetailsEvent -> onCollection(event.collectionId)
-            CollectionsContract.Event.ErrorLoadEvent -> onErrorLoad()
-            CollectionsContract.Event.FieldCloseEvent -> onCloseFieldClick()
+            is CollectionsContract.Event.CollectionDetailsOpenedEvent -> onCollection(event.collectionId)
+            CollectionsContract.Event.LoadingErrorEvent -> onErrorLoad()
+            CollectionsContract.Event.FieldClosedEvent -> onCloseFieldClick()
         }
     }
 

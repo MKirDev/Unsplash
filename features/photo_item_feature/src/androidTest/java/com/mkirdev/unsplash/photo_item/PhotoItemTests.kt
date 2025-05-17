@@ -50,7 +50,7 @@ internal class PhotoItemTests {
                 userInfo = {
                     UserInfoSmall(
                         name = photoItemStub.user.name,
-                        userName = photoItemStub.user.userName
+                        userName = photoItemStub.user.username
                     )
                 },
                 likesInfo = { modifier, onLike, onRemoveLike ->
@@ -85,7 +85,7 @@ internal class PhotoItemTests {
                 userInfo = {
                     UserInfoSmall(
                         name = photoItemStub.user.name,
-                        userName = photoItemStub.user.userName
+                        userName = photoItemStub.user.username
                     )
                 },
                 likesInfo = { modifier, onLike, onRemoveLike ->
@@ -120,7 +120,7 @@ internal class PhotoItemTests {
                 userInfo = {
                     UserInfoMedium(
                         name = photoItemStub.user.name,
-                        userName = photoItemStub.user.userName
+                        userName = photoItemStub.user.username
                     )
                 },
                 likesInfo = { modifier, onLike, onRemoveLike ->

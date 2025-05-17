@@ -29,9 +29,9 @@ class CollectionsFeatureApiImpl : CollectionsFeatureApi {
 
             CollectionsScreen(
                 uiState = uiState,
-                onCollectionClick = { viewModel.handleEvent(CollectionsContract.Event.CollectionDetailsEvent(it)) },
-                onLoadError = { viewModel.handleEvent(CollectionsContract.Event.ErrorLoadEvent) },
-                onCloseFieldClick = { viewModel.handleEvent(CollectionsContract.Event.FieldCloseEvent) }
+                onCollectionClick = { viewModel.handleEvent(CollectionsContract.Event.CollectionDetailsOpenedEvent(it)) },
+                onLoadError = { viewModel.handleEvent(CollectionsContract.Event.LoadingErrorEvent) },
+                onCloseFieldClick = { viewModel.handleEvent(CollectionsContract.Event.FieldClosedEvent) }
             )
         }
     }

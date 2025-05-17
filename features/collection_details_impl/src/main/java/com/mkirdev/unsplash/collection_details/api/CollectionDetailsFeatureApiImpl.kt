@@ -42,13 +42,13 @@ class CollectionDetailsFeatureApiImpl : CollectionDetailsFeatureApi {
 
             CollectionDetailsScreen(
                 uiState = uiState,
-                onPhotoItemClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PhotoDetailsEvent(it)) },
-                onLikeClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PhotoLikeEvent(it)) },
-                onRemoveLikeClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PhotoRemoveLikeEvent(it)) },
-                onDownloadClick = { viewModel.handleEvent(CollectionDetailsContract.Event.DownloadEvent(it)) },
-                onLoadError = { viewModel.handleEvent(CollectionDetailsContract.Event.ErrorLoadEvent)},
-                onCloseFieldClick = { viewModel.handleEvent(CollectionDetailsContract.Event.FieldCloseEvent) },
-                onPagingCloseFieldClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PagingFieldCloseEvent) },
+                onPhotoItemClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PhotoDetailsOpenedEvent(it)) },
+                onLikeClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PhotoLikedEvent(it)) },
+                onRemoveLikeClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PhotoUnlikedEvent(it)) },
+                onDownloadClick = { viewModel.handleEvent(CollectionDetailsContract.Event.DownloadRequestedEvent(it)) },
+                onLoadError = { viewModel.handleEvent(CollectionDetailsContract.Event.LoadingErrorEvent)},
+                onCloseFieldClick = { viewModel.handleEvent(CollectionDetailsContract.Event.FieldClosedEvent) },
+                onPagingCloseFieldClick = { viewModel.handleEvent(CollectionDetailsContract.Event.PagingFieldClosedEvent) },
                 onNavigateUp = { viewModel.handleEvent(CollectionDetailsContract.Event.NavigateUpEvent) },
                 onNavigateBack = { viewModel.handleEvent(CollectionDetailsContract.Event.NavigateBackEvent) }
             )

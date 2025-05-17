@@ -25,9 +25,9 @@ interface CollectionsContract :
 
     sealed interface Event {
 
-        data class CollectionDetailsEvent(val collectionId: String) : Event
-        data object ErrorLoadEvent : Event
-        data object FieldCloseEvent : Event
+        data class CollectionDetailsOpenedEvent(val collectionId: String) : Event
+        data object LoadingErrorEvent : Event
+        data object FieldClosedEvent : Event
     }
 
     sealed interface Effect {

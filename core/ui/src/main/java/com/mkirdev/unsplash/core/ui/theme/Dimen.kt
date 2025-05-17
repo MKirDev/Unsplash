@@ -47,6 +47,7 @@ val item_height_378 = 378.dp
 val item_size_18 = 18.dp
 
 val icon_size_24 = 24.dp
+val icon_size_70 = 70.dp
 
 val image_size_14 = 14.dp
 val image_size_18 = 18.dp
@@ -55,3 +56,6 @@ val image_size_340 = 340.dp
 val image_size_344 = 344.dp
 
 val rounded_corner_0 = 0.dp
+val rounded_corner_100 = 100.dp
+
+val border_1 = 1.2.dp

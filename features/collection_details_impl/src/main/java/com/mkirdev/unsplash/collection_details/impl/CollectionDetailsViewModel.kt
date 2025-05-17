@@ -48,16 +48,16 @@ class CollectionDetailsViewModel : ViewModel(), CollectionDetailsContract {
 
     override fun handleEvent(event: CollectionDetailsContract.Event) {
         when (event) {
-            is CollectionDetailsContract.Event.DownloadEvent -> onDownloadClick(event.link)
-            is CollectionDetailsContract.Event.PhotoLikeEvent -> onLikeClick(event.photoId, LIKED)
-            is CollectionDetailsContract.Event.PhotoRemoveLikeEvent -> onLikeClick(
+            is CollectionDetailsContract.Event.DownloadRequestedEvent -> onDownloadClick(event.link)
+            is CollectionDetailsContract.Event.PhotoLikedEvent -> onLikeClick(event.photoId, LIKED)
+            is CollectionDetailsContract.Event.PhotoUnlikedEvent -> onLikeClick(
                 event.photoId,
                 UNLIKED
             )
-            is CollectionDetailsContract.Event.PhotoDetailsEvent -> onPhotoDetails(event.photoId)
-            CollectionDetailsContract.Event.ErrorLoadEvent -> onErrorLoad()
-            CollectionDetailsContract.Event.FieldCloseEvent -> onCloseFieldClick()
-            CollectionDetailsContract.Event.PagingFieldCloseEvent -> onPagingCloseFieldClick()
+            is CollectionDetailsContract.Event.PhotoDetailsOpenedEvent -> onPhotoDetails(event.photoId)
+            CollectionDetailsContract.Event.LoadingErrorEvent -> onErrorLoad()
+            CollectionDetailsContract.Event.FieldClosedEvent -> onCloseFieldClick()
+            CollectionDetailsContract.Event.PagingFieldClosedEvent -> onPagingCloseFieldClick()
             CollectionDetailsContract.Event.NavigateBackEvent -> onNavigateBack()
             CollectionDetailsContract.Event.NavigateUpEvent -> onNavigateUp()
         }

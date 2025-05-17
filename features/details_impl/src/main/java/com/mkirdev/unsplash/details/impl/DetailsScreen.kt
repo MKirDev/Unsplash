@@ -26,7 +26,7 @@ import com.mkirdev.unsplash.details.widgets.MainContent
 
 @Composable
 fun PhotoDetailsScreen(
-    uiState: PhotoDetailsContract.State,
+    uiState: DetailsContract.State,
     onShareClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
@@ -46,10 +46,10 @@ fun PhotoDetailsScreen(
             onNavigateBack()
         }
         when (uiState) {
-            is PhotoDetailsContract.State.DownloadFailure -> {
+            is DetailsContract.State.DownloadFailure -> {
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    photoDetailsModel = uiState.photoDetailsModel,
+                    detailsModel = uiState.detailsModel,
                     onShareClick = onShareClick,
                     onLikeClick = onLikeClick,
                     onRemoveLikeClick = onRemoveLikeClick,
@@ -69,10 +69,10 @@ fun PhotoDetailsScreen(
                 )
             }
 
-            is PhotoDetailsContract.State.DownloadSuccess -> {
+            is DetailsContract.State.DownloadSuccess -> {
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    photoDetailsModel = uiState.photoDetailsModel,
+                    detailsModel = uiState.detailsModel,
                     onShareClick = onShareClick,
                     onLikeClick = onLikeClick,
                     onRemoveLikeClick = onRemoveLikeClick,
@@ -92,10 +92,10 @@ fun PhotoDetailsScreen(
                 )
             }
 
-            is PhotoDetailsContract.State.Failure -> {
+            is DetailsContract.State.Failure -> {
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    photoDetailsModel = uiState.photoDetailsModel,
+                    detailsModel = uiState.detailsModel,
                     onShareClick = onShareClick,
                     onLikeClick = onLikeClick,
                     onRemoveLikeClick = onRemoveLikeClick,
@@ -115,10 +115,10 @@ fun PhotoDetailsScreen(
                 )
             }
 
-            is PhotoDetailsContract.State.Success -> {
+            is DetailsContract.State.Success -> {
                 MainContent(
                     modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    photoDetailsModel = uiState.photoDetailsModel,
+                    detailsModel = uiState.detailsModel,
                     onShareClick = onShareClick,
                     onLikeClick = onLikeClick,
                     onRemoveLikeClick = onRemoveLikeClick,
@@ -128,7 +128,7 @@ fun PhotoDetailsScreen(
                 )
             }
 
-            PhotoDetailsContract.State.Idle -> {}
+            DetailsContract.State.Idle -> {}
         }
     }
 }
@@ -145,8 +145,8 @@ object PhotoDetailsTags {
 private fun PhotoDetailsScreenPreview() {
     UnsplashTheme(dynamicColor = false) {
         PhotoDetailsScreen(
-            uiState = PhotoDetailsContract.State.DownloadSuccess(
-                photoDetailsModel = createPhotoDetailsPreview()
+            uiState = DetailsContract.State.DownloadSuccess(
+                detailsModel = createPhotoDetailsPreview()
             ),
             onShareClick = {},
             onLikeClick = {},

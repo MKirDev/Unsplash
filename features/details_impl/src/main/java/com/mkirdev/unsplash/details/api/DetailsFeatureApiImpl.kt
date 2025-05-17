@@ -10,9 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
-import com.mkirdev.unsplash.details.impl.PhotoDetailsContract
+import com.mkirdev.unsplash.details.impl.DetailsContract
 import com.mkirdev.unsplash.details.impl.PhotoDetailsScreen
-import com.mkirdev.unsplash.details.impl.PhotoDetailsViewModel
+import com.mkirdev.unsplash.details.impl.DetailsViewModel
 
 class DetailsFeatureApiImpl : DetailsFeatureApi {
     override fun NavHostController.navigateToDetails(photoId: String) {
@@ -24,33 +24,33 @@ class DetailsFeatureApiImpl : DetailsFeatureApi {
             route = DetailsDestination.routeWithArgument,
             arguments = DetailsDestination.arguments
         ) {
-            val viewModel: PhotoDetailsViewModel = viewModel()
+            val viewModel: DetailsViewModel = viewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             viewModel.applyEffect(function = { effect ->
                 when (effect) {
-                    is PhotoDetailsContract.Effect.Location -> {
+                    is DetailsContract.Effect.Location -> {
 
                     }
-                    is PhotoDetailsContract.Effect.Share -> {
+                    is DetailsContract.Effect.Share -> {
 
                     }
-                    PhotoDetailsContract.Effect.UpPressed -> { onNavigateUp() }
-                    PhotoDetailsContract.Effect.BackPressed -> { onNavigateBack() }
+                    DetailsContract.Effect.UpPressed -> { onNavigateUp() }
+                    DetailsContract.Effect.BackPressed -> { onNavigateBack() }
                     null -> Unit
                 }
             })
 
             PhotoDetailsScreen(
                 uiState = uiState,
-                onShareClick = { viewModel.handleEvent(PhotoDetailsContract.Event.ShareEvent(it)) },
-                onLikeClick = { viewModel.handleEvent(PhotoDetailsContract.Event.PhotoLikeEvent(it)) },
-                onRemoveLikeClick = { viewModel.handleEvent(PhotoDetailsContract.Event.PhotoRemoveLikeEvent(it)) },
-                onLocationClick = { viewModel.handleEvent(PhotoDetailsContract.Event.LocationEvent(it)) },
-                onDownloadClick = { viewModel.handleEvent(PhotoDetailsContract.Event.DownloadEvent(it)) },
-                onCloseFieldClick = { viewModel.handleEvent(PhotoDetailsContract.Event.FieldCloseEvent) },
-                onNavigateUp = { viewModel.handleEvent(PhotoDetailsContract.Event.NavigateUpEvent) },
-                onNavigateBack = { viewModel.handleEvent(PhotoDetailsContract.Event.NavigateBackEvent) }
+                onShareClick = { viewModel.handleEvent(DetailsContract.Event.ShareRequestedEvent(it)) },
+                onLikeClick = { viewModel.handleEvent(DetailsContract.Event.PhotoLikedEvent(it)) },
+                onRemoveLikeClick = { viewModel.handleEvent(DetailsContract.Event.PhotoUnlikedEvent(it)) },
+                onLocationClick = { viewModel.handleEvent(DetailsContract.Event.LocationOpenedEvent(it)) },
+                onDownloadClick = { viewModel.handleEvent(DetailsContract.Event.DownloadRequestedEvent(it)) },
+                onCloseFieldClick = { viewModel.handleEvent(DetailsContract.Event.FieldClosedEvent) },
+                onNavigateUp = { viewModel.handleEvent(DetailsContract.Event.NavigateUpEvent) },
+                onNavigateBack = { viewModel.handleEvent(DetailsContract.Event.NavigateBackEvent) }
                 )
         }
     }

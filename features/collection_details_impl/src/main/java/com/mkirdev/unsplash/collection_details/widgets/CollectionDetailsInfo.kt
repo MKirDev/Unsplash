@@ -85,7 +85,7 @@ fun CollectionDetailsInfo(
                 style = MaterialTheme.typography.bodySmall
             )
             Text(
-                text = stringResource(id = R.string.by_user, collectionDetailsModel.userName),
+                text = stringResource(id = R.string.by_user, collectionDetailsModel.username),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodySmall
             )

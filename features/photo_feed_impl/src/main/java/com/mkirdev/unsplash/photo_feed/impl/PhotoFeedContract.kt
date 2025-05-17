@@ -30,15 +30,15 @@ interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFee
     sealed interface Event {
         data class SearchEvent(val search: String) : Event
 
-        data class PhotoDetailsEvent(val photoId: String) : Event
+        data class PhotoDetailsOpenedEvent(val photoId: String) : Event
 
-        data class PhotoLikeEvent(val photoId: String) : Event
+        data class PhotoLikedEvent(val photoId: String) : Event
 
-        data class PhotoRemoveLikeEvent(val photoId: String) : Event
+        data class PhotoUnlikedEvent(val photoId: String) : Event
 
-        data object PhotosLoadEvent : Event
+        data object PhotosLoadingRequestedEvent : Event
 
-        data object FieldCloseEvent : Event
+        data object FieldClosedEvent : Event
     }
 
     sealed interface Effect {

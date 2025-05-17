@@ -8,5 +8,5 @@ data class CollectionDetailsModel(
     val description: String,
     val totalPhotos: String,
     val previewPhotoUrl: String,
-    val userName: String
+    val username: String
 )
