@@ -84,7 +84,7 @@ private fun CollectionItemPreview() {
             userInfo = {
                 UserInfoMedium(
                     name = collectionItemModel.user.name,
-                    userName = collectionItemModel.user.userName
+                    userName = collectionItemModel.user.username
                 )
             }
         )

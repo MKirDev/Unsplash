@@ -4,6 +4,6 @@ import androidx.compose.runtime.Immutable
 @Immutable
 data class CollectionUserModel(
     val name: String,
-    val userName: String,
+    val username: String,
     val userImage: String,
 )
