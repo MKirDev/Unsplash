@@ -40,6 +40,7 @@ androidx-room = "2.6.0"
 retrofit2 = "2.9.0"
 okhttp3 = "4.11.0"
 gson = "2.10.1"
+datastore = "1.0.0"
 
 # tests
 junit = "4.13.2"
@@ -69,6 +70,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
 okhttp3-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # presentation
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
