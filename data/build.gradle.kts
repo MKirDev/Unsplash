@@ -36,6 +36,8 @@ android {
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // core
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
@@ -48,6 +50,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.datastore)
 
     // tests
     testImplementation(libs.junit)
