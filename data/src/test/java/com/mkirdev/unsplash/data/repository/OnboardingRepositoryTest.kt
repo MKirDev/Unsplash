@@ -70,7 +70,7 @@ class OnboardingRepositoryTest {
     }
 
     @Test
-    fun getFlagWithException() = runTest(dispatcher) {
+    fun shouldThrowGetFlagExceptionWhenStorageIsCorrupted() = runTest(dispatcher) {
         val repository = OnboardingRepositoryImpl(
             onboardingStorage = storage,
             dispatcher = dispatcher,
