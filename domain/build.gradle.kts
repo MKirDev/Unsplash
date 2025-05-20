@@ -10,5 +10,8 @@ java {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(project(":core:contract:usecase"))
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
