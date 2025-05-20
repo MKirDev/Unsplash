@@ -17,6 +17,7 @@ rootProject.name = "Unsplash"
 include(":app")
 include(":core:ui")
 include(":core:navigation")
+include(":core:contract")
 include(":data")
 include(":domain")
 include(":features:photo_item_feature")
