@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 
 interface ContentCreationFeatureApi {
     @Composable
-    fun ContentCreationScreen(text: String)
+    fun ContentCreationFeature(text: String)
 }
