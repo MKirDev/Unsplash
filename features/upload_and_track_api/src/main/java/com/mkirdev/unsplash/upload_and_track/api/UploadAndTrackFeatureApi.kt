@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 
 interface UploadAndTrackFeatureApi {
     @Composable
-    fun UploadAndTrackScreen(text: String)
+    fun UploadAndTrackFeature(text: String)
 }
