@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 
 interface SocialCollectionsFeatureApi {
     @Composable
-    fun SocialCollectionsScreen(text: String)
+    fun SocialCollectionsFeature(text: String)
 }
