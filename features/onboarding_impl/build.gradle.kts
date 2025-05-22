@@ -40,6 +40,9 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(project(":features:onboarding_api"))
+    implementation(project(":features:content_creation_api"))
+    implementation(project(":features:social_collections_api"))
+    implementation(project(":features:upload_and_track_api"))
 
     // di
     implementation(libs.dagger)
