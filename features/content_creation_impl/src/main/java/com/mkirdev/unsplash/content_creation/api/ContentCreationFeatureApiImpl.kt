@@ -1,8 +1,9 @@
 package com.mkirdev.unsplash.content_creation.api
 
 import androidx.compose.runtime.Composable
+import javax.inject.Inject
 
-class ContentCreationFeatureApiImpl : ContentCreationFeatureApi {
+class ContentCreationFeatureApiImpl @Inject constructor() : ContentCreationFeatureApi {
     @Composable
     override fun ContentCreationScreen(text: String): Unit =
         ContentCreationScreen(text = text)

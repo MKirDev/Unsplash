@@ -54,9 +54,45 @@ android {
 dependencies {
 
     implementation(project(":core:ui"))
-    implementation(project(":features:photo_item_feature"))
+    implementation(project(":core:navigation"))
+    implementation(project(":core:contract:usecase"))
+
+    implementation(project(":data"))
+
+    implementation(project(":domain"))
+
+    implementation(project(":features:auth_api"))
+    implementation(project(":features:auth_impl"))
+
+    implementation(project(":features:bottom_menu_api"))
+    implementation(project(":features:bottom_menu_impl"))
+
+    implementation(project(":features:collection_details_api"))
+    implementation(project(":features:collection_details_impl"))
+
+    implementation(project(":features:collections_api"))
+    implementation(project(":features:collections_impl"))
+
+    implementation(project(":features:content_creation_api"))
+    implementation(project(":features:content_creation_impl"))
+
+    implementation(project(":features:details_api"))
+    implementation(project(":features:details_impl"))
+
+    implementation(project(":features:onboarding_api"))
+    implementation(project(":features:onboarding_impl"))
+
     implementation(project(":features:photo_feed_api"))
     implementation(project(":features:photo_feed_impl"))
+
+    implementation(project(":features:profile_api"))
+    implementation(project(":features:profile_impl"))
+
+    implementation(project(":features:social_collections_api"))
+    implementation(project(":features:social_collections_impl"))
+
+    implementation(project(":features:upload_and_track_api"))
+    implementation(project(":features:upload_and_track_impl"))
 
     // di
     implementation(libs.dagger)
@@ -64,6 +100,9 @@ dependencies {
 
     // core
     implementation(libs.core.ktx)
+
+    // data
+    implementation(libs.datastore)
 
     // navigation
     implementation(libs.navigation)
