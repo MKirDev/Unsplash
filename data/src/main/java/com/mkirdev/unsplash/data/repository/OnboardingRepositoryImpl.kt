@@ -6,8 +6,9 @@ import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class OnboardingRepositoryImpl(
+class OnboardingRepositoryImpl @Inject constructor(
     private val onboardingStorage: OnboardingStorage,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : OnboardingRepository {
