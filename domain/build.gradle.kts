@@ -11,6 +11,11 @@ java {
 
 dependencies {
     implementation(project(":core:contract:usecase"))
+
+    // di
+    implementation(libs.javax.inject)
+
+    // tests
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)

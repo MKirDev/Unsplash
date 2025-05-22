@@ -42,6 +42,9 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
 
+    // di
+    implementation(libs.javax.inject)
+
     // data
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
