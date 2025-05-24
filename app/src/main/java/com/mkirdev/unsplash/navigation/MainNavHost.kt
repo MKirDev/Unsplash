@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.mkirdev.unsplash.di.DaggerProvider
-import com.mkirdev.unsplash.onboarding.api.OnboardingDestination
+import com.mkirdev.unsplash.onboarding.navigation.OnboardingDestination
 
 @Composable
 fun MainNavHost(
