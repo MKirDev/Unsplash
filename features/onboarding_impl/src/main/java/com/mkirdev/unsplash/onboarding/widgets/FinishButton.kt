@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.border_1
-import com.mkirdev.unsplash.core.ui.theme.elevation_1
 import com.mkirdev.unsplash.core.ui.theme.item_height_44
 import com.mkirdev.unsplash.core.ui.theme.item_width_158
 import com.mkirdev.unsplash.core.ui.theme.mid_green
@@ -47,8 +46,7 @@ fun FinishButton(
                     containerColor = mid_green,
                     contentColor = MaterialTheme.colorScheme.primary,
                 ),
-                border = BorderStroke(border_1, color = Color.Transparent),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = elevation_1)
+                border = BorderStroke(border_1, color = Color.Transparent)
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
