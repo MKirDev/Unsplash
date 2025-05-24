@@ -50,4 +50,6 @@
     <string name="logout_question">Are you sure you want to logout? All local data will be deleted.</string>
     <string name="text_button_cancel">No</string>
     <string name="text_button_confirm">Yes</string>
+    <string name="onboarding_data_store_error">Error: the onboarding completion flag cannot be saved</string>
+    <string name="next">Next</string>
 </resources>
