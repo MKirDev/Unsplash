@@ -66,5 +66,3 @@ val rounded_corner_0 = 0.dp
 val rounded_corner_100 = 100.dp
 
 val border_1 = 1.2.dp
-
-val elevation_1 = 1.dp
