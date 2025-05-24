@@ -27,7 +27,7 @@ fun StaticInfoField(
     textStyle: TextStyle
 ) {
     Row(
-        modifier = modifier.background(color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f)),
+        modifier = modifier.background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {

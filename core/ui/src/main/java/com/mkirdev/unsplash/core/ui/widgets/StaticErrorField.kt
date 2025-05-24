@@ -27,7 +27,7 @@ fun StaticErrorField(
 ) {
     Row(
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f)),
+            .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
