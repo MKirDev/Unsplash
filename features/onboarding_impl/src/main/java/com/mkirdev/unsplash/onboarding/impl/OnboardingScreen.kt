@@ -95,21 +95,6 @@ fun OnboardingScreen(
                     }
                 }
             }
-            Box {
-                when (uiState.isError) {
-                    false -> {
-                    }
-
-                    true -> {
-                        ClosableErrorField(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = R.string.onboarding_data_store_error),
-                            textStyle = MaterialTheme.typography.bodyLargeMedium,
-                            onClick = onCloseFieldClick
-                        )
-                    }
-                }
-            }
             Box(
                 Modifier
                     .fillMaxWidth()
@@ -126,6 +111,20 @@ fun OnboardingScreen(
                     pagerState = pagerState,
                     onClick = onAuthClick
                 )
+            }
+            Box(modifier = Modifier.fillMaxSize()) {
+                when (uiState.isError) {
+                    false -> {}
+
+                    true -> {
+                        ClosableErrorField(
+                            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+                            text = stringResource(id = R.string.onboarding_data_store_error),
+                            textStyle = MaterialTheme.typography.bodyLargeMedium,
+                            onClick = onCloseFieldClick
+                        )
+                    }
+                }
             }
         }
     }
