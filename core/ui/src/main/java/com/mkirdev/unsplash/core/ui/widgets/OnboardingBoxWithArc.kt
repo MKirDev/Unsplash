@@ -1,14 +1,16 @@
 package com.mkirdev.unsplash.core.ui.widgets
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,32 +28,48 @@ import com.mkirdev.unsplash.core.ui.theme.green
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 
 @Composable
-fun OnboardingColumnWithArc(
+fun OnboardingBoxWithArc(
     modifier: Modifier,
     arcHeightFactor: Float,
     centerOffsetFactor: Float,
-    verticalArrangement: Arrangement.Vertical,
-    horizontalAlignment: Alignment.Horizontal,
+    contentAlignment: Alignment,
     function: @Composable () -> Unit
 ) {
     var halfSize by remember {
         mutableStateOf(Size(0f, 0f))
     }
 
-    Column(
+    val arcFactor by remember(arcHeightFactor) {
+        derivedStateOf { 1.1f - arcHeightFactor * 0.03f }
+    }
+
+    val centerFactor by remember(centerOffsetFactor) {
+        derivedStateOf { 0.52f + centerOffsetFactor * 0.03f }
+    }
+
+    val animatedArcHeightFactor by animateFloatAsState(
+        targetValue = arcFactor, animationSpec = tween(durationMillis = 600),
+        label = ""
+    )
+
+    val animatedCenterOffsetFactor by animateFloatAsState(
+        targetValue = centerFactor, animationSpec = tween(durationMillis = 600),
+        label = ""
+    )
+
+    Box(
         modifier = modifier
             .onSizeChanged {
                 halfSize = it.toSize() / 2f
             }
             .drawBehind {
                 drawCircle(
-                    color = green,
-                    radius = halfSize.height * arcHeightFactor,
-                    center = Offset(size.width * centerOffsetFactor, size.height)
+                    color = green.copy(alpha = 0.9f),
+                    radius = halfSize.height * animatedArcHeightFactor,
+                    center = Offset(size.width * animatedCenterOffsetFactor, size.height)
                 )
             },
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
+        contentAlignment = contentAlignment
     ) {
         function()
     }
@@ -59,9 +77,9 @@ fun OnboardingColumnWithArc(
 
 @Preview
 @Composable
-private fun OnboardingColumnWithArcPreview() {
+private fun OnboardingBoxWithArcPreview() {
     UnsplashTheme {
-        OnboardingColumnWithArc(
+        OnboardingBoxWithArc(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background)
@@ -69,8 +87,7 @@ private fun OnboardingColumnWithArcPreview() {
                 .verticalScroll(rememberScrollState()),
             arcHeightFactor = 1.1f,
             centerOffsetFactor = 0.5f,
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+            contentAlignment = Alignment.TopCenter
         ) {
         }
     }
