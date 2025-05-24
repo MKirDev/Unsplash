@@ -31,12 +31,19 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composecompiler.get()
+    }
 }
 
 dependencies {
 
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
+    implementation(project(":core:contract:usecase"))
     implementation(project(":domain"))
 
     implementation(project(":features:onboarding_api"))
@@ -51,6 +58,7 @@ dependencies {
     // core
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.collections.immutable)
 
     // navigation
     implementation(libs.navigation)
@@ -67,6 +75,8 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.pager.compose)
+    implementation(libs.pager.indicator.compose)
 
     // tests
     testImplementation(libs.junit)

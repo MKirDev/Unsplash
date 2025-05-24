@@ -2,6 +2,8 @@ package com.mkirdev.unsplash.di
 
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApiImpl
+import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
+import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApiImpl
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApiImpl
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
@@ -20,5 +22,8 @@ interface FeaturesModule {
 
     @Binds
     fun bindUploadAndTrackFeature(featureApi: UploadAndTrackFeatureApiImpl): UploadAndTrackFeatureApi
+
+    @Binds
+    fun bindOnboardingFeature(featureApi: OnboardingFeatureApiImpl): OnboardingFeatureApi
 
 }
