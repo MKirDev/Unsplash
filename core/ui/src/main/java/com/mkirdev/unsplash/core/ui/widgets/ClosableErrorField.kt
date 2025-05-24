@@ -30,7 +30,7 @@ fun ClosableErrorField(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = modifier.background(color = MaterialTheme.colorScheme.secondary),
+        modifier = modifier.background(color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f)),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
