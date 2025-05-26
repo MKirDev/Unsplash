@@ -43,6 +43,7 @@ retrofit2 = "2.9.0"
 okhttp3 = "4.11.0"
 gson = "2.10.1"
 datastore = "1.0.0"
+appauth = "0.9.1"
 
 # tests
 junit = "4.13.2"
@@ -73,6 +74,7 @@ retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 okhttp3-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+appauth = { group = "net.openid", name = "appauth", version.ref = "appauth" }
 
 # presentation
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
