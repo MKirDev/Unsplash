@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.data.repository
+package com.mkirdev.unsplash.data.repository.onboarding
 
 import com.mkirdev.unsplash.data.exceptions.OnboardingException
 import com.mkirdev.unsplash.data.storages.datastore.onboarding.OnboardingStorage
