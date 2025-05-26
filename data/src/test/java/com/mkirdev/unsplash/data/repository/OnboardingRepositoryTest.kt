@@ -2,7 +2,7 @@ package com.mkirdev.unsplash.data.repository
 
 import androidx.datastore.core.CorruptionException
 import com.mkirdev.unsplash.data.exceptions.OnboardingException
-import com.mkirdev.unsplash.data.storages.datastore.OnboardingStorage
+import com.mkirdev.unsplash.data.storages.datastore.onboarding.OnboardingStorage
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify

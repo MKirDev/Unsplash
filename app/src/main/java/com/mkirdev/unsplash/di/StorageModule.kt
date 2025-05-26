@@ -3,7 +3,7 @@ package com.mkirdev.unsplash.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.mkirdev.unsplash.app.DataStoreManager
-import com.mkirdev.unsplash.data.storages.datastore.OnboardingStorage
+import com.mkirdev.unsplash.data.storages.datastore.onboarding.OnboardingStorage
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named

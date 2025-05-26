@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.data.repository
 
 import com.mkirdev.unsplash.data.exceptions.OnboardingException
-import com.mkirdev.unsplash.data.storages.datastore.OnboardingStorage
+import com.mkirdev.unsplash.data.storages.datastore.onboarding.OnboardingStorage
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

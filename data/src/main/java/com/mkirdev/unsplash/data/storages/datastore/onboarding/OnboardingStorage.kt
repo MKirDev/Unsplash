@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.data.storages.datastore
+package com.mkirdev.unsplash.data.storages.datastore.onboarding
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
