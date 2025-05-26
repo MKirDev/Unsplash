@@ -15,6 +15,8 @@ dependencies {
     // di
     implementation(libs.javax.inject)
 
+    implementation(libs.appauth)
+
     // tests
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

@@ -15,7 +15,9 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
+        manifestPlaceholders["appAuthRedirectScheme"] = "https.demo.external://redirect.com/callback"
+        resValue("string", "app_external_scheme","https.demo.external")
+        resValue("string", "app_internal_scheme","https.demo.internal")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
