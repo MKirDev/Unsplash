@@ -13,3 +13,25 @@ sealed class OnboardingException : Throwable() {
         override val cause: Throwable
     ) : OnboardingException()
 }
+
+sealed class AuthException : Throwable() {
+    data class GetAuthRequestException(
+        override val cause: Throwable
+    ) : AuthException()
+
+    data class GetRefreshTokenRequestException(
+        override val cause: Throwable
+    ) : AuthException()
+
+    data class PerformTokenRequestException(
+        override val cause: Throwable
+    ) : AuthException()
+
+    data class GetSavedTokenRequestException(
+        override val cause: Throwable
+    ) : AuthException()
+
+    data class ClearDataException(
+        override val cause: Throwable
+    ) : AuthException()
+}
