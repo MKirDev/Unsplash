@@ -1,17 +1,10 @@
 package com.mkirdev.unsplash.domain.repository
 
-import net.openid.appauth.AuthorizationRequest
-import net.openid.appauth.AuthorizationService
-import net.openid.appauth.TokenRequest
-
 interface AuthRepository {
-    suspend fun getAuthRequest(): AuthorizationRequest
-
-    suspend fun getRefreshTokenRequest(refreshToken: String): TokenRequest
+    suspend fun getAuthRequest(): String
 
     suspend fun performTokenRequest(
-        authService: AuthorizationService,
-        tokenRequest: TokenRequest
+        tokenRequestJson: String
     )
 
     suspend fun getSavedToken(): String
