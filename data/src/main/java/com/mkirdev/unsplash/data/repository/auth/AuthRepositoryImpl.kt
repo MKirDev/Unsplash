@@ -24,7 +24,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun performTokenRequest(
+    override suspend fun performTokensRequest(
         tokenRequestJson: String
     ) = withContext(dispatcher) {
         try {

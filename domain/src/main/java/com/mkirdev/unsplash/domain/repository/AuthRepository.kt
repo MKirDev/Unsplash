@@ -3,7 +3,7 @@ package com.mkirdev.unsplash.domain.repository
 interface AuthRepository {
     suspend fun getAuthRequest(): String
 
-    suspend fun performTokenRequest(
+    suspend fun performTokensRequest(
         tokenRequestJson: String
     )
 

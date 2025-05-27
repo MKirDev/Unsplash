@@ -84,7 +84,7 @@ class AuthRepositoryTest {
             dispatcher = dispatcher
         )
 
-        repository.performTokenRequest(tokenRequestJson = tokenRequestJsonStub)
+        repository.performTokensRequest(tokenRequestJson = tokenRequestJsonStub)
 
         coVerify(exactly = 1) { authStorage.addAccessToken("access_token") }
     }
@@ -103,7 +103,7 @@ class AuthRepositoryTest {
             dispatcher = dispatcher
         )
 
-        repository.performTokenRequest(tokenRequestJson = tokenRequestJsonStub)
+        repository.performTokensRequest(tokenRequestJson = tokenRequestJsonStub)
 
         coVerify(exactly = 1) { authStorage.addRefreshToken("refresh_token") }
     }
@@ -122,7 +122,7 @@ class AuthRepositoryTest {
             dispatcher = dispatcher
         )
 
-        repository.performTokenRequest(tokenRequestJson = tokenRequestJsonStub)
+        repository.performTokensRequest(tokenRequestJson = tokenRequestJsonStub)
 
         coVerify(exactly = 1) { authStorage.addIdToken("id_token") }
     }
