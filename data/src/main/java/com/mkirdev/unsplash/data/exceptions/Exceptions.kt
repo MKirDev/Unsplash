@@ -19,10 +19,6 @@ sealed class AuthException : Throwable() {
         override val cause: Throwable
     ) : AuthException()
 
-    data class GetRefreshTokenRequestException(
-        override val cause: Throwable
-    ) : AuthException()
-
     data class PerformTokenRequestException(
         override val cause: Throwable
     ) : AuthException()
