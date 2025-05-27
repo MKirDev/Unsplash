@@ -7,37 +7,28 @@ import com.mkirdev.unsplash.domain.repository.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
 
 class AuthRepositoryImpl(
+    private val authService: AuthorizationService,
     private val appAuth: AppAuth,
     private val authStorage: AuthStorage,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AuthRepository {
-    override suspend fun getAuthRequest(): AuthorizationRequest = withContext(dispatcher) {
+    override suspend fun getAuthRequest(): String = withContext(dispatcher) {
         try {
-            appAuth.getAuthRequest()
+            appAuth.getAuthRequest().toUri().toString()
         } catch (throwable: Throwable) {
             throw AuthException.GetAuthRequestException(throwable)
         }
     }
 
-    override suspend fun getRefreshTokenRequest(refreshToken: String): TokenRequest =
-        withContext(dispatcher) {
-            try {
-                appAuth.getRefreshTokenRequest(refreshToken = refreshToken)
-            } catch (throwable: Throwable) {
-                throw AuthException.GetRefreshTokenRequestException(throwable)
-            }
-        }
-
     override suspend fun performTokenRequest(
-        authService: AuthorizationService,
-        tokenRequest: TokenRequest
+        tokenRequestJson: String
     ) = withContext(dispatcher) {
         try {
+            val tokenRequest = TokenRequest.jsonDeserialize(tokenRequestJson)
             val tokens = appAuth.performTokenRequestSuspend(authService, tokenRequest)
             authStorage.addAccessToken(tokens.accessToken)
             authStorage.addRefreshToken(tokens.refreshToken)
