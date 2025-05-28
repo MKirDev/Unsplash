@@ -32,7 +32,7 @@ import com.mkirdev.unsplash.core.ui.widgets.StaticInfoField
 import com.mkirdev.unsplash.core.ui.widgets.WavyColumn
 
 @Composable
-fun AuthScreen(
+internal fun AuthScreen(
     uiState: AuthContract.State,
     onNotificationClick: () -> Unit,
     onAuthClick: () -> Unit,
@@ -107,7 +107,7 @@ object AuthScreenTags {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun AuthScreenPreview() {
+private fun AuthScreenPreview() {
     UnsplashTheme(dynamicColor = false) {
         AuthScreen(
             uiState = AuthContract.State.Success,

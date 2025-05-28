@@ -3,7 +3,7 @@ package com.mkirdev.unsplash.auth.impl
 import androidx.compose.runtime.Immutable
 import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 
-interface AuthContract : UniFlowViewModel<AuthContract.Event, AuthContract.State, AuthContract.Effect?> {
+internal interface AuthContract : UniFlowViewModel<AuthContract.Event, AuthContract.State, AuthContract.Effect?> {
 
     sealed interface State {
         data object Idle : State
