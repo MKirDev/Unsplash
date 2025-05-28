@@ -9,8 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
+class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthorizationService,
     private val appAuth: AppAuth,
     private val authStorage: AuthStorage,
