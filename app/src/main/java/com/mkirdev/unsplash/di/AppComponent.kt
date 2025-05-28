@@ -2,7 +2,9 @@ package com.mkirdev.unsplash.di
 
 import android.content.Context
 import com.mkirdev.unsplash.app.DataStoreManager
+import com.mkirdev.unsplash.auth.di.AuthDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
+import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
@@ -15,13 +17,14 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        NetworkModule::class,
         StorageModule::class,
         RepositoriesModule::class,
         AppModule::class,
         FeaturesModule::class
     ]
 )
-interface AppComponent : OnboardingDependencies {
+interface AppComponent : OnboardingDependencies, AuthDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -29,6 +32,8 @@ interface AppComponent : OnboardingDependencies {
     override val uploadAndTrackFeatureApi: UploadAndTrackFeatureApi
 
     val onboardingFeatureApi: OnboardingFeatureApi
+
+    override val authRepository: AuthRepository
 
     @Component.Builder
     interface Builder {
