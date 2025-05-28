@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class OnboardingViewModel(
+internal class OnboardingViewModel(
     private val saveOnboardingFlagUseCase: SaveOnboardingFlagUseCase,
     private val getOnboardingFlagUseCase: GetOnboardingFlagUseCase
 ) : ViewModel(), OnboardingContract {
@@ -88,7 +88,7 @@ class OnboardingViewModel(
 
 }
 
-class OnboardingViewModelFactory(
+internal class OnboardingViewModelFactory(
     private val saveOnboardingFlagUseCase: SaveOnboardingFlagUseCase,
     private val getOnboardingFlagUseCase: GetOnboardingFlagUseCase
 ) : ViewModelProvider.Factory {
