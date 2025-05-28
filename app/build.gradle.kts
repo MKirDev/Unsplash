@@ -105,6 +105,7 @@ dependencies {
 
     // data
     implementation(libs.datastore)
+    implementation(libs.appauth)
 
     // navigation
     implementation(libs.navigation)
