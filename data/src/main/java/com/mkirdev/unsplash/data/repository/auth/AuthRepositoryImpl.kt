@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.data.repository.auth
 
+import com.google.gson.Gson
 import com.mkirdev.unsplash.data.exceptions.AuthException
 import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
@@ -19,7 +20,8 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
     override suspend fun getAuthRequest(): String = withContext(dispatcher) {
         try {
-            appAuth.getAuthRequest().toUri().toString()
+            val authRequest = appAuth.getAuthRequest()
+            Gson().toJson(authRequest)
         } catch (throwable: Throwable) {
             throw AuthException.GetAuthRequestException(throwable)
         }
