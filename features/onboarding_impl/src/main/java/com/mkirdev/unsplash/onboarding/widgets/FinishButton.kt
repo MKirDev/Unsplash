@@ -25,7 +25,7 @@ import com.mkirdev.unsplash.core.ui.theme.mid_green
 import com.mkirdev.unsplash.core.ui.theme.padding_30
 
 @Composable
-fun FinishButton(
+internal fun FinishButton(
     modifier: Modifier,
     pagerState: PagerState,
     onClick: () -> Unit

@@ -3,7 +3,7 @@ package com.mkirdev.unsplash.onboarding.impl
 import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 import kotlinx.collections.immutable.PersistentList
 
-interface OnboardingContract :
+internal interface OnboardingContract :
     UniFlowViewModel<OnboardingContract.Event, OnboardingContract.State, OnboardingContract.Effect?> {
 
     sealed interface State {

@@ -34,7 +34,7 @@ import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 
 @Composable
-fun OnboardingScreen(
+internal fun OnboardingScreen(
     uiState: OnboardingContract.State,
     contentCreationFeatureApi: ContentCreationFeatureApi,
     socialCollectionsFeatureApi: SocialCollectionsFeatureApi,
