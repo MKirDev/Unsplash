@@ -29,8 +29,6 @@ class AuthRepositoryTest {
     private lateinit var authStorage: AuthStorage
     private val dispatcher = UnconfinedTestDispatcher()
 
-
-    private val tokenRequestJsonStub = "{}"
     private val authCode = "auth_code"
 
     @Before
