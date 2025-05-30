@@ -7,9 +7,9 @@ import javax.inject.Inject
 class PerformTokensRequestUseCase @Inject constructor(
     private val repository: AuthRepository
 ) : UseCaseWithParam<String> {
-    override suspend fun execute(tokenRequestJson: String) {
+    override suspend fun execute(authCode: String) {
         repository.performTokensRequest(
-            tokenRequestJson = tokenRequestJson
+            authCode = authCode
         )
     }
 }
