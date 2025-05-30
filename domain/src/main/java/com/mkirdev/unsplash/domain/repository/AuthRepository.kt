@@ -4,7 +4,7 @@ interface AuthRepository {
     suspend fun getAuthRequest(): String
 
     suspend fun performTokensRequest(
-        tokenRequestJson: String
+        authCode: String
     )
 
     suspend fun getSavedToken(): String

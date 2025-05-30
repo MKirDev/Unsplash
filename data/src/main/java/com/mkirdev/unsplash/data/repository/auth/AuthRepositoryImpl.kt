@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.data.repository.auth
 
-import com.google.gson.Gson
 import com.mkirdev.unsplash.data.exceptions.AuthException
 import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
@@ -9,7 +8,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationService
-import net.openid.appauth.TokenRequest
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -20,19 +18,17 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
     override suspend fun getAuthRequest(): String = withContext(dispatcher) {
         try {
-            val authRequest = appAuth.getAuthRequest()
-            Gson().toJson(authRequest)
+           appAuth.getAuthRequest().jsonSerializeString()
         } catch (throwable: Throwable) {
             throw AuthException.GetAuthRequestException(throwable)
         }
     }
 
     override suspend fun performTokensRequest(
-        tokenRequestJson: String
+        authCode: String
     ) = withContext(dispatcher) {
         try {
-            val tokenRequest = TokenRequest.jsonDeserialize(tokenRequestJson)
-            val tokens = appAuth.performTokenRequestSuspend(authService, tokenRequest)
+            val tokens = appAuth.performTokenRequestSuspend(authService, authCode)
             authStorage.addAccessToken(tokens.accessToken)
             authStorage.addRefreshToken(tokens.refreshToken)
             authStorage.addIdToken(tokens.idToken)
