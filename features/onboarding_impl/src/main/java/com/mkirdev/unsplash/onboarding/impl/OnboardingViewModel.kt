@@ -7,13 +7,11 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.mkirdev.unsplash.domain.usecases.onboarding.GetOnboardingFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.onboarding.SaveOnboardingFlagUseCase
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 internal class OnboardingViewModel(
     private val saveOnboardingFlagUseCase: SaveOnboardingFlagUseCase,
@@ -49,7 +47,7 @@ internal class OnboardingViewModel(
     }
 
     private fun onAuth() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
                 saveOnboardingFlagUseCase.execute(true)
                 if ((_uiState.value as OnboardingContract.State.Onboarding).isError) {
@@ -67,9 +65,7 @@ internal class OnboardingViewModel(
                 }
             } finally {
                 val isOnboardingEnded = getFlag()
-                withContext(Dispatchers.Main) {
-                    if (isOnboardingEnded) _effect.update { OnboardingContract.Effect.Auth }
-                }
+                if (isOnboardingEnded) _effect.update { OnboardingContract.Effect.Auth }
             }
         }
     }

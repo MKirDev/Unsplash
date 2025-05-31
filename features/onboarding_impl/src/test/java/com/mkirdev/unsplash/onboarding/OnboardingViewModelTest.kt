@@ -7,6 +7,7 @@ import com.mkirdev.unsplash.onboarding.impl.OnboardingPage
 import com.mkirdev.unsplash.onboarding.impl.OnboardingViewModel
 import com.mkirdev.unsplash.onboarding.utils.MainDispatcherRule
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
@@ -28,7 +29,7 @@ class OnboardingViewModelTest {
 
     @Before
     fun setup() {
-        saveOnboardingFlagUseCase = mockk(relaxed = true)
+        saveOnboardingFlagUseCase = mockk(relaxed = false)
         getOnboardingFlagUseCase = mockk(relaxed = true)
 
         viewModel = OnboardingViewModel(
@@ -43,7 +44,7 @@ class OnboardingViewModelTest {
     }
 
     @Test
-    fun uiState_whenInitialized_thenShowsOnboarding() = runTest {
+    fun uiState_whenInitialized_thenShowsOnboarding() {
         assertEquals(
             OnboardingContract.State.Onboarding(
                 pages = pagesStub,
@@ -53,7 +54,7 @@ class OnboardingViewModelTest {
     }
 
     @Test
-    fun uiState_whenOnCloseFieldClickRequested_thenDoesNotShowError() = runTest {
+    fun uiState_whenOnCloseFieldClickRequested_thenDoesNotShowError() {
 
         viewModel.handleEvent(OnboardingContract.Event.FieldClosedEvent)
 
@@ -63,6 +64,26 @@ class OnboardingViewModelTest {
                 isError = false
             ), viewModel.uiState.value
         )
+    }
+
+    @Test
+    fun effect_whenInitialized_thenNull() {
+        assertEquals(
+            null, viewModel.effect.value
+        )
+    }
+
+    @Test
+    fun effect_whenOnboardingFlagTrue_thenAuth() = runTest {
+
+        coEvery { getOnboardingFlagUseCase.execute() } returns true
+
+        viewModel.handleEvent(OnboardingContract.Event.AuthOpenedEvent)
+
+        assertEquals(
+            OnboardingContract.Effect.Auth, viewModel.effect.value
+        )
+
     }
 
     @Test
