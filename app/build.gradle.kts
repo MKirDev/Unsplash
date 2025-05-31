@@ -1,9 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.devtools.ksp)
 }
+
+val REDIRECT_SCHEME: String = gradleLocalProperties(rootDir).getProperty("REDIRECT_SCHEME")
 
 android {
     namespace = "com.mkirdev.unsplash"
@@ -15,9 +19,7 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-        manifestPlaceholders["appAuthRedirectScheme"] = "https.demo.external://redirect.com/callback"
-        resValue("string", "app_external_scheme","https.demo.external")
-        resValue("string", "app_internal_scheme","https.demo.internal")
+        manifestPlaceholders["appAuthRedirectScheme"] = "\"$REDIRECT_SCHEME\""
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -106,7 +108,7 @@ dependencies {
     // data
     implementation(libs.datastore)
 
-    // appauth
+    // app
     implementation(libs.appauth)
 
     // navigation

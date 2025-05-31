@@ -62,6 +62,10 @@ dependencies {
     // presentation
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.androidx.browser)
+
+    // appauth
+    implementation(libs.appauth)
 
     // presentation compose
     implementation(platform(libs.compose.bom))
