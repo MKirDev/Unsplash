@@ -33,7 +33,7 @@ class OnboardingRepositoryTest {
     }
 
     @Test
-    fun addFlagFromStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenFlagStored_whenRequested_thenAddedOnlyOnce() = runTest(dispatcher) {
         val repository = OnboardingRepositoryImpl(
             onboardingStorage = storage,
             dispatcher = dispatcher,
@@ -47,7 +47,7 @@ class OnboardingRepositoryTest {
     }
 
     @Test
-    fun getFlagFromStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenStorageContainsFlag_whenRequested_thenRetrievedOnlyOnce() = runTest(dispatcher) {
         val repository = OnboardingRepositoryImpl(
             onboardingStorage = storage,
             dispatcher = dispatcher,
@@ -59,7 +59,7 @@ class OnboardingRepositoryTest {
     }
 
     @Test
-    fun clearFromStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenStorageContainsData_whenCleared_thenRequestedOnlyOnce() = runTest(dispatcher) {
         val repository = OnboardingRepositoryImpl(
             onboardingStorage = storage,
             dispatcher = dispatcher,
@@ -71,7 +71,7 @@ class OnboardingRepositoryTest {
     }
 
     @Test
-    fun shouldThrowGetFlagExceptionWhenStorageIsCorrupted() = runTest(dispatcher) {
+    fun givenCorruptedStorage_whenGetFlagRequested_thenThrowsGetFlagException() = runTest(dispatcher) {
         val repository = OnboardingRepositoryImpl(
             onboardingStorage = storage,
             dispatcher = dispatcher,
