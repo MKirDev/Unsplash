@@ -18,15 +18,15 @@ internal interface AuthContract : UniFlowViewModel<AuthContract.Event, AuthContr
 
         data object NotificationReceivedEvent : Event
         data object AuthRequestedEvent : Event
-        data class TokenReceivedSuccessEvent(val token: String): Event
+        data class CodeReceivedSuccessEvent(val token: String): Event
 
-        data class TokenReceivedFailureEvent(val error: String) : Event
+        data class CodeReceivedFailureEvent(val error: String) : Event
 
     }
 
     sealed interface Effect {
         data object BackPressed : Effect
-        data object Auth : Effect
+        data class Auth(val authRequest: String) : Effect
         data object PostAuth : Effect
 
     }
