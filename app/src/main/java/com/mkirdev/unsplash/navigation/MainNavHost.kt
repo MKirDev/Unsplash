@@ -66,6 +66,8 @@ fun MainNavHost(
         with(authFeatureApi) {
             auth(
                 schema = context.getString(R.string.app_internal_scheme),
+                host = context.getString(R.string.host),
+                path = context.getString(R.string.path),
                 onNavigateToBottomMenu = {
                 }
             )
