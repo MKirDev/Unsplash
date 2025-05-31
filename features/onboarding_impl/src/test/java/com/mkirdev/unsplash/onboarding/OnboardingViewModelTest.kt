@@ -54,7 +54,7 @@ class OnboardingViewModelTest {
     }
 
     @Test
-    fun uiState_whenOnCloseFieldClickRequested_thenDoesNotShowError() {
+    fun uiState_whenOnCloseFieldRequested_thenDoesNotShowError() {
 
         viewModel.handleEvent(OnboardingContract.Event.FieldClosedEvent)
 
