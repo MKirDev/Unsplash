@@ -24,7 +24,7 @@ class ClearOnboardingFlagUseCaseTest {
         clearAllMocks()
     }
     @Test
-    fun clearFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepositoryContainsData_whenCleared_thenRequestedOnlyOnce() = runTest {
         val useCase = ClearOnboardingFlagUseCase(onboardingRepository = repositoryMock)
 
         useCase.execute()

@@ -23,7 +23,7 @@ class SaveOnboardingFlagUseCaseTest {
         clearAllMocks()
     }
     @Test
-    fun saveFlagFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepository_whenSaveFlagRequested_thenSavedOnlyOnce() = runTest {
         val useCase = SaveOnboardingFlagUseCase(onboardingRepository = repositoryMock)
 
         val expected = true

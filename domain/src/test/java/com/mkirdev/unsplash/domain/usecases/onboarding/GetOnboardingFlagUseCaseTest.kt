@@ -23,7 +23,7 @@ class GetOnboardingFlagUseCaseTest {
         clearAllMocks()
     }
     @Test
-    fun getFlagFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepositoryContainsFlag_whenRequested_thenExecutedOnce() = runTest {
         val useCase = GetOnboardingFlagUseCase(onboardingRepository = repositoryMock)
 
         useCase.execute()
