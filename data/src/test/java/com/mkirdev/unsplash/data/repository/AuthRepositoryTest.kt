@@ -51,7 +51,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun getAuthRequestFromAppAuthIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenAppAuth_whenAuthRequestRequested_thenRetrievedOnlyOnce() = runTest(dispatcher) {
         val repository = AuthRepositoryImpl(
             authService = authService,
             appAuth = appAuth,
@@ -65,7 +65,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun addAccessTokenFromAuthStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenAuthStorage_whenAddAccessTokenRequested_thenExecutedOnce() = runTest(dispatcher) {
 
         coEvery { appAuth.performTokenRequestSuspend(authService, authCode) } returns tokens
 
@@ -82,7 +82,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun addRefreshTokenFromAuthStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenAuthStorage_whenAddRefreshTokenRequested_thenExecutedOnce() = runTest(dispatcher) {
 
         coEvery { appAuth.performTokenRequestSuspend(authService, authCode) } returns tokens
 
@@ -99,7 +99,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun addIdTokenFromAuthStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenAuthStorage_whenAddIdTokenRequested_thenExecutedOnce() = runTest(dispatcher) {
 
         coEvery { appAuth.performTokenRequestSuspend(authService, authCode) } returns tokens
 
@@ -116,7 +116,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun getAccessTokenFromAuthStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenAuthStorage_whenGetAccessTokenRequested_thenExecutedOnce() = runTest(dispatcher) {
         val repository = AuthRepositoryImpl(
             authService = authService,
             appAuth = appAuth,
@@ -130,7 +130,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun shouldThrowGetAccessTokenExceptionWhenStorageIsCorrupted() = runTest(dispatcher) {
+    fun givenCorruptedStorage_whenGetAccessTokenRequested_thenThrowsGetSavedTokenRequestException() = runTest(dispatcher) {
         val repository = AuthRepositoryImpl(
             authService = authService,
             appAuth = appAuth,
@@ -149,7 +149,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun clearFromStorageIsRequestedOnlyOnce() = runTest(dispatcher) {
+    fun givenStorageContainsData_whenCleared_thenRequestedOnlyOnce() = runTest(dispatcher) {
         val repository = AuthRepositoryImpl(
             authService = authService,
             appAuth = appAuth,
