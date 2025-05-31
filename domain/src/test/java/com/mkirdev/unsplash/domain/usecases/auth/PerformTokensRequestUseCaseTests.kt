@@ -24,7 +24,7 @@ class PerformTokensRequestUseCaseTests {
     }
 
     @Test
-    fun performTokenRequestFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepository_whenPerformTokenRequestRequested_thenExecutedOnce() = runTest {
         val tokenRequestJson = "{}"
 
         val useCase = PerformTokensRequestUseCase(repository = repositoryMock)

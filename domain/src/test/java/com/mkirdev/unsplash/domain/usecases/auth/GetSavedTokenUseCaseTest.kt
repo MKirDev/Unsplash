@@ -24,7 +24,7 @@ class GetSavedTokenUseCaseTest {
     }
 
     @Test
-    fun getSavedTokenFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepository_whenGetSavedTokenRequested_thenExecutedOnce() = runTest {
         val useCase = GetSavedTokenUseCase(repository = repositoryMock)
 
         useCase.execute()

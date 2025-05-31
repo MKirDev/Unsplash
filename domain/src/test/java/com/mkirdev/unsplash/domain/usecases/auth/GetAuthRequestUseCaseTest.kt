@@ -24,7 +24,7 @@ class GetAuthRequestUseCaseTest {
     }
 
     @Test
-    fun getAuthRequestFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepository_whenGetAuthRequestRequested_thenExecutedOnce() = runTest {
         val useCase = GetAuthRequestUseCase(repository = repositoryMock)
 
         useCase.execute()

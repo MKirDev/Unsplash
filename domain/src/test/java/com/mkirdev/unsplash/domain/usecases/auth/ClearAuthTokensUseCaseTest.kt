@@ -24,7 +24,7 @@ class ClearAuthTokensUseCaseTest {
     }
 
     @Test
-    fun clearFromRepositoryIsRequestedOnlyOnce() = runTest {
+    fun givenRepositoryContainsData_whenCleared_thenExecutedOnce() = runTest {
         val useCase = ClearAuthTokensUseCase(repository = repositoryMock)
 
         useCase.execute()
