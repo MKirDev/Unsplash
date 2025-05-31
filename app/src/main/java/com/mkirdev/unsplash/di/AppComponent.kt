@@ -2,6 +2,7 @@ package com.mkirdev.unsplash.di
 
 import android.content.Context
 import com.mkirdev.unsplash.app.DataStoreManager
+import com.mkirdev.unsplash.auth.api.AuthFeatureApi
 import com.mkirdev.unsplash.auth.di.AuthDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.domain.repository.AuthRepository
@@ -12,6 +13,7 @@ import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 import dagger.BindsInstance
 import dagger.Component
+import net.openid.appauth.AuthorizationService
 import javax.inject.Singleton
 
 @Singleton
@@ -34,6 +36,9 @@ interface AppComponent : OnboardingDependencies, AuthDependencies {
     val onboardingFeatureApi: OnboardingFeatureApi
 
     override val authRepository: AuthRepository
+    override val authService: AuthorizationService
+
+    val authFeatureApi: AuthFeatureApi
 
     @Component.Builder
     interface Builder {

@@ -30,8 +30,10 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="redirect.com/callback"
-                    android:scheme="@string/app_external_scheme" />
+                <data android:host="@string/host"
+                    android:scheme="@string/app_external_scheme"
+                    android:path="@string/path"
+                    />
             </intent-filter>
         </activity>
     </application>

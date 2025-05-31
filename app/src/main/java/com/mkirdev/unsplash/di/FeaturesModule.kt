@@ -1,5 +1,7 @@
 package com.mkirdev.unsplash.di
 
+import com.mkirdev.unsplash.auth.api.AuthFeatureApi
+import com.mkirdev.unsplash.auth.api.AuthFeatureApiImpl
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApiImpl
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
@@ -25,5 +27,8 @@ interface FeaturesModule {
 
     @Binds
     fun bindOnboardingFeature(featureApi: OnboardingFeatureApiImpl): OnboardingFeatureApi
+
+    @Binds
+    fun bindAuthFeature(featureApi: AuthFeatureApiImpl): AuthFeatureApi
 
 }
