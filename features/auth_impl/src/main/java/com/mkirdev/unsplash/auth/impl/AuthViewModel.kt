@@ -35,7 +35,7 @@ internal class AuthViewModel(
         when (event) {
             AuthContract.Event.NotificationReceivedEvent -> onNotificationClose()
             AuthContract.Event.AuthRequestedEvent -> onAuth()
-            is AuthContract.Event.CodeReceivedSuccessEvent -> onCodeReceivedSuccess(event.token)
+            is AuthContract.Event.CodeReceivedSuccessEvent -> onCodeReceivedSuccess(event.code)
             is AuthContract.Event.CodeReceivedFailureEvent -> onCodeReceivedFailure(event.error)
         }
     }
@@ -46,9 +46,15 @@ internal class AuthViewModel(
 
     private fun onAuth() {
         viewModelScope.launch {
-            val authRequest = getAuthRequestUseCase.execute()
-            _effect.update {
-                AuthContract.Effect.Auth(authRequest = authRequest)
+            try {
+                val authRequest = getAuthRequestUseCase.execute()
+                _effect.update {
+                    AuthContract.Effect.Auth(authRequest = authRequest)
+                }
+            } catch (t: Throwable) {
+                _uiState.update {
+                    AuthContract.State.Error(t.message.toString())
+                }
             }
         }
     }

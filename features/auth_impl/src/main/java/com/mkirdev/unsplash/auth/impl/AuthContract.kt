@@ -18,7 +18,7 @@ internal interface AuthContract : UniFlowViewModel<AuthContract.Event, AuthContr
 
         data object NotificationReceivedEvent : Event
         data object AuthRequestedEvent : Event
-        data class CodeReceivedSuccessEvent(val token: String): Event
+        data class CodeReceivedSuccessEvent(val code: String): Event
 
         data class CodeReceivedFailureEvent(val error: String) : Event
 
