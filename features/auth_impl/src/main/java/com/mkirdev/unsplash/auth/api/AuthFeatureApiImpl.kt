@@ -26,7 +26,7 @@ import net.openid.appauth.AuthorizationService
 import javax.inject.Inject
 
 class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
-    override fun NavHostController.navigateToAuth(code: String) {
+    override fun NavHostController.navigateToAuth(code: String?) {
         popBackStack()
         navigate("${AuthDestination.route}/$code")
         this.context.getString(com.mkirdev.unsplash.core.navigation.R.string.app_internal_scheme)
