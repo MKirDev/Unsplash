@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 
 interface AuthFeatureApi {
-    fun NavHostController.navigateToAuth(code: String)
+    fun NavHostController.navigateToAuth(code: String?)
 
     fun NavGraphBuilder.auth(
         schema: String,

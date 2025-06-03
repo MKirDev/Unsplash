@@ -8,6 +8,7 @@ plugins {
 }
 
 val REDIRECT_SCHEME: String = gradleLocalProperties(rootDir).getProperty("REDIRECT_SCHEME")
+val UNSPLASH_AUTH_BASE_URI: String = gradleLocalProperties(rootDir).getProperty("UNSPLASH_AUTH_BASE_URI")
 
 android {
     namespace = "com.mkirdev.unsplash"
@@ -20,6 +21,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         manifestPlaceholders["appAuthRedirectScheme"] = "\"$REDIRECT_SCHEME\""
+        android.buildFeatures.buildConfig = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -27,6 +29,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String","UNSPLASH_AUTH_BASE_URI", "\"${UNSPLASH_AUTH_BASE_URI}\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -107,6 +112,10 @@ dependencies {
 
     // data
     implementation(libs.datastore)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp3.interceptor)
+    implementation(libs.gson)
 
     // app
     implementation(libs.appauth)
