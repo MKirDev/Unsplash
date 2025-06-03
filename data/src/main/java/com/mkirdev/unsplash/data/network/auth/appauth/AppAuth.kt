@@ -90,6 +90,27 @@ class AppAuth {
         }
     }
 
+    suspend fun performRefreshTokenRequestSuspend(
+        authService: AuthorizationService,
+        refreshTokenRequest: TokenRequest
+    ): TokensNetwork {
+        return suspendCoroutine { continuation ->
+            authService.performTokenRequest(refreshTokenRequest, getClientAuthentication()) { response, ex ->
+                when {
+                    response != null -> {
+                        authRequest.update { null }
+                        val tokens = TokensNetwork(
+                            accessToken = response.accessToken.orEmpty(),
+                            refreshToken = response.refreshToken.orEmpty(),
+                            idToken = response.idToken.orEmpty()
+                        )
+                        continuation.resumeWith(Result.success(tokens))
+                    }
+                }
+            }
+        }
+    }
+
     @Synchronized
     private fun getClientAuthentication(): ClientAuthentication {
         return ClientSecretPost(BuildConfig.CLIENT_SECRET)
