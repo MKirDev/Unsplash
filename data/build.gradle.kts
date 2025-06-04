@@ -15,6 +15,15 @@ val REDIRECT_URI: String = gradleLocalProperties(rootDir).getProperty("REDIRECT_
 val GRANT_TYPE: String = gradleLocalProperties(rootDir).getProperty("GRANT_TYPE")
 val SCOPE: String = gradleLocalProperties(rootDir).getProperty("SCOPE")
 
+val PATH_LIST_PHOTOS: String = gradleLocalProperties(rootDir).getProperty("PATH_LIST_PHOTOS")
+val FIRST_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("FIRST_PATH_LIKE_PHOTO")
+val SECOND_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("SECOND_PATH_LIKE_PHOTO")
+val FIRST_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("FIRST_PATH_UNLIKE_PHOTO")
+val SECOND_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("SECOND_PATH_UNLIKE_PHOTO")
+val PATH_PHOTO_DETAILS: String = gradleLocalProperties(rootDir).getProperty("PATH_PHOTO_DETAILS")
+
+val PATH_SEARCH_PHOTOS: String = gradleLocalProperties(rootDir).getProperty("PATH_SEARCH_PHOTOS")
+
 android {
     namespace = "com.mkirdev.unsplash.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -35,6 +44,15 @@ android {
             buildConfigField("String","REDIRECT_URI","\"$REDIRECT_URI\"")
             buildConfigField("String","GRANT_TYPE","\"$GRANT_TYPE\"")
             buildConfigField("String","SCOPE","\"$SCOPE\"")
+
+            buildConfigField("String","PATH_LIST_PHOTOS", "\"${PATH_LIST_PHOTOS}\"")
+            buildConfigField("String","FIRST_PATH_LIKE_PHOTO", "\"${FIRST_PATH_LIKE_PHOTO}\"")
+            buildConfigField("String","SECOND_PATH_LIKE_PHOTO", "\"${SECOND_PATH_LIKE_PHOTO}\"")
+            buildConfigField("String","FIRST_PATH_UNLIKE_PHOTO", "\"${FIRST_PATH_UNLIKE_PHOTO}\"")
+            buildConfigField("String","SECOND_PATH_UNLIKE_PHOTO", "\"${SECOND_PATH_UNLIKE_PHOTO}\"")
+            buildConfigField("String","PATH_PHOTO_DETAILS", "\"${PATH_PHOTO_DETAILS}\"")
+
+            buildConfigField("String","PATH_SEARCH_PHOTOS", "\"${PATH_SEARCH_PHOTOS}\"")
         }
         release {
             isMinifyEnabled = false
