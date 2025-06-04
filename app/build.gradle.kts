@@ -8,7 +8,7 @@ plugins {
 }
 
 val REDIRECT_SCHEME: String = gradleLocalProperties(rootDir).getProperty("REDIRECT_SCHEME")
-val UNSPLASH_AUTH_BASE_URI: String = gradleLocalProperties(rootDir).getProperty("UNSPLASH_AUTH_BASE_URI")
+val UNSPLASH_BASE_URL: String = gradleLocalProperties(rootDir).getProperty("UNSPLASH_BASE_URL")
 
 android {
     namespace = "com.mkirdev.unsplash"
@@ -30,7 +30,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String","UNSPLASH_AUTH_BASE_URI", "\"${UNSPLASH_AUTH_BASE_URI}\"")
+            buildConfigField("String","UNSPLASH_BASE_URL", "\"${UNSPLASH_BASE_URL}\"")
         }
         release {
             isMinifyEnabled = false
