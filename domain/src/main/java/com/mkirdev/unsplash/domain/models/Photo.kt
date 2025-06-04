@@ -5,7 +5,7 @@ data class Photo(
     val width: Int,
     val height: Int,
     val imageUrl: String,
-    val downloadUrl: String,
+    val downloadLink: String,
     val likes: Int,
     val likedByUser: Boolean,
     val user: User,
