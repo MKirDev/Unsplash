@@ -1,6 +1,7 @@
-package com.mkirdev.unsplash.data.network.photo
+package com.mkirdev.unsplash.data.network.photo.models.common
 
 import com.google.gson.annotations.SerializedName
+import com.mkirdev.unsplash.data.network.photo.models.common.ProfileImageNetwork
 
 data class UserNetwork(
     @SerializedName("id")

@@ -1,8 +1,11 @@
-package com.mkirdev.unsplash.data.network.photo
+package com.mkirdev.unsplash.data.network.photo.models.details
 
 import com.google.gson.annotations.SerializedName
+import com.mkirdev.unsplash.data.network.photo.models.common.LinksNetwork
+import com.mkirdev.unsplash.data.network.photo.models.common.UrlNetwork
+import com.mkirdev.unsplash.data.network.photo.models.common.UserNetwork
 
-data class PhotoNetwork(
+data class PhotoDetailsNetwork(
     @SerializedName("id")
     val id: String,
     @SerializedName("width")
