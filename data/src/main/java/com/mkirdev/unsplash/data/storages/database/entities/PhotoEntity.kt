@@ -2,9 +2,23 @@ package com.mkirdev.unsplash.data.storages.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = PhotoEntity.TABLE_NAME)
+@Entity(
+    tableName = PhotoEntity.TABLE_NAME,
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = [UserEntity.ID],
+            childColumns = [PhotoEntity.USER_ID],
+            onDelete = ForeignKey.SET_NULL,
+            onUpdate = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(PhotoEntity.USER_ID)]
+)
 data class PhotoEntity(
     @PrimaryKey
     val id: String,
