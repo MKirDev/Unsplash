@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey
     val id: String,
-    @ColumnInfo(name = NAME)
-    val name: String,
+    @ColumnInfo(name = FULL_NAME)
+    val fullName: String,
     @ColumnInfo(name = USERNAME)
     val username: String,
     @ColumnInfo(name = IMAGE_URL)
@@ -22,7 +22,7 @@ data class UserEntity(
     companion object {
         const val TABLE_NAME = "user"
         const val ID = "id"
-        const val NAME = "name"
+        const val FULL_NAME = "full_name"
         const val USERNAME = "username"
         const val IMAGE_URL = "image_url"
         const val BIO = "bio"
