@@ -1,10 +1,10 @@
-package com.mkirdev.unsplash.data.storages.database.dto
+package com.mkirdev.unsplash.data.storages.database.dto.base
 
 import androidx.room.ColumnInfo
 
 data class UserDto(
     @ColumnInfo(name = FULL_NAME)
-    val name: String,
+    val fullName: String,
     @ColumnInfo(name = USERNAME)
     val username: String,
     @ColumnInfo(name = USER_IMAGE_URL)

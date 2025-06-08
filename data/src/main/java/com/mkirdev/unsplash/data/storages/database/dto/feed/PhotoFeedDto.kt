@@ -1,7 +1,8 @@
-package com.mkirdev.unsplash.data.storages.database.dto
+package com.mkirdev.unsplash.data.storages.database.dto.feed
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
+import com.mkirdev.unsplash.data.storages.database.dto.base.UserDto
 
 data class PhotoFeedDto(
     @ColumnInfo(name = ID)
@@ -18,7 +19,8 @@ data class PhotoFeedDto(
     val likes: Int,
     @ColumnInfo(name = LIKED)
     val likedByUser: Int,
-    @Embedded val userDto: UserDto
+    @Embedded
+    val userDto: UserDto
 ) {
     companion object {
         const val ID = "id"
@@ -29,5 +31,4 @@ data class PhotoFeedDto(
         const val LIKES = "likes"
         const val LIKED = "liked"
     }
-
 }
