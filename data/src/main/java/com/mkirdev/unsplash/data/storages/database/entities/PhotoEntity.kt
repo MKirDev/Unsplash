@@ -33,7 +33,7 @@ data class PhotoEntity(
     @ColumnInfo(name = LIKES)
     val likes: Int,
     @ColumnInfo(name = USER_ID)
-    val userId: Int
+    val userId: String
 ) {
     companion object {
         const val TABLE_NAME = "photo"

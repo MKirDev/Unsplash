@@ -10,13 +10,10 @@ data class CollectionEntity(
     val id: String,
     @ColumnInfo(name = NAME)
     val name: String,
-    @ColumnInfo(name = COLLECTION_ID)
-    val collectionId: String
 ) {
     companion object {
         const val TABLE_NAME = "collection"
         const val ID = "id"
         const val NAME = "name"
-        const val COLLECTION_ID = "collection_id"
     }
 }
