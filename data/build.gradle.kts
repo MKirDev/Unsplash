@@ -85,6 +85,9 @@ dependencies {
     // di
     implementation(libs.javax.inject)
 
+    // paging
+    implementation(libs.androidx.paging)
+
     // data
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -92,6 +95,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
     implementation(libs.datastore)
     implementation(libs.appauth)

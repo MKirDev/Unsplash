@@ -1,26 +1,9 @@
-package com.mkirdev.unsplash.data.storages.database.entities
+package com.mkirdev.unsplash.data.storages.database.dto.base
 
 import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = PhotoEntity.TABLE_NAME,
-    foreignKeys = [
-        ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [PhotoEntity.USER_ID],
-            onDelete = ForeignKey.SET_NULL,
-            onUpdate = ForeignKey.CASCADE
-        )
-    ],
-    indices = [Index(PhotoEntity.USER_ID)]
-)
-data class PhotoEntity(
-    @PrimaryKey
+data class PhotoDto(
+    @ColumnInfo(name = ID)
     val id: String,
     @ColumnInfo(name = WIDTH)
     val width: Int,
@@ -32,17 +15,20 @@ data class PhotoEntity(
     val downloadLink: String,
     @ColumnInfo(name = LIKES)
     val likes: Int,
+    @ColumnInfo(name = LIKED)
+    val likedByUser: Int,
     @ColumnInfo(name = USER_ID)
     val userId: String
 ) {
     companion object {
-        const val TABLE_NAME = "photo"
         const val ID = "id"
         const val WIDTH = "width"
         const val HEIGHT = "height"
         const val IMAGE_URL = "image_url"
         const val DOWNLOAD_LINK = "download_link"
         const val LIKES = "likes"
+        const val LIKED = "liked"
         const val USER_ID = "user_id"
     }
+
 }
