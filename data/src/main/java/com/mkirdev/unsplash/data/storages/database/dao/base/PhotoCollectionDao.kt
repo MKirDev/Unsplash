@@ -4,11 +4,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mkirdev.unsplash.data.storages.database.dto.base.PhotoCollectionDto
+import com.mkirdev.unsplash.data.storages.database.entities.PhotoCollectionEntity
 
 interface PhotoCollectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addPhotoCollection(photoCollections: List<PhotoCollectionDto>)
 
-    @Query("DELETE FROM photo_collection")
+    @Query("DELETE FROM ${PhotoCollectionEntity.TABLE_NAME}")
     suspend fun deletePhotoCollection()
 }

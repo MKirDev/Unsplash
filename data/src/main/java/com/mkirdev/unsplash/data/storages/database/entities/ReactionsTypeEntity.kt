@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = ReactionsTypeEntity.TABLE_NAME)
 data class ReactionsTypeEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     @ColumnInfo(name = LIKED)
     val liked: Int
