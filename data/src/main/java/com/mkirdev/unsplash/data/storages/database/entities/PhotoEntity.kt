@@ -20,7 +20,7 @@ import androidx.room.PrimaryKey
     indices = [Index(PhotoEntity.USER_ID)]
 )
 data class PhotoEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     @ColumnInfo(name = WIDTH)
     val width: Int,
