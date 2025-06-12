@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.data.mappers
 
-import com.mkirdev.unsplash.data.network.photo.models.list.PhotoFeedNetwork
+import com.mkirdev.unsplash.data.network.photos.models.list.PhotoFeedNetwork
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
 import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity

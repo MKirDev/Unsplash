@@ -10,7 +10,7 @@ import com.mkirdev.unsplash.data.mappers.toPhotoEntity
 import com.mkirdev.unsplash.data.mappers.toPhotoReactionsEntity
 import com.mkirdev.unsplash.data.mappers.toReactionsTypeEntity
 import com.mkirdev.unsplash.data.mappers.toUserEntity
-import com.mkirdev.unsplash.data.network.photo.api.PhotosApi
+import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
