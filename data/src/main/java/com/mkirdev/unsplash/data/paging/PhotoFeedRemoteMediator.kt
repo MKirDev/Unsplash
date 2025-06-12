@@ -5,14 +5,14 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.mkirdev.unsplash.data.mappers.toKeysDto
-import com.mkirdev.unsplash.data.mappers.toPhotoDto
-import com.mkirdev.unsplash.data.mappers.toPhotoReactionsDto
-import com.mkirdev.unsplash.data.mappers.toReactionsTypeDto
-import com.mkirdev.unsplash.data.mappers.toUserDto
+import com.mkirdev.unsplash.data.mappers.toKeysEntity
+import com.mkirdev.unsplash.data.mappers.toPhotoEntity
+import com.mkirdev.unsplash.data.mappers.toPhotoReactionsEntity
+import com.mkirdev.unsplash.data.mappers.toReactionsTypeEntity
+import com.mkirdev.unsplash.data.mappers.toUserEntity
 import com.mkirdev.unsplash.data.network.photo.api.PhotosApi
-import com.mkirdev.unsplash.data.storages.database.dto.base.PhotoDto
 import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
+import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
 private const val ITEMS_PER_PAGE = 10
@@ -20,7 +20,7 @@ private const val ITEMS_PER_PAGE = 10
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
     private val appDatabase: AppDatabase
-) : RemoteMediator<Int, PhotoDto>() {
+) : RemoteMediator<Int, PhotoEntity>() {
 
     private val photoDao = appDatabase.photoDao()
     private val reactionsTypeDao = appDatabase.reactionsTypeDao()
@@ -30,7 +30,7 @@ class PhotoFeedRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, PhotoDto>
+        state: PagingState<Int, PhotoEntity>
     ): MediatorResult {
         return try {
             val currentPage = when (loadType) {
@@ -73,23 +73,23 @@ class PhotoFeedRemoteMediator(
                 }
 
                 val keys = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toKeysDto(prevPage = prevPage, nextPage = nextPage)
+                    photoFeedNetwork.toKeysEntity(prevPage = prevPage, nextPage = nextPage)
                 }
 
                 val photos = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toPhotoDto()
+                    photoFeedNetwork.toPhotoEntity()
                 }
 
                 val reactions = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toReactionsTypeDto()
+                    photoFeedNetwork.toReactionsTypeEntity()
                 }
 
                 val photoReactions = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toPhotoReactionsDto()
+                    photoFeedNetwork.toPhotoReactionsEntity()
                 }
 
                 val users = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.user.toUserDto()
+                    photoFeedNetwork.user.toUserEntity()
                 }
 
                 remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
@@ -106,7 +106,7 @@ class PhotoFeedRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, PhotoDto>
+        state: PagingState<Int, PhotoEntity>
     ): RemoteKeysDto? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
@@ -116,7 +116,7 @@ class PhotoFeedRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, PhotoDto>
+        state: PagingState<Int, PhotoEntity>
     ): RemoteKeysDto? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { photo ->
@@ -125,7 +125,7 @@ class PhotoFeedRemoteMediator(
     }
 
     private suspend fun getRemoteKetForLastItem(
-        state: PagingState<Int, PhotoDto>
+        state: PagingState<Int, PhotoEntity>
     ): RemoteKeysDto? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { photo ->
