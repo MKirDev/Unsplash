@@ -33,6 +33,6 @@ data class PhotoFromCollectionDto(
         const val DOWNLOAD_LINK = "download_link"
         const val LIKES = "likes"
         const val LIKED = "liked"
-        const val COLLECTION = "collection"
+        const val COLLECTION = "collection_name"
     }
 }
