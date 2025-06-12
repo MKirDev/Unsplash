@@ -18,6 +18,7 @@ dagger = "2.50"
 core-ktx = "1.9.0"
 kotlinx-immutable = "0.3.5"
 kotlinx-coroutines = "1.7.3"
+paging-common = "3.3.0"
 
 # presentation
 lifecycle-runtime-ktx = "2.8.7"
@@ -65,6 +66,7 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+androidx-paging-common = { module = "androidx.paging:paging-common-jvm",  version.ref = "paging-common"}
 
 # data
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }

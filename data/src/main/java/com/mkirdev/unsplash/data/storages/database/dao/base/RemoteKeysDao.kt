@@ -13,8 +13,8 @@ interface RemoteKeysDao {
     fun getRemoteKeys(id: String): RemoteKeysDto
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addAllRemoteKeys(remoteKeys: List<RemoteKeysEntity>)
+    fun addAllRemoteKeys(remoteKeys: List<RemoteKeysEntity>)
 
     @Query("DELETE FROM ${RemoteKeysEntity.TABLE_NAME}")
-    suspend fun deleteAllRemoteKeys()
+    fun deleteAllRemoteKeys()
 }

@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.data.network.photo.models.list
+package com.mkirdev.unsplash.data.network.photos.models.list
 
 import com.google.gson.annotations.SerializedName
 

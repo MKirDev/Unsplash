@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.data.mappers
 
-import com.mkirdev.unsplash.data.network.photo.models.common.UrlNetwork
+import com.mkirdev.unsplash.data.network.photos.models.common.UrlNetwork
 
 internal fun UrlNetwork.toRegular(): String {
     return regular

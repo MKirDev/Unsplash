@@ -10,9 +10,9 @@ import com.mkirdev.unsplash.data.mappers.toPhotoEntity
 import com.mkirdev.unsplash.data.mappers.toPhotoReactionsEntity
 import com.mkirdev.unsplash.data.mappers.toReactionsTypeEntity
 import com.mkirdev.unsplash.data.mappers.toUserEntity
-import com.mkirdev.unsplash.data.network.photo.api.PhotosApi
+import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
+import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
 private const val ITEMS_PER_PAGE = 10
@@ -20,7 +20,7 @@ private const val ITEMS_PER_PAGE = 10
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
     private val appDatabase: AppDatabase
-) : RemoteMediator<Int, PhotoEntity>() {
+) : RemoteMediator<Int, PhotoFeedDto>() {
 
     private val photoDao = appDatabase.photoDao()
     private val reactionsTypeDao = appDatabase.reactionsTypeDao()
@@ -30,7 +30,7 @@ class PhotoFeedRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, PhotoEntity>
+        state: PagingState<Int, PhotoFeedDto>
     ): MediatorResult {
         return try {
             val currentPage = when (loadType) {
@@ -106,7 +106,7 @@ class PhotoFeedRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, PhotoEntity>
+        state: PagingState<Int, PhotoFeedDto>
     ): RemoteKeysDto? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
@@ -116,7 +116,7 @@ class PhotoFeedRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, PhotoEntity>
+        state: PagingState<Int, PhotoFeedDto>
     ): RemoteKeysDto? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { photo ->
@@ -125,7 +125,7 @@ class PhotoFeedRemoteMediator(
     }
 
     private suspend fun getRemoteKetForLastItem(
-        state: PagingState<Int, PhotoEntity>
+        state: PagingState<Int, PhotoFeedDto>
     ): RemoteKeysDto? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { photo ->

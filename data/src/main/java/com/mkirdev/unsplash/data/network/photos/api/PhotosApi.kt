@@ -1,8 +1,8 @@
-package com.mkirdev.unsplash.data.network.photo.api
+package com.mkirdev.unsplash.data.network.photos.api
 
 import com.mkirdev.unsplash.data.BuildConfig
-import com.mkirdev.unsplash.data.network.photo.models.details.PhotoDetailsNetwork
-import com.mkirdev.unsplash.data.network.photo.models.list.PhotoFeedNetwork
+import com.mkirdev.unsplash.data.network.photos.models.details.PhotoDetailsNetwork
+import com.mkirdev.unsplash.data.network.photos.models.list.PhotoFeedNetwork
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST

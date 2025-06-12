@@ -1,9 +1,9 @@
-package com.mkirdev.unsplash.data.network.photo.models.details
+package com.mkirdev.unsplash.data.network.photos.models.details
 
 import com.google.gson.annotations.SerializedName
-import com.mkirdev.unsplash.data.network.photo.models.common.LinksNetwork
-import com.mkirdev.unsplash.data.network.photo.models.common.UrlNetwork
-import com.mkirdev.unsplash.data.network.photo.models.common.UserNetwork
+import com.mkirdev.unsplash.data.network.photos.models.common.LinksNetwork
+import com.mkirdev.unsplash.data.network.photos.models.common.UrlNetwork
+import com.mkirdev.unsplash.data.network.photos.models.common.UserNetwork
 
 data class PhotoDetailsNetwork(
     @SerializedName("id")

@@ -31,5 +31,5 @@ interface PhotoFromCollectionDao {
                 + "JOIN ${UserEntity.TABLE_NAME} u "
                 + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} "
     )
-    suspend fun getPhotosFromCollection(): List<PhotoFromCollectionDto>
+    fun getPhotosFromCollection(): List<PhotoFromCollectionDto>
 }

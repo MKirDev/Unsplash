@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.data.storages.database.dao.feed
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
@@ -25,5 +26,5 @@ interface PhotoFeedDao {
                 + "JOIN ${UserEntity.TABLE_NAME} u "
                 + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} "
     )
-    suspend fun getPhotos(): List<PhotoFeedDto>
+    fun getPhotos(): PagingSource<Int, PhotoFeedDto>
 }

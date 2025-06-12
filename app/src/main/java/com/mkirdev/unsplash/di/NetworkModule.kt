@@ -6,7 +6,7 @@ import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationFailedInterceptor
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationInterceptor
 import com.mkirdev.unsplash.data.network.managers.AuthStateManager
-import com.mkirdev.unsplash.data.network.photo.api.PhotosApi
+import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import dagger.Module
 import dagger.Provides
