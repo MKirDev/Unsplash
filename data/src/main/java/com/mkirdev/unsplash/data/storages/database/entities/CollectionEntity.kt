@@ -14,6 +14,6 @@ data class CollectionEntity(
     companion object {
         const val TABLE_NAME = "collection"
         const val ID = "id"
-        const val NAME = "name"
+        const val NAME = "collection_name"
     }
 }

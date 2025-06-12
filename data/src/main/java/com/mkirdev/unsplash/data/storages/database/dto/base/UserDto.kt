@@ -9,7 +9,7 @@ data class UserDto(
     val fullName: String,
     @ColumnInfo(name = USERNAME)
     val username: String,
-    @ColumnInfo(name = USER_IMAGE_URL)
+    @ColumnInfo(name = IMAGE_URL)
     val imageUrl: String,
     @ColumnInfo(name = BIO)
     val bio: String?,
@@ -17,11 +17,11 @@ data class UserDto(
     val location: String?
 ) {
     companion object {
-        const val ID = "id"
-        const val FULL_NAME = "full_name"
-        const val USERNAME = "username"
-        const val USER_IMAGE_URL = "user_image_url"
-        const val BIO = "bio"
-        const val LOCATION = "location"
+        const val ID = "user_id"
+        const val FULL_NAME = "user_full_name"
+        const val USERNAME = "user_username"
+        const val IMAGE_URL = "user_image_url"
+        const val BIO = "user_bio"
+        const val LOCATION = "user_location"
     }
 }
