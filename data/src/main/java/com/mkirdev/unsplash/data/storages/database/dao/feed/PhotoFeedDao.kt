@@ -14,7 +14,7 @@ interface PhotoFeedDao {
         "SELECT p.${PhotoEntity.ID}, p.${PhotoEntity.WIDTH}, "
                 + "p.${PhotoEntity.HEIGHT}, p.${PhotoEntity.IMAGE_URL}, "
                 + "p.${PhotoEntity.DOWNLOAD_LINK}, p.${PhotoEntity.LIKES}, "
-                + "rt.${ReactionsTypeEntity.LIKED}, u.${UserEntity.FULL_NAME}, "
+                + "rt.${ReactionsTypeEntity.LIKED}, u.${UserEntity.ID}, u.${UserEntity.FULL_NAME}, "
                 + "u.${UserEntity.USERNAME}, u.${UserEntity.IMAGE_URL}, "
                 + "u.${UserEntity.BIO}, u.${UserEntity.LOCATION} "
                 + "FROM ${PhotoEntity.TABLE_NAME} p "
