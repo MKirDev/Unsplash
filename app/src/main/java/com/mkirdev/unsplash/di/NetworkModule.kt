@@ -6,11 +6,13 @@ import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationFailedInterceptor
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationInterceptor
 import com.mkirdev.unsplash.data.network.managers.AuthStateManager
+import com.mkirdev.unsplash.data.network.photo.api.PhotosApi
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import dagger.Module
 import dagger.Provides
 import net.openid.appauth.AuthorizationService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -36,6 +38,13 @@ class NetworkModule {
     }
 
     @Provides
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().also {
+            it.level = HttpLoggingInterceptor.Level.BODY
+        }
+    }
+
+    @Provides
     fun provideAuthorizationInterceptor(authStorage: AuthStorage): AuthorizationInterceptor {
         return AuthorizationInterceptor(authStorage = authStorage)
     }
@@ -57,10 +66,14 @@ class NetworkModule {
 
     @Provides
     fun provideOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
         authorizationInterceptor: AuthorizationInterceptor,
         authorizationFailedInterceptor: AuthorizationFailedInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addNetworkInterceptor(
+                httpLoggingInterceptor
+            )
             .addNetworkInterceptor(authorizationInterceptor)
             .addNetworkInterceptor(authorizationFailedInterceptor)
             .build()
@@ -76,6 +89,14 @@ class NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providePhotosApi(
+        retrofit: Retrofit
+    ): PhotosApi {
+        return retrofit.create(PhotosApi::class.java)
     }
 
 
