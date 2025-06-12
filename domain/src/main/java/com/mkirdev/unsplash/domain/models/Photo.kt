@@ -9,10 +9,10 @@ data class Photo(
     val likes: Int,
     val likedByUser: Boolean,
     val user: User,
-    val location: Location,
-    val exif: Exif,
-    val tags: List<String>,
-    val downloads: Int
+    val location: Location?,
+    val exif: Exif?,
+    val tags: List<String>?,
+    val downloads: Int?
 )
 
 
