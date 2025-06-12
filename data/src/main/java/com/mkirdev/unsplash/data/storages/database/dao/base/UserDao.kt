@@ -10,8 +10,8 @@ import com.mkirdev.unsplash.data.storages.database.entities.UserEntity
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addUsers(users: List<UserEntity>)
+    fun addUsers(users: List<UserEntity>)
 
     @Query("DELETE FROM ${UserEntity.TABLE_NAME}")
-    suspend fun deleteUsers()
+    fun deleteUsers()
 }
