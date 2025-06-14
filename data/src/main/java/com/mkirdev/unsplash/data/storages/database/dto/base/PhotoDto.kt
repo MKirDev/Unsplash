@@ -1,10 +1,8 @@
-package com.mkirdev.unsplash.data.storages.database.dto.feed
+package com.mkirdev.unsplash.data.storages.database.dto.base
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import com.mkirdev.unsplash.data.storages.database.dto.base.UserDto
 
-data class PhotoFeedDto(
+data class PhotoDto(
     @ColumnInfo(name = ID)
     val id: String,
     @ColumnInfo(name = WIDTH)
@@ -17,10 +15,8 @@ data class PhotoFeedDto(
     val downloadLink: String,
     @ColumnInfo(name = LIKES)
     val likes: Int,
-    @ColumnInfo(name = LIKED)
-    val likedByUser: Int,
-    @Embedded
-    val userDto: UserDto,
+    @ColumnInfo(name = USER_ID)
+    val userId: String,
     @ColumnInfo(name = SEARCH_TYPE)
     val searchType: Int
 ) {
@@ -31,7 +27,7 @@ data class PhotoFeedDto(
         const val IMAGE_URL = "image_url"
         const val DOWNLOAD_LINK = "download_link"
         const val LIKES = "likes"
-        const val LIKED = "liked"
+        const val USER_ID = "user_id"
         const val SEARCH_TYPE = "search_type"
     }
 }
