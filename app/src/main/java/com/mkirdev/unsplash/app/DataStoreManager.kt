@@ -5,5 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 
 class DataStoreManager(
     val onboardingDataStore: DataStore<Preferences>,
-    val authDataStorage: DataStore<Preferences>
+    val authDataStore: DataStore<Preferences>,
+    val photosDataStore: DataStore<Preferences>
 )

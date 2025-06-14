@@ -12,10 +12,12 @@ import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
 
 private const val ONBOARDING_DATA_STORE = "onboarding_data_store"
 private const val AUTH_DATA_STORE = "auth_data_store"
+private const val PHOTOS_DATA_STORE = "photos_data_store"
 class App : Application() {
 
     private val Context.onboardingDataStore: DataStore<Preferences> by preferencesDataStore(name = ONBOARDING_DATA_STORE)
     private val Context.authDataStore: DataStore<Preferences> by preferencesDataStore(name = AUTH_DATA_STORE)
+    private val Context.photosDataStore: DataStore<Preferences> by preferencesDataStore(name = PHOTOS_DATA_STORE)
 
     override fun onCreate() {
         super.onCreate()
@@ -25,7 +27,8 @@ class App : Application() {
     private fun initDagger() {
         val dataStoreManager = DataStoreManager(
             onboardingDataStore = onboardingDataStore,
-            authDataStorage = authDataStore
+            authDataStore = authDataStore,
+            photosDataStore = photosDataStore
         )
         val appComponent = DaggerAppComponent
             .builder()

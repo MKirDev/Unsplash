@@ -1,37 +1,49 @@
 package com.mkirdev.unsplash.di
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.room.Room
 import com.mkirdev.unsplash.app.DataStoreManager
+import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import com.mkirdev.unsplash.data.storages.datastore.onboarding.OnboardingStorage
+import com.mkirdev.unsplash.data.storages.datastore.photos.PhotosStorage
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
-private const val ONBOARDING_STORAGE = "onboardingStorage"
-private const val AUTH_STORAGE = "authStorage"
+private const val ONBOARDING_DATA_STORE = "onboardingDataStore"
+private const val AUTH_DATA_STORE = "authDataStore"
+private const val PHOTOS_DATA_STORE = "photosDataStore"
+private const val PROJECT_DATABASE = "project_database"
 
 @Module
 class StorageModule {
 
     @Provides
-    @Named(ONBOARDING_STORAGE)
+    @Named(ONBOARDING_DATA_STORE)
     fun provideOnboardingDataStore(dataStoreManager: DataStoreManager): DataStore<Preferences> {
         return dataStoreManager.onboardingDataStore
     }
 
     @Provides
-    @Named(AUTH_STORAGE)
+    @Named(AUTH_DATA_STORE)
     fun provideAuthDataStore(dataStoreManager: DataStoreManager): DataStore<Preferences> {
-        return dataStoreManager.authDataStorage
+        return dataStoreManager.authDataStore
+    }
+
+    @Provides
+    @Named(PHOTOS_DATA_STORE)
+    fun providePhotosDataStore(dataStoreManager: DataStoreManager): DataStore<Preferences> {
+        return dataStoreManager.photosDataStore
     }
 
     @Singleton
     @Provides
     fun provideOnboardingStorage(
-        @Named(ONBOARDING_STORAGE) dataStore: DataStore<Preferences>
+        @Named(ONBOARDING_DATA_STORE) dataStore: DataStore<Preferences>
     ): OnboardingStorage {
         return OnboardingStorage(dataStore = dataStore)
     }
@@ -39,8 +51,28 @@ class StorageModule {
     @Singleton
     @Provides
     fun provideAuthStorage(
-        @Named(AUTH_STORAGE) dataStore: DataStore<Preferences>
+        @Named(AUTH_DATA_STORE) dataStore: DataStore<Preferences>
     ): AuthStorage {
         return AuthStorage(dataStore = dataStore)
+    }
+
+    @Singleton
+    @Provides
+    fun providePhotosStorage(
+        @Named(PHOTOS_DATA_STORE) dataStore: DataStore<Preferences>
+    ): PhotosStorage {
+        return PhotosStorage(dataStore = dataStore)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(
+        context: Context
+    ) : AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            PROJECT_DATABASE
+        ).build()
     }
 }
