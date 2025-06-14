@@ -18,6 +18,17 @@ internal fun UserNetwork.toUserEntity(): UserEntity {
     )
 }
 
+internal fun UserNetwork.toDomain(): User {
+    return User(
+        id = id,
+        name = name,
+        username = username,
+        imageUrl = imageUrl.toSmall(),
+        bio = bio ?: EMPTY_STRING,
+        location = location ?: EMPTY_STRING
+    )
+}
+
 internal fun UserDto.toDomain(): User {
     return User(
         id = id,

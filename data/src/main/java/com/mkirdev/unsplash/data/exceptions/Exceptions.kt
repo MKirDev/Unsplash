@@ -31,3 +31,25 @@ sealed class AuthException : Throwable() {
         override val cause: Throwable
     ) : AuthException()
 }
+
+sealed class PhotosException : Throwable() {
+    data class GetPhotosException(
+        override val cause: Throwable
+    ) : PhotosException()
+
+    data class LikePhotoException(
+        override val cause: Throwable
+    ) : PhotosException()
+
+    data class UnlikePhotoException(
+        override val cause: Throwable
+    ) : PhotosException()
+
+    data class SearchPhotosException(
+        override val cause: Throwable
+    ) : PhotosException()
+
+    data class ClearDataException(
+        override val cause: Throwable
+    ) : PhotosException()
+}

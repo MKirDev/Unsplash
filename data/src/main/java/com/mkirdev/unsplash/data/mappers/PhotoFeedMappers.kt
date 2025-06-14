@@ -8,6 +8,24 @@ import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
 import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysEntity
 import com.mkirdev.unsplash.domain.models.Photo
 
+
+internal fun PhotoFeedNetwork.toDomain(): Photo {
+    return Photo(
+        id = id,
+        width = width,
+        height = height,
+        imageUrl = imageUrl.toRegular(),
+        downloadLink = downloadLink.toDownload(),
+        likes = likes,
+        likedByUser = likedByUser,
+        user = user.toDomain(),
+        location = null,
+        exif = null,
+        tags = null,
+        downloads = null
+    )
+}
+
 internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysEntity {
     return RemoteKeysEntity(
         id = id,
@@ -24,7 +42,8 @@ internal fun PhotoFeedNetwork.toPhotoEntity(): PhotoEntity {
         imageUrl = imageUrl.toRegular(),
         downloadLink = downloadLink.toDownload(),
         likes = likes,
-        userId = user.id
+        userId = user.id,
+        searchType = 0
     )
 }
 

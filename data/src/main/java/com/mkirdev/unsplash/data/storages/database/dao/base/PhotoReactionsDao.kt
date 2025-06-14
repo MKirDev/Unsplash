@@ -12,6 +12,9 @@ interface PhotoReactionsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPhotoReactions(photoReactions: List<PhotoReactionsEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addPhotoReaction(photoReactions: PhotoReactionsEntity)
+
     @Query("DELETE FROM ${PhotoReactionsEntity.TABLE_NAME}")
     fun deletePhotoReactions()
 }
