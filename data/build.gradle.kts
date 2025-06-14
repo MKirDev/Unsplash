@@ -85,9 +85,6 @@ dependencies {
     // di
     implementation(libs.javax.inject)
 
-    // paging
-    implementation(libs.androidx.paging)
-
     // data
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)

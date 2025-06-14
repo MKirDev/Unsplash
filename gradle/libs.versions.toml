@@ -18,7 +18,7 @@ dagger = "2.50"
 core-ktx = "1.9.0"
 kotlinx-immutable = "0.3.5"
 kotlinx-coroutines = "1.7.3"
-paging-common = "3.3.0"
+paging-common = "3.3.6"
 
 # presentation
 lifecycle-runtime-ktx = "2.8.7"
@@ -26,7 +26,7 @@ lifecycle-runtime-compose = "2.6.2"
 lifecycle-viewmodel-ktx = "2.6.2"
 glide = "1.0.0-beta01"
 androidx-browser = "1.8.0"
-androidx-paging = "3.3.6"
+paging-runtime = "3.3.6"
 
 # presentation compose
 composecompiler = "1.5.3"
@@ -66,7 +66,7 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
-androidx-paging-common = { module = "androidx.paging:paging-common-jvm",  version.ref = "paging-common"}
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging-common" }
 
 # data
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
@@ -86,7 +86,7 @@ lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-ru
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx" }
 glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidx-browser" }
-androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
+
 
 # presentation compose
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
