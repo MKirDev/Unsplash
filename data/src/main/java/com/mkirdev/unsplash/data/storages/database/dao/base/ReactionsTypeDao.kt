@@ -11,6 +11,9 @@ interface ReactionsTypeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addReactionsTypes(reactions: List<ReactionsTypeEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addReactionType(reaction: ReactionsTypeEntity)
+
     @Query(
         "UPDATE ${ReactionsTypeEntity.TABLE_NAME} " +
                 "SET ${ReactionsTypeEntity.LIKED} = 1 " +
@@ -27,4 +30,8 @@ interface ReactionsTypeDao {
 
     @Query("DELETE FROM ${ReactionsTypeEntity.TABLE_NAME}")
     fun deleteReactionsTypes()
+
+    @Query("DELETE FROM ${ReactionsTypeEntity.TABLE_NAME} " +
+            "WHERE ${ReactionsTypeEntity.ID} = :id")
+    fun deleteReactionsType(id: String)
 }
