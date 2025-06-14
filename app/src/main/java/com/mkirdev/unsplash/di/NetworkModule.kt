@@ -7,6 +7,7 @@ import com.mkirdev.unsplash.data.network.interceptors.AuthorizationFailedInterce
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationInterceptor
 import com.mkirdev.unsplash.data.network.managers.AuthStateManager
 import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
+import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import dagger.Module
 import dagger.Provides
@@ -97,6 +98,14 @@ class NetworkModule {
         retrofit: Retrofit
     ): PhotosApi {
         return retrofit.create(PhotosApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchApi(
+        retrofit: Retrofit
+    ): SearchApi {
+        return retrofit.create(SearchApi::class.java)
     }
 
 

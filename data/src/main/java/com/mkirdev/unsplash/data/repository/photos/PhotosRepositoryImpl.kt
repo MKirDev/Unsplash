@@ -29,12 +29,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 private const val ITEMS_PER_PAGE = 10
 private const val SEARCH_TYPE = 1
 
 @OptIn(ExperimentalPagingApi::class)
-class PhotosRepositoryImpl(
+class PhotosRepositoryImpl @Inject constructor(
     private val photosApi: PhotosApi,
     private val searchApi: SearchApi,
     private val appDatabase: AppDatabase,

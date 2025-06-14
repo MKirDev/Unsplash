@@ -116,6 +116,9 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp3.interceptor)
     implementation(libs.gson)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
     // app
     implementation(libs.appauth)
