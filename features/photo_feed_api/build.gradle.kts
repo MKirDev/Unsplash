@@ -37,4 +37,6 @@ dependencies {
     implementation(libs.navigation)
     implementation(libs.androidx.navigation.runtime.ktx)
 
+    implementation(project(":core:navigation"))
+    implementation(project(":core:ui"))
 }
