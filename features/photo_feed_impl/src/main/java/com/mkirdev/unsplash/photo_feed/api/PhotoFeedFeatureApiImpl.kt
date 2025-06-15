@@ -10,8 +10,9 @@ import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedContract
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedScreen
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedViewModel
 import com.mkirdev.unsplash.photo_feed.navigation.PhotoFeedTopLevelDestination
+import javax.inject.Inject
 
-class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
+class PhotoFeedFeatureApiImpl @Inject constructor(): PhotoFeedFeatureApi {
     override fun NavGraphBuilder.photoFeed(onNavigateToDetails: (String) -> Unit) {
         composable(route = PhotoFeedTopLevelDestination.route) {
             val viewModel: PhotoFeedViewModel = viewModel()
