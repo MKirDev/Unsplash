@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.mkirdev.unsplash.auth.di.AuthDependenciesProvider
+import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependenciesProvider
 import com.mkirdev.unsplash.di.DaggerAppComponent
 import com.mkirdev.unsplash.di.DaggerProvider
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
@@ -38,6 +39,7 @@ class App : Application() {
         DaggerProvider.appComponent = appComponent
         OnboardingDependenciesProvider.dependencies = appComponent
         AuthDependenciesProvider.dependencies = appComponent
+        BottomMenuDependenciesProvider.dependencies = appComponent
     }
 
 }
