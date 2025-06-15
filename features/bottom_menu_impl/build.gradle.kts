@@ -32,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composecompiler.get()
+    }
 }
 
 dependencies {
@@ -41,6 +47,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(project(":features:bottom_menu_api"))
+    implementation(project(":features:photo_feed_api"))
 
     // di
     implementation(libs.dagger)
@@ -49,6 +56,7 @@ dependencies {
     // core
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.collections.immutable)
 
     // navigation
     implementation(libs.navigation)

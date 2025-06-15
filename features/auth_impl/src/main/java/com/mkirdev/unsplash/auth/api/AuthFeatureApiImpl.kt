@@ -18,7 +18,6 @@ import com.mkirdev.unsplash.auth.di.DaggerAuthComponent
 import com.mkirdev.unsplash.auth.impl.AuthContract
 import com.mkirdev.unsplash.auth.impl.AuthScreen
 import com.mkirdev.unsplash.auth.impl.AuthViewModel
-import com.mkirdev.unsplash.auth.impl.AuthViewModelFactory
 import com.mkirdev.unsplash.auth.navigation.AuthDestination
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import net.openid.appauth.AuthorizationRequest
@@ -59,24 +58,8 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
                 mutableStateOf(authComponent.authService)
             }
 
-            val getAuthRequestUseCase by remember {
-                mutableStateOf(authComponent.getAuthRequestUseCase)
-            }
-
-            val getSavedTokenUseCase by remember {
-                mutableStateOf(authComponent.getSavedTokenUseCase)
-            }
-
-            val performTokensRequestUseCase by remember {
-                mutableStateOf(authComponent.performTokensRequestUseCase)
-            }
-
             val viewModel: AuthViewModel = viewModel(
-                factory = AuthViewModelFactory(
-                    getAuthRequestUseCase = getAuthRequestUseCase,
-                    getSavedTokenUseCase = getSavedTokenUseCase,
-                    performTokensRequestUseCase = performTokensRequestUseCase
-                )
+                factory = authComponent.authViewModelFactory
             )
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

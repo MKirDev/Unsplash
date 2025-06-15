@@ -2,8 +2,7 @@ package com.mkirdev.unsplash.onboarding.di
 
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
-import com.mkirdev.unsplash.domain.usecases.onboarding.GetOnboardingFlagUseCase
-import com.mkirdev.unsplash.domain.usecases.onboarding.SaveOnboardingFlagUseCase
+import com.mkirdev.unsplash.onboarding.impl.OnboardingViewModelFactory
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 import dagger.Component
@@ -16,8 +15,7 @@ internal interface OnboardingComponent : OnboardingDependencies {
     override val contentCreationFeatureApi: ContentCreationFeatureApi
     override val socialCollectionsFeatureApi: SocialCollectionsFeatureApi
     override val uploadAndTrackFeatureApi: UploadAndTrackFeatureApi
-    val saveOnboardingFlagUseCase: SaveOnboardingFlagUseCase
-    val getOnboardingFlagUseCase: GetOnboardingFlagUseCase
+    val onboardingViewModelFactory: OnboardingViewModelFactory
 
     @Component.Builder
     interface Builder {

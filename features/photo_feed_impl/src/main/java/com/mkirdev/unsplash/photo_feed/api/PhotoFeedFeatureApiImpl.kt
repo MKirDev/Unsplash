@@ -6,14 +6,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
-import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedContract
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedScreen
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedViewModel
+import com.mkirdev.unsplash.photo_feed.navigation.PhotoFeedTopLevelDestination
+import javax.inject.Inject
 
-class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
+class PhotoFeedFeatureApiImpl @Inject constructor(): PhotoFeedFeatureApi {
     override fun NavGraphBuilder.photoFeed(onNavigateToDetails: (String) -> Unit) {
-        composable(route = PhotoFeedDestination.route) {
+        composable(route = PhotoFeedTopLevelDestination.route) {
             val viewModel: PhotoFeedViewModel = viewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -35,8 +36,4 @@ class PhotoFeedFeatureApiImpl : PhotoFeedFeatureApi {
                 onCloseFieldClick = { viewModel.handleEvent(PhotoFeedContract.Event.FieldClosedEvent) })
         }
     }
-}
-
-object PhotoFeedDestination : ProjectNavDestination {
-    override val route: String = "photo_feed"
 }

@@ -14,7 +14,6 @@ import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
 import com.mkirdev.unsplash.onboarding.impl.OnboardingContract
 import com.mkirdev.unsplash.onboarding.impl.OnboardingScreen
 import com.mkirdev.unsplash.onboarding.impl.OnboardingViewModel
-import com.mkirdev.unsplash.onboarding.impl.OnboardingViewModelFactory
 import com.mkirdev.unsplash.onboarding.navigation.OnboardingDestination
 import javax.inject.Inject
 
@@ -35,10 +34,7 @@ class OnboardingFeatureApiImpl @Inject constructor(): OnboardingFeatureApi {
             }
 
             val viewModel: OnboardingViewModel = viewModel(
-                factory = OnboardingViewModelFactory(
-                    saveOnboardingFlagUseCase = onboardingComponent.saveOnboardingFlagUseCase,
-                    getOnboardingFlagUseCase = onboardingComponent.getOnboardingFlagUseCase
-                )
+                factory = onboardingComponent.onboardingViewModelFactory
             )
 
             val contentCreationFeatureApi by remember {
