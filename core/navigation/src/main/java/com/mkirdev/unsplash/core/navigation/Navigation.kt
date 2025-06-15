@@ -9,6 +9,8 @@ interface ProjectNavDestination {
     val route: String
 }
 
+data class TopDestinations(val destinations: List<TopLevelDestination>)
+
 interface TopLevelDestination : ProjectNavDestination {
     @get:DrawableRes
     val iconId: Int
