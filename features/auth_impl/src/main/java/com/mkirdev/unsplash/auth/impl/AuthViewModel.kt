@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.mkirdev.unsplash.domain.usecases.auth.GetAuthRequestUseCase
 import com.mkirdev.unsplash.domain.usecases.auth.GetSavedTokenUseCase
 import com.mkirdev.unsplash.domain.usecases.auth.PerformTokensRequestUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -67,15 +68,18 @@ internal class AuthViewModel(
                 AuthContract.State.Error(t.message.toString())
             } finally {
                 val token = getSavedTokenUseCase.execute()
-                if (token.isNotEmpty()) {
-                    _uiState.update {
-                        AuthContract.State.Success
-                    }
-                    _uiState.update {
-                        AuthContract.State.Idle
-                    }
-                    _effect.update {
-                        AuthContract.Effect.PostAuth
+                _uiState.update {
+                    AuthContract.State.Loading
+                }
+                launch {
+                    delay(1000)
+                    if (token.isNotEmpty()) {
+                        _uiState.update {
+                            AuthContract.State.Success
+                        }
+                        _effect.update {
+                            AuthContract.Effect.PostAuth
+                        }
                     }
                 }
             }

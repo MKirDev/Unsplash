@@ -16,6 +16,12 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    androidComponents {
+        onVariants(selector().all()) { variant ->
+            variant.androidTest?.manifestPlaceholders?.put("appAuthRedirectScheme", "test")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false

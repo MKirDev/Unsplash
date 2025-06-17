@@ -10,6 +10,8 @@ internal interface AuthContract : UniFlowViewModel<AuthContract.Event, AuthContr
 
         data object Success : State
 
+        data object Loading : State
+
         @Immutable
         data class Error(val message: String) : State
     }
