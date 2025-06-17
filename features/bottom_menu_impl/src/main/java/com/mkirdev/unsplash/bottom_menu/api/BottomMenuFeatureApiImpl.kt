@@ -35,8 +35,6 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
             bottomMenuInner(
                 onNavigateToPhotoDetails = onNavigateToPhotoDetails,
                 onNavigateToCollectionDetails = onNavigateToCollectionDetails,
-                onNavigateUp = onNavigateUp,
-                onNavigateBack = onNavigateBack,
                 onLogout = onLogout
             )
         }
@@ -45,8 +43,6 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
     private fun NavGraphBuilder.bottomMenuInner(
         onNavigateToPhotoDetails: (String) -> Unit,
         onNavigateToCollectionDetails: (String) -> Unit,
-        onNavigateUp: () -> Unit,
-        onNavigateBack: () -> Unit,
         onLogout: () -> Unit
     ) {
         composable(route = BottomMenuDestination.route) {

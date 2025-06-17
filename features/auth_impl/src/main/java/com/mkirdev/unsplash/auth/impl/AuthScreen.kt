@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -24,8 +26,10 @@ import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.theme.image_size_340
 import com.mkirdev.unsplash.core.ui.theme.item_height_54
+import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.theme.padding_30
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
+import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.StandardButton
 import com.mkirdev.unsplash.core.ui.widgets.StaticEmptyField
 import com.mkirdev.unsplash.core.ui.widgets.StaticInfoField
@@ -42,7 +46,8 @@ internal fun AuthScreen(
             .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         WavyColumn(
             modifier = Modifier
@@ -55,39 +60,79 @@ internal fun AuthScreen(
                 modifier = Modifier.size(image_size_340)
             )
         }
-        StandardButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = padding_30,
-                    start = padding_30,
-                    end = padding_30,
-                    bottom = padding_30
-                ),
-            text = stringResource(id = R.string.auth),
-            textStyle = MaterialTheme.typography.labelLarge,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            ),
-            onClick = onAuthClick
-        )
         when (uiState) {
-            is AuthContract.State.Error -> ClosableErrorField(
-                modifier = Modifier
-                    .height(item_height_54)
-                    .testTag(AuthScreenTags.NOTIFICATION_ERROR),
-                text = uiState.message,
-                textStyle = MaterialTheme.typography.bodyLargeMedium,
-                onClick = onNotificationClick
-            )
+            is AuthContract.State.Error -> {
+                StandardButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = padding_30,
+                            start = padding_30,
+                            end = padding_30,
+                            bottom = padding_30
+                        ),
+                    text = stringResource(id = R.string.auth),
+                    textStyle = MaterialTheme.typography.labelLarge,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    onClick = onAuthClick
+                )
 
-            AuthContract.State.Idle -> StaticEmptyField(modifier = Modifier
-                .height(item_height_54)
-                .testTag(AuthScreenTags.NOTIFICATION_EMPTY)
-            )
+                ClosableErrorField(
+                    modifier = Modifier
+                        .height(item_height_54)
+                        .testTag(AuthScreenTags.NOTIFICATION_ERROR),
+                    text = uiState.message,
+                    textStyle = MaterialTheme.typography.bodyLargeMedium,
+                    onClick = onNotificationClick
+                )
+            }
 
-            AuthContract.State.Success ->
+            AuthContract.State.Idle -> {
+                StandardButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = padding_30,
+                            start = padding_30,
+                            end = padding_30,
+                            bottom = padding_30
+                        ),
+                    text = stringResource(id = R.string.auth),
+                    textStyle = MaterialTheme.typography.labelLarge,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    onClick = onAuthClick
+                )
+                StaticEmptyField(
+                    modifier = Modifier
+                        .height(item_height_54)
+                        .testTag(AuthScreenTags.NOTIFICATION_EMPTY)
+                )
+            }
+
+            AuthContract.State.Success -> {
+                StandardButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = padding_30,
+                            start = padding_30,
+                            end = padding_30,
+                            bottom = padding_30
+                        ),
+                    text = stringResource(id = R.string.auth),
+                    textStyle = MaterialTheme.typography.labelLarge,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    onClick = onAuthClick
+                )
                 StaticInfoField(
                     modifier = Modifier
                         .height(item_height_54)
@@ -95,6 +140,22 @@ internal fun AuthScreen(
                     text = stringResource(id = R.string.successfully_auth),
                     textStyle = MaterialTheme.typography.bodyLargeMedium
                 )
+            }
+
+            AuthContract.State.Loading -> {
+                LoadingIndicator(
+                    modifier = Modifier
+                        .width(item_width_64)
+                        .padding(
+                            bottom = padding_30
+                        )
+                )
+                StaticEmptyField(
+                    modifier = Modifier
+                        .height(item_height_54)
+                        .testTag(AuthScreenTags.NOTIFICATION_EMPTY)
+                )
+            }
         }
     }
 }

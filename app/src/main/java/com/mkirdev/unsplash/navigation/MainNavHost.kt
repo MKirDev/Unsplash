@@ -48,6 +48,10 @@ fun MainNavHost(
         mutableStateOf(DaggerProvider.appComponent.authFeatureApi)
     }
 
+    val bottomMenuFeatureApi by remember {
+        mutableStateOf(DaggerProvider.appComponent.bottomMenuFeatureApi)
+    }
+
 
     NavHost(
         navController = navController,
@@ -69,7 +73,20 @@ fun MainNavHost(
                 host = context.getString(R.string.host),
                 path = context.getString(R.string.path),
                 onNavigateToBottomMenu = {
+                    with(bottomMenuFeatureApi) {
+                        navController.navigateToBottomMenu()
+                    }
                 }
+            )
+        }
+
+        with(bottomMenuFeatureApi) {
+            bottomMenu(
+                onNavigateToPhotoDetails = {},
+                onNavigateToCollectionDetails = {},
+                onNavigateUp = { navController.popBackStack() },
+                onNavigateBack = { navController.popBackStack() },
+                onLogout = {}
             )
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.mkirdev.unsplash.app.DataStoreManager
 import com.mkirdev.unsplash.auth.api.AuthFeatureApi
 import com.mkirdev.unsplash.auth.di.AuthDependencies
+import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
@@ -42,6 +43,8 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     override val authService: AuthorizationService
 
     val authFeatureApi: AuthFeatureApi
+
+    val bottomMenuFeatureApi: BottomMenuFeatureApi
 
     override val photoFeedFeatureApi: PhotoFeedFeatureApi
     override val topLevelDestination: TopDestinations
