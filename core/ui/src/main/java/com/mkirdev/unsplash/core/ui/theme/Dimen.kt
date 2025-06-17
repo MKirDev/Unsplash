@@ -53,6 +53,8 @@ val item_height_378 = 378.dp
 
 val item_size_18 = 18.dp
 
+val icon_size_12 = 12.dp
+val icon_size_18 = 18.dp
 val icon_size_24 = 24.dp
 val icon_size_70 = 70.dp
 

@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodySmallWithoutLineHeight
+import com.mkirdev.unsplash.core.ui.theme.icon_size_12
 import com.mkirdev.unsplash.core.ui.theme.item_size_18
 import com.mkirdev.unsplash.core.ui.theme.red
 import com.mkirdev.unsplash.core.ui.theme.space_4
@@ -67,6 +68,7 @@ fun LikesInfo(
                 contentDescription = stringResource(
                     id = if (isLiked) R.string.like else R.string.unlike
                 ),
+                modifier = Modifier.size(icon_size_12),
                 tint = if (isLiked) red else white
             )
         }

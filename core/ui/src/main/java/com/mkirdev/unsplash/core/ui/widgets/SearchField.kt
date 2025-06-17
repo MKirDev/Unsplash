@@ -3,6 +3,7 @@ package com.mkirdev.unsplash.core.ui.widgets
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
+import com.mkirdev.unsplash.core.ui.theme.icon_size_18
 import com.mkirdev.unsplash.core.ui.theme.rounded_corner_0
 
 private const val EMPTY_STRING = ""
@@ -110,6 +112,7 @@ private fun TrailingIcon(isEnabled: Boolean, onClick: () -> Unit) {
                 contentDescription = stringResource(
                     id = R.string.search
                 ),
+                modifier = Modifier.size(icon_size_18),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
