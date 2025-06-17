@@ -20,7 +20,7 @@ val FIRST_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("
 val SECOND_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("SECOND_PATH_LIKE_PHOTO")
 val FIRST_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("FIRST_PATH_UNLIKE_PHOTO")
 val SECOND_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("SECOND_PATH_UNLIKE_PHOTO")
-val PATH_PHOTO_DETAILS: String = gradleLocalProperties(rootDir).getProperty("PATH_PHOTO_DETAILS")
+val PATH_PHOTO: String = gradleLocalProperties(rootDir).getProperty("PATH_PHOTO")
 
 val PATH_SEARCH_PHOTOS: String = gradleLocalProperties(rootDir).getProperty("PATH_SEARCH_PHOTOS")
 
@@ -50,7 +50,7 @@ android {
             buildConfigField("String","SECOND_PATH_LIKE_PHOTO", "\"${SECOND_PATH_LIKE_PHOTO}\"")
             buildConfigField("String","FIRST_PATH_UNLIKE_PHOTO", "\"${FIRST_PATH_UNLIKE_PHOTO}\"")
             buildConfigField("String","SECOND_PATH_UNLIKE_PHOTO", "\"${SECOND_PATH_UNLIKE_PHOTO}\"")
-            buildConfigField("String","PATH_PHOTO_DETAILS", "\"${PATH_PHOTO_DETAILS}\"")
+            buildConfigField("String","PATH_PHOTO", "\"${PATH_PHOTO}\"")
 
             buildConfigField("String","PATH_SEARCH_PHOTOS", "\"${PATH_SEARCH_PHOTOS}\"")
         }

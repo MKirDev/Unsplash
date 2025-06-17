@@ -5,7 +5,7 @@ import com.mkirdev.unsplash.data.network.photos.models.common.LinksNetwork
 import com.mkirdev.unsplash.data.network.photos.models.common.UrlNetwork
 import com.mkirdev.unsplash.data.network.photos.models.common.UserNetwork
 
-data class PhotoDetailsNetwork(
+data class PhotoNetwork(
     @SerializedName("id")
     val id: String,
     @SerializedName("width")

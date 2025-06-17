@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.data.network.photos.api
 
 import com.mkirdev.unsplash.data.BuildConfig
-import com.mkirdev.unsplash.data.network.photos.models.details.PhotoDetailsNetwork
+import com.mkirdev.unsplash.data.network.photos.models.details.PhotoNetwork
 import com.mkirdev.unsplash.data.network.photos.models.list.PhotoFeedNetwork
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -16,10 +16,10 @@ interface PhotosApi {
         @Query("per_page") perPage: Int
     ) : List<PhotoFeedNetwork>
 
-    @GET("${BuildConfig.PATH_PHOTO_DETAILS}{id}")
-    suspend fun getPhotoDetails(
+    @GET("${BuildConfig.PATH_PHOTO}{id}")
+    suspend fun getPhoto(
         @Path("id") id: String
-    ) : PhotoDetailsNetwork
+    ) : PhotoNetwork
 
     @POST("${BuildConfig.FIRST_PATH_LIKE_PHOTO}{id}${BuildConfig.SECOND_PATH_LIKE_PHOTO}")
     suspend fun likePhoto(
