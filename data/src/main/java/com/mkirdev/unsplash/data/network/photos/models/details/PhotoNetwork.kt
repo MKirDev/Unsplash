@@ -27,7 +27,7 @@ data class PhotoNetwork(
     @SerializedName("location")
     val location: LocationNetwork,
     @SerializedName("tags")
-    val tags: List<TagNetwork>,
+    val tags: List<TagNetwork>?,
     @SerializedName("downloads")
     val downloads: Int
 )
