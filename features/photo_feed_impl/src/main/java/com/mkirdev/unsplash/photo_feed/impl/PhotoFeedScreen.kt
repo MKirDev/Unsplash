@@ -41,7 +41,7 @@ import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 private const val FIXED_COUNT = 2
 
 @Composable
-fun PhotoFeedScreen(
+internal fun PhotoFeedScreen(
     uiState: PhotoFeedContract.State,
     onSearch: (String) -> Unit,
     onPhotoClick: (String) -> Unit,

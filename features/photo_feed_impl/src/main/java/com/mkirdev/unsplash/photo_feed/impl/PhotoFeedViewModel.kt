@@ -2,6 +2,8 @@ package com.mkirdev.unsplash.photo_feed.impl
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.collections.immutable.ImmutableList
@@ -17,7 +19,7 @@ private const val LIKED = true
 private const val UNLIKED = false
 
 @Stable
-class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
+internal class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
 
     private val _uiState = MutableStateFlow<PhotoFeedContract.State>(
         PhotoFeedContract.State.Idle
@@ -192,5 +194,14 @@ class PhotoFeedViewModel : ViewModel(), PhotoFeedContract {
                 )
             }
         }
+    }
+}
+
+internal class PhotoFeedViewModelFactory(
+
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return PhotoFeedViewModel() as T
     }
 }
