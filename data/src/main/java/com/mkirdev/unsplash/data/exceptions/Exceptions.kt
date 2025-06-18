@@ -37,6 +37,10 @@ sealed class PhotosException : Throwable() {
         override val cause: Throwable
     ) : PhotosException()
 
+    data class GetPhotoException(
+        override val cause: Throwable
+    ) : PhotosException()
+
     data class LikePhotoException(
         override val cause: Throwable
     ) : PhotosException()

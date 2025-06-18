@@ -73,6 +73,14 @@ class PhotosRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPhoto(id: String): Photo = withContext(dispatcher) {
+       try {
+           photosApi.getPhoto(id).toDomain()
+       } catch (t: Throwable) {
+           throw PhotosException.GetPhotoException(t)
+       }
+    }
+
     override suspend fun likePhoto(photoId: String) = withContext(dispatcher) {
         try {
             val photo = appDatabase.photoDao().getPhoto(photoId)
@@ -80,7 +88,7 @@ class PhotosRepositoryImpl @Inject constructor(
                 appDatabase.reactionsTypeDao().likePhoto(photoId)
                 photosStorage.addLikedPhoto(photoId)
             } else {
-                val newPhoto = photosApi.getPhotoDetails(photoId)
+                val newPhoto = photosApi.getPhoto(photoId)
                 appDatabase.withTransaction {
                     appDatabase.photoDao().addPhoto(photo = newPhoto.toPhotoEntity())
                     appDatabase.userDao().addUser(user = newPhoto.user.toUserEntity())
