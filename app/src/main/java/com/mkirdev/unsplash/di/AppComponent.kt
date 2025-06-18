@@ -10,9 +10,11 @@ import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
+import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
+import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependencies
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 import dagger.BindsInstance
@@ -30,7 +32,8 @@ import javax.inject.Singleton
         FeaturesModule::class
     ]
 )
-interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies {
+interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies,
+    PhotoFeedDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -48,6 +51,8 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
 
     override val photoFeedFeatureApi: PhotoFeedFeatureApi
     override val topLevelDestination: TopDestinations
+
+    override val photosRepository: PhotosRepository
 
     @Component.Builder
     interface Builder {

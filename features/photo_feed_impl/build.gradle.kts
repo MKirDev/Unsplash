@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
+    implementation(project(":core:contract:usecase"))
     implementation(project(":domain"))
 
     implementation(project(":features:photo_feed_api"))
@@ -73,6 +74,7 @@ dependencies {
     implementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.paging.compose)
 
     // tests
     testImplementation(libs.junit)

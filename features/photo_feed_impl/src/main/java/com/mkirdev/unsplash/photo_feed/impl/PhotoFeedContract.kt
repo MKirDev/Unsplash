@@ -5,7 +5,7 @@ import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.collections.immutable.ImmutableList
 
-interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFeedContract.State, PhotoFeedContract.Effect?>{
+internal interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFeedContract.State, PhotoFeedContract.Effect?>{
 
     sealed interface State {
         @Immutable
