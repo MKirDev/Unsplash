@@ -10,6 +10,7 @@ import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependenciesProvider
 import com.mkirdev.unsplash.di.DaggerAppComponent
 import com.mkirdev.unsplash.di.DaggerProvider
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
+import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependenciesProvider
 
 private const val ONBOARDING_DATA_STORE = "onboarding_data_store"
 private const val AUTH_DATA_STORE = "auth_data_store"
@@ -40,6 +41,7 @@ class App : Application() {
         OnboardingDependenciesProvider.dependencies = appComponent
         AuthDependenciesProvider.dependencies = appComponent
         BottomMenuDependenciesProvider.dependencies = appComponent
+        PhotoFeedDependenciesProvider.dependencies = appComponent
     }
 
 }
