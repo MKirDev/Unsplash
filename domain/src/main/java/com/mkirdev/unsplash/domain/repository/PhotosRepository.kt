@@ -9,6 +9,8 @@ interface PhotosRepository {
 
     fun searchPhotos(query: String): Flow<PagingData<Photo>>
 
+    suspend fun getPhoto(id: String): Photo
+
     suspend fun likePhoto(photoId: String)
 
     suspend fun unlikePhoto(photoId: String)
