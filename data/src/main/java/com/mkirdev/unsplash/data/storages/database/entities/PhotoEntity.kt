@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
             entity = UserEntity::class,
             parentColumns = [UserEntity.ID],
             childColumns = [PhotoEntity.USER_ID],
-            onDelete = ForeignKey.SET_NULL,
+            onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )
     ],

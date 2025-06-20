@@ -6,6 +6,8 @@ import androidx.compose.runtime.Immutable
 data class PhotoItemModel(
     val id: String,
     val imageUrl: String,
+    val width: Int,
+    val height: Int,
     val aspectRatioImage: Float,
     val user: UserModel,
     val downloadLink: String,
