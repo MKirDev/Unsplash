@@ -35,10 +35,21 @@ internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : Rem
 }
 
 internal fun PhotoFeedNetwork.toPhotoEntity(): PhotoEntity {
+    val displayWidth = when (width) {
+        in 0..2500 -> 180
+        in 2501..4000 -> 240
+        else -> 300
+    }
+    val displayHeight = when (height) {
+        in 0..2500 -> 150
+        in 2501..4000 -> 250
+        else -> 350
+    }
+
     return PhotoEntity(
         id = id,
-        width = width,
-        height = height,
+        width = displayWidth,
+        height = displayHeight,
         imageUrl = imageUrl.toRegular(),
         downloadLink = downloadLink.toDownload(),
         likes = likes,
