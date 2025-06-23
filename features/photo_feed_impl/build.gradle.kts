@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.glide)
+    implementation(libs.coil.compose)
 
     // presentation compose
     implementation(platform(libs.compose.bom))
