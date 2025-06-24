@@ -5,13 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import androidx.room.withTransaction
 import com.mkirdev.unsplash.data.exceptions.PhotosException
 import com.mkirdev.unsplash.data.mappers.toDomain
-import com.mkirdev.unsplash.data.mappers.toPhotoEntity
-import com.mkirdev.unsplash.data.mappers.toPhotoReactionsEntity
-import com.mkirdev.unsplash.data.mappers.toReactionTypeEntity
-import com.mkirdev.unsplash.data.mappers.toUserEntity
 import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.network.photos.models.list.PhotoFeedNetwork
@@ -31,8 +26,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private const val ITEMS_PER_PAGE = 10
-private const val SEARCH_TYPE = 1
+private const val ITEMS_PER_PAGE = 20
 
 @OptIn(ExperimentalPagingApi::class)
 class PhotosRepositoryImpl @Inject constructor(
@@ -88,16 +82,6 @@ class PhotosRepositoryImpl @Inject constructor(
                 appDatabase.reactionsTypeDao().likePhoto(photoId)
                 photosStorage.addLikedPhoto(photoId)
             } else {
-                val newPhoto = photosApi.getPhoto(photoId)
-                appDatabase.withTransaction {
-                    appDatabase.photoDao().addPhoto(photo = newPhoto.toPhotoEntity())
-                    appDatabase.userDao().addUser(user = newPhoto.user.toUserEntity())
-                    appDatabase.reactionsTypeDao()
-                        .addReactionType(reaction = newPhoto.toReactionTypeEntity())
-                    appDatabase.photoReactionsDao()
-                        .addPhotoReaction(photoReactions = newPhoto.toPhotoReactionsEntity())
-                    appDatabase.reactionsTypeDao().likePhoto(photoId)
-                }
                 photosStorage.addLikedPhoto(photoId)
             }
         } catch (t: Throwable) {
@@ -109,16 +93,7 @@ class PhotosRepositoryImpl @Inject constructor(
         try {
             val photo = appDatabase.photoDao().getPhoto(photoId)
             if (photo != null) {
-                if (photo.searchType == SEARCH_TYPE) {
-                    appDatabase.withTransaction {
-                        appDatabase.reactionsTypeDao().unlikePhoto(photoId)
-                        appDatabase.reactionsTypeDao().deleteReactionsType(photoId)
-                        appDatabase.photoDao().deletePhoto(photoId)
-                        appDatabase.userDao().deleteUser(photo.userId)
-                    }
-                } else {
-                    appDatabase.reactionsTypeDao().unlikePhoto(photoId)
-                }
+                appDatabase.reactionsTypeDao().unlikePhoto(photoId)
                 photosStorage.addUnlikedPhoto(photoId)
             } else {
                 photosStorage.addUnlikedPhoto(photoId)
