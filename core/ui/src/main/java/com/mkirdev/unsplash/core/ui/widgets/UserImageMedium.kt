@@ -3,21 +3,31 @@ package com.mkirdev.unsplash.core.ui.widgets
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.size.Precision
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.image_size_28
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun UserImageMedium(
     imageUrl: String
 ) {
-    GlideImage(
-        model = imageUrl,
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .crossfade(true)
+            .placeholder(drawableResId = R.drawable.ic_outline_insert_photo_24)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .precision(Precision.AUTOMATIC)
+            .build(),
         contentDescription = stringResource(id = R.string.user_image),
         modifier = Modifier.size(image_size_28)
     )

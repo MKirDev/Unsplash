@@ -15,8 +15,7 @@ internal fun PhotoNetwork.toPhotoEntity(): PhotoEntity {
         imageUrl = imageUrl.toRegular(),
         downloadLink = downloadLink.toDownload(),
         likes = likes,
-        userId = user.id,
-        searchType = 1
+        userId = user.id
     )
 }
 

@@ -53,8 +53,7 @@ internal fun PhotoFeedNetwork.toPhotoEntity(): PhotoEntity {
         imageUrl = imageUrl.toRegular(),
         downloadLink = downloadLink.toDownload(),
         likes = likes,
-        userId = user.id,
-        searchType = 0
+        userId = user.id
     )
 }
 
