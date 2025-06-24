@@ -33,9 +33,7 @@ data class PhotoEntity(
     @ColumnInfo(name = LIKES)
     val likes: Int,
     @ColumnInfo(name = USER_ID)
-    val userId: String,
-    @ColumnInfo(name = SEARCH_TYPE)
-    val searchType: Int
+    val userId: String
 ) {
     companion object {
         const val TABLE_NAME = "photo"
@@ -46,6 +44,5 @@ data class PhotoEntity(
         const val DOWNLOAD_LINK = "download_link"
         const val LIKES = "likes"
         const val USER_ID = "user_id"
-        const val SEARCH_TYPE = "search_type"
     }
 }
