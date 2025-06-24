@@ -15,7 +15,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
-private const val ITEMS_PER_PAGE = 10
+private const val ITEMS_PER_PAGE = 20
 @OptIn(ExperimentalPagingApi::class)
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
@@ -94,10 +94,10 @@ class PhotoFeedRemoteMediator(
 
                 remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
 
+                userDao.addUsers(users = users)
                 photoDao.addPhotos(photos = photos)
                 reactionsTypeDao.addReactionsTypes(reactions = reactions)
                 photoReactionsDao.addPhotoReactions(photoReactions = photoReactions)
-                userDao.addUsers(users = users)
             }
             MediatorResult.Success(endOfPaginationReached = endOfPagingReached)
         } catch (e: Exception) {
