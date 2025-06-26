@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.photo_item.utils.stubs
 
+import androidx.compose.ui.unit.dp
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.models.UserModel
 
@@ -8,6 +9,8 @@ class PhotoItemStub {
         fun create(isLiked: Boolean) = PhotoItemModel(
             id = "test_id",
             imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            width = 150.dp,
+            height = 250.dp,
             aspectRatioImage = 2.5f,
             user = UserStub.create(),
             downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
