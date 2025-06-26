@@ -1,12 +1,13 @@
 package com.mkirdev.unsplash.photo_item.feature
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -14,15 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Size
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.padding_4
@@ -35,9 +35,8 @@ import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
-import kotlin.math.roundToInt
 
-@OptIn(ExperimentalGlideComposeApi::class)
+
 @Composable
 fun PhotoItem(
     modifier: Modifier,
@@ -55,27 +54,26 @@ fun PhotoItem(
     onDownloadClick: ((String) -> Unit)? = null
 ) {
 
-    val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
-    val density = LocalDensity.current
-    val screenWidthPx = with(density) {
-        screenWidthDp.toPx().roundToInt()
+    val configuration = LocalConfiguration.current
+    val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        ContentScale.Crop
+    } else {
+        ContentScale.FillHeight
     }
-    val widthDp = with(density) { photoItemModel.width.toDp() }
-    val heightDp = with(density) { photoItemModel.height.toDp() }
 
     Box(
-        modifier = modifier.width(widthDp).height(heightDp)
+        modifier = modifier
     ) {
-        GlideImage(
-            model = photoItemModel.imageUrl,
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(photoItemModel.imageUrl)
+                .size(Size.ORIGINAL)
+                .build(),
             contentDescription = stringResource(id = R.string.photo_item),
-            contentScale = ContentScale.FillBounds,
-            requestBuilderTransform = {
-                it
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .downsample(DownsampleStrategy.CENTER_INSIDE)
-                    .override(screenWidthPx, (screenWidthPx / photoItemModel.aspectRatioImage).roundToInt())
-            }
+            contentScale = contentScale,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(350.dp)
         )
         Row(
             modifier = Modifier
