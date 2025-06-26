@@ -1,8 +1,11 @@
 package com.mkirdev.unsplash.photo_feed.utils.stubs
 
+import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.models.UserModel
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.random.Random
 
 private const val MIN_VALUE = 0
@@ -10,17 +13,21 @@ private const val MAX_VALUE = 10000
 
 class PhotoFeedStub {
     companion object {
-        fun create() = persistentListOf(
-            createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
-            createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
-            createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
-            createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
-            createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
-        )
+        fun create() = MutableStateFlow(PagingData.from(
+            persistentListOf(
+                createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
+                createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
+                createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
+                createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
+                createPhotoItemModel(Random.nextInt(MIN_VALUE, MAX_VALUE)),
+            )
+        ))
 
         private fun createPhotoItemModel(number: Int) = PhotoItemModel(
             id = "IOsig${number}yhdf",
             imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            width = 100.dp,
+            height = 250.dp,
             aspectRatioImage = 1f,
             user = createUserModel(),
             downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
