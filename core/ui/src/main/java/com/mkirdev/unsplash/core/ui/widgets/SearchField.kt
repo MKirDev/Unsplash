@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -43,7 +44,7 @@ fun SearchField(
     modifier: Modifier
 ) {
 
-    var isEnabled by remember {
+    var isEnabled by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -51,7 +52,7 @@ fun SearchField(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(isEnabled) {
-        if (isEnabled) {
+        if (isEnabled && text.isEmpty()) {
             focusRequester.requestFocus()
             keyboardController?.show()
         }
