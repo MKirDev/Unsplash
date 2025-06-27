@@ -14,11 +14,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -40,23 +44,26 @@ fun SearchField(
     modifier: Modifier
 ) {
 
-    var value by remember(text) {
-        mutableStateOf(text)
-    }
-
-    var isEnabled by remember {
+    var isEnabled by rememberSaveable {
         mutableStateOf(false)
     }
 
+    val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    LaunchedEffect(isEnabled) {
+        if (isEnabled && text.isEmpty()) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
+    }
+
     TextField(
-        value = value,
+        value = text,
         onValueChange = {
-            value = it
             onValueChange(it)
         },
-        modifier = modifier,
+        modifier = modifier.focusRequester(focusRequester),
         enabled = isEnabled,
         textStyle = MaterialTheme.typography.headlineMedium,
         prefix = {
@@ -69,8 +76,10 @@ fun SearchField(
         },
         trailingIcon = {
             TrailingIcon(isEnabled = isEnabled) {
-                value = EMPTY_STRING
                 isEnabled = !isEnabled
+                if (!isEnabled) {
+                    onValueChange(EMPTY_STRING)
+                }
             }
         },
         keyboardActions = KeyboardActions(
