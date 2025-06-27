@@ -10,6 +10,7 @@ interface SearchApi {
     @GET(BuildConfig.PATH_SEARCH_PHOTOS)
     suspend fun searchPhotos(
         @Query("query") query: String,
+        @Query("page") page: Int,
         @Query("per_page") perPage: Int
     ) : SearchResultNetwork
 
