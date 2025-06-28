@@ -6,7 +6,7 @@ import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.network.photos.models.list.PhotoFeedNetwork
 
 private const val FIRST_PAGE = 1
-private const val PER_PAGE = 20
+private const val PER_PAGE = 10
 
 class SearchPagingSource(
     private val searchApi: SearchApi,
