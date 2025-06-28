@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import coil.size.Size
+import coil.size.Precision
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.padding_4
@@ -67,7 +67,8 @@ fun PhotoItem(
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(photoItemModel.imageUrl)
-                .size(Size.ORIGINAL)
+                .crossfade(true)
+                .precision(Precision.INEXACT)
                 .build(),
             contentDescription = stringResource(id = R.string.photo_item),
             contentScale = contentScale,
