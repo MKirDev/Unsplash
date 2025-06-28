@@ -15,7 +15,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
-private const val ITEMS_PER_PAGE = 20
+private const val ITEMS_PER_PAGE = 10
 @OptIn(ExperimentalPagingApi::class)
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
