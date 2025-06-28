@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -73,7 +74,8 @@ private fun BottomMenuScreen(
                         destinations = uiState.topLevelDestination,
                         onNavigateToTopLevel = { route ->
                             navController.navigateSingleDestinationTo(route = route)
-                        }
+                        },
+                        modifier = Modifier.zIndex(0f)
                     )
                 }
             ) { innerPadding ->

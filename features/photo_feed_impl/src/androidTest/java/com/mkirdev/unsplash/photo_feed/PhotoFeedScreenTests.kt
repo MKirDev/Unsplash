@@ -14,13 +14,13 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedContract
-import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedScreen
+import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedScreenWrapper
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedTags
 import com.mkirdev.unsplash.photo_feed.utils.stubs.PhotoFeedErrorStub
 import com.mkirdev.unsplash.photo_feed.utils.stubs.PhotoFeedSearchStub
 import com.mkirdev.unsplash.photo_feed.utils.stubs.PhotoFeedStub
-import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.photo_feed.utils.stubs.UpdatedCountStub
 import org.junit.Rule
 import org.junit.Test
@@ -37,17 +37,20 @@ class PhotoFeedScreenTests {
         val searchStub = PhotoFeedSearchStub.create()
         val modelsStub = PhotoFeedStub.create()
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Success(
                     search = searchStub,
-                    models = modelsStub
+                    models = modelsStub,
+                    isPagingLoadingError = false
                 ),
                 onSearch = {},
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
 
@@ -65,10 +68,11 @@ class PhotoFeedScreenTests {
         val errorStub = PhotoFeedErrorStub.create()
         val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
+                    isPagingLoadingError = false,
                     error = errorStub,
                     updatedCount = updatedCountStub
                 ),
@@ -76,40 +80,28 @@ class PhotoFeedScreenTests {
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.ERROR_FIELD).assertIsDisplayed()
     }
 
     @Test
-    fun photoFeed_whenUiStateIsLoading_showsLoadingIndicator() {
-        composeTestRule.setContent {
-            PhotoFeedScreen(
-                uiState = PhotoFeedContract.State.Loading,
-                onSearch = {},
-                onPhotoClick = {},
-                onLikeClick = {},
-                onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
-            )
-        }
-        composeTestRule.onNodeWithTag(PhotoFeedTags.LOADING_INDICATOR).assertIsDisplayed()
-    }
-
-    @Test
     fun photoFeed_whenUiStateIsIdle_showsNothing() {
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Idle,
                 onSearch = {},
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
         composeTestRule.onAllNodesWithTag(PhotoFeedTags.ITEM).apply {
@@ -118,7 +110,6 @@ class PhotoFeedScreenTests {
             }
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.ERROR_FIELD).assertIsNotDisplayed()
-        composeTestRule.onNodeWithTag(PhotoFeedTags.LOADING_INDICATOR).assertIsNotDisplayed()
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD).assertIsNotDisplayed()
     }
 
@@ -129,10 +120,11 @@ class PhotoFeedScreenTests {
         val errorStub = PhotoFeedErrorStub.create()
         val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
+                    isPagingLoadingError = false,
                     error = errorStub,
                     updatedCount = updatedCountStub
                 ),
@@ -140,8 +132,10 @@ class PhotoFeedScreenTests {
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
@@ -159,10 +153,11 @@ class PhotoFeedScreenTests {
         val errorStub = PhotoFeedErrorStub.create()
         val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Failure(
                     search = searchStub,
                     models = modelsStub,
+                    isPagingLoadingError = false,
                     error = errorStub,
                     updatedCount = updatedCountStub
                 ),
@@ -170,8 +165,10 @@ class PhotoFeedScreenTests {
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
@@ -192,17 +189,20 @@ class PhotoFeedScreenTests {
         val searchStub = PhotoFeedSearchStub.create()
         val modelsStub = PhotoFeedStub.create()
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Success(
                     search = searchStub,
-                    models = modelsStub
+                    models = modelsStub,
+                    isPagingLoadingError = false
                 ),
                 onSearch = {},
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)
@@ -218,17 +218,20 @@ class PhotoFeedScreenTests {
         val searchStub = PhotoFeedSearchStub.create()
         val modelsStub = PhotoFeedStub.create()
         composeTestRule.setContent {
-            PhotoFeedScreen(
+            PhotoFeedScreenWrapper(
                 uiState = PhotoFeedContract.State.Success(
                     search = searchStub,
-                    models = modelsStub
+                    models = modelsStub,
+                    isPagingLoadingError = false
                 ),
                 onSearch = {},
                 onPhotoClick = {},
                 onLikeClick = {},
                 onRemoveLikeClick = {},
-                onLoadPhotosClick = {},
-                onCloseFieldClick = {}
+                onLoadError = {},
+                onCloseFieldClick = {},
+                onPagingCloseField = {},
+                onPagingRetry = {}
             )
         }
         composeTestRule.onNodeWithTag(PhotoFeedTags.SEARCH_FIELD)

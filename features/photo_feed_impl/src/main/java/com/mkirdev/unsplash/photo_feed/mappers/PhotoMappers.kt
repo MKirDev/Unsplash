@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.photo_feed.mappers
 
+import androidx.compose.ui.unit.dp
 import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 
@@ -9,8 +10,8 @@ internal fun Photo.toPresentation(): PhotoItemModel {
     return PhotoItemModel(
         id = id,
         imageUrl = imageUrl,
-        width = width,
-        height = height,
+        width = width.dp,
+        height = height.dp,
         aspectRatioImage = (width.toFloat() / height.toFloat()),
         user = user.toPresentation(),
         downloadLink = downloadLink,

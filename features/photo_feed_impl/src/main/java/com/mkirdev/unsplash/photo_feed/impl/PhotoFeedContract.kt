@@ -1,9 +1,11 @@
 package com.mkirdev.unsplash.photo_feed.impl
 
 import androidx.compose.runtime.Immutable
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
-import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.flow.Flow
 
 internal interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event, PhotoFeedContract.State, PhotoFeedContract.Effect?>{
 
@@ -11,13 +13,15 @@ internal interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event,
         @Immutable
         data class Success(
             val search: String,
-            val models: ImmutableList<PhotoItemModel>
+            val models: Flow<PagingData<PhotoItemModel>>,
+            val isPagingLoadingError: Boolean,
         ) : State
 
         @Immutable
         data class Failure(
             val search: String,
-            val models: ImmutableList<PhotoItemModel>,
+            val models: Flow<PagingData<PhotoItemModel>>?,
+            val isPagingLoadingError: Boolean,
             val error: String,
             val updatedCount: Int
         ) : State
@@ -35,8 +39,10 @@ internal interface PhotoFeedContract : UniFlowViewModel<PhotoFeedContract.Event,
         data class PhotoLikedEvent(val photoId: String) : Event
 
         data class PhotoUnlikedEvent(val photoId: String) : Event
+        data class PagingRetryEvent(val pagedItems: LazyPagingItems<PhotoItemModel>) : Event
+        data object LoadingErrorEvent : Event
 
-        data object PhotosLoadingRequestedEvent : Event
+        data object PagingFieldClosedEvent : Event
 
         data object FieldClosedEvent : Event
     }

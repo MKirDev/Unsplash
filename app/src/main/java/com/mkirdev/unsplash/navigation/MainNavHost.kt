@@ -37,6 +37,8 @@ fun MainNavHost(
             val intent = startedFromDeepLink.intent
             intent.data = intent.data.toString().replace(externalScheme, internalScheme).toUri()
             navController.handleDeepLink(intent)
+
+            (context as Activity).intent.data = null
         }
     }
 
