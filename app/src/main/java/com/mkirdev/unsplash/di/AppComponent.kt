@@ -8,6 +8,8 @@ import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
+import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
+import com.mkirdev.unsplash.data.storages.datastore.photos.PhotosStorage
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
@@ -53,6 +55,10 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     override val topLevelDestination: TopDestinations
 
     override val photosRepository: PhotosRepository
+
+    val photosStorage: PhotosStorage
+
+    val photosApi: PhotosApi
 
     @Component.Builder
     interface Builder {

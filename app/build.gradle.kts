@@ -109,6 +109,7 @@ dependencies {
 
     // core
     implementation(libs.core.ktx)
+    implementation(libs.androidx.work.runtime.ktx)
 
     // data
     implementation(libs.datastore)
