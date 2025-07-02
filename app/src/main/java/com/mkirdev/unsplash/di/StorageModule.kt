@@ -58,10 +58,8 @@ class StorageModule {
 
     @Singleton
     @Provides
-    fun providePhotosStorage(
-        @Named(PHOTOS_DATA_STORE) dataStore: DataStore<Preferences>
-    ): PhotosStorage {
-        return PhotosStorage(dataStore = dataStore)
+    fun providePhotosStorage(): PhotosStorage {
+        return PhotosStorage()
     }
 
     @Singleton

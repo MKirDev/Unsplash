@@ -46,7 +46,7 @@ class PhotoFeedFeatureApiImpl @Inject constructor(): PhotoFeedFeatureApi {
                 onSearch = { viewModel.handleEvent(PhotoFeedContract.Event.SearchEvent(it)) },
                 onPhotoClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoDetailsOpenedEvent(it)) },
                 onLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikedEvent(it)) },
-                onRemoveLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoLikedEvent(it)) },
+                onRemoveLikeClick = { viewModel.handleEvent(PhotoFeedContract.Event.PhotoUnlikedEvent(it)) },
                 onLoadError = { viewModel.handleEvent(PhotoFeedContract.Event.LoadingErrorEvent) },
                 onCloseFieldClick = { viewModel.handleEvent(PhotoFeedContract.Event.FieldClosedEvent) },
                 onPagingCloseField = { viewModel.handleEvent(PhotoFeedContract.Event.PagingFieldClosedEvent) },

@@ -12,9 +12,9 @@ import androidx.paging.map
 import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.domain.models.PhotoSearch
 import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.photo_feed.mappers.toPresentation
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.coroutines.FlowPreview
@@ -38,8 +38,8 @@ private const val DEBOUNCE_SEARCH = 700L
 @Stable
 internal class PhotoFeedViewModel(
     private val getPhotosUseCase: GetPhotosUseCase,
-    private val likePhotoUseCase: LikePhotoUseCase,
-    private val unlikePhotoUseCase: UnlikePhotoUseCase,
+    private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
+    private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
     private val searchPhotosUseCase: SearchPhotosUseCase
 ) : ViewModel(), PhotoFeedContract {
 
@@ -175,16 +175,17 @@ internal class PhotoFeedViewModel(
     }
 
     private fun onPhotoSend(photoId: String, isLiked: Boolean) {
-        try {
-            if (isLiked) {
-                // send liked photo
-            } else {
-                // send unliked photo
+        viewModelScope.launch {
+            try {
+                if (isLiked) {
+                    likePhotoLocalUseCase.execute(photoId)
+                } else {
+                    unlikePhotoLocalUseCase.execute(photoId)
+                }
+                successLoadedPhotos()
+            } catch (e: Throwable) {
+                failureLoadedPhotos(e.message.toString())
             }
-            // get new list of photos
-            successLoadedPhotos()
-        } catch (e: Throwable) {
-            failureLoadedPhotos(e.message.toString())
         }
     }
 
@@ -286,16 +287,16 @@ internal class PhotoFeedViewModel(
 
 internal class PhotoFeedViewModelFactory(
     private val getPhotosUseCase: GetPhotosUseCase,
-    private val likePhotoUseCase: LikePhotoUseCase,
-    private val unlikePhotoUseCase: UnlikePhotoUseCase,
+    private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
+    private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
     private val searchPhotosUseCase: SearchPhotosUseCase
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return PhotoFeedViewModel(
             getPhotosUseCase = getPhotosUseCase,
-            likePhotoUseCase = likePhotoUseCase,
-            unlikePhotoUseCase = unlikePhotoUseCase,
+            likePhotoLocalUseCase = likePhotoLocalUseCase,
+            unlikePhotoLocalUseCase = unlikePhotoLocalUseCase,
             searchPhotosUseCase = searchPhotosUseCase
         ) as T
     }

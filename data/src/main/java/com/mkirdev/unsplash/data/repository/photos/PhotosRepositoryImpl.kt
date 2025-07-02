@@ -75,7 +75,7 @@ class PhotosRepositoryImpl @Inject constructor(
        }
     }
 
-    override suspend fun likePhoto(photoId: String) = withContext(dispatcher) {
+    override suspend fun likePhotoLocal(photoId: String) = withContext(dispatcher) {
         try {
             val photo = appDatabase.photoDao().getPhoto(photoId)
             if (photo != null) {
@@ -85,11 +85,11 @@ class PhotosRepositoryImpl @Inject constructor(
                 photosStorage.addLikedPhoto(photoId)
             }
         } catch (t: Throwable) {
-            throw PhotosException.LikePhotoException(t)
+            throw PhotosException.LikePhotoLocalException(t)
         }
     }
 
-    override suspend fun unlikePhoto(photoId: String) = withContext(dispatcher) {
+    override suspend fun unlikePhotoLocal(photoId: String) = withContext(dispatcher) {
         try {
             val photo = appDatabase.photoDao().getPhoto(photoId)
             if (photo != null) {
@@ -99,7 +99,35 @@ class PhotosRepositoryImpl @Inject constructor(
                 photosStorage.addUnlikedPhoto(photoId)
             }
         } catch (t: Throwable) {
-            throw PhotosException.UnlikePhotoException(t)
+            throw PhotosException.UnlikePhotoLocalException(t)
+        }
+    }
+
+    override suspend fun likePhotoRemote(photoId: String): Unit = withContext(dispatcher) {
+        try {
+            photosApi.likePhoto(photoId)
+        } catch (t: Throwable) {
+            throw PhotosException.LikePhotoRemoteException(t)
+        }
+    }
+
+    override suspend fun unlikePhotoRemote(photoId: String): Unit = withContext(dispatcher) {
+        try {
+            photosApi.unLikePhoto(photoId)
+        } catch (t: Throwable) {
+            throw PhotosException.UnlikePhotoRemoteException(t)
+        }
+    }
+
+    override fun getLikedPhoto(): Flow<String> {
+        return photosStorage.getLikedPhoto().flowOn(dispatcher).catch {
+            throw PhotosException.GetLikedPhotoException(it)
+        }
+    }
+
+    override fun getUnlikedPhoto(): Flow<String> {
+        return photosStorage.getUnlikedPhoto().flowOn(dispatcher).catch {
+            throw PhotosException.GetUnlikedPhotoException(it)
         }
     }
 

@@ -22,11 +22,11 @@ class PhotoUnlikeWorker(
     workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    private val photosApi = DaggerProvider.appComponent.photosApi
+    private val unlikePhotoRemoteUseCase = DaggerProvider.appComponent.unlikePhotoRemoteUseCase
     override suspend fun doWork(): Result {
         return try {
             val photoId = inputData.getString(DATA) ?: EMPTY_ID
-            photosApi.unLikePhoto(photoId)
+            unlikePhotoRemoteUseCase.execute(photoId)
             Result.success()
         } catch (e: Exception) {
             Result.retry()
@@ -39,7 +39,7 @@ class PhotoUnlikeWorker(
             .build()
 
         private fun createWorkRequest(photoId: String): OneTimeWorkRequest {
-            return OneTimeWorkRequestBuilder<PhotoLikeWorker>()
+            return OneTimeWorkRequestBuilder<PhotoUnlikeWorker>()
                 .setInputData(workDataOf(DATA to photoId))
                 .addTag(WORKER_TAG)
                 .setConstraints(constraints)
