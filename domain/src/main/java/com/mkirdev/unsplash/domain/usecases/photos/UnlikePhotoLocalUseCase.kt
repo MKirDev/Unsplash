@@ -4,10 +4,10 @@ import com.mkirdev.unsplash.core.contract.usecase.UseCaseWithParam
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import javax.inject.Inject
 
-class UnlikePhotoUseCase @Inject constructor(
+class UnlikePhotoLocalUseCase @Inject constructor(
     private val photosRepository: PhotosRepository
 ) : UseCaseWithParam<String> {
     override suspend fun execute(id: String) {
-        return photosRepository.unlikePhoto(photoId = id)
+        return photosRepository.unlikePhotoLocal(photoId = id)
     }
 }
