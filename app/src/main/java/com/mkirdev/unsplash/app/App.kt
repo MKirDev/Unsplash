@@ -5,12 +5,18 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.work.WorkManager
 import com.mkirdev.unsplash.auth.di.AuthDependenciesProvider
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependenciesProvider
 import com.mkirdev.unsplash.di.DaggerAppComponent
 import com.mkirdev.unsplash.di.DaggerProvider
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
 import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependenciesProvider
+import com.mkirdev.unsplash.workers.PhotoLikeWorker
+import com.mkirdev.unsplash.workers.PhotoUnlikeWorker
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val ONBOARDING_DATA_STORE = "onboarding_data_store"
 private const val AUTH_DATA_STORE = "auth_data_store"
@@ -24,6 +30,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initDagger()
+        launchLikedPhotoCollector()
+        launchUnlikedPhotoCollector()
     }
 
     private fun initDagger() {
@@ -42,6 +50,44 @@ class App : Application() {
         AuthDependenciesProvider.dependencies = appComponent
         BottomMenuDependenciesProvider.dependencies = appComponent
         PhotoFeedDependenciesProvider.dependencies = appComponent
+    }
+
+    private fun launchLikedPhotoCollector() {
+
+        val context = applicationContext
+
+        val getLikedPhotoUseCase = DaggerProvider.appComponent.getLikedPhotoUseCase
+
+        val dispatcher = Dispatchers.IO
+        val coroutineScope = CoroutineScope(dispatcher)
+
+        coroutineScope.launch {
+            getLikedPhotoUseCase.execute().collect {
+                if (it.isNotEmpty()) {
+                    val workManager = WorkManager.getInstance(context)
+                    PhotoLikeWorker.enqueueUniqueWork(workManager, it)
+                }
+            }
+        }
+    }
+
+    private fun launchUnlikedPhotoCollector() {
+
+        val context = applicationContext
+
+        val getUnlikedPhotoUseCase = DaggerProvider.appComponent.getUnlikedPhotoUseCase
+
+        val dispatcher = Dispatchers.IO
+        val coroutineScope = CoroutineScope(dispatcher)
+
+        coroutineScope.launch {
+            getUnlikedPhotoUseCase.execute().collect {
+                if (it.isNotEmpty()) {
+                    val workManager = WorkManager.getInstance(context)
+                    PhotoUnlikeWorker.enqueueUniqueWork(workManager, it)
+                }
+            }
+        }
     }
 
 }
