@@ -20,11 +20,11 @@ class PhotoLikeWorker(
     private val context: Context,
     workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
 
-    private val photosApi = DaggerProvider.appComponent.photosApi
+    private val likePhotoRemoteUseCase = DaggerProvider.appComponent.likePhotoRemoteUseCase
     override suspend fun doWork(): Result {
         return try {
             val photoId = inputData.getString(DATA) ?: EMPTY_ID
-            photosApi.likePhoto(photoId)
+            likePhotoRemoteUseCase.execute(photoId)
             Result.success()
         } catch (e: Exception) {
             Result.retry()
