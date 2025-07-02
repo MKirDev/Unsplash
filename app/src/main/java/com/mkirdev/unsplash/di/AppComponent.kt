@@ -8,11 +8,13 @@ import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
-import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
-import com.mkirdev.unsplash.data.storages.datastore.photos.PhotosStorage
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
+import com.mkirdev.unsplash.domain.usecases.photos.GetLikedPhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.GetUnlikedPhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
@@ -56,9 +58,13 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
 
     override val photosRepository: PhotosRepository
 
-    val photosStorage: PhotosStorage
+    val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
 
-    val photosApi: PhotosApi
+    val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase
+
+    val getLikedPhotoUseCase: GetLikedPhotoUseCase
+
+    val getUnlikedPhotoUseCase: GetUnlikedPhotoUseCase
 
     @Component.Builder
     interface Builder {
