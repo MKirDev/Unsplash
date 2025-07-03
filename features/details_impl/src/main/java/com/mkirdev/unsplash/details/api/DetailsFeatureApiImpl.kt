@@ -11,8 +11,8 @@ import androidx.navigation.navArgument
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
 import com.mkirdev.unsplash.details.impl.DetailsContract
-import com.mkirdev.unsplash.details.impl.PhotoDetailsScreen
 import com.mkirdev.unsplash.details.impl.DetailsViewModel
+import com.mkirdev.unsplash.details.impl.PhotoDetailsScreenWrapper
 
 class DetailsFeatureApiImpl : DetailsFeatureApi {
     override fun NavHostController.navigateToDetails(photoId: String) {
@@ -41,7 +41,7 @@ class DetailsFeatureApiImpl : DetailsFeatureApi {
                 }
             })
 
-            PhotoDetailsScreen(
+            PhotoDetailsScreenWrapper(
                 uiState = uiState,
                 onShareClick = { viewModel.handleEvent(DetailsContract.Event.ShareRequestedEvent(it)) },
                 onLikeClick = { viewModel.handleEvent(DetailsContract.Event.PhotoLikedEvent(it)) },
