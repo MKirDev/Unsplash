@@ -21,12 +21,63 @@ import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.ClosableInfoField
 import com.mkirdev.unsplash.details.models.CoordinatesModel
+import com.mkirdev.unsplash.details.models.DetailsModel
 import com.mkirdev.unsplash.details.preview.createPhotoDetailsPreview
 import com.mkirdev.unsplash.details.widgets.MainContent
 
 @Composable
-fun PhotoDetailsScreen(
+internal fun PhotoDetailsScreenWrapper(
     uiState: DetailsContract.State,
+    onShareClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit,
+    onLocationClick: (CoordinatesModel) -> Unit,
+    onDownloadClick: (String) -> Unit,
+    onCloseFieldClick: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onNavigateBack: () -> Unit,
+) {
+    val model = when (uiState) {
+        is DetailsContract.State.DownloadFailure -> uiState.detailsModel
+        is DetailsContract.State.DownloadSuccess -> uiState.detailsModel
+        is DetailsContract.State.Failure -> uiState.detailsModel
+        is DetailsContract.State.Success -> uiState.detailsModel
+        DetailsContract.State.Idle -> null
+    }
+
+    val errorText = when (uiState) {
+        is DetailsContract.State.Failure -> uiState.error
+        else -> null
+    }
+
+    val downloadSuccess = when (uiState) {
+        is DetailsContract.State.DownloadFailure -> false
+        is DetailsContract.State.DownloadSuccess -> true
+        else -> null
+    }
+
+    model?.let {
+        PhotoDetailsScreen(
+            model = it,
+            errorText = errorText,
+            downloadSuccess = downloadSuccess,
+            onShareClick = onShareClick,
+            onLikeClick = onLikeClick,
+            onRemoveLikeClick = onRemoveLikeClick,
+            onLocationClick = onLocationClick,
+            onDownloadClick = onDownloadClick,
+            onCloseFieldClick = onCloseFieldClick,
+            onNavigateUp = onNavigateUp,
+            onNavigateBack = onNavigateBack
+        )
+    }
+}
+
+@Composable
+private fun PhotoDetailsScreen(
+    model: DetailsModel,
+    errorText: String?,
+    downloadSuccess: Boolean?,
     onShareClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
@@ -45,41 +96,18 @@ fun PhotoDetailsScreen(
         BackHandler(enabled = true) {
             onNavigateBack()
         }
-        when (uiState) {
-            is DetailsContract.State.DownloadFailure -> {
-                MainContent(
-                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    detailsModel = uiState.detailsModel,
-                    onShareClick = onShareClick,
-                    onLikeClick = onLikeClick,
-                    onRemoveLikeClick = onRemoveLikeClick,
-                    onLocationClick = onLocationClick,
-                    onDownloadClick = onDownloadClick,
-                    onNavigateUp = onNavigateUp
-                )
-                ClosableErrorField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                        .alpha(0.9f)
-                        .testTag(PhotoDetailsTags.DOWNLOAD_ERROR_FIELD),
-                    text = stringResource(id = R.string.download_photo_network_error),
-                    textStyle = MaterialTheme.typography.bodyLargeMedium,
-                    onClick = onCloseFieldClick
-                )
-            }
-
-            is DetailsContract.State.DownloadSuccess -> {
-                MainContent(
-                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    detailsModel = uiState.detailsModel,
-                    onShareClick = onShareClick,
-                    onLikeClick = onLikeClick,
-                    onRemoveLikeClick = onRemoveLikeClick,
-                    onLocationClick = onLocationClick,
-                    onDownloadClick = onDownloadClick,
-                    onNavigateUp = onNavigateUp
-                )
+        MainContent(
+            modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
+            detailsModel = model,
+            onShareClick = onShareClick,
+            onLikeClick = onLikeClick,
+            onRemoveLikeClick = onRemoveLikeClick,
+            onLocationClick = onLocationClick,
+            onDownloadClick = onDownloadClick,
+            onNavigateUp = onNavigateUp
+        )
+        when (downloadSuccess) {
+            true -> {
                 ClosableInfoField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -91,44 +119,31 @@ fun PhotoDetailsScreen(
                     onClick = onCloseFieldClick
                 )
             }
-
-            is DetailsContract.State.Failure -> {
-                MainContent(
-                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    detailsModel = uiState.detailsModel,
-                    onShareClick = onShareClick,
-                    onLikeClick = onLikeClick,
-                    onRemoveLikeClick = onRemoveLikeClick,
-                    onLocationClick = onLocationClick,
-                    onDownloadClick = onDownloadClick,
-                    onNavigateUp = onNavigateUp
-                )
+            false -> {
                 ClosableErrorField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
                         .alpha(0.9f)
-                        .testTag(PhotoDetailsTags.ERROR_FIELD),
-                    text = uiState.error,
+                        .testTag(PhotoDetailsTags.DOWNLOAD_ERROR_FIELD),
+                    text = stringResource(id = R.string.download_photo_network_error),
                     textStyle = MaterialTheme.typography.bodyLargeMedium,
                     onClick = onCloseFieldClick
                 )
             }
-
-            is DetailsContract.State.Success -> {
-                MainContent(
-                    modifier = Modifier.testTag(PhotoDetailsTags.MAIN_CONTENT),
-                    detailsModel = uiState.detailsModel,
-                    onShareClick = onShareClick,
-                    onLikeClick = onLikeClick,
-                    onRemoveLikeClick = onRemoveLikeClick,
-                    onLocationClick = onLocationClick,
-                    onDownloadClick = onDownloadClick,
-                    onNavigateUp = onNavigateUp
-                )
-            }
-
-            DetailsContract.State.Idle -> {}
+            null -> Unit
+        }
+        errorText?.let {
+            ClosableErrorField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .alpha(0.9f)
+                    .testTag(PhotoDetailsTags.ERROR_FIELD),
+                text = it,
+                textStyle = MaterialTheme.typography.bodyLargeMedium,
+                onClick = onCloseFieldClick
+            )
         }
     }
 }
@@ -144,7 +159,7 @@ object PhotoDetailsTags {
 @Composable
 private fun PhotoDetailsScreenPreview() {
     UnsplashTheme(dynamicColor = false) {
-        PhotoDetailsScreen(
+        PhotoDetailsScreenWrapper(
             uiState = DetailsContract.State.DownloadSuccess(
                 detailsModel = createPhotoDetailsPreview()
             ),

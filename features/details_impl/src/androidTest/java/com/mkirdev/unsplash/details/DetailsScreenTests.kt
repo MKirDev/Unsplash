@@ -7,7 +7,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkirdev.unsplash.details.impl.DetailsContract
-import com.mkirdev.unsplash.details.impl.PhotoDetailsScreen
+import com.mkirdev.unsplash.details.impl.PhotoDetailsScreenWrapper
 import com.mkirdev.unsplash.details.impl.PhotoDetailsTags
 import com.mkirdev.unsplash.details.utils.stubs.ErrorStub
 import com.mkirdev.unsplash.details.utils.stubs.PhotoDetailsStub
@@ -25,7 +25,7 @@ class DetailsScreenTests {
     fun field_whenUiStateDownloadSuccess_showsInfo() {
         val photoDetailsStub = PhotoDetailsStub.create()
         composeTestRule.setContent {
-            PhotoDetailsScreen(
+            PhotoDetailsScreenWrapper(
                 uiState = DetailsContract.State.DownloadSuccess(
                     detailsModel = photoDetailsStub
                 ),
@@ -47,7 +47,7 @@ class DetailsScreenTests {
     fun field_whenUiStateDownloadFailure_showsError() {
         val photoDetailsStub = PhotoDetailsStub.create()
         composeTestRule.setContent {
-            PhotoDetailsScreen(
+            PhotoDetailsScreenWrapper(
                 uiState = DetailsContract.State.DownloadFailure(
                     detailsModel = photoDetailsStub
                 ),
@@ -71,7 +71,7 @@ class DetailsScreenTests {
         val photoDetailsStub = PhotoDetailsStub.create()
         val updatedCountStub = UpdatedCountStub.create()
         composeTestRule.setContent {
-            PhotoDetailsScreen(
+            PhotoDetailsScreenWrapper(
                 uiState = DetailsContract.State.Failure(
                     error = errorStub,
                     detailsModel = photoDetailsStub,
@@ -95,7 +95,7 @@ class DetailsScreenTests {
     fun detailsScreen_whenUiStateSuccess_showsMainContent() {
         val photoDetailsStub = PhotoDetailsStub.create()
         composeTestRule.setContent {
-            PhotoDetailsScreen(
+            PhotoDetailsScreenWrapper(
                 uiState = DetailsContract.State.Success(
                     detailsModel = photoDetailsStub,
                 ),
@@ -116,7 +116,7 @@ class DetailsScreenTests {
     @Test
     fun detailsScreen_whenUiStateIdle_showsNothing() {
         composeTestRule.setContent {
-            PhotoDetailsScreen(
+            PhotoDetailsScreenWrapper(
                 uiState = DetailsContract.State.Idle,
                 onShareClick = {},
                 onLikeClick = {},
