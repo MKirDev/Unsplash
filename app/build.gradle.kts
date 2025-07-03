@@ -7,8 +7,8 @@ plugins {
     alias(libs.plugins.devtools.ksp)
 }
 
-val REDIRECT_SCHEME: String = gradleLocalProperties(rootDir).getProperty("REDIRECT_SCHEME")
-val UNSPLASH_BASE_URL: String = gradleLocalProperties(rootDir).getProperty("UNSPLASH_BASE_URL")
+val REDIRECT_SCHEME: String = gradleLocalProperties(rootDir, providers).getProperty("REDIRECT_SCHEME")
+val UNSPLASH_BASE_URL: String = gradleLocalProperties(rootDir, providers).getProperty("UNSPLASH_BASE_URL")
 
 android {
     namespace = "com.mkirdev.unsplash"
