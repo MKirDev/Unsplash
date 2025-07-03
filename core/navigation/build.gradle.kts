@@ -6,10 +6,10 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
-val APP_EXTERNAL_SCHEME: String = gradleLocalProperties(rootDir).getProperty("APP_EXTERNAL_SCHEME")
-val APP_INTERNAL_SCHEME: String = gradleLocalProperties(rootDir).getProperty("APP_INTERNAL_SCHEME")
-val HOST: String = gradleLocalProperties(rootDir).getProperty("HOST")
-val PATH: String = gradleLocalProperties(rootDir).getProperty("PATH")
+val APP_EXTERNAL_SCHEME: String = gradleLocalProperties(rootDir, providers).getProperty("APP_EXTERNAL_SCHEME")
+val APP_INTERNAL_SCHEME: String = gradleLocalProperties(rootDir, providers).getProperty("APP_INTERNAL_SCHEME")
+val HOST: String = gradleLocalProperties(rootDir, providers).getProperty("HOST")
+val PATH: String = gradleLocalProperties(rootDir, providers).getProperty("PATH")
 
 android {
     namespace = "com.mkirdev.unsplash.core.navigation"
