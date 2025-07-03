@@ -7,22 +7,22 @@ plugins {
     alias(libs.plugins.devtools.ksp)
 }
 
-val UNSPLASH_AUTH_BASE_URI: String = gradleLocalProperties(rootDir).getProperty("UNSPLASH_AUTH_BASE_URI")
-val TOKEN_URI: String = gradleLocalProperties(rootDir).getProperty("TOKEN_URI")
-val CLIENT_ID: String = gradleLocalProperties(rootDir).getProperty("CLIENT_ID")
-val CLIENT_SECRET: String = gradleLocalProperties(rootDir).getProperty("CLIENT_SECRET")
-val REDIRECT_URI: String = gradleLocalProperties(rootDir).getProperty("REDIRECT_URI")
-val GRANT_TYPE: String = gradleLocalProperties(rootDir).getProperty("GRANT_TYPE")
-val SCOPE: String = gradleLocalProperties(rootDir).getProperty("SCOPE")
+val UNSPLASH_AUTH_BASE_URI: String = gradleLocalProperties(rootDir, providers).getProperty("UNSPLASH_AUTH_BASE_URI")
+val TOKEN_URI: String = gradleLocalProperties(rootDir, providers).getProperty("TOKEN_URI")
+val CLIENT_ID: String = gradleLocalProperties(rootDir, providers).getProperty("CLIENT_ID")
+val CLIENT_SECRET: String = gradleLocalProperties(rootDir, providers).getProperty("CLIENT_SECRET")
+val REDIRECT_URI: String = gradleLocalProperties(rootDir, providers).getProperty("REDIRECT_URI")
+val GRANT_TYPE: String = gradleLocalProperties(rootDir, providers).getProperty("GRANT_TYPE")
+val SCOPE: String = gradleLocalProperties(rootDir, providers).getProperty("SCOPE")
 
-val PATH_LIST_PHOTOS: String = gradleLocalProperties(rootDir).getProperty("PATH_LIST_PHOTOS")
-val FIRST_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("FIRST_PATH_LIKE_PHOTO")
-val SECOND_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("SECOND_PATH_LIKE_PHOTO")
-val FIRST_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("FIRST_PATH_UNLIKE_PHOTO")
-val SECOND_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir).getProperty("SECOND_PATH_UNLIKE_PHOTO")
-val PATH_PHOTO: String = gradleLocalProperties(rootDir).getProperty("PATH_PHOTO")
+val PATH_LIST_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_LIST_PHOTOS")
+val FIRST_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir, providers).getProperty("FIRST_PATH_LIKE_PHOTO")
+val SECOND_PATH_LIKE_PHOTO: String = gradleLocalProperties(rootDir, providers).getProperty("SECOND_PATH_LIKE_PHOTO")
+val FIRST_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir, providers).getProperty("FIRST_PATH_UNLIKE_PHOTO")
+val SECOND_PATH_UNLIKE_PHOTO: String = gradleLocalProperties(rootDir, providers).getProperty("SECOND_PATH_UNLIKE_PHOTO")
+val PATH_PHOTO: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_PHOTO")
 
-val PATH_SEARCH_PHOTOS: String = gradleLocalProperties(rootDir).getProperty("PATH_SEARCH_PHOTOS")
+val PATH_SEARCH_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_SEARCH_PHOTOS")
 
 android {
     namespace = "com.mkirdev.unsplash.data"
