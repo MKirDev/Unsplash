@@ -24,8 +24,6 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
     override fun NavGraphBuilder.bottomMenu(
         onNavigateToPhotoDetails: (String) -> Unit,
         onNavigateToCollectionDetails: (String) -> Unit,
-        onNavigateUp: () -> Unit,
-        onNavigateBack: () -> Unit,
         onLogout: () -> Unit
     ) {
         navigation(
