@@ -5,16 +5,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
-import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
 import com.mkirdev.unsplash.details.impl.DetailsContract
 import com.mkirdev.unsplash.details.impl.DetailsViewModel
 import com.mkirdev.unsplash.details.impl.PhotoDetailsScreenWrapper
+import com.mkirdev.unsplash.details.navigation.DetailsDestination
+import javax.inject.Inject
 
-class DetailsFeatureApiImpl : DetailsFeatureApi {
+class DetailsFeatureApiImpl @Inject constructor(): DetailsFeatureApi {
     override fun NavHostController.navigateToDetails(photoId: String) {
         navigate("${DetailsDestination.route}/${photoId}")
     }
@@ -54,11 +53,4 @@ class DetailsFeatureApiImpl : DetailsFeatureApi {
                 )
         }
     }
-}
-
-object DetailsDestination : ProjectNavDestination {
-    private const val argumentName = "photoId"
-    override val route: String = "details"
-    val routeWithArgument = "${route}/{${argumentName}}"
-    val arguments = listOf(navArgument(argumentName) { type = NavType.StringType })
 }
