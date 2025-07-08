@@ -5,7 +5,7 @@ import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import javax.inject.Inject
 
-class GetPhotoUseCase @Inject constructor(
+class GetPhotoUseCase(
     private val photosRepository: PhotosRepository
 ) : UseCaseWithParamAndResult<String, Photo> {
     override suspend fun execute(id: String): Photo {
