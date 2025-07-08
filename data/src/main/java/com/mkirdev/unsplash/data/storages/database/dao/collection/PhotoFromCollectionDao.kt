@@ -15,7 +15,7 @@ interface PhotoFromCollectionDao {
     @Query(
         "SELECT p.${PhotoEntity.ID}, p.${PhotoEntity.WIDTH}, "
                 + "p.${PhotoEntity.HEIGHT}, p.${PhotoEntity.IMAGE_URL}, "
-                + "p.${PhotoEntity.DOWNLOAD_LINK}, p.${PhotoEntity.LIKES}, "
+                + "p.${PhotoEntity.DOWNLOAD_LINK}, p.${PhotoEntity.HTML_LINK}, p.${PhotoEntity.LIKES}, "
                 + "u.${UserEntity.ID}, u.${UserEntity.FULL_NAME}, u.${UserEntity.USERNAME},"
                 + "u.${UserEntity.IMAGE_URL}, u.${UserEntity.BIO}, u.${UserEntity.LOCATION}, "
                 + "c.${CollectionEntity.NAME}, rt.${ReactionsTypeEntity.LIKED} "

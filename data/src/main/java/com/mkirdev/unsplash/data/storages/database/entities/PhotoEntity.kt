@@ -30,6 +30,8 @@ data class PhotoEntity(
     val imageUrl: String,
     @ColumnInfo(name = DOWNLOAD_LINK)
     val downloadLink: String,
+    @ColumnInfo(name = HTML_LINK)
+    val htmlLink: String,
     @ColumnInfo(name = LIKES)
     val likes: Int,
     @ColumnInfo(name = USER_ID)
@@ -42,6 +44,7 @@ data class PhotoEntity(
         const val HEIGHT = "height"
         const val IMAGE_URL = "image_url"
         const val DOWNLOAD_LINK = "download_link"
+        const val HTML_LINK = "html_link"
         const val LIKES = "likes"
         const val USER_ID = "user_id"
     }

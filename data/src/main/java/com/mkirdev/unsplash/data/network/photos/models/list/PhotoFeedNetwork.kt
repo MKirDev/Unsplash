@@ -15,7 +15,7 @@ data class PhotoFeedNetwork(
     @SerializedName("urls")
     val imageUrl: UrlNetwork,
     @SerializedName("links")
-    val downloadLink: LinksNetwork,
+    val links: LinksNetwork,
     @SerializedName("likes")
     val likes: Int,
     @SerializedName("liked_by_user")
