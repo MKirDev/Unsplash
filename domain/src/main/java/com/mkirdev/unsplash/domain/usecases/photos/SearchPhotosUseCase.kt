@@ -7,7 +7,7 @@ import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SearchPhotosUseCase @Inject constructor(
+class SearchPhotosUseCase(
     private val photosRepository: PhotosRepository
 ) :
     UseCaseWithParamAndResult<String, Flow<PagingData<Photo>>> {

@@ -5,7 +5,7 @@ import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetLikedPhotoUseCase @Inject constructor(
+class GetLikedPhotoUseCase(
     private val photosRepository: PhotosRepository
 ) : UseCaseWithResult<Flow<String>> {
     override suspend fun execute(): Flow<String> {
