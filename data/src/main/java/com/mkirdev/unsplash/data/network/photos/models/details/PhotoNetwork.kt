@@ -15,7 +15,7 @@ data class PhotoNetwork(
     @SerializedName("urls")
     val imageUrl: UrlNetwork,
     @SerializedName("links")
-    val downloadLink: LinksNetwork,
+    val links: LinksNetwork,
     @SerializedName("likes")
     val likes: Int,
     @SerializedName("liked_by_user")
@@ -23,11 +23,11 @@ data class PhotoNetwork(
     @SerializedName("user")
     val user: UserNetwork,
     @SerializedName("exif")
-    val exif: ExifNetwork,
+    val exif: ExifNetwork?,
     @SerializedName("location")
-    val location: LocationNetwork,
+    val location: LocationNetwork?,
     @SerializedName("tags")
     val tags: List<TagNetwork>?,
     @SerializedName("downloads")
-    val downloads: Int
+    val downloads: Int?
 )

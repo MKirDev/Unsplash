@@ -10,5 +10,5 @@ data class LocationNetwork(
     @SerializedName("country")
     val country: String?,
     @SerializedName("position")
-    val coordinates: CoordinatesNetwork
+    val coordinates: CoordinatesNetwork?
 )
