@@ -6,6 +6,10 @@ import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
 import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
 import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysEntity
+import com.mkirdev.unsplash.domain.models.Coordinates
+import com.mkirdev.unsplash.domain.models.Exif
+import com.mkirdev.unsplash.domain.models.Links
+import com.mkirdev.unsplash.domain.models.Location
 import com.mkirdev.unsplash.domain.models.Photo
 
 
@@ -15,7 +19,7 @@ internal fun PhotoFeedNetwork.toDomain(): Photo {
         width = width,
         height = height,
         imageUrl = imageUrl.toRegular(),
-        downloadLink = downloadLink.toDownload(),
+        links = links.toDomain(),
         likes = likes,
         likedByUser = likedByUser,
         user = user.toDomain(),
@@ -51,7 +55,8 @@ internal fun PhotoFeedNetwork.toPhotoEntity(): PhotoEntity {
         width = displayWidth,
         height = displayHeight,
         imageUrl = imageUrl.toRegular(),
-        downloadLink = downloadLink.toDownload(),
+        downloadLink = links.toDownload(),
+        htmlLink = links.toHtml(),
         likes = likes,
         userId = user.id
     )
@@ -77,7 +82,7 @@ internal fun PhotoFeedDto.toDomain(): Photo {
         width = width,
         height = height,
         imageUrl = imageUrl,
-        downloadLink = downloadLink,
+        links = Links(html = htmlLink, download = downloadLink),
         likes = likes,
         likedByUser = likedByUser == 1,
         user = userDto.toDomain(),

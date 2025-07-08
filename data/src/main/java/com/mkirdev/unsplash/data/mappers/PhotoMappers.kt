@@ -13,7 +13,8 @@ internal fun PhotoNetwork.toPhotoEntity(): PhotoEntity {
         width = width,
         height = height,
         imageUrl = imageUrl.toRegular(),
-        downloadLink = downloadLink.toDownload(),
+        htmlLink = links.toHtml(),
+        downloadLink = links.toDownload(),
         likes = likes,
         userId = user.id
     )
@@ -39,13 +40,13 @@ internal fun PhotoNetwork.toDomain(): Photo {
         width = width,
         height = height,
         imageUrl = imageUrl.toRegular(),
-        downloadLink = downloadLink.toDownload(),
+        links = links.toDomain(),
         likes = likes,
         likedByUser = likedByUser,
         user = user.toDomain(),
-        location = location.toDomain(),
-        exif = exif.toDomain(),
-        tags = tags?.map { it.toTitle() } ?: emptyList(),
+        location = location?.toDomain(),
+        exif = exif?.toDomain(),
+        tags = if (tags.isNullOrEmpty()) null else tags.map { it.toTitle() },
         downloads = downloads
     )
 }
