@@ -14,7 +14,7 @@ internal fun Photo.toPresentation(): PhotoItemModel {
         height = height.dp,
         aspectRatioImage = (width.toFloat() / height.toFloat()),
         user = user.toPresentation(),
-        downloadLink = downloadLink,
+        downloadLink = links.toDownload(),
         downloads = downloads?.toString() ?: EMPTY_STRING,
         likes = likes.toString(),
         isLiked = likedByUser

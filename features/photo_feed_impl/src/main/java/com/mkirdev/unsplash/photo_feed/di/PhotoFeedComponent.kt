@@ -1,6 +1,10 @@
 package com.mkirdev.unsplash.photo_feed.di
 
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
+import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedViewModelFactory
 import dagger.Component
 
@@ -8,7 +12,10 @@ import dagger.Component
 @PhotoFeedScope
 internal interface PhotoFeedComponent : PhotoFeedDependencies {
 
-    override val photosRepository: PhotosRepository
+    override val getPhotosUseCase: GetPhotosUseCase
+    override val searchPhotosUseCase: SearchPhotosUseCase
+    override val likePhotoLocalUseCase: LikePhotoLocalUseCase
+    override val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase
 
     val photoFeedViewModelFactory: PhotoFeedViewModelFactory
 
