@@ -40,7 +40,7 @@ fun HyperlinkText(
         pushStringAnnotation(tag = TAG, annotation = downloadLink)
         withStyle(
             style = MaterialTheme.typography.bodyLargeSpanStyle.copy(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onBackground,
                 textDecoration = TextDecoration.Underline
             )
         ) {
@@ -71,14 +71,14 @@ fun HyperlinkText(
         Spacer(modifier = Modifier.width(space_4))
         Text(
             text = stringResource(id = R.string.downloads, downloads),
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             style = textStyle
         )
         Spacer(modifier = Modifier.width(space_4))
         Icon(
             painter = painterResource(id = R.drawable.ic_download),
             contentDescription = stringResource(id = R.string.download_icon),
-            tint = MaterialTheme.colorScheme.onPrimary
+            tint = MaterialTheme.colorScheme.onBackground
         )
 
     }
