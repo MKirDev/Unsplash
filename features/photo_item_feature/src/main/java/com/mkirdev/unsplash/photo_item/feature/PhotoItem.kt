@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Precision
@@ -56,14 +53,12 @@ fun PhotoItem(
 
     val configuration = LocalConfiguration.current
     val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ContentScale.Crop
+        ContentScale.FillWidth
     } else {
         ContentScale.FillHeight
     }
 
-    Box(
-        modifier = modifier
-    ) {
+    Box {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(photoItemModel.imageUrl)
@@ -72,9 +67,7 @@ fun PhotoItem(
                 .build(),
             contentDescription = stringResource(id = R.string.photo_item),
             contentScale = contentScale,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(350.dp)
+            modifier = modifier
         )
         Row(
             modifier = Modifier

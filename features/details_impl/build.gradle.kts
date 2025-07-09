@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
+    implementation(project(":core:contract:usecase"))
     implementation(project(":domain"))
 
     implementation(project(":features:details_api"))
@@ -55,6 +56,7 @@ dependencies {
     // core
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.collections.immutable)
 
     // navigation
     implementation(libs.navigation)
