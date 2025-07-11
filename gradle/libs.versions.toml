@@ -18,8 +18,11 @@ dagger = "2.50"
 core-ktx = "1.9.0"
 kotlinx-immutable = "0.3.5"
 kotlinx-coroutines = "1.7.3"
+kotlinx-coroutines-rx3 = "1.6.4"
 paging-common = "3.3.6"
 work-ktx = "2.9.0"
+rxjava = "3.1.8"
+rxkotlin = "3.0.1"
 
 # presentation
 lifecycle-runtime-ktx = "2.8.7"
@@ -44,6 +47,7 @@ navigation-compose = "2.7.4"
 # data
 androidx-room = "2.6.0"
 retrofit2 = "2.9.0"
+retrofit2-rxjava = "2.9.0"
 okhttp3 = "4.11.0"
 gson = "2.10.1"
 datastore = "1.0.0"
@@ -68,8 +72,11 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "kotlinx-coroutines-rx3" }
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging-common" }
-androidx-work-runtime-ktx = { group = "androidx.work",  name ="work-runtime-ktx", version.ref = "work-ktx"}
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-ktx" }
+reactivex-rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+reactivex-rxkotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rxkotlin" }
 
 # data
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
@@ -78,10 +85,12 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
+retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit2-rxjava" }
 okhttp3-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 appauth = { group = "net.openid", name = "appauth", version.ref = "appauth" }
+
 
 # presentation
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
