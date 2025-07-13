@@ -2,19 +2,38 @@ package com.mkirdev.unsplash.details.impl
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.mkirdev.unsplash.details.mappers.toDetailsModel
+import com.mkirdev.unsplash.details.mappers.toPhotoItemModel
 import com.mkirdev.unsplash.details.models.CoordinatesModel
-import com.mkirdev.unsplash.details.preview.createPhotoDetailsPreview
+import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.GetPhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 private const val LIKED = true
 private const val UNLIKED = false
 private const val UPDATED_COUNT = 0
+private const val EMPTY_STRING = ""
 
 @Stable
-class DetailsViewModel : ViewModel(), DetailsContract {
+class DetailsViewModel(
+    photoId: String,
+    private val getPhotoUseCase: GetPhotoUseCase,
+    private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
+    private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
+    private val addDownloadLinkUseCase: AddDownloadLinkUseCase
+) : ViewModel(), DetailsContract {
 
     private val _uiState = MutableStateFlow<DetailsContract.State>(
         DetailsContract.State.Idle
@@ -30,23 +49,24 @@ class DetailsViewModel : ViewModel(), DetailsContract {
 
 
     init {
-        try {
-            // load photoDetails
-            _uiState.update {
-                DetailsContract.State.Success(
-                    detailsModel = createPhotoDetailsPreview()
-                )
-            }
-        } catch (t: Throwable) {
-            _uiState.update {
-                DetailsContract.State.Failure(
-                    error = t.message.toString(),
-                    detailsModel = null,
-                    updatedCount = UPDATED_COUNT
-                )
+        viewModelScope.launch {
+            try {
+                val photo = getPhotoUseCase.execute(photoId ?: EMPTY_STRING)
+                _uiState.update {
+                    DetailsContract.State.Success(
+                        detailsModel = photo.toDetailsModel(photo.toPhotoItemModel())
+                    )
+                }
+            } catch (t: Throwable) {
+                _uiState.update {
+                    DetailsContract.State.Failure(
+                        error = t.message.toString(),
+                        detailsModel = null,
+                        updatedCount = UPDATED_COUNT
+                    )
+                }
             }
         }
-
     }
 
     override fun handleEvent(event: DetailsContract.Event) {
@@ -93,27 +113,29 @@ class DetailsViewModel : ViewModel(), DetailsContract {
     }
 
     private fun onLikeClick(photoId: String, isLiked: Boolean) {
-        try {
-            if (isLiked) {
-                // send liked photo
-            } else {
-                // send unliked photo
-            }
-        } catch (e: Throwable) {
-            if (_uiState.value is DetailsContract.State.Success) {
-                _uiState.update {
-                    DetailsContract.State.Failure(
-                        error = e.message.toString(),
-                        detailsModel = (it as DetailsContract.State.Success).detailsModel,
-                        updatedCount = UPDATED_COUNT
-                    )
+        viewModelScope.launch {
+            try {
+                if (isLiked) {
+                    likePhotoLocalUseCase.execute(photoId)
+                } else {
+                    unlikePhotoLocalUseCase.execute(photoId)
                 }
-            } else if (_uiState.value is DetailsContract.State.Failure) {
-                _uiState.update {
-                    (it as DetailsContract.State.Failure).copy(
-                        error = e.message.toString(),
-                        updatedCount = it.updatedCount + 1
-                    )
+            } catch (e: Throwable) {
+                if (_uiState.value is DetailsContract.State.Success) {
+                    _uiState.update {
+                        DetailsContract.State.Failure(
+                            error = e.message.toString(),
+                            detailsModel = (it as DetailsContract.State.Success).detailsModel,
+                            updatedCount = UPDATED_COUNT
+                        )
+                    }
+                } else if (_uiState.value is DetailsContract.State.Failure) {
+                    _uiState.update {
+                        (it as DetailsContract.State.Failure).copy(
+                            error = e.message.toString(),
+                            updatedCount = it.updatedCount + 1
+                        )
+                    }
                 }
             }
         }
@@ -122,17 +144,6 @@ class DetailsViewModel : ViewModel(), DetailsContract {
     private fun onCloseFieldClick() {
 
         when (_uiState.value) {
-            is DetailsContract.State.DownloadFailure -> {
-                _uiState.update {
-                    DetailsContract.State.Success((it as DetailsContract.State.DownloadFailure).detailsModel)
-                }
-            }
-
-            is DetailsContract.State.DownloadSuccess -> {
-                _uiState.update {
-                    DetailsContract.State.Success((it as DetailsContract.State.DownloadSuccess).detailsModel)
-                }
-            }
             is DetailsContract.State.Failure -> {
                 (_uiState.value as DetailsContract.State.Failure).detailsModel?.let { photoDetailsModel ->
                     _uiState.update {
@@ -140,6 +151,7 @@ class DetailsViewModel : ViewModel(), DetailsContract {
                     }
                 }
             }
+
             is DetailsContract.State.Success -> {}
             DetailsContract.State.Idle -> {}
         }
@@ -158,69 +170,67 @@ class DetailsViewModel : ViewModel(), DetailsContract {
     }
 
     private fun onDownloadClick(link: String) {
-        try {
-            preloadingPhoto()
-
-            // downloading photo
-
-            successDownloadPhoto()
-
-
-        } catch (e: Throwable) {
-            failureDownloadPhoto()
+        viewModelScope.launch {
+            try {
+                preloadingPhoto()
+                addDownloadLinkUseCase.execute(link)
+            } catch (e: Throwable) {
+                failureDownloadPhoto(e.message.toString())
+            }
         }
     }
 
     private fun preloadingPhoto() {
-        if (_uiState.value is DetailsContract.State.DownloadSuccess) {
+        if (_uiState.value is DetailsContract.State.Failure) {
             _uiState.update {
                 DetailsContract.State.Success(
-                    detailsModel = (it as DetailsContract.State.DownloadSuccess).detailsModel
-                )
-            }
-        } else if (_uiState.value is DetailsContract.State.DownloadFailure) {
-            _uiState.update {
-                DetailsContract.State.Success(
-                    detailsModel = (it as DetailsContract.State.DownloadFailure).detailsModel
+                    detailsModel = (it as DetailsContract.State.Success).detailsModel
                 )
             }
         }
     }
 
-    private fun successDownloadPhoto() {
+    private fun failureDownloadPhoto(error: String) {
         if (_uiState.value is DetailsContract.State.Success) {
             _uiState.update {
-                DetailsContract.State.DownloadSuccess(
-                    detailsModel = (it as DetailsContract.State.Success).detailsModel
-                )
-            }
-        } else if (_uiState.value is DetailsContract.State.Failure) {
-            _uiState.update {
-                DetailsContract.State.DownloadSuccess(
-                    detailsModel = (it as DetailsContract.State.Failure).detailsModel
-                        ?: throw Throwable()
-                )
-            }
-        }
-    }
-
-    private fun failureDownloadPhoto() {
-        if (_uiState.value is DetailsContract.State.Success) {
-            _uiState.update {
-                DetailsContract.State.DownloadFailure(
-                    detailsModel = (it as DetailsContract.State.Success).detailsModel
+                DetailsContract.State.Failure(
+                    error = error,
+                    detailsModel = (it as DetailsContract.State.Success).detailsModel,
+                    updatedCount = UPDATED_COUNT
                 )
             }
         } else if (_uiState.value is DetailsContract.State.Failure) {
             ((_uiState.value as DetailsContract.State.Failure).detailsModel)?.let { photoDetailsModel ->
                 _uiState.update {
-                    DetailsContract.State.DownloadFailure(
-                        detailsModel = photoDetailsModel
+                    (it as DetailsContract.State.Failure).copy(
+                        updatedCount = it.updatedCount + 1
                     )
                 }
             }
         }
     }
+}
 
+internal class DetailsViewModelFactory @AssistedInject constructor(
+    @Assisted private val photoId: String,
+    private val getPhotoUseCase: GetPhotoUseCase,
+    private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
+    private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
+    private val addDownloadLinkUseCase: AddDownloadLinkUseCase
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return DetailsViewModel(
+            photoId = photoId,
+            getPhotoUseCase = getPhotoUseCase,
+            likePhotoLocalUseCase = likePhotoLocalUseCase,
+            unlikePhotoLocalUseCase = unlikePhotoLocalUseCase,
+            addDownloadLinkUseCase = addDownloadLinkUseCase
+        ) as T
+    }
+}
 
+@AssistedFactory
+internal interface DetailsViewModelFactoryAssisted {
+    fun create(id: String): DetailsViewModelFactory
 }

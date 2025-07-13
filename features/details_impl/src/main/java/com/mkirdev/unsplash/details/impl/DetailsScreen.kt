@@ -13,13 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
-import com.mkirdev.unsplash.core.ui.widgets.ClosableInfoField
 import com.mkirdev.unsplash.details.models.CoordinatesModel
 import com.mkirdev.unsplash.details.models.DetailsModel
 import com.mkirdev.unsplash.details.preview.createPhotoDetailsPreview
@@ -38,8 +35,6 @@ internal fun PhotoDetailsScreenWrapper(
     onNavigateBack: () -> Unit,
 ) {
     val model = when (uiState) {
-        is DetailsContract.State.DownloadFailure -> uiState.detailsModel
-        is DetailsContract.State.DownloadSuccess -> uiState.detailsModel
         is DetailsContract.State.Failure -> uiState.detailsModel
         is DetailsContract.State.Success -> uiState.detailsModel
         DetailsContract.State.Idle -> null
@@ -50,17 +45,11 @@ internal fun PhotoDetailsScreenWrapper(
         else -> null
     }
 
-    val downloadSuccess = when (uiState) {
-        is DetailsContract.State.DownloadFailure -> false
-        is DetailsContract.State.DownloadSuccess -> true
-        else -> null
-    }
 
     model?.let {
         PhotoDetailsScreen(
             model = it,
             errorText = errorText,
-            downloadSuccess = downloadSuccess,
             onShareClick = onShareClick,
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,
@@ -77,7 +66,6 @@ internal fun PhotoDetailsScreenWrapper(
 private fun PhotoDetailsScreen(
     model: DetailsModel,
     errorText: String?,
-    downloadSuccess: Boolean?,
     onShareClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
@@ -106,33 +94,6 @@ private fun PhotoDetailsScreen(
             onDownloadClick = onDownloadClick,
             onNavigateUp = onNavigateUp
         )
-        when (downloadSuccess) {
-            true -> {
-                ClosableInfoField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                        .alpha(0.9f)
-                        .testTag(PhotoDetailsTags.DOWNLOAD_INFO_FIELD),
-                    text = stringResource(id = R.string.download_photo_success),
-                    textStyle = MaterialTheme.typography.bodyLargeMedium,
-                    onClick = onCloseFieldClick
-                )
-            }
-            false -> {
-                ClosableErrorField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                        .alpha(0.9f)
-                        .testTag(PhotoDetailsTags.DOWNLOAD_ERROR_FIELD),
-                    text = stringResource(id = R.string.download_photo_network_error),
-                    textStyle = MaterialTheme.typography.bodyLargeMedium,
-                    onClick = onCloseFieldClick
-                )
-            }
-            null -> Unit
-        }
         errorText?.let {
             ClosableErrorField(
                 modifier = Modifier
@@ -160,7 +121,7 @@ object PhotoDetailsTags {
 private fun PhotoDetailsScreenPreview() {
     UnsplashTheme(dynamicColor = false) {
         PhotoDetailsScreenWrapper(
-            uiState = DetailsContract.State.DownloadSuccess(
+            uiState = DetailsContract.State.Success(
                 detailsModel = createPhotoDetailsPreview()
             ),
             onShareClick = {},

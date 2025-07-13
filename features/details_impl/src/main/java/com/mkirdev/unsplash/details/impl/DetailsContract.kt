@@ -24,16 +24,6 @@ interface DetailsContract : UniFlowViewModel<
             val updatedCount: Int
         ) : State
 
-        @Immutable
-        data class DownloadSuccess(
-            val detailsModel: DetailsModel
-        ) : State
-
-        @Immutable
-        data class DownloadFailure(
-            val detailsModel: DetailsModel
-        ) : State
-
         data object Idle : State
 
     }
