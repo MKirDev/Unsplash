@@ -1,12 +1,16 @@
 package com.mkirdev.unsplash.details.api
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
+import com.mkirdev.unsplash.details.di.DaggerDetailsComponent
+import com.mkirdev.unsplash.details.di.DetailsDependenciesProvider
 import com.mkirdev.unsplash.details.impl.DetailsContract
 import com.mkirdev.unsplash.details.impl.DetailsViewModel
 import com.mkirdev.unsplash.details.impl.PhotoDetailsScreenWrapper
@@ -22,8 +26,21 @@ class DetailsFeatureApiImpl @Inject constructor(): DetailsFeatureApi {
         composable(
             route = DetailsDestination.routeWithArgument,
             arguments = DetailsDestination.arguments
-        ) {
-            val viewModel: DetailsViewModel = viewModel()
+        ) { navStackEntry ->
+
+            val detailsComponent by remember {
+                mutableStateOf(
+                    DaggerDetailsComponent.builder()
+                        .addDependencies(DetailsDependenciesProvider.dependencies)
+                        .build()
+                )
+            }
+
+            val photoId = navStackEntry.arguments?.getString(DetailsDestination.argumentName) ?: throw IllegalArgumentException("Id student is null")
+
+            val viewModel: DetailsViewModel = viewModel(
+                factory = detailsComponent.factoryAssisted.create(photoId)
+            )
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             viewModel.applyEffect(function = { effect ->
