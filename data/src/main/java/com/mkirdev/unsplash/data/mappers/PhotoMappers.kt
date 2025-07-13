@@ -7,18 +7,18 @@ import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
 import com.mkirdev.unsplash.domain.models.Photo
 
 
-internal fun PhotoNetwork.toPhotoEntity(): PhotoEntity {
-    return PhotoEntity(
-        id = id,
-        width = width,
-        height = height,
-        imageUrl = imageUrl.toRegular(),
-        htmlLink = links.toHtml(),
-        downloadLink = links.toDownload(),
-        likes = likes,
-        userId = user.id
-    )
-}
+//internal fun PhotoNetwork.toPhotoEntity(): PhotoEntity {
+//    return PhotoEntity(
+//        id = id,
+//        width = width,
+//        height = height,
+//        imageUrl = imageUrl.toRegular(),
+//        htmlLink = links.toHtml(),
+//        downloadLink = links.toDownload(),
+//        likes = likes,
+//        userId = user.id
+//    )
+//}
 
 internal fun PhotoNetwork.toReactionTypeEntity(): ReactionsTypeEntity {
     return ReactionsTypeEntity(
