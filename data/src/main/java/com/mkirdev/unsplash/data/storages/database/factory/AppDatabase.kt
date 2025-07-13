@@ -11,6 +11,7 @@ import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.UserDao
 import com.mkirdev.unsplash.data.storages.database.dao.collection.PhotoFromCollectionDao
 import com.mkirdev.unsplash.data.storages.database.dao.feed.PhotoFeedDao
+import com.mkirdev.unsplash.data.storages.database.dao.search.PhotoSearchDao
 import com.mkirdev.unsplash.data.storages.database.entities.CollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
@@ -50,6 +51,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun photoFromCollectionDao(): PhotoFromCollectionDao
 
     abstract fun photoFeedDao(): PhotoFeedDao
+
+    abstract fun photoSearchDao(): PhotoSearchDao
 
     abstract fun remoteKeysDao(): RemoteKeysDao
 }
