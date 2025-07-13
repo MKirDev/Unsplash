@@ -66,10 +66,12 @@ class PhotoFeedRemoteMediator(
 
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    photoDao.deletePhotos()
+                    photoDao.deleteFeedPhotos()
+                    photoDao.deleteSearchPhotos()
                     reactionsTypeDao.deleteReactionsTypes()
                     photoReactionsDao.deletePhotoReactions()
                     userDao.deleteUsers()
+                    remoteKeysDao.deleteAllRemoteKeys()
                 }
 
                 val keys = response.map { photoFeedNetwork ->
