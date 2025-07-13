@@ -15,7 +15,7 @@ interface PhotoFeedDao {
         "SELECT p.${PhotoEntity.ID}, p.${PhotoEntity.WIDTH}, "
                 + "p.${PhotoEntity.HEIGHT}, p.${PhotoEntity.IMAGE_URL}, "
                 + "p.${PhotoEntity.DOWNLOAD_LINK}, p.${PhotoEntity.HTML_LINK}, "
-                + "p.${PhotoEntity.LIKES}, rt.${ReactionsTypeEntity.LIKED}, "
+                + "p.${PhotoEntity.LIKES}, p.${PhotoEntity.SEARCH_TYPE}, rt.${ReactionsTypeEntity.LIKED}, "
                 + "u.${UserEntity.ID}, u.${UserEntity.FULL_NAME}, "
                 + "u.${UserEntity.USERNAME}, u.${UserEntity.IMAGE_URL}, "
                 + "u.${UserEntity.BIO}, u.${UserEntity.LOCATION} "
@@ -25,7 +25,7 @@ interface PhotoFeedDao {
                 + "JOIN ${ReactionsTypeEntity.TABLE_NAME} rt "
                 + "ON rt.${ReactionsTypeEntity.ID} = pr.${PhotoReactionsEntity.REACTIONS_ID} "
                 + "JOIN ${UserEntity.TABLE_NAME} u "
-                + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} "
+                + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} WHERE p.${PhotoEntity.SEARCH_TYPE} = 0"
     )
-    fun getPhotos(): PagingSource<Int, PhotoFeedDto>
+    fun getFeedPhotos(): PagingSource<Int, PhotoFeedDto>
 }
