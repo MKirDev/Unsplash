@@ -4,6 +4,6 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class LocationModel(
-    val place: String,
+    val place: String?,
     val coordinatesModel: CoordinatesModel?
 )

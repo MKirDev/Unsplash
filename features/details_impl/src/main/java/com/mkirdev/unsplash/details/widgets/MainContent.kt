@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,16 +23,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.icon_size_24
-import com.mkirdev.unsplash.core.ui.theme.image_size_344
 import com.mkirdev.unsplash.core.ui.theme.item_width_158
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_16
 import com.mkirdev.unsplash.core.ui.theme.padding_2
-import com.mkirdev.unsplash.core.ui.theme.padding_28
+import com.mkirdev.unsplash.core.ui.theme.padding_24
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.space_10
-import com.mkirdev.unsplash.core.ui.theme.space_40
+import com.mkirdev.unsplash.core.ui.theme.space_20
 import com.mkirdev.unsplash.core.ui.widgets.BioInfo
 import com.mkirdev.unsplash.core.ui.widgets.ExifInfo
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
@@ -47,7 +47,7 @@ import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 @Composable
 fun MainContent(
     modifier: Modifier,
-    detailsModel: DetailsModel?,
+    detailsModel: DetailsModel,
     onShareClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
@@ -62,58 +62,57 @@ fun MainContent(
             trailingIcon = R.drawable.ic_baseline_share_24,
             modifier = Modifier.fillMaxWidth(),
             onTrailingClick = {
-                detailsModel?.let {
-                    onShareClick(detailsModel.shareLink)
-                }
+                onShareClick(detailsModel.shareLink)
             },
             onNavigateUp = onNavigateUp
         )
-        Spacer(modifier = Modifier.height(space_40))
-        detailsModel?.let {
-            Column(
+        Spacer(modifier = Modifier.height(space_20))
+        Column(
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(padding_10)
+        ) {
+            PhotoItem(
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.background)
-                    .padding(padding_10)
+                    .width(detailsModel.photoItemModel.width)
+                    .aspectRatio(detailsModel.photoItemModel.aspectRatioImage)
+                ,
+                photoItemModel = detailsModel.photoItemModel,
+                userImage = {
+                    UserImageMedium(imageUrl = detailsModel.photoItemModel.user.userImage)
+                },
+                userInfo = {
+                    UserInfoMedium(
+                        name = detailsModel.photoItemModel.user.name,
+                        userName = detailsModel.photoItemModel.user.username
+                    )
+                },
+                likesInfo = { modifier, onLike, onRemoveLike ->
+                    LikesInfo(
+                        modifier = modifier.padding(end = padding_6, bottom = padding_10),
+                        photoId = detailsModel.photoItemModel.id,
+                        likes = detailsModel.photoItemModel.likes,
+                        isLikedPhoto = detailsModel.photoItemModel.isLiked,
+                        onLikeClick = onLike,
+                        onRemoveLikeClick = onRemoveLike
+                    )
+                },
+                onLikeClick = onLikeClick,
+                onRemoveLikeClick = onRemoveLikeClick
+            )
+            Spacer(modifier = Modifier.height(space_10))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(space_20)
             ) {
-                PhotoItem(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(image_size_344),
-                    photoItemModel = detailsModel.photoItemModel,
-                    userImage = {
-                        UserImageMedium(imageUrl = detailsModel.photoItemModel.user.userImage)
-                    },
-                    userInfo = {
-                        UserInfoMedium(
-                            name = detailsModel.photoItemModel.user.name,
-                            userName = detailsModel.photoItemModel.user.username
-                        )
-                    },
-                    likesInfo = { modifier, onLike, onRemoveLike ->
-                        LikesInfo(
-                            modifier = modifier.padding(end = padding_6, bottom = padding_10),
-                            photoId = detailsModel.photoItemModel.id,
-                            likes = detailsModel.photoItemModel.likes,
-                            isLikedPhoto = detailsModel.photoItemModel.isLiked,
-                            onLikeClick = onLike,
-                            onRemoveLikeClick = onRemoveLike
-                        )
-                    },
-                    onLikeClick = onLikeClick,
-                    onRemoveLikeClick = onRemoveLikeClick
-                )
-                Spacer(modifier = Modifier.height(space_10))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row {
-                        detailsModel.location.coordinatesModel?.let {
+                Row(Modifier.weight(0.65f)) {
+                    detailsModel.location?.let {
+                        it.coordinatesModel?.let {
                             IconButton(
                                 onClick = {
-                                    onLocationClick(detailsModel.location.coordinatesModel)
+                                    onLocationClick(it)
                                 },
-                                modifier = Modifier.size(icon_size_24)
+                                modifier = Modifier.size(icon_size_24).padding(top = padding_4)
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_location),
@@ -122,50 +121,58 @@ fun MainContent(
                                 )
                             }
                         }
-                        Text(
-                            text = detailsModel.location.place,
-                            modifier = Modifier.padding(start = padding_4, top = padding_4),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.bodyLarge
-                        )
+                        it.place?.let { it1 ->
+                            Text(
+                                text = it1,
+                                modifier = Modifier.padding(start = padding_4, top = padding_4),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
                     }
-                    HyperlinkText(
-                        downloadText = stringResource(id = R.string.download),
-                        downloadLink = detailsModel.photoItemModel.downloadLink,
-                        downloads = detailsModel.photoItemModel.downloads,
-                        modifier = Modifier.padding(top = padding_2),
-                        textStyle = MaterialTheme.typography.bodyLarge,
-                        onDownloadClick = onDownloadClick
-                    )
                 }
+                HyperlinkText(
+                    downloadText = stringResource(id = R.string.download),
+                    downloadLink = detailsModel.photoItemModel.downloadLink,
+                    downloads = detailsModel.photoItemModel.downloads,
+                    modifier = Modifier.padding(top = padding_2).weight(0.35f),
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    onDownloadClick = onDownloadClick
+                )
+            }
+            detailsModel.tags?.let {
                 Text(
-                    text = detailsModel.tags,
+                    text = it,
                     modifier = Modifier.padding(
-                        start = padding_28,
-                        top = padding_10,
+                        start = padding_16,
+                        top = padding_24,
                         bottom = padding_16
                     ),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = padding_10),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                detailsModel.exif?.let {
                     ExifInfo(
                         modifier = Modifier.width(item_width_158),
-                        make = detailsModel.exif.make,
-                        model = detailsModel.exif.model,
-                        exposureTime = detailsModel.exif.exposureTime,
-                        aperture = detailsModel.exif.aperture,
-                        focalLength = detailsModel.exif.focalLength,
-                        iso = detailsModel.exif.iso,
+                        make = it.make,
+                        model = it.model,
+                        exposureTime = it.exposureTime,
+                        aperture = it.aperture,
+                        focalLength = it.focalLength,
+                        iso = it.iso,
                         textStyle = MaterialTheme.typography.bodyLarge
                     )
+                }
+                detailsModel.bio?.let {
                     BioInfo(
                         modifier = Modifier.width(item_width_158),
                         userName = detailsModel.photoItemModel.user.username,
-                        bio = detailsModel.bio,
+                        bio = it,
                         textStyle = MaterialTheme.typography.bodyLarge
                     )
                 }

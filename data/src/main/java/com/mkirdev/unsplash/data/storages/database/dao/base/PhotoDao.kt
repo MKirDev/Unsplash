@@ -19,8 +19,11 @@ interface PhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPhoto(photo: PhotoEntity)
 
-    @Query("DELETE FROM ${PhotoEntity.TABLE_NAME}")
-    fun deletePhotos()
+    @Query("DELETE FROM ${PhotoEntity.TABLE_NAME} WHERE ${PhotoEntity.SEARCH_TYPE} = 0")
+    fun deleteFeedPhotos()
+
+    @Query("DELETE FROM ${PhotoEntity.TABLE_NAME} WHERE ${PhotoEntity.SEARCH_TYPE} = 1")
+    fun deleteSearchPhotos()
 
     @Query("DELETE FROM ${PhotoEntity.TABLE_NAME} WHERE ${PhotoEntity.ID} = :id")
     fun deletePhoto(id: String)

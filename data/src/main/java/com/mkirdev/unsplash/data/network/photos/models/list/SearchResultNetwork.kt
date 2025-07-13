@@ -8,5 +8,5 @@ data class SearchResultNetwork(
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("results")
-    val results: List<PhotoFeedNetwork>
+    val results: List<PhotoSearchNetwork>
 )

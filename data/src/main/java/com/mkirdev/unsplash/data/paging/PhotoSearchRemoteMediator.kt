@@ -10,15 +10,16 @@ import com.mkirdev.unsplash.data.mappers.toPhotoEntity
 import com.mkirdev.unsplash.data.mappers.toPhotoReactionsEntity
 import com.mkirdev.unsplash.data.mappers.toReactionsTypeEntity
 import com.mkirdev.unsplash.data.mappers.toUserEntity
-import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
+import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
 private const val ITEMS_PER_PAGE = 10
 @OptIn(ExperimentalPagingApi::class)
-class PhotoFeedRemoteMediator(
-    private val photosApi: PhotosApi,
+class PhotoSearchRemoteMediator(
+    private val query: String,
+    private val searchApi: SearchApi,
     private val appDatabase: AppDatabase
 ) : RemoteMediator<Int, PhotoFeedDto>() {
 
@@ -58,15 +59,14 @@ class PhotoFeedRemoteMediator(
                 }
             }
 
-            val response = photosApi.getPhotos(page = currentPage, perPage = ITEMS_PER_PAGE)
-            val endOfPagingReached = response.isEmpty()
+            val response = searchApi.searchPhotos(query = query,page = currentPage, perPage = ITEMS_PER_PAGE)
+            val endOfPagingReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPagingReached) null else currentPage + 1
 
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    photoDao.deleteFeedPhotos()
                     photoDao.deleteSearchPhotos()
                     reactionsTypeDao.deleteReactionsTypes()
                     photoReactionsDao.deletePhotoReactions()
@@ -74,24 +74,24 @@ class PhotoFeedRemoteMediator(
                     remoteKeysDao.deleteAllRemoteKeys()
                 }
 
-                val keys = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toKeysEntity(prevPage = prevPage, nextPage = nextPage)
+                val keys = response.results.map { photoSearchNetwork ->
+                    photoSearchNetwork.toKeysEntity(prevPage = prevPage, nextPage = nextPage)
                 }
 
-                val photos = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toPhotoEntity()
+                val photos = response.results.map { photoSearchNetwork ->
+                    photoSearchNetwork.toPhotoEntity()
                 }
 
-                val reactions = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toReactionsTypeEntity()
+                val reactions = response.results.map { photoSearchNetwork ->
+                    photoSearchNetwork.toReactionsTypeEntity()
                 }
 
-                val photoReactions = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toPhotoReactionsEntity()
+                val photoReactions = response.results.map { photoSearchNetwork ->
+                    photoSearchNetwork.toPhotoReactionsEntity()
                 }
 
-                val users = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.user.toUserEntity()
+                val users = response.results.map { photoSearchNetwork ->
+                    photoSearchNetwork.user.toUserEntity()
                 }
 
                 remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)

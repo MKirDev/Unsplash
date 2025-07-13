@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.data.storages.database.dao.feed
+package com.mkirdev.unsplash.data.storages.database.dao.search
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -10,7 +10,7 @@ import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
 import com.mkirdev.unsplash.data.storages.database.entities.UserEntity
 
 @Dao
-interface PhotoFeedDao {
+interface PhotoSearchDao {
     @Query(
         "SELECT p.${PhotoEntity.ID}, p.${PhotoEntity.WIDTH}, "
                 + "p.${PhotoEntity.HEIGHT}, p.${PhotoEntity.IMAGE_URL}, "
@@ -25,7 +25,7 @@ interface PhotoFeedDao {
                 + "JOIN ${ReactionsTypeEntity.TABLE_NAME} rt "
                 + "ON rt.${ReactionsTypeEntity.ID} = pr.${PhotoReactionsEntity.REACTIONS_ID} "
                 + "JOIN ${UserEntity.TABLE_NAME} u "
-                + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} WHERE p.${PhotoEntity.SEARCH_TYPE} = 0"
+                + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} WHERE p.${PhotoEntity.SEARCH_TYPE} = 1"
     )
-    fun getFeedPhotos(): PagingSource<Int, PhotoFeedDto>
+    fun getSearchPhotos(): PagingSource<Int, PhotoFeedDto>
 }

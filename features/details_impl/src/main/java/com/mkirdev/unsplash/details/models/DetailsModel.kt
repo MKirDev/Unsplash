@@ -7,8 +7,8 @@ import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 data class DetailsModel(
     val photoItemModel: PhotoItemModel,
     val shareLink: String,
-    val location: LocationModel,
-    val tags: String,
-    val exif: ExifModel,
-    val bio: String
+    val location: LocationModel?,
+    val tags: String?,
+    val exif: ExifModel?,
+    val bio: String?
 )

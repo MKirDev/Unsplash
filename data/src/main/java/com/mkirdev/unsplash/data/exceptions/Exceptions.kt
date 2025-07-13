@@ -69,6 +69,14 @@ sealed class PhotosException : Throwable() {
         override val cause: Throwable?
     ) : PhotosException()
 
+    data class AddDownloadLinkException(
+        override val cause: Throwable?
+    ) : PhotosException()
+
+    data class GetDownloadLinkException(
+        override val cause: Throwable?
+    ) : PhotosException()
+
     data class ClearDataException(
         override val cause: Throwable?
     ) : PhotosException()
