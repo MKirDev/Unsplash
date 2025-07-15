@@ -5,16 +5,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysEntity
+import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysFeedEntity
 
 @Dao
-interface RemoteKeysDao {
-    @Query("SELECT * FROM ${RemoteKeysEntity.TABLE_NAME} rk WHERE rk.${RemoteKeysEntity.ID} =:id")
+interface RemoteKeysFeedDao {
+    @Query("SELECT * FROM ${RemoteKeysFeedEntity.TABLE_NAME} rk WHERE rk.${RemoteKeysFeedEntity.ID} =:id")
     fun getRemoteKeys(id: String): RemoteKeysDto
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addAllRemoteKeys(remoteKeys: List<RemoteKeysEntity>)
+    fun addAllRemoteKeys(remoteKeys: List<RemoteKeysFeedEntity>)
 
-    @Query("DELETE FROM ${RemoteKeysEntity.TABLE_NAME}")
+    @Query("DELETE FROM ${RemoteKeysFeedEntity.TABLE_NAME}")
     fun deleteAllRemoteKeys()
 }

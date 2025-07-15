@@ -4,35 +4,17 @@ import com.mkirdev.unsplash.data.network.photos.models.list.PhotoSearchNetwork
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
 import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysEntity
-import com.mkirdev.unsplash.domain.models.Photo
+import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysSearchEntity
 
-internal fun PhotoSearchNetwork.toDomain(): Photo {
-    return Photo(
-        id = id,
-        width = width,
-        height = height,
-        imageUrl = imageUrl.toRegular(),
-        links = links.toDomain(),
-        likes = likes,
-        likedByUser = likedByUser,
-        user = user.toDomain(),
-        location = null,
-        exif = null,
-        tags = null,
-        downloads = null
-    )
-}
-
-internal fun PhotoSearchNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysEntity {
-    return RemoteKeysEntity(
+internal fun PhotoSearchNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysSearchEntity {
+    return RemoteKeysSearchEntity(
         id = id,
         prevPage = prevPage,
         nextPage = nextPage
     )
 }
 
-internal fun PhotoSearchNetwork.toPhotoEntity(): PhotoEntity {
+internal fun PhotoSearchNetwork.toPhotoEntity(position: Int): PhotoEntity {
     val displayWidth = when (width) {
         in 0..2500 -> 180
         in 2501..4000 -> 240
@@ -53,7 +35,8 @@ internal fun PhotoSearchNetwork.toPhotoEntity(): PhotoEntity {
         htmlLink = links.toHtml(),
         likes = likes,
         userId = user.id,
-        searchType = 1
+        searchType = 1,
+        position = position
     )
 }
 

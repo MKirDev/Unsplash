@@ -14,8 +14,9 @@ import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
+import kotlin.collections.forEach
 
-private const val ITEMS_PER_PAGE = 10
+private const val ITEMS_PER_PAGE = 20
 @OptIn(ExperimentalPagingApi::class)
 class PhotoSearchRemoteMediator(
     private val query: String,
@@ -27,7 +28,7 @@ class PhotoSearchRemoteMediator(
     private val reactionsTypeDao = appDatabase.reactionsTypeDao()
     private val photoReactionsDao = appDatabase.photoReactionsDao()
     private val userDao = appDatabase.userDao()
-    private val remoteKeysDao = appDatabase.remoteKeysDao()
+    private val remoteKeysDao = appDatabase.remoteKeysSearchDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -71,15 +72,10 @@ class PhotoSearchRemoteMediator(
                     reactionsTypeDao.deleteReactionsTypes()
                     photoReactionsDao.deletePhotoReactions()
                     userDao.deleteUsers()
-                    remoteKeysDao.deleteAllRemoteKeys()
                 }
 
                 val keys = response.results.map { photoSearchNetwork ->
                     photoSearchNetwork.toKeysEntity(prevPage = prevPage, nextPage = nextPage)
-                }
-
-                val photos = response.results.map { photoSearchNetwork ->
-                    photoSearchNetwork.toPhotoEntity()
                 }
 
                 val reactions = response.results.map { photoSearchNetwork ->
@@ -97,7 +93,13 @@ class PhotoSearchRemoteMediator(
                 remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
 
                 userDao.addUsers(users = users)
-                photoDao.addPhotos(photos = photos)
+
+                response.results.forEach { photoSearchNetwork ->
+                    val maxPosition = photoDao.getMaxPosition() ?: 0
+                    val photo = photoSearchNetwork.toPhotoEntity(maxPosition + 1)
+                    photoDao.addPhoto(photo)
+                }
+
                 reactionsTypeDao.addReactionsTypes(reactions = reactions)
                 photoReactionsDao.addPhotoReactions(photoReactions = photoReactions)
             }

@@ -16,11 +16,16 @@ interface PhotosRepository {
     suspend fun unlikePhotoLocal(photoId: String)
 
     suspend fun likePhotoRemote(photoId: String)
+
     suspend fun unlikePhotoRemote(photoId: String)
 
     fun getLikedPhoto(): Flow<String>
 
     fun getUnlikedPhoto(): Flow<String>
+
+    suspend fun addDownloadLink(link: String)
+
+    fun getDownloadLink(): Flow<String>
 
     suspend fun clearPhotosStorage()
 

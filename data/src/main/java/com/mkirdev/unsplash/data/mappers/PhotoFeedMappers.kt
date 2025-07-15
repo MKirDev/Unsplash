@@ -5,40 +5,19 @@ import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
 import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysEntity
-import com.mkirdev.unsplash.domain.models.Coordinates
-import com.mkirdev.unsplash.domain.models.Exif
+import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysFeedEntity
 import com.mkirdev.unsplash.domain.models.Links
-import com.mkirdev.unsplash.domain.models.Location
 import com.mkirdev.unsplash.domain.models.Photo
 
-
-internal fun PhotoFeedNetwork.toDomain(): Photo {
-    return Photo(
-        id = id,
-        width = width,
-        height = height,
-        imageUrl = imageUrl.toRegular(),
-        links = links.toDomain(),
-        likes = likes,
-        likedByUser = likedByUser,
-        user = user.toDomain(),
-        location = null,
-        exif = null,
-        tags = null,
-        downloads = null
-    )
-}
-
-internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysEntity {
-    return RemoteKeysEntity(
+internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysFeedEntity {
+    return RemoteKeysFeedEntity(
         id = id,
         prevPage = prevPage,
         nextPage = nextPage
     )
 }
 
-internal fun PhotoFeedNetwork.toPhotoEntity(): PhotoEntity {
+internal fun PhotoFeedNetwork.toPhotoEntity(position: Int): PhotoEntity {
     val displayWidth = when (width) {
         in 0..2500 -> 180
         in 2501..4000 -> 240
@@ -59,7 +38,8 @@ internal fun PhotoFeedNetwork.toPhotoEntity(): PhotoEntity {
         htmlLink = links.toHtml(),
         likes = likes,
         userId = user.id,
-        searchType = 0
+        searchType = 0,
+        position = position
     )
 }
 
@@ -90,6 +70,7 @@ internal fun PhotoFeedDto.toDomain(): Photo {
         location = null,
         exif = null,
         tags = null,
-        downloads = null
+        downloads = null,
+        position = position
     )
 }

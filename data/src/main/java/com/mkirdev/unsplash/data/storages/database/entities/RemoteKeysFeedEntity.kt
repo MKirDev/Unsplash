@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = RemoteKeysEntity.TABLE_NAME)
-data class RemoteKeysEntity(
+@Entity(tableName = RemoteKeysFeedEntity.TABLE_NAME)
+data class RemoteKeysFeedEntity(
     @PrimaryKey(autoGenerate = false)
     val id: String,
     @ColumnInfo(name = PREV_PAGE)
@@ -15,7 +15,7 @@ data class RemoteKeysEntity(
     val nextPage: Int?
 ) {
     companion object {
-        const val TABLE_NAME = "remote_keys"
+        const val TABLE_NAME = "remote_keys_feed"
         const val ID = "id"
         const val PREV_PAGE = "prev_page"
         const val NEXT_PAGE = "next_page"
