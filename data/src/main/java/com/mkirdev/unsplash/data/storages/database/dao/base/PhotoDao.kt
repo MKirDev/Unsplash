@@ -19,6 +19,12 @@ interface PhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPhoto(photo: PhotoEntity)
 
+    @Query("UPDATE ${PhotoEntity.TABLE_NAME} SET ${PhotoEntity.LIKES} = :likes WHERE ${PhotoEntity.ID} = :id")
+    fun updateLikes(likes: String, id: String)
+
+    @Query("SELECT MAX(${PhotoEntity.POSITION}) FROM ${PhotoEntity.TABLE_NAME}")
+    fun getMaxPosition(): Int?
+
     @Query("DELETE FROM ${PhotoEntity.TABLE_NAME} WHERE ${PhotoEntity.SEARCH_TYPE} = 0")
     fun deleteFeedPhotos()
 
