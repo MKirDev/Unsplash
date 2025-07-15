@@ -24,7 +24,9 @@ data class PhotoFeedDto(
     @Embedded
     val userDto: UserDto,
     @ColumnInfo(name = SEARCH_TYPE)
-    val searchType: Int
+    val searchType: Int,
+    @ColumnInfo(name = POSITION)
+    val position: Int
 ) {
     companion object {
         const val ID = "id"
@@ -36,5 +38,6 @@ data class PhotoFeedDto(
         const val LIKES = "likes"
         const val LIKED = "liked"
         const val SEARCH_TYPE = "search_type"
+        const val POSITION = "position"
     }
 }

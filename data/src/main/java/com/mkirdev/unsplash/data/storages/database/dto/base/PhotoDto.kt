@@ -18,7 +18,9 @@ data class PhotoDto(
     @ColumnInfo(name = USER_ID)
     val userId: String,
     @ColumnInfo(name = SEARCH_TYPE)
-    val searchType: Int
+    val searchType: Int,
+    @ColumnInfo(name = POSITION)
+    val position: Int
 ) {
     companion object {
         const val ID = "id"
@@ -29,5 +31,6 @@ data class PhotoDto(
         const val LIKES = "likes"
         const val USER_ID = "user_id"
         const val SEARCH_TYPE = "search_type"
+        const val POSITION = "position"
     }
 }
