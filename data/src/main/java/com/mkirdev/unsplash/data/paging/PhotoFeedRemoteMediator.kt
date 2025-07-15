@@ -15,7 +15,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
-private const val ITEMS_PER_PAGE = 10
+private const val ITEMS_PER_PAGE = 20
 @OptIn(ExperimentalPagingApi::class)
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
@@ -26,7 +26,7 @@ class PhotoFeedRemoteMediator(
     private val reactionsTypeDao = appDatabase.reactionsTypeDao()
     private val photoReactionsDao = appDatabase.photoReactionsDao()
     private val userDao = appDatabase.userDao()
-    private val remoteKeysDao = appDatabase.remoteKeysDao()
+    private val remoteKeysDao = appDatabase.remoteKeysFeedDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -71,15 +71,10 @@ class PhotoFeedRemoteMediator(
                     reactionsTypeDao.deleteReactionsTypes()
                     photoReactionsDao.deletePhotoReactions()
                     userDao.deleteUsers()
-                    remoteKeysDao.deleteAllRemoteKeys()
                 }
 
                 val keys = response.map { photoFeedNetwork ->
                     photoFeedNetwork.toKeysEntity(prevPage = prevPage, nextPage = nextPage)
-                }
-
-                val photos = response.map { photoFeedNetwork ->
-                    photoFeedNetwork.toPhotoEntity()
                 }
 
                 val reactions = response.map { photoFeedNetwork ->
@@ -97,7 +92,13 @@ class PhotoFeedRemoteMediator(
                 remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
 
                 userDao.addUsers(users = users)
-                photoDao.addPhotos(photos = photos)
+
+                response.forEach { photoFeedNetwork ->
+                    val maxPosition = photoDao.getMaxPosition() ?: 0
+                    val photo = photoFeedNetwork.toPhotoEntity(maxPosition + 1)
+                    photoDao.addPhoto(photo)
+                }
+
                 reactionsTypeDao.addReactionsTypes(reactions = reactions)
                 photoReactionsDao.addPhotoReactions(photoReactions = photoReactions)
             }
