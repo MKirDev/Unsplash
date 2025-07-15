@@ -1,6 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -66,8 +66,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(JavaVersion.VERSION_17.toString()))
+        }
     }
     buildFeatures {
         buildConfig = true
@@ -88,6 +90,7 @@ dependencies {
     // data
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit.rxjava)
     implementation(libs.okhttp3.interceptor)
     implementation(libs.gson)
     implementation(libs.androidx.room.runtime)
