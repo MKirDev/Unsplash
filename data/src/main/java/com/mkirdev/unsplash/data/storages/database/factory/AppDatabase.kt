@@ -7,7 +7,8 @@ import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoCollectionDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoReactionsDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.ReactionsTypeDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysDao
+import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysFeedDao
+import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysSearchDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.UserDao
 import com.mkirdev.unsplash.data.storages.database.dao.collection.PhotoFromCollectionDao
 import com.mkirdev.unsplash.data.storages.database.dao.feed.PhotoFeedDao
@@ -17,7 +18,8 @@ import com.mkirdev.unsplash.data.storages.database.entities.PhotoCollectionEntit
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
 import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysEntity
+import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.UserEntity
 
 private const val DATABASE_VERSION = 1
@@ -30,7 +32,8 @@ private const val DATABASE_VERSION = 1
         PhotoReactionsEntity::class,
         ReactionsTypeEntity::class,
         UserEntity::class,
-        RemoteKeysEntity::class
+        RemoteKeysFeedEntity::class,
+        RemoteKeysSearchEntity::class
     ],
     version = DATABASE_VERSION
 )
@@ -54,5 +57,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun photoSearchDao(): PhotoSearchDao
 
-    abstract fun remoteKeysDao(): RemoteKeysDao
+    abstract fun remoteKeysFeedDao(): RemoteKeysFeedDao
+
+    abstract fun remoteKeysSearchDao(): RemoteKeysSearchDao
 }
