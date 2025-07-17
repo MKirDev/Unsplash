@@ -6,6 +6,8 @@ import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApiImpl
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApiImpl
+import com.mkirdev.unsplash.details.api.DetailsFeatureApi
+import com.mkirdev.unsplash.details.api.DetailsFeatureApiImpl
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApiImpl
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
@@ -40,5 +42,8 @@ interface FeaturesModule {
 
     @Binds
     fun bindPhotoFeedFeature(featureApi: PhotoFeedFeatureApiImpl): PhotoFeedFeatureApi
+
+    @Binds
+    fun bindDetailsFeature(featureApi: DetailsFeatureApiImpl): DetailsFeatureApi
 
 }
