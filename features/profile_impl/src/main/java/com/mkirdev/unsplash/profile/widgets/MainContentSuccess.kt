@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,10 +31,10 @@ import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_60
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
-import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
+import com.mkirdev.unsplash.core.ui.widgets.LikesInfoSmall
 import com.mkirdev.unsplash.core.ui.widgets.TitleField
-import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.profile.impl.ProfileTags
@@ -105,18 +106,19 @@ fun MainContentSuccess(
                                 .clickable {
                                     onPhotoItemClick(it.id)
                                 },
+                            contentScale = ContentScale.FillBounds,
                             photoItemModel = it,
                             userImage = {
-                                UserImageMedium(imageUrl = it.user.userImage)
+                                UserImageSmall(imageUrl = it.user.userImage)
                             },
                             userInfo = {
-                                UserInfoMedium(
+                                UserInfoSmall(
                                     name = it.user.name,
                                     userName = it.user.username
                                 )
                             },
                             likesInfo = { modifier, onLike, onRemoveLike ->
-                                LikesInfo(
+                                LikesInfoSmall(
                                     modifier = modifier.padding(
                                         end = padding_6,
                                         bottom = padding_10
