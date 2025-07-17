@@ -24,8 +24,8 @@ import com.mkirdev.unsplash.core.ui.theme.padding_16
 import com.mkirdev.unsplash.core.ui.theme.padding_20
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.space_4
-import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -79,10 +79,10 @@ private fun CollectionItemPreview() {
             modifier = Modifier.wrapContentWidth(),
             photoItemModel = collectionItemModel,
             userImage = {
-                UserImageMedium(imageUrl = collectionItemModel.user.userImage)
+                UserImageSmall(imageUrl = collectionItemModel.user.userImage)
             },
             userInfo = {
-                UserInfoMedium(
+                UserInfoSmall(
                     name = collectionItemModel.user.name,
                     userName = collectionItemModel.user.username
                 )
