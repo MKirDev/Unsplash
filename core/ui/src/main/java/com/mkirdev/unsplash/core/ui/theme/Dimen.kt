@@ -39,9 +39,11 @@ val space_100 = 100.dp
 val item_width_12 = 12.dp
 val item_width_20 = 20.dp
 val item_width_64 = 64.dp
+val item_width_80 = 80.dp
 val item_width_128 = 128.dp
 val item_width_138 = 138.dp
 val item_width_158 = 158.dp
+val item_width_170 = 170.dp
 val item_width_360 = 360.dp
 
 val item_height_14 = 14.dp
@@ -52,15 +54,22 @@ val item_height_238 = 238.dp
 val item_height_378 = 378.dp
 
 val item_size_18 = 18.dp
+val item_size_20 = 20.dp
+val item_size_24 = 24.dp
+val item_size_30 = 30.dp
+val item_size_36 = 36.dp
 
 val icon_size_12 = 12.dp
 val icon_size_18 = 18.dp
+val icon_size_20 = 20.dp
 val icon_size_24 = 24.dp
 val icon_size_70 = 70.dp
 
 val image_size_14 = 14.dp
 val image_size_18 = 18.dp
 val image_size_28 = 28.dp
+val image_size_34 = 34.dp
+val image_size_36 = 36.dp
 val image_size_340 = 340.dp
 val image_size_344 = 344.dp
 
