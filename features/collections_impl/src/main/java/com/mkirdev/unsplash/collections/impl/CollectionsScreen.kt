@@ -30,8 +30,8 @@ import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.TitleField
-import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 
 @Composable
 fun CollectionsScreen(
@@ -83,10 +83,10 @@ fun CollectionsScreen(
                                     },
                                 photoItemModel = it,
                                 userImage = {
-                                    UserImageMedium(imageUrl = it.user.userImage)
+                                    UserImageSmall(imageUrl = it.user.userImage)
                                 },
                                 userInfo = {
-                                    UserInfoMedium(
+                                    UserInfoSmall(
                                         name = it.user.name,
                                         userName = it.user.username
                                     )
