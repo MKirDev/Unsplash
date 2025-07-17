@@ -18,6 +18,7 @@ import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.photo_feed.mappers.toPresentation
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -58,7 +59,6 @@ internal class PhotoFeedViewModel(
     private val searchState = MutableStateFlow(PhotoSearch())
 
     init {
-        loadPhotos()
         observeSearch()
     }
 
@@ -90,15 +90,18 @@ internal class PhotoFeedViewModel(
         _effect.update { null }
     }
 
-    private fun loadPhotos() {
+    private fun transformPagingData(flow: Flow<PagingData<Photo>>): Flow<PagingData<PhotoItemModel>> {
+        return flow
+            .map { pagingData -> pagingData.map { it.toPresentation() } }
+            .cachedIn(viewModelScope)
+    }
+
+    private fun loadPhotos(photos: Flow<PagingData<PhotoItemModel>>) {
         viewModelScope.launch {
             try {
                 _uiState.update {
                     PhotoFeedContract.State.Loading
                 }
-                val photos = getPhotosUseCase.execute().map { value: PagingData<Photo> ->
-                    value.map { it.toPresentation() }
-                }.cachedIn(viewModelScope)
                 _uiState.update {
                     PhotoFeedContract.State.Success(
                         search = EMPTY_STRING,
@@ -272,13 +275,15 @@ internal class PhotoFeedViewModel(
                     }
                 }
                 .collect { flowPagingData ->
-                    val photos = flowPagingData.map { value: PagingData<Photo> ->
-                        value.map { it.toPresentation() }
-                    }.cachedIn(viewModelScope)
-                    _uiState.update {
-                        (it as PhotoFeedContract.State.Success).copy(
-                            models = photos
-                        )
+                    val photos = transformPagingData(flowPagingData)
+                    if (searchState.value.search.isNotEmpty()) {
+                        _uiState.update {
+                            (it as PhotoFeedContract.State.Success).copy(
+                                models = photos
+                            )
+                        }
+                    } else {
+                        loadPhotos(photos)
                     }
                 }
         }

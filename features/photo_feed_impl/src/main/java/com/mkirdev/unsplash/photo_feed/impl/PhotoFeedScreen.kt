@@ -21,9 +21,15 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -44,15 +50,17 @@ import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_70
 import com.mkirdev.unsplash.core.ui.theme.space_6
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
-import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
+import com.mkirdev.unsplash.core.ui.widgets.LikesInfoSmall
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.SearchField
 import com.mkirdev.unsplash.core.ui.widgets.StaticEmptyField
-import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.take
 
 private const val EMPTY_STRING = ""
 private const val FIXED_COUNT = 2
@@ -70,7 +78,21 @@ internal fun PhotoFeedScreenWrapper(
     onPagingCloseField: () -> Unit,
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit
 ) {
-    val gridState = rememberLazyGridState()
+
+    var scrollIndex by rememberSaveable { mutableIntStateOf(0) }
+    var scrollOffset by rememberSaveable { mutableIntStateOf(0) }
+
+
+    val gridState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = scrollIndex,
+        initialFirstVisibleItemScrollOffset = scrollOffset
+    )
+    LaunchedEffect(gridState.isScrollInProgress) {
+        if (!gridState.isScrollInProgress) {
+          scrollIndex = gridState.firstVisibleItemIndex
+          scrollOffset = gridState.firstVisibleItemScrollOffset
+        }
+    }
 
     val models = when (uiState) {
         is PhotoFeedContract.State.Success -> uiState.models
@@ -101,6 +123,8 @@ internal fun PhotoFeedScreenWrapper(
         val pagedItems = flowPagingData.collectAsLazyPagingItems()
         PhotoFeedScreen(
             gridState = gridState,
+            scrollIndex = scrollIndex,
+            scrollOffset = scrollOffset,
             pagedItems = pagedItems,
             searchText = searchText,
             onSearch = onSearch,
@@ -120,6 +144,8 @@ internal fun PhotoFeedScreenWrapper(
 @Composable
 private fun PhotoFeedScreen(
     gridState: LazyGridState,
+    scrollIndex: Int,
+    scrollOffset: Int,
     pagedItems: LazyPagingItems<PhotoItemModel>,
     searchText: String,
     onSearch: (String) -> Unit,
@@ -140,12 +166,27 @@ private fun PhotoFeedScreen(
 
     val offsetY = if (isPortrait) screenHeight * 0.847f else screenHeight * 0.648f
 
+    val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        ContentScale.FillWidth
+    } else {
+        ContentScale.FillHeight
+    }
+
     LaunchedEffect(key1 = pagedItems.loadState, block = {
         snapshotFlow { pagedItems.loadState.append }.collect { loadState ->
             if (loadState is LoadState.Error) onLoadError()
             else if (loadState is LoadState.Loading && isPagingLoadingError) onPagingCloseField()
         }
     })
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { pagedItems.itemCount }
+            .filter { it > scrollIndex }
+            .take(1)
+            .collect {
+                gridState.scrollToItem(scrollIndex, scrollOffset)
+            }
+    }
 
     if (!errorText.isNullOrEmpty()) {
         ClosableErrorField(
@@ -160,12 +201,14 @@ private fun PhotoFeedScreen(
             onClick = onCloseFieldClick
         )
     }
+
     Box(Modifier.fillMaxSize()) {
         Column {
             SearchField(
                 text = searchText,
                 onValueChange = {
-                    onSearch(it) },
+                    onSearch(it)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag(PhotoFeedTags.SEARCH_FIELD)
@@ -175,7 +218,12 @@ private fun PhotoFeedScreen(
                 state = gridState,
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background),
-                contentPadding = PaddingValues(start = padding_10, end = padding_10, bottom = padding_10, top = padding_6),
+                contentPadding = PaddingValues(
+                    start = padding_10,
+                    end = padding_10,
+                    bottom = padding_10,
+                    top = padding_6
+                ),
                 horizontalArrangement = Arrangement.spacedBy(space_6)
             ) {
                 when (pagedItems.loadState.refresh) {
@@ -211,7 +259,8 @@ private fun PhotoFeedScreen(
                     }
 
                     else -> {
-                        items(count = pagedItems.itemCount,
+                        items(
+                            count = pagedItems.itemCount,
                             key = pagedItems.itemKey { it.id }) { index ->
                             pagedItems[index]?.let { photoItem ->
                                 PhotoItem(
@@ -220,19 +269,20 @@ private fun PhotoFeedScreen(
                                         .fillMaxWidth()
                                         .height(350.dp)
                                         .clickable { onPhotoClick(photoItem.id) },
+                                    contentScale = contentScale,
                                     photoItemModel = photoItem,
-                                    userImage = { UserImageMedium(imageUrl = photoItem.user.userImage) },
+                                    userImage = { UserImageSmall(imageUrl = photoItem.user.userImage) },
                                     userInfo = {
-                                        UserInfoMedium(
+                                        UserInfoSmall(
                                             name = photoItem.user.name,
                                             userName = photoItem.user.username
                                         )
                                     },
                                     likesInfo = { modifier, onLike, onRemoveLike ->
-                                        LikesInfo(
+                                        LikesInfoSmall(
                                             modifier = modifier.padding(
                                                 end = padding_6,
-                                                bottom = padding_6
+                                                bottom = padding_10
                                             ),
                                             photoId = photoItem.id,
                                             likes = photoItem.likes,
@@ -252,7 +302,7 @@ private fun PhotoFeedScreen(
                                 ClosableErrorField(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(padding_6),
+                                        .padding(vertical = padding_6),
                                     text = stringResource(id = R.string.collections_network_error),
                                     textStyle = MaterialTheme.typography.bodyLargeMedium,
                                     onClick = {
