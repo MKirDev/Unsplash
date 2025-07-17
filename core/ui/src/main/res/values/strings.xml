@@ -52,4 +52,6 @@
     <string name="text_button_confirm">Yes</string>
     <string name="onboarding_data_store_error">Error: the onboarding completion flag cannot be saved</string>
     <string name="next">Next</string>
+    <string name="downloads_channel">Downloads</string>
+    <string name="description_channel">Notifications about uploaded photos</string>
 </resources>

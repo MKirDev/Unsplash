@@ -9,6 +9,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +53,10 @@ fun HyperlinkText(
 
     val interactionSource = remember { MutableInteractionSource() }
 
+    val isDownloadsLarge by remember {
+        derivedStateOf { downloads.length >= 6 }
+    }
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -75,12 +81,16 @@ fun HyperlinkText(
             style = textStyle
         )
         Spacer(modifier = Modifier.width(space_4))
-        Icon(
-            painter = painterResource(id = R.drawable.ic_download),
-            contentDescription = stringResource(id = R.string.download_icon),
-            tint = MaterialTheme.colorScheme.onBackground
-        )
-
+        when (isDownloadsLarge) {
+            true -> Unit
+            false -> {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_download),
+                    contentDescription = stringResource(id = R.string.download_icon),
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
     }
 }
 

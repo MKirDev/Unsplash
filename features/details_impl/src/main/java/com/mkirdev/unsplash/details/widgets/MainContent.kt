@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,16 +27,14 @@ import com.mkirdev.unsplash.core.ui.theme.icon_size_24
 import com.mkirdev.unsplash.core.ui.theme.item_width_158
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_16
-import com.mkirdev.unsplash.core.ui.theme.padding_2
-import com.mkirdev.unsplash.core.ui.theme.padding_24
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
+import com.mkirdev.unsplash.core.ui.theme.padding_8
 import com.mkirdev.unsplash.core.ui.theme.space_10
 import com.mkirdev.unsplash.core.ui.theme.space_20
 import com.mkirdev.unsplash.core.ui.widgets.BioInfo
 import com.mkirdev.unsplash.core.ui.widgets.ExifInfo
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
-import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
 import com.mkirdev.unsplash.core.ui.widgets.TitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
@@ -66,7 +65,7 @@ fun MainContent(
             },
             onNavigateUp = onNavigateUp
         )
-        Spacer(modifier = Modifier.height(space_20))
+        Spacer(modifier = Modifier.height(space_10))
         Column(
             modifier = Modifier
                 .background(color = MaterialTheme.colorScheme.background)
@@ -77,6 +76,7 @@ fun MainContent(
                     .width(detailsModel.photoItemModel.width)
                     .aspectRatio(detailsModel.photoItemModel.aspectRatioImage)
                 ,
+                contentScale = ContentScale.FillBounds,
                 photoItemModel = detailsModel.photoItemModel,
                 userImage = {
                     UserImageMedium(imageUrl = detailsModel.photoItemModel.user.userImage)
@@ -112,7 +112,7 @@ fun MainContent(
                                 onClick = {
                                     onLocationClick(it)
                                 },
-                                modifier = Modifier.size(icon_size_24).padding(top = padding_4)
+                                modifier = Modifier.size(icon_size_24)
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_location),
@@ -124,7 +124,7 @@ fun MainContent(
                         it.place?.let { it1 ->
                             Text(
                                 text = it1,
-                                modifier = Modifier.padding(start = padding_4, top = padding_4),
+                                modifier = Modifier.padding(start = padding_8, top = padding_4),
                                 color = MaterialTheme.colorScheme.onBackground,
                                 style = MaterialTheme.typography.bodyLarge
                             )
@@ -135,7 +135,7 @@ fun MainContent(
                     downloadText = stringResource(id = R.string.download),
                     downloadLink = detailsModel.photoItemModel.downloadLink,
                     downloads = detailsModel.photoItemModel.downloads,
-                    modifier = Modifier.padding(top = padding_2).weight(0.35f),
+                    modifier = Modifier.padding(top = padding_4, end = padding_4).weight(0.35f),
                     textStyle = MaterialTheme.typography.bodyLarge,
                     onDownloadClick = onDownloadClick
                 )
@@ -144,16 +144,19 @@ fun MainContent(
                 Text(
                     text = it,
                     modifier = Modifier.padding(
-                        start = padding_16,
-                        top = padding_24,
+                        top = padding_16,
                         bottom = padding_16
-                    ),
+                    )
+                        .padding(horizontal = padding_8)
+                    ,
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth().padding(top = padding_10),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = padding_4)
+                    .padding(horizontal = padding_8),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 detailsModel.exif?.let {

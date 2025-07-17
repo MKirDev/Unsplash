@@ -21,6 +21,8 @@ import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.space_10
 import com.mkirdev.unsplash.core.ui.theme.space_16
+import com.mkirdev.unsplash.core.ui.theme.space_20
+import com.mkirdev.unsplash.core.ui.theme.space_30
 
 @Composable
 fun ClosableErrorField(
@@ -34,10 +36,10 @@ fun ClosableErrorField(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.width(space_16))
+        Spacer(modifier = Modifier.width(space_20))
         Text(
             text = text.uppercase(),
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1.1f),
             color = MaterialTheme.colorScheme.onError,
             maxLines = 2,
             softWrap = true,
@@ -55,7 +57,7 @@ fun ClosableErrorField(
                 tint = MaterialTheme.colorScheme.error
             )
         }
-        Spacer(modifier = Modifier.width(space_10))
+        Spacer(modifier = Modifier.width(space_20))
     }
 }
 

@@ -22,50 +22,6 @@ class DetailsScreenTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun field_whenUiStateDownloadSuccess_showsInfo() {
-        val photoDetailsStub = PhotoDetailsStub.create()
-        composeTestRule.setContent {
-            PhotoDetailsScreenWrapper(
-                uiState = DetailsContract.State.DownloadSuccess(
-                    detailsModel = photoDetailsStub
-                ),
-                onShareClick = {},
-                onLikeClick = {},
-                onRemoveLikeClick = {},
-                onLocationClick = {},
-                onDownloadClick = {},
-                onNavigateUp = {},
-                onNavigateBack = {},
-                onCloseFieldClick = {}
-                )
-        }
-
-        composeTestRule.onNodeWithTag(PhotoDetailsTags.DOWNLOAD_INFO_FIELD).assertIsDisplayed()
-    }
-
-    @Test
-    fun field_whenUiStateDownloadFailure_showsError() {
-        val photoDetailsStub = PhotoDetailsStub.create()
-        composeTestRule.setContent {
-            PhotoDetailsScreenWrapper(
-                uiState = DetailsContract.State.DownloadFailure(
-                    detailsModel = photoDetailsStub
-                ),
-                onShareClick = {},
-                onLikeClick = {},
-                onRemoveLikeClick = {},
-                onLocationClick = {},
-                onDownloadClick = {},
-                onNavigateUp = {},
-                onNavigateBack = {},
-                onCloseFieldClick = {}
-            )
-        }
-
-        composeTestRule.onNodeWithTag(PhotoDetailsTags.DOWNLOAD_ERROR_FIELD).assertIsDisplayed()
-    }
-
-    @Test
     fun field_whenUiStateFailure_showsError() {
         val errorStub = ErrorStub.create()
         val photoDetailsStub = PhotoDetailsStub.create()

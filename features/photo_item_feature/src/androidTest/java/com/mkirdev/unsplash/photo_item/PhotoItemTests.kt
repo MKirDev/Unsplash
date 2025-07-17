@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.filterToOne
@@ -19,10 +20,8 @@ import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_60
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
-import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
-import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
+import com.mkirdev.unsplash.core.ui.widgets.LikesInfoSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.utils.stubs.PhotoItemStub
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
@@ -43,6 +42,7 @@ internal class PhotoItemTests {
         composeTestRule.setContent {
             PhotoItem(
                 modifier = Modifier,
+                contentScale = ContentScale.FillBounds,
                 photoItemModel = photoItemStub,
                 userImage = {
                     UserImageSmall(imageUrl = photoItemStub.user.userImage)
@@ -54,7 +54,7 @@ internal class PhotoItemTests {
                     )
                 },
                 likesInfo = { modifier, onLike, onRemoveLike ->
-                    LikesInfo(
+                    LikesInfoSmall(
                         modifier = modifier.padding(start = padding_6, bottom = padding_6),
                         photoId = photoItemStub.id,
                         likes = photoItemStub.likes,
@@ -78,6 +78,7 @@ internal class PhotoItemTests {
         composeTestRule.setContent {
             PhotoItem(
                 modifier = Modifier,
+                contentScale = ContentScale.FillBounds,
                 photoItemModel = photoItemStub,
                 userImage = {
                     UserImageSmall(imageUrl = photoItemStub.user.userImage)
@@ -89,7 +90,7 @@ internal class PhotoItemTests {
                     )
                 },
                 likesInfo = { modifier, onLike, onRemoveLike ->
-                    LikesInfo(
+                    LikesInfoSmall(
                         modifier = modifier.padding(start = padding_6, bottom = padding_6),
                         photoId = photoItemStub.id,
                         likes = photoItemStub.likes,
@@ -113,18 +114,19 @@ internal class PhotoItemTests {
         composeTestRule.setContent {
             PhotoItem(
                 modifier = Modifier,
+                contentScale = ContentScale.FillBounds,
                 photoItemModel = photoItemStub,
                 userImage = {
-                    UserImageMedium(imageUrl = photoItemStub.user.userImage)
+                    UserImageSmall(imageUrl = photoItemStub.user.userImage)
                 },
                 userInfo = {
-                    UserInfoMedium(
+                    UserInfoSmall(
                         name = photoItemStub.user.name,
                         userName = photoItemStub.user.username
                     )
                 },
                 likesInfo = { modifier, onLike, onRemoveLike ->
-                    LikesInfo(
+                    LikesInfoSmall(
                         modifier = modifier.padding(start = padding_6, bottom = padding_6),
                         photoId = photoItemStub.id,
                         likes = photoItemStub.likes,

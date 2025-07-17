@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.photo_item.feature
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,13 +10,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Precision
 import com.mkirdev.unsplash.core.ui.R
@@ -27,16 +27,18 @@ import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_60
 import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
-import com.mkirdev.unsplash.core.ui.widgets.LikesInfo
-import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
-import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
+import com.mkirdev.unsplash.core.ui.widgets.LikesInfoSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
+import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
+import kotlinx.coroutines.Dispatchers
 
 
 @Composable
 fun PhotoItem(
     modifier: Modifier,
+    contentScale: ContentScale,
     photoItemModel: PhotoItemModel,
     userImage: @Composable () -> Unit,
     userInfo: @Composable () -> Unit,
@@ -50,24 +52,19 @@ fun PhotoItem(
     onRemoveLikeClick: (String) -> Unit,
     onDownloadClick: ((String) -> Unit)? = null
 ) {
-
-    val configuration = LocalConfiguration.current
-    val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ContentScale.FillWidth
-    } else {
-        ContentScale.FillHeight
-    }
-
-    Box {
+    Box(modifier) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(photoItemModel.imageUrl)
                 .crossfade(true)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .memoryCachePolicy(CachePolicy.ENABLED)
                 .precision(Precision.INEXACT)
                 .build(),
             contentDescription = stringResource(id = R.string.photo_item),
             contentScale = contentScale,
-            modifier = modifier
+            modifier = modifier.matchParentSize(),
+            filterQuality = FilterQuality.Low
         )
         Row(
             modifier = Modifier
@@ -112,18 +109,19 @@ private fun PhotoItemPreview() {
     UnsplashTheme(dynamicColor = false) {
         PhotoItem(
             modifier = Modifier.aspectRatio(2.5f),
+            contentScale = ContentScale.FillBounds,
             photoItemModel = photoItemModel,
             userImage = {
-                UserImageMedium(imageUrl = photoItemModel.user.userImage)
+                UserImageSmall(imageUrl = photoItemModel.user.userImage)
             },
             userInfo = {
-                UserInfoMedium(
+                UserInfoSmall(
                     name = photoItemModel.user.name,
                     userName = photoItemModel.user.username
                 )
             },
             likesInfo = { modifier, onLike, onRemoveLike ->
-                LikesInfo(
+                LikesInfoSmall(
                     modifier = modifier.padding(end = padding_6, bottom = padding_6),
                     photoId = photoItemModel.id,
                     likes = photoItemModel.likes,
