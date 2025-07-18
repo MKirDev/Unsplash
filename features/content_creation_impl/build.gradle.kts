@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -47,8 +46,7 @@ dependencies {
     implementation(project(":features:content_creation_api"))
 
     // di
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
+    implementation(libs.javax.inject)
 
     // core
     implementation(libs.core.ktx)
@@ -69,10 +67,4 @@ dependencies {
     implementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-
-    // tests
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.test.ext.junit)
 }
