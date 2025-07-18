@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.bottom_menu.navigation
+package com.mkirdev.unsplash.bottom_menu.api.navigation
 
 import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
 

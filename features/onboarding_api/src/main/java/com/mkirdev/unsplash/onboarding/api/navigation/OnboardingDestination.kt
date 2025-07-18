@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.onboarding.navigation
+package com.mkirdev.unsplash.onboarding.api.navigation
 
 import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
 

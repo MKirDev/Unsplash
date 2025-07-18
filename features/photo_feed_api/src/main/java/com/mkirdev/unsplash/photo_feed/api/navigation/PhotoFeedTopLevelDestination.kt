@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.photo_feed.navigation
+package com.mkirdev.unsplash.photo_feed.api.navigation
 
 import com.mkirdev.unsplash.core.navigation.TopLevelDestination
 import com.mkirdev.unsplash.core.ui.R

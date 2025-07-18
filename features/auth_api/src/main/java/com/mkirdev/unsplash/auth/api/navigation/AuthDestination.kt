@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.auth.navigation
+package com.mkirdev.unsplash.auth.api.navigation
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument

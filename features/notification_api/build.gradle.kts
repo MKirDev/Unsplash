@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mkirdev.unsplash.social_collections"
+    namespace = "com.mkirdev.unsplash.notification.api"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -41,31 +41,7 @@ android {
 
 dependencies {
 
-    implementation(project(":core:navigation"))
-    implementation(project(":core:ui"))
-
-    implementation(project(":features:social_collections_api"))
-
-    // di
-    implementation(libs.javax.inject)
-
-    // core
-    implementation(libs.core.ktx)
-    implementation(libs.kotlinx.coroutines.android)
-
-    // navigation
-    implementation(libs.navigation)
-    implementation(libs.androidx.navigation.runtime.ktx)
-
-    // presentation
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.runtime.compose)
-
     // presentation compose
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
 }

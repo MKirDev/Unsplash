@@ -6,6 +6,7 @@ import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationFailedInterceptor
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationInterceptor
 import com.mkirdev.unsplash.data.network.managers.AuthStateManager
+import com.mkirdev.unsplash.data.network.photos.api.DownloadApi
 import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
@@ -15,6 +16,7 @@ import net.openid.appauth.AuthorizationService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -89,6 +91,7 @@ class NetworkModule {
             .baseUrl(BuildConfig.UNSPLASH_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }
 
@@ -106,6 +109,14 @@ class NetworkModule {
         retrofit: Retrofit
     ): SearchApi {
         return retrofit.create(SearchApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDownloadApi(
+        retrofit: Retrofit
+    ): DownloadApi {
+        return retrofit.create(DownloadApi::class.java)
     }
 
 

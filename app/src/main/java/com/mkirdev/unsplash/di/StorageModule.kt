@@ -16,7 +16,6 @@ import javax.inject.Singleton
 
 private const val ONBOARDING_DATA_STORE = "onboardingDataStore"
 private const val AUTH_DATA_STORE = "authDataStore"
-private const val PHOTOS_DATA_STORE = "photosDataStore"
 private const val PROJECT_DATABASE = "project_database"
 
 @Module
@@ -32,12 +31,6 @@ class StorageModule {
     @Named(AUTH_DATA_STORE)
     fun provideAuthDataStore(dataStoreManager: DataStoreManager): DataStore<Preferences> {
         return dataStoreManager.authDataStore
-    }
-
-    @Provides
-    @Named(PHOTOS_DATA_STORE)
-    fun providePhotosDataStore(dataStoreManager: DataStoreManager): DataStore<Preferences> {
-        return dataStoreManager.photosDataStore
     }
 
     @Singleton

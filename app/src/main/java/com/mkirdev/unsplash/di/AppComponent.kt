@@ -8,12 +8,22 @@ import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
+import com.mkirdev.unsplash.data.network.photos.api.DownloadApi
+import com.mkirdev.unsplash.details.api.DetailsFeatureApi
+import com.mkirdev.unsplash.details.di.DetailsDependencies
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
+import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetLikedPhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.GetPhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetUnlikedPhotoUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
@@ -23,6 +33,7 @@ import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 import dagger.BindsInstance
 import dagger.Component
+import kotlinx.coroutines.CoroutineDispatcher
 import net.openid.appauth.AuthorizationService
 import javax.inject.Singleton
 
@@ -32,12 +43,13 @@ import javax.inject.Singleton
         NetworkModule::class,
         StorageModule::class,
         RepositoriesModule::class,
+        DomainModule::class,
         AppModule::class,
         FeaturesModule::class
     ]
 )
 interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies,
-    PhotoFeedDependencies {
+    PhotoFeedDependencies, DetailsDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -56,15 +68,27 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     override val photoFeedFeatureApi: PhotoFeedFeatureApi
     override val topLevelDestination: TopDestinations
 
-    override val photosRepository: PhotosRepository
+    override val getPhotosUseCase: GetPhotosUseCase
+    override val searchPhotosUseCase: SearchPhotosUseCase
+    override val likePhotoLocalUseCase: LikePhotoLocalUseCase
+    override val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase
+    override val addDownloadLinkUseCase: AddDownloadLinkUseCase
+
+    override val getPhotoUseCase: GetPhotoUseCase
 
     val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
-
     val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase
 
     val getLikedPhotoUseCase: GetLikedPhotoUseCase
-
     val getUnlikedPhotoUseCase: GetUnlikedPhotoUseCase
+
+    val detailsFeatureApi: DetailsFeatureApi
+
+    val downloadApi: DownloadApi
+
+    val coroutineDispatcher: CoroutineDispatcher
+
+    val getDownloadLinkUseCase: GetDownloadLinkUseCase
 
     @Component.Builder
     interface Builder {
