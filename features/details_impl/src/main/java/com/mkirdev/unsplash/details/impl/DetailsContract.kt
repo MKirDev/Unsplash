@@ -49,7 +49,10 @@ interface DetailsContract : UniFlowViewModel<
     sealed interface Effect {
         data object BackPressed : Effect
         data object UpPressed : Effect
-        data class Location(val coordinatesModel: CoordinatesModel) : Effect
+        data class Location(
+            val latitude: Double,
+            val longitude: Double
+        ) : Effect
 
         data class Share(val link: String) : Effect
     }

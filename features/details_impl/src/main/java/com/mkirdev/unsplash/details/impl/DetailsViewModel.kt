@@ -99,7 +99,8 @@ class DetailsViewModel(
     private fun onLocationClick(coordinatesModel: CoordinatesModel) {
         _effect.update {
             DetailsContract.Effect.Location(
-                coordinatesModel = coordinatesModel
+                latitude = coordinatesModel.latitude ?: throw Throwable(),
+                longitude = coordinatesModel.longitude ?: throw Throwable()
             )
         }
     }
