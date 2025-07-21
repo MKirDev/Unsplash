@@ -54,4 +54,6 @@
     <string name="next">Next</string>
     <string name="downloads_channel">Downloads</string>
     <string name="description_channel">Notifications about uploaded photos</string>
+    <string name="onboarding_notifications">"Enable notification to get a message when a photo finishes downloading.\nTap it to go straight to the gallery"</string>
+    <string name="onboarding_settings_for_notifications">Make sure the “Notifications” is on in the settings</string>
 </resources>

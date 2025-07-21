@@ -47,6 +47,7 @@ val item_width_170 = 170.dp
 val item_width_360 = 360.dp
 
 val item_height_14 = 14.dp
+val item_height_20 = 20.dp
 val item_height_44 = 44.dp
 val item_height_54 = 54.dp
 val item_height_138 = 138.dp
