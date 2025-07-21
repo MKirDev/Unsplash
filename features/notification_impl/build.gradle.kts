@@ -45,6 +45,9 @@ dependencies {
 
     implementation(project(":features:notification_api"))
 
+    // di
+    implementation(libs.javax.inject)
+
     // core
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
