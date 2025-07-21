@@ -38,7 +38,7 @@ internal fun FinishButton(
     ) {
         AnimatedVisibility(
             modifier = Modifier.height(item_height_44).width(item_width_158),
-            visible = pagerState.currentPage == 2
+            visible = pagerState.currentPage == 3
         ) {
             OutlinedButton(
                 onClick = onClick,

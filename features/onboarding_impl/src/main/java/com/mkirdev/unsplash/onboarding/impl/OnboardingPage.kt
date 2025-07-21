@@ -6,4 +6,6 @@ internal sealed class OnboardingPage {
     data object Second : OnboardingPage()
 
     data object Third : OnboardingPage()
+
+    data object Fourth : OnboardingPage()
 }

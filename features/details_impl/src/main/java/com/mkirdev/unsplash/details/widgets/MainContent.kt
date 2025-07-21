@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -24,14 +29,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.icon_size_24
+import com.mkirdev.unsplash.core.ui.theme.item_height_20
 import com.mkirdev.unsplash.core.ui.theme.item_width_158
+import com.mkirdev.unsplash.core.ui.theme.padding_0
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_16
+import com.mkirdev.unsplash.core.ui.theme.padding_2
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_8
 import com.mkirdev.unsplash.core.ui.theme.space_10
-import com.mkirdev.unsplash.core.ui.theme.space_20
 import com.mkirdev.unsplash.core.ui.widgets.BioInfo
 import com.mkirdev.unsplash.core.ui.widgets.ExifInfo
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
@@ -103,10 +110,10 @@ fun MainContent(
             Spacer(modifier = Modifier.height(space_10))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(space_20)
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(Modifier.weight(0.65f)) {
-                    detailsModel.location?.let {
+                detailsModel.location?.let {
+                    Row(Modifier.weight(0.6f), verticalAlignment = Alignment.CenterVertically) {
                         it.coordinatesModel?.let {
                             IconButton(
                                 onClick = {
@@ -124,21 +131,32 @@ fun MainContent(
                         it.place?.let { it1 ->
                             Text(
                                 text = it1,
-                                modifier = Modifier.padding(start = padding_8, top = padding_4),
+                                modifier = Modifier.padding(start = padding_8, top = padding_2),
                                 color = MaterialTheme.colorScheme.onBackground,
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }
+                    Row(
+                        Modifier.weight(0.4f).fillMaxSize(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        val topPadding by remember(it.place) {
+                            derivedStateOf {
+                                it.place?.length?.let { length -> if (length >= 32) padding_0 else padding_2 } ?: padding_2
+                            }
+                        }
+
+                        HyperlinkText(
+                            downloadText = stringResource(id = R.string.download),
+                            downloadLink = detailsModel.photoItemModel.downloadLink,
+                            downloads = detailsModel.photoItemModel.downloads,
+                            modifier = Modifier.padding(top = topPadding).height(item_height_20),
+                            textStyle = MaterialTheme.typography.bodyLarge,
+                            onDownloadClick = onDownloadClick
+                        )
+                    }
                 }
-                HyperlinkText(
-                    downloadText = stringResource(id = R.string.download),
-                    downloadLink = detailsModel.photoItemModel.downloadLink,
-                    downloads = detailsModel.photoItemModel.downloads,
-                    modifier = Modifier.padding(top = padding_4, end = padding_4).weight(0.35f),
-                    textStyle = MaterialTheme.typography.bodyLarge,
-                    onDownloadClick = onDownloadClick
-                )
             }
             detailsModel.tags?.let {
                 Text(

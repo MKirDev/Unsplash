@@ -2,6 +2,7 @@ package com.mkirdev.unsplash.core.ui.widgets
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -19,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.mkirdev.unsplash.core.ui.R
@@ -57,9 +59,14 @@ fun HyperlinkText(
         derivedStateOf { downloads.length >= 6 }
     }
 
+    val isTextEllipsisNeeded by remember {
+        derivedStateOf { downloads.length >= 7 }
+    }
+
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End
     ) {
         Text(
             text = annotatedString,
@@ -78,6 +85,8 @@ fun HyperlinkText(
         Text(
             text = stringResource(id = R.string.downloads, downloads),
             color = MaterialTheme.colorScheme.onBackground,
+            overflow = if (isTextEllipsisNeeded) TextOverflow.MiddleEllipsis else TextOverflow.Clip,
+            maxLines = 1,
             style = textStyle
         )
         Spacer(modifier = Modifier.width(space_4))
