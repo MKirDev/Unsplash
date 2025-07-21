@@ -28,7 +28,8 @@ internal class OnboardingViewModel(
         _uiState.update {
             OnboardingContract.State.Onboarding(
                 pages = persistentListOf(
-                    OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third
+                    OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third,
+                    OnboardingPage.Fourth
                 ),
                 isError = false
             )

@@ -1,5 +1,7 @@
 package com.mkirdev.unsplash.onboarding.api
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,7 +16,7 @@ import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
 import com.mkirdev.unsplash.onboarding.impl.OnboardingContract
 import com.mkirdev.unsplash.onboarding.impl.OnboardingScreen
 import com.mkirdev.unsplash.onboarding.impl.OnboardingViewModel
-import com.mkirdev.unsplash.onboarding.navigation.OnboardingDestination
+import com.mkirdev.unsplash.onboarding.api.navigation.OnboardingDestination
 import javax.inject.Inject
 
 class OnboardingFeatureApiImpl @Inject constructor(): OnboardingFeatureApi {
@@ -22,6 +24,7 @@ class OnboardingFeatureApiImpl @Inject constructor(): OnboardingFeatureApi {
         navigate(route = OnboardingDestination.route)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun NavGraphBuilder.onboarding(onNavigateToAuth: () -> Unit) {
         composable(route = OnboardingDestination.route) {
 
@@ -49,6 +52,10 @@ class OnboardingFeatureApiImpl @Inject constructor(): OnboardingFeatureApi {
                 mutableStateOf(onboardingComponent.uploadAndTrackFeatureApi)
             }
 
+            val notificationFeatureApi by remember {
+                mutableStateOf(onboardingComponent.notificationFeatureApi)
+            }
+
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             viewModel.applyEffect(function = { effect ->
@@ -63,6 +70,7 @@ class OnboardingFeatureApiImpl @Inject constructor(): OnboardingFeatureApi {
                 contentCreationFeatureApi = contentCreationFeatureApi,
                 socialCollectionsFeatureApi = socialCollectionsFeatureApi,
                 uploadAndTrackFeatureApi = uploadAndTrackFeatureApi,
+                notificationFeatureApi = notificationFeatureApi,
                 onAuthClick = { viewModel.handleEvent(OnboardingContract.Event.AuthOpenedEvent) },
                 onCloseFieldClick = { viewModel.handleEvent(OnboardingContract.Event.FieldClosedEvent) }
             )
