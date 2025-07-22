@@ -12,7 +12,7 @@ import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependenciesProvider
 import com.mkirdev.unsplash.bottom_menu.di.DaggerBottomMenuComponent
 import com.mkirdev.unsplash.bottom_menu.impl.BottomMenuScreenWrapper
 import com.mkirdev.unsplash.bottom_menu.impl.BottomMenuViewModel
-import com.mkirdev.unsplash.bottom_menu.navigation.BottomMenuDestination
+import com.mkirdev.unsplash.bottom_menu.api.navigation.BottomMenuDestination
 import javax.inject.Inject
 
 class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
