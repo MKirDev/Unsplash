@@ -18,7 +18,7 @@ import com.mkirdev.unsplash.auth.di.DaggerAuthComponent
 import com.mkirdev.unsplash.auth.impl.AuthContract
 import com.mkirdev.unsplash.auth.impl.AuthScreen
 import com.mkirdev.unsplash.auth.impl.AuthViewModel
-import com.mkirdev.unsplash.auth.navigation.AuthDestination
+import com.mkirdev.unsplash.auth.api.navigation.AuthDestination
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
@@ -96,7 +96,10 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
                             )
                         }
 
-                        AuthContract.Effect.PostAuth -> onNavigateToBottomMenu()
+                        AuthContract.Effect.PostAuth -> {
+                            // preferencesStore
+                            onNavigateToBottomMenu()
+                        }
                         AuthContract.Effect.BackPressed -> Unit
                         null -> Unit
                     }
