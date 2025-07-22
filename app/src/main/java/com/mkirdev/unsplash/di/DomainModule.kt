@@ -1,6 +1,7 @@
 package com.mkirdev.unsplash.di
 
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
+import com.mkirdev.unsplash.domain.repository.PreferencesRepository
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
@@ -13,6 +14,9 @@ import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.GetScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -76,6 +80,21 @@ class DomainModule {
     @Provides
     fun provideGetDownloadLinkUseCase(photosRepository: PhotosRepository): GetDownloadLinkUseCase {
         return GetDownloadLinkUseCase(photosRepository)
+    }
+
+    @Provides
+    fun provideGetScheduleFlagUseCase(preferencesRepository: PreferencesRepository): GetScheduleFlagUseCase {
+        return GetScheduleFlagUseCase(preferencesRepository)
+    }
+
+    @Provides
+    fun provideSaveScheduleFlagUseCase(preferencesRepository: PreferencesRepository): SaveScheduleFlagUseCase {
+        return SaveScheduleFlagUseCase(preferencesRepository)
+    }
+
+    @Provides
+    fun provideDeleteScheduleFlagUseCase(preferencesRepository: PreferencesRepository): DeleteScheduleFlagUseCase {
+        return DeleteScheduleFlagUseCase(preferencesRepository)
     }
 
 }

@@ -9,11 +9,13 @@ import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
 import com.mkirdev.unsplash.data.network.photos.api.DownloadApi
+import com.mkirdev.unsplash.data.storages.datastore.preferences.PreferencesStorage
 import com.mkirdev.unsplash.details.api.DetailsFeatureApi
 import com.mkirdev.unsplash.details.di.DetailsDependencies
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
+import com.mkirdev.unsplash.domain.repository.PreferencesRepository
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetLikedPhotoUseCase
@@ -25,10 +27,15 @@ import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.GetScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.notification.api.NotificationFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
 import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependencies
+import com.mkirdev.unsplash.schedulers.CacheScheduler
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 import dagger.BindsInstance
@@ -55,6 +62,8 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     override val contentCreationFeatureApi: ContentCreationFeatureApi
     override val socialCollectionsFeatureApi: SocialCollectionsFeatureApi
     override val uploadAndTrackFeatureApi: UploadAndTrackFeatureApi
+
+    override val notificationFeatureApi: NotificationFeatureApi
 
     val onboardingFeatureApi: OnboardingFeatureApi
 
@@ -89,6 +98,14 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     val coroutineDispatcher: CoroutineDispatcher
 
     val getDownloadLinkUseCase: GetDownloadLinkUseCase
+
+    val cacheScheduler: CacheScheduler
+
+    val saveScheduleFlagUseCase: SaveScheduleFlagUseCase
+
+    val getScheduleFlagUseCase: GetScheduleFlagUseCase
+
+    val deleteScheduleFlagUseCase: DeleteScheduleFlagUseCase
 
     @Component.Builder
     interface Builder {

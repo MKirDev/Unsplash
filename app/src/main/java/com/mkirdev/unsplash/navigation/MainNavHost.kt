@@ -16,7 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.mkirdev.unsplash.core.navigation.R
 import com.mkirdev.unsplash.di.DaggerProvider
-import com.mkirdev.unsplash.onboarding.navigation.OnboardingDestination
+import com.mkirdev.unsplash.onboarding.api.navigation.OnboardingDestination
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -54,6 +54,10 @@ fun MainNavHost(
         mutableStateOf(DaggerProvider.appComponent.bottomMenuFeatureApi)
     }
 
+    val detailsFeatureApi by remember {
+        mutableStateOf(DaggerProvider.appComponent.detailsFeatureApi)
+    }
+
 
     NavHost(
         navController = navController,
@@ -84,11 +88,20 @@ fun MainNavHost(
 
         with(bottomMenuFeatureApi) {
             bottomMenu(
-                onNavigateToPhotoDetails = {},
+                onNavigateToPhotoDetails = {
+                    with(detailsFeatureApi) {
+                        navController.navigateToDetails(it)
+                    }
+                },
                 onNavigateToCollectionDetails = {},
-                onNavigateUp = { navController.popBackStack() },
-                onNavigateBack = { navController.popBackStack() },
                 onLogout = {}
+            )
+        }
+
+        with(detailsFeatureApi) {
+            details(
+                onNavigateUp = { navController.popBackStack() },
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }

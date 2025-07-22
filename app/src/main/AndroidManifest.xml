@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
 
     <application
         android:name=".app.App"
@@ -28,14 +31,37 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="@string/host"
-                    android:scheme="@string/app_external_scheme"
+
+                <data
+                    android:host="@string/host"
                     android:path="@string/path"
-                    />
+                    android:scheme="@string/app_external_scheme" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".services.PhotoDownloadService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback|dataSync"
+            >
+        </service>
+
+        <receiver android:name=".receivers.CacheCleanScheduleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="APP_ALARM_RECEIVER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.ScheduleRebootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
