@@ -16,7 +16,7 @@ import com.mkirdev.unsplash.bottom_menu.widgets.CustomNavigationBar
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import com.mkirdev.unsplash.core.navigation.navigateSingleDestinationTo
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
-import com.mkirdev.unsplash.photo_feed.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
 
 @Composable
 fun BottomMenuScreenWrapper(
