@@ -81,3 +81,18 @@ sealed class PhotosException : Throwable() {
         override val cause: Throwable?
     ) : PhotosException()
 }
+
+sealed class PreferencesException : Throwable() {
+
+    data class SaveScheduleFlagException(
+        override val cause: Throwable?
+    ) : PreferencesException()
+
+    data class GetScheduleFlagException(
+        override val cause: Throwable?
+    ) : PreferencesException()
+
+    data class DeleteScheduleFlagException(
+        override val cause: Throwable?
+    ) : PreferencesException()
+}
