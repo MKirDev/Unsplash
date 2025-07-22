@@ -8,6 +8,8 @@ import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApiImpl
 import com.mkirdev.unsplash.details.api.DetailsFeatureApi
 import com.mkirdev.unsplash.details.api.DetailsFeatureApiImpl
+import com.mkirdev.unsplash.notification.api.NotificationFeatureApi
+import com.mkirdev.unsplash.notification.api.NotificationFeatureApiImpl
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApiImpl
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
@@ -30,6 +32,9 @@ interface FeaturesModule {
 
     @Binds
     fun bindUploadAndTrackFeature(featureApi: UploadAndTrackFeatureApiImpl): UploadAndTrackFeatureApi
+
+    @Binds
+    fun bindNotificationFeature(featureApi: NotificationFeatureApiImpl): NotificationFeatureApi
 
     @Binds
     fun bindOnboardingFeature(featureApi: OnboardingFeatureApiImpl): OnboardingFeatureApi

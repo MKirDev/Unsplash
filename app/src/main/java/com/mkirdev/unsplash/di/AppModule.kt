@@ -1,7 +1,9 @@
 package com.mkirdev.unsplash.di
 
+import android.content.Context
 import com.mkirdev.unsplash.core.navigation.TopDestinations
-import com.mkirdev.unsplash.photo_feed.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.schedulers.CacheScheduler
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,6 +24,11 @@ class AppModule {
                 PhotoFeedTopLevelDestination
             )
         )
+    }
+
+    @Provides
+    fun providerCacheScheduler(context: Context): CacheScheduler {
+        return CacheScheduler(context)
     }
 
 }
