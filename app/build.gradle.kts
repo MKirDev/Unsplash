@@ -85,6 +85,9 @@ dependencies {
     implementation(project(":features:content_creation_api"))
     implementation(project(":features:content_creation_impl"))
 
+    implementation(project(":features:notification_api"))
+    implementation(project(":features:notification_impl"))
+
     implementation(project(":features:details_api"))
     implementation(project(":features:details_impl"))
 
@@ -105,6 +108,7 @@ dependencies {
 
     // di
     implementation(libs.dagger)
+    implementation(libs.androidx.lifecycle.service)
     ksp(libs.dagger.compiler)
 
     // core
