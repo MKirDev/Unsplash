@@ -13,7 +13,7 @@ import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependenciesProvider
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedContract
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedScreenWrapper
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedViewModel
-import com.mkirdev.unsplash.photo_feed.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
 import javax.inject.Inject
 
 class PhotoFeedFeatureApiImpl @Inject constructor(): PhotoFeedFeatureApi {
