@@ -9,8 +9,9 @@ import com.mkirdev.unsplash.data.storages.database.entities.PhotoCollectionEntit
 @Dao
 interface PhotoCollectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addPhotoCollection(photoCollections: List<PhotoCollectionEntity>)
+    fun addPhotosCollections(photoCollections: List<PhotoCollectionEntity>)
 
     @Query("DELETE FROM ${PhotoCollectionEntity.TABLE_NAME}")
     fun deletePhotoCollection()
+
 }

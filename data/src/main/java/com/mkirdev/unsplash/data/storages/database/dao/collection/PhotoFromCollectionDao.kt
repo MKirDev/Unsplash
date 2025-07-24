@@ -32,4 +32,12 @@ interface PhotoFromCollectionDao {
                 + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} "
     )
     fun getPhotosFromCollection(): List<PhotoFromCollectionDto>
+
+    @Query(
+        "DELETE FROM ${PhotoEntity.TABLE_NAME} " +
+                "WHERE ${PhotoEntity.ID} IN ( " +
+                "SELECT DISTINCT pc.${PhotoCollectionEntity.PHOTO_ID} " +
+                "FROM ${PhotoCollectionEntity.TABLE_NAME} pc)"
+    )
+    fun deletePhotosFromCollections()
 }
