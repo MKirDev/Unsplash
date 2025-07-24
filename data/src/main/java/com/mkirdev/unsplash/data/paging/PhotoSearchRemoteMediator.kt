@@ -69,9 +69,6 @@ class PhotoSearchRemoteMediator(
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     photoDao.deleteSearchPhotos()
-                    reactionsTypeDao.deleteReactionsTypes()
-                    photoReactionsDao.deletePhotoReactions()
-                    userDao.deleteUsers()
                 }
 
                 val keys = response.results.map { photoSearchNetwork ->
