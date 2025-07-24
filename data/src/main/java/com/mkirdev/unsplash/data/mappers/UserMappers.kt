@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.data.mappers
 
-import com.mkirdev.unsplash.data.network.photos.models.common.UserNetwork
+import com.mkirdev.unsplash.data.network.models.common.UserNetwork
 import com.mkirdev.unsplash.data.storages.database.dto.base.UserDto
 import com.mkirdev.unsplash.data.storages.database.entities.UserEntity
 import com.mkirdev.unsplash.domain.models.User
