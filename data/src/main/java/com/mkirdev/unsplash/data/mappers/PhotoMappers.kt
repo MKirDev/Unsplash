@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.data.mappers
 
-import com.mkirdev.unsplash.data.network.photos.models.details.PhotoNetwork
+import com.mkirdev.unsplash.data.network.models.details.PhotoNetwork
 import com.mkirdev.unsplash.domain.models.Photo
 
 internal fun PhotoNetwork.toDomain(): Photo {

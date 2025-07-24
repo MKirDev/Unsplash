@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.data.network.photos.api
 
 import com.mkirdev.unsplash.data.BuildConfig
-import com.mkirdev.unsplash.data.network.photos.models.list.SearchResultNetwork
+import com.mkirdev.unsplash.data.network.models.list.SearchResultNetwork
 import retrofit2.http.GET
 import retrofit2.http.Query
 

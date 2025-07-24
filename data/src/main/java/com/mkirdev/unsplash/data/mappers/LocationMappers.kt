@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.data.mappers
 
-import com.mkirdev.unsplash.data.network.photos.models.details.LocationNetwork
+import com.mkirdev.unsplash.data.network.models.details.LocationNetwork
 import com.mkirdev.unsplash.domain.models.Location
 
 internal fun LocationNetwork.toDomain(): Location {

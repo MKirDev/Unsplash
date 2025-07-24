@@ -35,6 +35,12 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    androidComponents {
+        onVariants(selector().all()) { variant ->
+            variant.androidTest?.manifestPlaceholders?.put("appAuthRedirectScheme", "test")
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField("String","UNSPLASH_AUTH_BASE_URI", "\"${UNSPLASH_AUTH_BASE_URI}\"")
