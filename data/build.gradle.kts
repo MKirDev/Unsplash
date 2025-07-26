@@ -24,6 +24,10 @@ val PATH_PHOTO: String = gradleLocalProperties(rootDir, providers).getProperty("
 
 val PATH_SEARCH_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_SEARCH_PHOTOS")
 
+val PATH_LIST_COLLECTIONS: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_LIST_COLLECTIONS")
+val PATH_COLLECTION: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_COLLECTION")
+val PATH_COLLECTION_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_COLLECTION_PHOTOS")
+
 android {
     namespace = "com.mkirdev.unsplash.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -59,7 +63,12 @@ android {
             buildConfigField("String","PATH_PHOTO", "\"${PATH_PHOTO}\"")
 
             buildConfigField("String","PATH_SEARCH_PHOTOS", "\"${PATH_SEARCH_PHOTOS}\"")
+
+            buildConfigField("String","PATH_LIST_COLLECTIONS", "\"${PATH_LIST_COLLECTIONS}\"")
+            buildConfigField("String","PATH_COLLECTION", "\"${PATH_COLLECTION}\"")
+            buildConfigField("String","PATH_COLLECTION_PHOTOS", "\"${PATH_COLLECTION_PHOTOS}\"")
         }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
