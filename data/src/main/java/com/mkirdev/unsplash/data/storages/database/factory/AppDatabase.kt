@@ -7,6 +7,7 @@ import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoCollectionDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoReactionsDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.ReactionsTypeDao
+import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysCollectionDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysFeedDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysSearchDao
 import com.mkirdev.unsplash.data.storages.database.dao.base.UserDao
@@ -18,6 +19,7 @@ import com.mkirdev.unsplash.data.storages.database.entities.PhotoCollectionEntit
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
 import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
 import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
+import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.UserEntity
@@ -33,7 +35,8 @@ private const val DATABASE_VERSION = 1
         ReactionsTypeEntity::class,
         UserEntity::class,
         RemoteKeysFeedEntity::class,
-        RemoteKeysSearchEntity::class
+        RemoteKeysSearchEntity::class,
+        RemoteKeysCollectionEntity::class
     ],
     version = DATABASE_VERSION
 )
@@ -60,4 +63,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun remoteKeysFeedDao(): RemoteKeysFeedDao
 
     abstract fun remoteKeysSearchDao(): RemoteKeysSearchDao
+
+    abstract fun remoteKeysCollectionDao(): RemoteKeysCollectionDao
 }

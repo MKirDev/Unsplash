@@ -102,7 +102,10 @@ class AppDatabaseTest {
     @Test
     fun givenCollectionsExist_whenDeleted_thenDatabaseIsEmpty() = runTest {
         val collections = createCollections()
-        collectionDao.addCollections(collections)
+
+        collections.forEach {
+            collectionDao.addCollection(it)
+        }
 
         val result = db.query("SELECT * FROM ${CollectionEntity.TABLE_NAME}", null)
         Assert.assertTrue(result.count > 0)
@@ -139,7 +142,8 @@ class AppDatabaseTest {
         Assert.assertTrue(result.count > 0)
 
         userDao.deleteUser(id)
-        val afterDelete = db.query("SELECT * FROM ${UserEntity.TABLE_NAME} WHERE user_id = '$id'", null)
+        val afterDelete =
+            db.query("SELECT * FROM ${UserEntity.TABLE_NAME} WHERE user_id = '$id'", null)
         Assert.assertTrue(afterDelete.count == 0)
     }
 
@@ -152,11 +156,15 @@ class AppDatabaseTest {
 
         userDao.addUsers(users)
         photoDao.addPhotos(photos)
-        collectionDao.addCollections(collections)
+        collections.forEach {
+            collectionDao.addCollection(it)
+        }
 
         val photosCollections = createPhotoCollections()
 
-        photoCollectionDao.addPhotosCollections(photosCollections)
+        photosCollections.forEach {
+            photoCollectionDao.addPhotoCollection(it)
+        }
 
         val result = db.query("SELECT * FROM ${PhotoCollectionEntity.TABLE_NAME}", null)
         Assert.assertTrue(result.count > 0)
@@ -177,7 +185,8 @@ class AppDatabaseTest {
         Assert.assertTrue(result.count > 0)
 
         reactionsTypeDao.deleteReactionsType(id)
-        val afterDelete = db.query("SELECT * FROM ${ReactionsTypeEntity.TABLE_NAME} WHERE id = '$id'", null)
+        val afterDelete =
+            db.query("SELECT * FROM ${ReactionsTypeEntity.TABLE_NAME} WHERE id = '$id'", null)
         Assert.assertTrue(afterDelete.count == 0)
     }
 
@@ -251,12 +260,25 @@ class AppDatabaseTest {
         userDao.addUsers(users)
         reactionsTypeDao.addReactionsTypes(reactionsType)
         photoDao.addPhotos(photos)
-        collectionDao.addCollections(collections)
-        photoReactionsDao.addPhotoReactions(photoReactions)
-        photoCollectionDao.addPhotosCollections(photosCollections)
+        collections.forEach {
+            collectionDao.addCollection(it)
 
-        val result = photoFromCollectionDao.getPhotosFromCollection()
-        Assert.assertTrue(result.isNotEmpty())
+        }
+        photoReactionsDao.addPhotoReactions(photoReactions)
+        photosCollections.forEach {
+            photoCollectionDao.addPhotoCollection(it)
+        }
+        val result = photoFromCollectionDao.getPhotosFromCollection().load(
+            PagingSource.LoadParams.Refresh(
+                key = null,
+                loadSize = 6,
+                placeholdersEnabled = false
+            )
+        )
+
+        val data = (result as PagingSource.LoadResult.Page).data
+
+        Assert.assertTrue(data.isNotEmpty())
 
         photoReactionsDao.deletePhotoReactions()
         photoCollectionDao.deletePhotoCollection()
@@ -265,8 +287,16 @@ class AppDatabaseTest {
         collectionDao.deleteCollections()
         photoFromCollectionDao.deletePhotosFromCollections()
 
-        val afterDelete = photoFromCollectionDao.getPhotosFromCollection()
-        Assert.assertTrue(afterDelete.isEmpty())
+        val afterDelete = photoFromCollectionDao.getPhotosFromCollection().load(
+            PagingSource.LoadParams.Refresh(
+                key = null,
+                loadSize = 6,
+                placeholdersEnabled = false
+            )
+        )
+        val afterDeleteData = (afterDelete as PagingSource.LoadResult.Page).data
+
+        Assert.assertTrue(afterDeleteData.isEmpty())
     }
 
 
@@ -282,7 +312,7 @@ class AppDatabaseTest {
         photoDao.addPhotos(photos)
         photoReactionsDao.addPhotoReactions(photoReactions)
 
-        val result =  photoFeedDao.getFeedPhotos().load(
+        val result = photoFeedDao.getFeedPhotos().load(
             PagingSource.LoadParams.Refresh(
                 key = null,
                 loadSize = 6,
