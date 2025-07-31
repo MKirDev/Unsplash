@@ -22,7 +22,9 @@ interface CollectionsApi {
 
     @GET("${BuildConfig.PATH_COLLECTION}{id}/${BuildConfig.PATH_COLLECTION_PHOTOS}")
     suspend fun getCollectionPhotos(
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
     ): List<PhotoCollectionNetwork>
 
 }
