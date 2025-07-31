@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.data.storages.database.dao.collection
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoFromCollectionDto
@@ -15,7 +16,8 @@ interface PhotoFromCollectionDao {
     @Query(
         "SELECT p.${PhotoEntity.ID}, p.${PhotoEntity.WIDTH}, "
                 + "p.${PhotoEntity.HEIGHT}, p.${PhotoEntity.IMAGE_URL}, "
-                + "p.${PhotoEntity.DOWNLOAD_LINK}, p.${PhotoEntity.HTML_LINK}, p.${PhotoEntity.LIKES}, "
+                + "p.${PhotoEntity.DOWNLOAD_LINK}, p.${PhotoEntity.HTML_LINK}, "
+                + "p.${PhotoEntity.POSITION}, p.${PhotoEntity.LIKES}, "
                 + "u.${UserEntity.ID}, u.${UserEntity.FULL_NAME}, u.${UserEntity.USERNAME},"
                 + "u.${UserEntity.IMAGE_URL}, u.${UserEntity.BIO}, u.${UserEntity.LOCATION}, "
                 + "c.${CollectionEntity.NAME}, rt.${ReactionsTypeEntity.LIKED} "
@@ -30,8 +32,9 @@ interface PhotoFromCollectionDao {
                 + "ON c.${CollectionEntity.ID} = pc.${PhotoCollectionEntity.COLLECTION_ID} "
                 + "JOIN ${UserEntity.TABLE_NAME} u "
                 + "ON u.${UserEntity.ID} = p.${PhotoEntity.USER_ID} "
+                + "ORDER BY p.${PhotoEntity.POSITION} ASC"
     )
-    fun getPhotosFromCollection(): List<PhotoFromCollectionDto>
+    fun getPhotosFromCollection(): PagingSource<Int, PhotoFromCollectionDto>
 
     @Query(
         "DELETE FROM ${PhotoEntity.TABLE_NAME} " +

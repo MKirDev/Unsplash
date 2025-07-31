@@ -9,7 +9,7 @@ import com.mkirdev.unsplash.data.storages.database.entities.CollectionEntity
 @Dao
 interface CollectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addCollections(collections: List<CollectionEntity>)
+    fun addCollection(collection: CollectionEntity)
 
     @Query("DELETE FROM ${CollectionEntity.TABLE_NAME}")
     fun deleteCollections()
