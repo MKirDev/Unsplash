@@ -9,7 +9,7 @@ data class CollectionNetwork(
     @SerializedName("title")
     val title: String,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("total_photos")
     val totalPhotos: Int,
     @SerializedName("user")

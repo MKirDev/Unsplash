@@ -3,6 +3,7 @@ package com.mkirdev.unsplash.di
 import android.content.Context
 import com.mkirdev.unsplash.BuildConfig
 import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
+import com.mkirdev.unsplash.data.network.collections.api.CollectionsApi
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationFailedInterceptor
 import com.mkirdev.unsplash.data.network.interceptors.AuthorizationInterceptor
 import com.mkirdev.unsplash.data.network.managers.AuthStateManager
@@ -117,6 +118,14 @@ class NetworkModule {
         retrofit: Retrofit
     ): DownloadApi {
         return retrofit.create(DownloadApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCollectionsApi(
+        retrofit: Retrofit
+    ): CollectionsApi {
+        return retrofit.create(CollectionsApi::class.java)
     }
 
 

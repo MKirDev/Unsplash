@@ -1,16 +1,29 @@
 package com.mkirdev.unsplash.collections.impl
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
+import com.mkirdev.unsplash.collection_item.models.CollectionItemModel
+import com.mkirdev.unsplash.collections.mappers.toPresentation
 import com.mkirdev.unsplash.collections.preview.createCollectionsPreviewData
+import com.mkirdev.unsplash.domain.models.Collection
+import com.mkirdev.unsplash.domain.models.Photo
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class CollectionsViewModel : ViewModel(), CollectionsContract {
+internal class CollectionsViewModel(
+    private val getCollectionsUseCase: GetCollectionsUseCase
+) : ViewModel(), CollectionsContract {
 
     private val _uiState =
         MutableStateFlow<CollectionsContract.State>(CollectionsContract.State.Idle)
@@ -20,22 +33,7 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
     override val effect: StateFlow<CollectionsContract.Effect?> = _effect.asStateFlow()
 
     init {
-        try {
-            // load collections
-            _uiState.update {
-                CollectionsContract.State.Success(
-                    collectionItemsModel = createCollectionsPreviewData().cachedIn(viewModelScope),
-                    isPagingLoadingError = null
-                )
-            }
-        } catch (t: Throwable) {
-            _uiState.update {
-                CollectionsContract.State.Failure(
-                    error = t.message.toString()
-                )
-            }
-        }
-
+        loadCollections()
     }
 
     override fun handleEvent(event: CollectionsContract.Event) {
@@ -48,6 +46,32 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
 
     override fun resetEffect() {
         _effect.update { null }
+    }
+
+    private fun loadCollections() {
+        viewModelScope.launch {
+            try {
+                val collections = transformPagingData(getCollectionsUseCase.execute())
+                _uiState.update {
+                    CollectionsContract.State.Success(
+                        collectionItemsModel = collections,
+                        isPagingLoadingError = null
+                    )
+                }
+            } catch (t: Throwable) {
+                _uiState.update {
+                    CollectionsContract.State.Failure(
+                        error = t.message.toString()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun transformPagingData(flow: Flow<PagingData<Collection>>): Flow<PagingData<CollectionItemModel>> {
+        return flow
+            .map { pagingData -> pagingData.map { it.toPresentation() } }
+            .cachedIn(viewModelScope)
     }
 
     private fun onCollection(collectionId: String) {
@@ -85,5 +109,14 @@ class CollectionsViewModel : ViewModel(), CollectionsContract {
             }
         }
     }
+}
 
+internal class CollectionsViewModelFactory(
+    private val getCollectionsUseCase: GetCollectionsUseCase
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return CollectionsViewModel(
+            getCollectionsUseCase = getCollectionsUseCase
+        ) as T
+    }
 }

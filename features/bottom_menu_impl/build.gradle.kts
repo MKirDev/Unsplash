@@ -49,6 +49,7 @@ dependencies {
 
     implementation(project(":features:bottom_menu_api"))
     implementation(project(":features:photo_feed_api"))
+    implementation(project(":features:collections_api"))
 
     // di
     implementation(libs.dagger)

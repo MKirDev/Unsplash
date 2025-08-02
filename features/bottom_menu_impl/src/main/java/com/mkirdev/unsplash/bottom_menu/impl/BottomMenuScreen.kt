@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mkirdev.unsplash.bottom_menu.widgets.CustomNavigationBar
+import com.mkirdev.unsplash.collections.api.CollectionsFeatureApi
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import com.mkirdev.unsplash.core.navigation.navigateSingleDestinationTo
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
@@ -22,6 +23,7 @@ import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestinati
 fun BottomMenuScreenWrapper(
     viewModel: BottomMenuViewModel,
     photoFeedFeatureApi: PhotoFeedFeatureApi,
+    collectionsFeatureApi: CollectionsFeatureApi,
     onPhotoSelected: (String) -> Unit,
     onCollectionSelected: (String) -> Unit,
     onLogout: () -> Unit
@@ -45,6 +47,7 @@ fun BottomMenuScreenWrapper(
     BottomMenuScreen(
         uiState = uiState,
         photoFeedFeatureApi = photoFeedFeatureApi,
+        collectionsFeatureApi = collectionsFeatureApi,
         navController = navController,
         currentRoute = currentRoute,
         onPhotoSelected = onPhotoSelected,
@@ -57,6 +60,7 @@ fun BottomMenuScreenWrapper(
 private fun BottomMenuScreen(
     uiState: BottomMenuContract.State,
     photoFeedFeatureApi: PhotoFeedFeatureApi,
+    collectionsFeatureApi: CollectionsFeatureApi,
     navController: NavHostController,
     currentRoute: String?,
     onPhotoSelected: (String) -> Unit,
@@ -93,6 +97,12 @@ private fun BottomMenuScreen(
                         with(photoFeedFeatureApi) {
                             photoFeed(
                                 onNavigateToDetails = onPhotoSelected
+                            )
+                        }
+
+                        with(collectionsFeatureApi) {
+                            collections(
+                                onNavigateToCollectionDetails = onCollectionSelected
                             )
                         }
                     }

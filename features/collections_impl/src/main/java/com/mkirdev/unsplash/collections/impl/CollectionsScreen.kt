@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.collections.impl
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,12 +8,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,20 +33,32 @@ import com.mkirdev.unsplash.collections.preview.createCollectionsPreviewData
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
+import com.mkirdev.unsplash.core.ui.theme.item_height_348
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
+import com.mkirdev.unsplash.core.ui.theme.padding_78
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
+import com.mkirdev.unsplash.core.ui.widgets.StaticEmptyField
 import com.mkirdev.unsplash.core.ui.widgets.TitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 
 @Composable
-fun CollectionsScreen(
+internal fun CollectionsScreen(
     uiState: CollectionsContract.State,
     onCollectionClick: (String) -> Unit,
     onLoadError: () -> Unit,
     onCloseFieldClick: () -> Unit
 ) {
+
+    val configuration = LocalConfiguration.current
+
+    val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        ContentScale.FillWidth
+    } else {
+        ContentScale.FillBounds
+    }
+
     when (uiState) {
         CollectionsContract.State.Idle -> {}
         CollectionsContract.State.Loading -> {
@@ -59,13 +78,22 @@ fun CollectionsScreen(
         }
 
         is CollectionsContract.State.Success -> {
+
+            val pagedItems: LazyPagingItems<CollectionItemModel> =
+                uiState.collectionItemsModel.collectAsLazyPagingItems()
+
+            LaunchedEffect(key1 = pagedItems.loadState, block = {
+                snapshotFlow { pagedItems.loadState.append }.collect { loadState ->
+                    if (loadState is LoadState.Error) onLoadError()
+                }
+            })
+
             Column {
                 TitleField(
                     titleText = stringResource(id = R.string.collections_title),
                     modifier = Modifier.fillMaxWidth()
                 )
-                val pagedItems: LazyPagingItems<CollectionItemModel> =
-                    uiState.collectionItemsModel.collectAsLazyPagingItems()
+
                 LazyColumn(modifier = Modifier
                     .background(MaterialTheme.colorScheme.secondary)
                     .testTag(CollectionsTags.LAZY_COLUMN)
@@ -78,9 +106,11 @@ fun CollectionsScreen(
                             CollectionItem(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .height(item_height_348)
                                     .clickable {
                                         onCollectionClick(item.id)
                                     },
+                                contentScale = contentScale,
                                 photoItemModel = it,
                                 userImage = {
                                     UserImageSmall(imageUrl = it.user.userImage)
@@ -92,11 +122,6 @@ fun CollectionsScreen(
                                     )
                                 }
                             )
-                        }
-                    }
-                    pagedItems.apply {
-                        if (loadState.append is LoadState.Error) {
-                            onLoadError()
                         }
                     }
                     when (uiState.isPagingLoadingError) {
@@ -119,6 +144,14 @@ fun CollectionsScreen(
                         }
 
                         else -> {}
+                    }
+
+                    item {
+                        StaticEmptyField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = padding_78)
+                        )
                     }
                 }
             }
@@ -144,7 +177,7 @@ fun CollectionsScreen(
     }
 }
 
-object CollectionsTags {
+internal object CollectionsTags {
     const val LAZY_COLUMN = "CollectionsTags:LAZY_COLUMN"
     const val LOADING_INDICATOR = "CollectionsTags:LOADING_INDICATOR"
     const val ERROR_FIELD = "CollectionsTags:ERROR_FIELD"

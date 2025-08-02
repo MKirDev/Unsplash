@@ -167,7 +167,7 @@ private fun PhotoFeedScreen(
     val offsetY = if (isPortrait) screenHeight * 0.847f else screenHeight * 0.648f
 
     val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ContentScale.FillWidth
+        ContentScale.FillBounds
     } else {
         ContentScale.FillHeight
     }
