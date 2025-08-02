@@ -1,7 +1,11 @@
 package com.mkirdev.unsplash.di
 
+import com.mkirdev.unsplash.domain.repository.CollectionsRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionInfoUseCase
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
@@ -80,6 +84,21 @@ class DomainModule {
     @Provides
     fun provideGetDownloadLinkUseCase(photosRepository: PhotosRepository): GetDownloadLinkUseCase {
         return GetDownloadLinkUseCase(photosRepository)
+    }
+
+    @Provides
+    fun provideGetCollectionsUseCase(collectionsRepository: CollectionsRepository): GetCollectionsUseCase {
+        return GetCollectionsUseCase(collectionsRepository)
+    }
+
+    @Provides
+    fun provideGetCollectionInfoUseCase(collectionsRepository: CollectionsRepository): GetCollectionInfoUseCase {
+        return GetCollectionInfoUseCase(collectionsRepository)
+    }
+
+    @Provides
+    fun provideGetCollectionPhotosUseCase(collectionsRepository: CollectionsRepository): GetCollectionPhotosUseCase {
+        return GetCollectionPhotosUseCase(collectionsRepository)
     }
 
     @Provides
