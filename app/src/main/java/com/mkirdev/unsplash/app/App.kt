@@ -9,6 +9,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import com.mkirdev.unsplash.auth.di.AuthDependenciesProvider
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependenciesProvider
+import com.mkirdev.unsplash.collections.di.CollectionsDependenciesProvider
 import com.mkirdev.unsplash.details.di.DetailsDependenciesProvider
 import com.mkirdev.unsplash.di.DaggerAppComponent
 import com.mkirdev.unsplash.di.DaggerProvider
@@ -56,6 +57,7 @@ class App : Application() {
         BottomMenuDependenciesProvider.dependencies = appComponent
         PhotoFeedDependenciesProvider.dependencies = appComponent
         DetailsDependenciesProvider.dependencies = appComponent
+        CollectionsDependenciesProvider.dependencies = appComponent
     }
 
     private fun launchCollectors() {
