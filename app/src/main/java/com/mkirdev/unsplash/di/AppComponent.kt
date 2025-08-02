@@ -6,6 +6,7 @@ import com.mkirdev.unsplash.auth.api.AuthFeatureApi
 import com.mkirdev.unsplash.auth.di.AuthDependencies
 import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
+import com.mkirdev.unsplash.collections.di.CollectionsDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
 import com.mkirdev.unsplash.data.network.photos.api.DownloadApi
@@ -16,6 +17,7 @@ import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetLikedPhotoUseCase
@@ -56,7 +58,7 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies,
-    PhotoFeedDependencies, DetailsDependencies {
+    PhotoFeedDependencies, DetailsDependencies, CollectionsDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -84,6 +86,8 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     override val addDownloadLinkUseCase: AddDownloadLinkUseCase
 
     override val getPhotoUseCase: GetPhotoUseCase
+
+    override val getCollectionsUseCase: GetCollectionsUseCase
 
     val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
     val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase

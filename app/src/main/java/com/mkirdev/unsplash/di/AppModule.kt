@@ -1,6 +1,7 @@
 package com.mkirdev.unsplash.di
 
 import android.content.Context
+import com.mkirdev.unsplash.collections.api.navigation.CollectionsTopLevelDestination
 import com.mkirdev.unsplash.core.navigation.TopDestinations
 import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
 import com.mkirdev.unsplash.schedulers.CacheScheduler
@@ -21,7 +22,8 @@ class AppModule {
     fun provideTopDestinations(): TopDestinations {
         return TopDestinations(
             destinations = listOf(
-                PhotoFeedTopLevelDestination
+                PhotoFeedTopLevelDestination,
+                CollectionsTopLevelDestination
             )
         )
     }
