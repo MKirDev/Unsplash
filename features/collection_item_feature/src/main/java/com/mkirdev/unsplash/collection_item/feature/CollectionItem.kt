@@ -31,6 +31,7 @@ import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 @Composable
 fun CollectionItem(
     modifier: Modifier,
+    contentScale: ContentScale,
     photoItemModel: CollectionItemModel,
     userImage: @Composable () -> Unit,
     userInfo: @Composable () -> Unit,
@@ -41,7 +42,7 @@ fun CollectionItem(
         GlideImage(
             model = photoItemModel.coverPhotoUrl,
             contentDescription = stringResource(id = R.string.photo_item),
-            contentScale = ContentScale.FillBounds
+            contentScale = contentScale
         )
         Column(Modifier.padding(start = padding_20, top = padding_16)) {
             Text(
@@ -77,6 +78,7 @@ private fun CollectionItemPreview() {
     UnsplashTheme(dynamicColor = false) {
         CollectionItem(
             modifier = Modifier.wrapContentWidth(),
+            contentScale = ContentScale.FillBounds,
             photoItemModel = collectionItemModel,
             userImage = {
                 UserImageSmall(imageUrl = collectionItemModel.user.userImage)
