@@ -17,6 +17,8 @@ val padding_30 = 30.dp
 val padding_48 = 48.dp
 val padding_60 = 60.dp
 val padding_70 = 70.dp
+
+val padding_78 = 78.dp
 val padding_80 = 100.dp
 val padding_100 = 100.dp
 val padding_150 = 150.dp
@@ -52,6 +54,8 @@ val item_height_44 = 44.dp
 val item_height_54 = 54.dp
 val item_height_138 = 138.dp
 val item_height_238 = 238.dp
+
+val item_height_348 = 348.dp
 val item_height_378 = 378.dp
 
 val item_size_18 = 18.dp
