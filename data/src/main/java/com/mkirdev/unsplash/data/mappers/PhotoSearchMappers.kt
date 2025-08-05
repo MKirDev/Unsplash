@@ -8,7 +8,7 @@ import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysSearchEnti
 
 internal fun PhotoSearchNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysSearchEntity {
     return RemoteKeysSearchEntity(
-        id = id,
+        photoId = id,
         prevPage = prevPage,
         nextPage = nextPage
     )

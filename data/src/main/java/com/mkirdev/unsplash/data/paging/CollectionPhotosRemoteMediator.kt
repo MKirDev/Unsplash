@@ -5,7 +5,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.mkirdev.unsplash.data.mappers.toCollectionEntity
 import com.mkirdev.unsplash.data.mappers.toKeysEntity
 import com.mkirdev.unsplash.data.mappers.toPhotoCollectionEntity
 import com.mkirdev.unsplash.data.mappers.toPhotoEntity
@@ -30,9 +29,6 @@ class CollectionPhotosRemoteMediator(
     private val reactionsTypeDao = appDatabase.reactionsTypeDao()
     private val photoReactionsDao = appDatabase.photoReactionsDao()
     private val userDao = appDatabase.userDao()
-
-    private val collectionDao = appDatabase.collectionDao()
-
     private val photoCollectionDao = appDatabase.photoCollectionDao()
 
     private val remoteKeysDao = appDatabase.remoteKeysCollectionDao()
@@ -67,7 +63,6 @@ class CollectionPhotosRemoteMediator(
                 }
             }
 
-            val collectionInfo = collectionsApi.getCollection(collectionId)
             val response = collectionsApi.getCollectionPhotos(id = collectionId, page = currentPage, perPage = ITEMS_PER_PAGE)
             val endOfPagingReached = response.isEmpty()
 
@@ -95,20 +90,16 @@ class CollectionPhotosRemoteMediator(
                     photoCollectionNetwork.user.toUserEntity()
                 }
 
-                val collection = collectionInfo.toCollectionEntity()
-
                 remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
 
                 userDao.addUsers(users = users)
-
-                collectionDao.addCollection(collection)
 
                 response.forEach { photoCollectionNetwork ->
                     val maxPosition = photoDao.getMaxPosition() ?: 0
                     val photo = photoCollectionNetwork.toPhotoEntity(maxPosition + 1)
                     photoDao.addPhoto(photo)
 
-                    val photoCollection = photoCollectionNetwork.toPhotoCollectionEntity(collection.id)
+                    val photoCollection = photoCollectionNetwork.toPhotoCollectionEntity(collectionId)
                     photoCollectionDao.addPhotoCollection(photoCollection)
                 }
 

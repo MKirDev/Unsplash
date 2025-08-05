@@ -12,7 +12,7 @@ class CollectionsPagingSource(
         val currentPage = params.key ?: 1
         return try {
             val response = collectionsApi.getCollections(page = currentPage, perPage = 10)
-            val endOfPaginationReached = response.isNotEmpty()
+            val endOfPaginationReached = response.isEmpty()
             if (response.isNotEmpty()) {
                 LoadResult.Page(
                     data = response,

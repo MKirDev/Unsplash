@@ -9,7 +9,7 @@ import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysCollection
 
 @Dao
 interface RemoteKeysCollectionDao {
-    @Query("SELECT * FROM ${RemoteKeysCollectionEntity.TABLE_NAME} rk WHERE rk.${RemoteKeysCollectionEntity.ID} =:id")
+    @Query("SELECT * FROM ${RemoteKeysCollectionEntity.TABLE_NAME} rk WHERE rk.${RemoteKeysCollectionEntity.PHOTO_ID} =:id ORDER BY ${RemoteKeysCollectionEntity.ID} ASC")
     fun getRemoteKeys(id: String): RemoteKeysDto
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

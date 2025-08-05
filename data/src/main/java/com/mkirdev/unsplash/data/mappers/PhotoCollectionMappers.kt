@@ -13,7 +13,7 @@ import com.mkirdev.unsplash.domain.models.Photo
 
 internal fun PhotoCollectionNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysCollectionEntity {
     return RemoteKeysCollectionEntity(
-        id = id,
+        photoId = id,
         prevPage = prevPage,
         nextPage = nextPage
     )
@@ -81,6 +81,24 @@ internal fun PhotoFromCollectionDto.toDomain() =
         downloads = null,
         position = position
     )
+
+internal fun PhotoCollectionNetwork.toDomain() =
+    Photo(
+        id = id,
+        width = width,
+        height = height,
+        imageUrl = imageUrl.toRegular(),
+        links = links.toDomain(),
+        likes = likes,
+        likedByUser = likedByUser,
+        user = user.toDomain(),
+        location = null,
+        exif = null,
+        tags = null,
+        downloads = 0,
+        position = 0
+    )
+
 
 
 

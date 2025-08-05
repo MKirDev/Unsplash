@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -23,6 +24,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeSpanStyle
@@ -31,6 +34,8 @@ import com.mkirdev.unsplash.core.ui.theme.space_4
 private const val TAG = "URL"
 private const val START_LENGTH = 0
 
+private const val EMPTY_STRING = ""
+
 @Composable
 fun HyperlinkText(
     downloadText: String,
@@ -38,13 +43,16 @@ fun HyperlinkText(
     downloads: String,
     modifier: Modifier,
     textStyle: TextStyle,
+    fontSize: TextUnit,
+    color: Color,
     onDownloadClick: (String) -> Unit
 ) {
     val annotatedString = buildAnnotatedString {
         pushStringAnnotation(tag = TAG, annotation = downloadLink)
         withStyle(
             style = MaterialTheme.typography.bodyLargeSpanStyle.copy(
-                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = fontSize,
+                color = color,
                 textDecoration = TextDecoration.Underline
             )
         ) {
@@ -54,6 +62,10 @@ fun HyperlinkText(
     }
 
     val interactionSource = remember { MutableInteractionSource() }
+
+    val isDownloadsEmpty by remember {
+        derivedStateOf { downloads.isEmpty() }
+    }
 
     val isDownloadsLarge by remember {
         derivedStateOf { downloads.length >= 6 }
@@ -83,10 +95,11 @@ fun HyperlinkText(
         )
         Spacer(modifier = Modifier.width(space_4))
         Text(
-            text = stringResource(id = R.string.downloads, downloads),
-            color = MaterialTheme.colorScheme.onBackground,
+            text = if (isDownloadsEmpty) EMPTY_STRING else stringResource(id = R.string.downloads, downloads),
+            color = color,
             overflow = if (isTextEllipsisNeeded) TextOverflow.MiddleEllipsis else TextOverflow.Clip,
             maxLines = 1,
+            fontSize = fontSize,
             style = textStyle
         )
         Spacer(modifier = Modifier.width(space_4))
@@ -96,7 +109,7 @@ fun HyperlinkText(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_download),
                     contentDescription = stringResource(id = R.string.download_icon),
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = color
                 )
             }
         }
@@ -113,6 +126,8 @@ private fun HyperlinkTextPreview() {
             downloads = "100",
             modifier = Modifier,
             textStyle = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontSize = 16.sp,
             onDownloadClick = {}
         )
     }
