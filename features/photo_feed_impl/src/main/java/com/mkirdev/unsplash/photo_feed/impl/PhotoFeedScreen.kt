@@ -326,7 +326,7 @@ private fun PhotoFeedScreen(
     }
 }
 
-object PhotoFeedTags {
+internal object PhotoFeedTags {
     const val ITEM = "PhotoFeedTags:ITEM"
     const val ERROR_FIELD = "PhotoFeedTags:ERROR_FIELD"
     const val SEARCH_FIELD = "PhotoFeedTags:SEARCH_FIELD"
