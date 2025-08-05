@@ -27,7 +27,7 @@ private const val UPDATED_COUNT = 0
 private const val EMPTY_STRING = ""
 
 @Stable
-class DetailsViewModel(
+internal class DetailsViewModel(
     photoId: String,
     private val getPhotoUseCase: GetPhotoUseCase,
     private val likePhotoLocalUseCase: LikePhotoLocalUseCase,

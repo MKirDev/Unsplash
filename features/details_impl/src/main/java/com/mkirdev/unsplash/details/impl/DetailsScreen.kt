@@ -109,7 +109,7 @@ private fun PhotoDetailsScreen(
     }
 }
 
-object PhotoDetailsTags {
+internal object PhotoDetailsTags {
     const val ERROR_FIELD = "PhotoDetailsTags:ERROR_FIELD"
     const val DOWNLOAD_ERROR_FIELD = "PhotoDetailsTags:ERROR_FIELD"
     const val DOWNLOAD_INFO_FIELD = "PhotoDetailsTags:INFO_FIELD"
