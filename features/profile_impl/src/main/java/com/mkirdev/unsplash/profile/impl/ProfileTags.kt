@@ -1,6 +1,6 @@
 package com.mkirdev.unsplash.profile.impl
 
-object ProfileTags {
+internal object ProfileTags {
     const val LAZY_COLUMN = "ProfileTags:LAZY_COLUMN"
     const val LOGOUT_COLUMN = "ProfileTags:LOGOUT_COLUMN"
     const val LOADING_INDICATOR = "ProfileTags:LOADING_INDICATOR"
