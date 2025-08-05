@@ -4,6 +4,8 @@ import com.mkirdev.unsplash.auth.api.AuthFeatureApi
 import com.mkirdev.unsplash.auth.api.AuthFeatureApiImpl
 import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApiImpl
+import com.mkirdev.unsplash.collection_details.api.CollectionDetailsFeatureApi
+import com.mkirdev.unsplash.collection_details.api.CollectionDetailsFeatureApiImpl
 import com.mkirdev.unsplash.collections.api.CollectionsFeatureApi
 import com.mkirdev.unsplash.collections.api.CollectionsFeatureApiImpl
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
@@ -55,5 +57,8 @@ interface FeaturesModule {
 
     @Binds
     fun bindCollectionsFeature(featureApi: CollectionsFeatureApiImpl): CollectionsFeatureApi
+
+    @Binds
+    fun bindCollectionDetailsFeature(featureApi: CollectionDetailsFeatureApiImpl): CollectionDetailsFeatureApi
 
 }
