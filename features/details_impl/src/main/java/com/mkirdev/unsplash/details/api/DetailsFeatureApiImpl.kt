@@ -41,7 +41,7 @@ class DetailsFeatureApiImpl @Inject constructor() : DetailsFeatureApi {
             }
 
             val photoId = navStackEntry.arguments?.getString(DetailsDestination.argumentName)
-                ?: throw IllegalArgumentException("Id student is null")
+                ?: throw IllegalArgumentException("Id photo is null")
 
             val viewModel: DetailsViewModel = viewModel(
                 factory = detailsComponent.factoryAssisted.create(photoId)
