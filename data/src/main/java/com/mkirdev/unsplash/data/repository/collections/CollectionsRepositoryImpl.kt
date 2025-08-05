@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.mkirdev.unsplash.data.exceptions.CollectionsException
+import com.mkirdev.unsplash.data.mappers.toCollectionEntity
 import com.mkirdev.unsplash.data.mappers.toDomain
 import com.mkirdev.unsplash.data.network.collections.api.CollectionsApi
 import com.mkirdev.unsplash.data.network.models.collections.CollectionNetwork
@@ -48,7 +49,9 @@ class CollectionsRepositoryImpl @Inject constructor(
 
     override suspend fun getCollectionInfo(id: String): Collection = withContext(dispatcher) {
         try {
-            collectionsApi.getCollection(id).toDomain()
+            val collectionNetwork = collectionsApi.getCollection(id)
+            appDatabase.collectionDao().addCollection(collectionNetwork.toCollectionEntity())
+            collectionNetwork.toDomain()
         } catch (t: Throwable) {
             throw CollectionsException.GetCollectionInfoException(t)
         }
