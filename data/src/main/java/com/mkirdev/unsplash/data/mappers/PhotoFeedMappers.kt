@@ -11,7 +11,7 @@ import com.mkirdev.unsplash.domain.models.Photo
 
 internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysFeedEntity {
     return RemoteKeysFeedEntity(
-        id = id,
+        photoId = id,
         prevPage = prevPage,
         nextPage = nextPage
     )
