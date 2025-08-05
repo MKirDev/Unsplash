@@ -6,6 +6,9 @@ import com.mkirdev.unsplash.auth.api.AuthFeatureApi
 import com.mkirdev.unsplash.auth.di.AuthDependencies
 import com.mkirdev.unsplash.bottom_menu.api.BottomMenuFeatureApi
 import com.mkirdev.unsplash.bottom_menu.di.BottomMenuDependencies
+import com.mkirdev.unsplash.collection_details.api.CollectionDetailsFeatureApi
+import com.mkirdev.unsplash.collection_details.di.CollectionDetailsDependencies
+import com.mkirdev.unsplash.collections.api.CollectionsFeatureApi
 import com.mkirdev.unsplash.collections.di.CollectionsDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.navigation.TopDestinations
@@ -17,6 +20,8 @@ import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionInfoUseCase
+import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
@@ -58,7 +63,7 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies,
-    PhotoFeedDependencies, DetailsDependencies, CollectionsDependencies {
+    PhotoFeedDependencies, DetailsDependencies, CollectionsDependencies, CollectionDetailsDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -89,6 +94,10 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
 
     override val getCollectionsUseCase: GetCollectionsUseCase
 
+    override val getCollectionInfoUseCase: GetCollectionInfoUseCase
+
+    override val getCollectionPhotosUseCase: GetCollectionPhotosUseCase
+
     val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
     val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase
 
@@ -96,6 +105,8 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     val getUnlikedPhotoUseCase: GetUnlikedPhotoUseCase
 
     val detailsFeatureApi: DetailsFeatureApi
+
+    val collectionDetailsFeatureApi: CollectionDetailsFeatureApi
 
     val downloadApi: DownloadApi
 

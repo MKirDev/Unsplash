@@ -1,6 +1,8 @@
 package com.mkirdev.unsplash.collection_details.impl
 
+import androidx.compose.runtime.Immutable
 import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import com.mkirdev.unsplash.collection_details.models.CollectionDetailsModel
 import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
@@ -10,15 +12,17 @@ interface CollectionDetailsContract :
     UniFlowViewModel<CollectionDetailsContract.Event, CollectionDetailsContract.State, CollectionDetailsContract.Effect?> {
     sealed interface State {
 
+        @Immutable
         data class Success(
             val collectionDetailsModel: CollectionDetailsModel,
             val photoItemModels: Flow<PagingData<PhotoItemModel>>,
-            val isPagingLoadingError: Boolean?
+            val isPagingLoadingError: Boolean
         ) : State
 
+        @Immutable
         data class Failure(
             val error: String,
-            val isPagingLoadingError: Boolean?,
+            val isPagingLoadingError: Boolean,
             val updatedCount: Int,
             val collectionDetailsModel: CollectionDetailsModel?,
             val photoItemModels: Flow<PagingData<PhotoItemModel>>?
@@ -38,6 +42,8 @@ interface CollectionDetailsContract :
         data class PhotoUnlikedEvent(val photoId: String) : Event
 
         data class PhotoDetailsOpenedEvent(val photoId: String) : Event
+
+        data class PagingRetryEvent(val pagedItems: LazyPagingItems<PhotoItemModel>) : Event
 
         data object LoadingErrorEvent : Event
 

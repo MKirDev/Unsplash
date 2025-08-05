@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -25,6 +26,7 @@ import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.padding_4
 import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_60
+import com.mkirdev.unsplash.core.ui.theme.space_10
 import com.mkirdev.unsplash.core.ui.theme.space_4
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
 import com.mkirdev.unsplash.core.ui.widgets.LikesInfoSmall
@@ -75,24 +77,28 @@ fun PhotoItem(
             userImage()
             userInfo()
         }
-        downloadText?.let {
-            onDownloadClick?.let { onDownloadClick ->
-                it(
-                    Modifier
-                        .wrapContentWidth()
-                        .align(Alignment.BottomEnd)
-                        .testTag(PhotoItemTags.DOWNLOAD_TEXT),
-                    onDownloadClick
-                )
+        Row(
+            modifier = Modifier
+                .wrapContentWidth()
+                .align(Alignment.BottomEnd),
+            horizontalArrangement = Arrangement.spacedBy(space_10)
+        ) {
+            downloadText?.let {
+                onDownloadClick?.let { onDownloadClick ->
+                    it(
+                        Modifier
+                            .testTag(PhotoItemTags.DOWNLOAD_TEXT),
+                        onDownloadClick
+                    )
+                }
             }
+            likesInfo(
+                Modifier
+                    .testTag(PhotoItemTags.BUTTON),
+                onLikeClick,
+                onRemoveLikeClick
+            )
         }
-        likesInfo(
-            Modifier
-                .align(Alignment.BottomEnd)
-                .testTag(PhotoItemTags.BUTTON),
-            onLikeClick,
-            onRemoveLikeClick
-        )
     }
 }
 
@@ -137,6 +143,8 @@ private fun PhotoItemPreview() {
                     downloads = photoItemModel.downloads,
                     modifier = modifier.padding(end = padding_60, bottom = padding_6),
                     textStyle = MaterialTheme.typography.bodyLarge,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
                     onDownloadClick = onDownload
                 )
             },

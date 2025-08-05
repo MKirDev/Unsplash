@@ -7,10 +7,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -32,6 +30,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -105,9 +106,13 @@ internal fun OnboardingScreen(
 
                 val currentPage = pagerState.currentPage
 
-                val currentImageRes = when (uiState.pages[currentPage]) {
-                    OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third -> R.drawable.background_cameras
-                    OnboardingPage.Fourth -> R.drawable.notification
+                val currentImageRes by remember(currentPage) {
+                    derivedStateOf {
+                        when (uiState.pages[currentPage]) {
+                            OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third -> R.drawable.background_cameras
+                            OnboardingPage.Fourth -> R.drawable.notification
+                        }
+                    }
                 }
 
                 AnimatedContent(
@@ -121,39 +126,37 @@ internal fun OnboardingScreen(
                             isForward -> {
                                 slideInHorizontally(
                                     animationSpec = spring(
-                                        dampingRatio = Spring.DampingRatioLowBouncy,
-                                        stiffness = Spring.StiffnessMediumLow
+                                        dampingRatio = Spring.DampingRatioNoBouncy,
+                                        stiffness = Spring.StiffnessMedium
                                     )
-                                ) { fullWidth -> fullWidth } + fadeIn(tween(300)) togetherWith
+                                ) { fullWidth -> fullWidth } togetherWith
                                         slideOutHorizontally(
                                             animationSpec = spring(
-                                                Spring.DampingRatioLowBouncy,
-                                                stiffness = Spring.StiffnessMediumLow
+                                                Spring.DampingRatioNoBouncy,
+                                                stiffness = Spring.StiffnessMedium
                                             )
-                                        ) { fullWidth -> -fullWidth } + fadeOut(tween(300))
+                                        ) { fullWidth -> -fullWidth }
                             }
 
                             isBackward -> {
                                 slideInHorizontally(
                                     animationSpec = spring(
-                                        Spring.DampingRatioLowBouncy,
-                                        stiffness = Spring.StiffnessMediumLow
+                                        Spring.DampingRatioNoBouncy,
+                                        stiffness = Spring.StiffnessMedium
                                     )
-                                ) { fullWidth -> -fullWidth } + fadeIn(tween(300)) togetherWith
+                                ) { fullWidth -> -fullWidth } togetherWith
                                         slideOutHorizontally(
                                             animationSpec = spring(
-                                                Spring.DampingRatioLowBouncy,
-                                                stiffness = Spring.StiffnessMediumLow
+                                                Spring.DampingRatioNoBouncy,
+                                                stiffness = Spring.StiffnessMedium
                                             )
-                                        ) { fullWidth -> fullWidth } + fadeOut(tween(300))
+                                        ) { fullWidth -> fullWidth }
                             }
 
                             else -> {
                                 fadeIn() togetherWith fadeOut()
                             }
-                        }.using(
-                            SizeTransform(clip = true)
-                        )
+                        }
                     }
                 ) { res ->
                     Column {

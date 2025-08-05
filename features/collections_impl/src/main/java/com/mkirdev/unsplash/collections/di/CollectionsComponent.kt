@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.collections.di
 
 import com.mkirdev.unsplash.collections.impl.CollectionsViewModelFactory
-import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import dagger.Component
 
 @Component(
@@ -10,9 +9,6 @@ import dagger.Component
 )
 @CollectionsScope
 internal interface CollectionsComponent : CollectionsDependencies {
-
-    override val getCollectionsUseCase: GetCollectionsUseCase
-
     val collectionsViewModelFactory: CollectionsViewModelFactory
 
     @Component.Builder

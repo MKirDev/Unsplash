@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.icon_size_24
@@ -153,6 +154,8 @@ fun MainContent(
                             downloads = detailsModel.photoItemModel.downloads,
                             modifier = Modifier.padding(top = topPadding).height(item_height_20),
                             textStyle = MaterialTheme.typography.bodyLarge,
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
                             onDownloadClick = onDownloadClick
                         )
                     }

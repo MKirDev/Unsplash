@@ -160,7 +160,7 @@ internal fun AuthScreen(
     }
 }
 
-object AuthScreenTags {
+internal object AuthScreenTags {
     const val NOTIFICATION_INFO = "AuthScreenTags:NOTIFICATION_INFO"
     const val NOTIFICATION_ERROR = "AuthScreenTags:NOTIFICATION_ERROR"
     const val NOTIFICATION_EMPTY = "AuthScreenTags:NOTIFICATION_EMPTY"

@@ -58,6 +58,10 @@ fun MainNavHost(
         mutableStateOf(DaggerProvider.appComponent.detailsFeatureApi)
     }
 
+    val collectionDetailsFeatureApi by remember {
+        mutableStateOf(DaggerProvider.appComponent.collectionDetailsFeatureApi)
+    }
+
 
     NavHost(
         navController = navController,
@@ -93,13 +97,29 @@ fun MainNavHost(
                         navController.navigateToDetails(it)
                     }
                 },
-                onNavigateToCollectionDetails = {},
+                onNavigateToCollectionDetails = {
+                    with(collectionDetailsFeatureApi) {
+                        navController.navigateToCollectionDetails(it)
+                    }
+                },
                 onLogout = {}
             )
         }
 
         with(detailsFeatureApi) {
             details(
+                onNavigateUp = { navController.popBackStack() },
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        with(collectionDetailsFeatureApi) {
+            collectionDetails(
+                onNavigateToDetails = {
+                    with(detailsFeatureApi) {
+                        navController.navigateToDetails(it)
+                    }
+                },
                 onNavigateUp = { navController.popBackStack() },
                 onNavigateBack = { navController.popBackStack() }
             )

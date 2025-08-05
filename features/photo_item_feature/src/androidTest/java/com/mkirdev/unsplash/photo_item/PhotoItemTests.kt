@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.unit.sp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.padding_10
@@ -142,6 +143,8 @@ internal class PhotoItemTests {
                         downloads = photoItemStub.downloads,
                         modifier = modifier.padding(end = padding_60, bottom = padding_10),
                         textStyle = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 16.sp,
                         onDownloadClick = onDownload
                     )
                 },
