@@ -1,18 +1,54 @@
 package com.mkirdev.unsplash.profile.impl
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.map
+import com.mkirdev.unsplash.domain.models.Photo
+import com.mkirdev.unsplash.domain.usecases.auth.ClearAuthTokensUseCase
+import com.mkirdev.unsplash.domain.usecases.collections.ClearCollectionsDatabaseUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosDatabaseUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetUserInfoUseCase
+import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
+import com.mkirdev.unsplash.profile.mappers.toPresentation
 import com.mkirdev.unsplash.profile.preview.createPhotoItemModelsPreviewData
 import com.mkirdev.unsplash.profile.preview.createProfileModelPreviewData
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val UPDATED_COUNT = 0
 private const val LIKED = true
 private const val UNLIKED = false
 
-class ProfileViewModel : ViewModel(), ProfileContract {
+internal class ProfileViewModel(
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val getLikedPhotosUseCase: GetLikedPhotosUseCase,
+    private val likePhotoRemoteUseCase: LikePhotoRemoteUseCase,
+    private val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase,
+    private val addDownloadLinkUseCase: AddDownloadLinkUseCase,
+    private val clearAuthTokensUseCase: ClearAuthTokensUseCase,
+    private val clearPhotosStorageUseCase: ClearPhotosStorageUseCase,
+    private val clearPhotosDatabaseUseCase: ClearPhotosDatabaseUseCase,
+    private val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase,
+    private val saveScheduleFlagUseCase: SaveScheduleFlagUseCase
+) : ViewModel(), ProfileContract {
 
     private val _uiState = MutableStateFlow<ProfileContract.State>(ProfileContract.State.Idle)
     override val uiState: StateFlow<ProfileContract.State> = _uiState.asStateFlow()
@@ -21,30 +57,7 @@ class ProfileViewModel : ViewModel(), ProfileContract {
     override val effect: StateFlow<ProfileContract.Effect?> = _effect.asStateFlow()
 
     init {
-        try {
-            _uiState.update {
-                ProfileContract.State.Loading
-            }
-            // load photos
-            _uiState.update {
-                ProfileContract.State.Success(
-                    profileModel = createProfileModelPreviewData(),
-                    photoItemModels = createPhotoItemModelsPreviewData(),
-                    isPagingLoadingError = false,
-                    isExitEnabled = false
-                )
-            }
-        } catch (t: Throwable) {
-            ProfileContract.State.Failure(
-                error = t.message.toString(),
-                isPagingLoadingError = false,
-                isExitEnabled = false,
-                updatedCount = UPDATED_COUNT,
-                profileModel = null,
-                photoItemModels = null
-            )
-        }
-
+        loadData()
     }
 
     override fun handleEvent(event: ProfileContract.Event) {
@@ -53,6 +66,7 @@ class ProfileViewModel : ViewModel(), ProfileContract {
             is ProfileContract.Event.PhotoLikedEvent -> onLikeClick(event.photoId, LIKED)
             is ProfileContract.Event.PhotoUnlikedEvent -> onLikeClick(event.photoId, UNLIKED)
             is ProfileContract.Event.PhotoDetailsOpenedEvent -> onPhotoDetails(event.photoId)
+            is ProfileContract.Event.PagingRetryEvent -> onPagingRetry(event.pagedItems)
             ProfileContract.Event.LoadingErrorEvent -> onErrorLoad()
             ProfileContract.Event.FieldClosedEvent -> onCloseFieldClick()
             ProfileContract.Event.PagingFieldClosedEvent -> onPagingCloseFieldClick()
@@ -66,79 +80,116 @@ class ProfileViewModel : ViewModel(), ProfileContract {
         _effect.update { null }
     }
 
-    private fun onDownloadClick(link: String) {
-        try {
-            // downloading
-            if (_uiState.value is ProfileContract.State.Failure) {
+    private fun loadData() {
+        viewModelScope.launch {
+            try {
+                _uiState.update {
+                    ProfileContract.State.Loading
+                }
+                val profileModel = getUserInfoUseCase.execute().toPresentation()
+                val photoItemModels = getLikedPhotosUseCase.execute(profileModel.username)
+                    .map { pagingData -> pagingData.map { it.toPresentation() } }
+                    .cachedIn(viewModelScope)
+
                 _uiState.update {
                     ProfileContract.State.Success(
-                        profileModel = (it as ProfileContract.State.Failure).profileModel
-                            ?: throw Throwable(),
-                        photoItemModels = it.photoItemModels ?: throw Throwable(),
-                        isPagingLoadingError = it.isPagingLoadingError,
-                        isExitEnabled = it.isExitEnabled
+                        profileModel = profileModel,
+                        photoItemModels = photoItemModels,
+                        isPagingLoadingError = false,
+                        isExitEnabled = false
                     )
                 }
+            } catch (t: Throwable) {
+                ProfileContract.State.Failure(
+                    error = t.message.toString(),
+                    isPagingLoadingError = false,
+                    isExitEnabled = false,
+                    updatedCount = UPDATED_COUNT,
+                    profileModel = null,
+                    photoItemModels = null
+                )
             }
-        } catch (t: Throwable) {
-            if (_uiState.value is ProfileContract.State.Success) {
-                _uiState.update {
-                    ProfileContract.State.Failure(
-                        error = t.message.toString(),
-                        isPagingLoadingError = (it as ProfileContract.State.Success).isPagingLoadingError,
-                        isExitEnabled = it.isExitEnabled,
-                        updatedCount = UPDATED_COUNT,
-                        profileModel = it.profileModel,
-                        photoItemModels = it.photoItemModels
-                    )
+        }
+    }
+
+
+    private fun onDownloadClick(link: String) {
+        viewModelScope.launch {
+            try {
+                addDownloadLinkUseCase.execute(link)
+                if (_uiState.value is ProfileContract.State.Failure) {
+                    _uiState.update {
+                        ProfileContract.State.Success(
+                            profileModel = (it as ProfileContract.State.Failure).profileModel
+                                ?: throw Throwable(),
+                            photoItemModels = it.photoItemModels ?: throw Throwable(),
+                            isPagingLoadingError = it.isPagingLoadingError,
+                            isExitEnabled = it.isExitEnabled
+                        )
+                    }
                 }
-            } else {
-                _uiState.update {
-                    (it as ProfileContract.State.Failure).copy(
-                        error = t.message.toString(),
-                        updatedCount = it.updatedCount + 1
-                    )
+            } catch (t: Throwable) {
+                if (_uiState.value is ProfileContract.State.Success) {
+                    _uiState.update {
+                        ProfileContract.State.Failure(
+                            error = t.message.toString(),
+                            isPagingLoadingError = (it as ProfileContract.State.Success).isPagingLoadingError,
+                            isExitEnabled = it.isExitEnabled,
+                            updatedCount = UPDATED_COUNT,
+                            profileModel = it.profileModel,
+                            photoItemModels = it.photoItemModels
+                        )
+                    }
+                } else {
+                    _uiState.update {
+                        (it as ProfileContract.State.Failure).copy(
+                            error = t.message.toString(),
+                            updatedCount = it.updatedCount + 1
+                        )
+                    }
                 }
             }
         }
     }
 
     private fun onLikeClick(photoId: String, isLiked: Boolean) {
-        try {
-            if (isLiked) {
-                // send liked photo
-            } else {
-                // send unliked photo
-            }
-            if (_uiState.value is ProfileContract.State.Failure) {
-                _uiState.update {
-                    ProfileContract.State.Success(
-                        profileModel = (it as ProfileContract.State.Failure).profileModel
-                            ?: throw Throwable(),
-                        photoItemModels = it.photoItemModels ?: throw Throwable(),
-                        isPagingLoadingError = it.isPagingLoadingError,
-                        isExitEnabled = it.isExitEnabled
-                    )
+        viewModelScope.launch {
+            try {
+                if (isLiked) {
+                    likePhotoRemoteUseCase.execute(photoId)
+                } else {
+                    unlikePhotoRemoteUseCase.execute(photoId)
                 }
-            }
-        } catch (t: Throwable) {
-            if (_uiState.value is ProfileContract.State.Success) {
-                _uiState.update {
-                    ProfileContract.State.Failure(
-                        error = t.message.toString(),
-                        isPagingLoadingError = (it as ProfileContract.State.Success).isPagingLoadingError,
-                        isExitEnabled = it.isExitEnabled,
-                        updatedCount = UPDATED_COUNT,
-                        profileModel = it.profileModel,
-                        photoItemModels = it.photoItemModels
-                    )
+                if (_uiState.value is ProfileContract.State.Failure) {
+                    _uiState.update {
+                        ProfileContract.State.Success(
+                            profileModel = (it as ProfileContract.State.Failure).profileModel
+                                ?: throw Throwable(),
+                            photoItemModels = it.photoItemModels ?: throw Throwable(),
+                            isPagingLoadingError = it.isPagingLoadingError,
+                            isExitEnabled = it.isExitEnabled
+                        )
+                    }
                 }
-            } else {
-                _uiState.update {
-                    (it as ProfileContract.State.Failure).copy(
-                        error = t.message.toString(),
-                        updatedCount = it.updatedCount + 1
-                    )
+            } catch (t: Throwable) {
+                if (_uiState.value is ProfileContract.State.Success) {
+                    _uiState.update {
+                        ProfileContract.State.Failure(
+                            error = t.message.toString(),
+                            isPagingLoadingError = (it as ProfileContract.State.Success).isPagingLoadingError,
+                            isExitEnabled = it.isExitEnabled,
+                            updatedCount = UPDATED_COUNT,
+                            profileModel = it.profileModel,
+                            photoItemModels = it.photoItemModels
+                        )
+                    }
+                } else {
+                    _uiState.update {
+                        (it as ProfileContract.State.Failure).copy(
+                            error = t.message.toString(),
+                            updatedCount = it.updatedCount + 1
+                        )
+                    }
                 }
             }
         }
@@ -161,28 +212,38 @@ class ProfileViewModel : ViewModel(), ProfileContract {
     }
 
     private fun onCloseFieldClick() {
-        _uiState.update {
-            ProfileContract.State.Success(
-                profileModel = (it as ProfileContract.State.Failure).profileModel
-                    ?: throw Throwable(),
-                photoItemModels = it.photoItemModels ?: throw Throwable(),
-                isPagingLoadingError = it.isPagingLoadingError,
-                isExitEnabled = it.isExitEnabled
-            )
+        if (_uiState.value is ProfileContract.State.Failure) {
+            _uiState.update {
+                ProfileContract.State.Success(
+                    profileModel = (it as ProfileContract.State.Failure).profileModel
+                        ?: throw Throwable(),
+                    photoItemModels = it.photoItemModels ?: throw Throwable(),
+                    isPagingLoadingError = it.isPagingLoadingError,
+                    isExitEnabled = it.isExitEnabled
+                )
+            }
         }
     }
 
     private fun onPagingCloseFieldClick() {
-        _uiState.update {
-            (it as ProfileContract.State.Success).copy(
-                isPagingLoadingError = false
-            )
+        _uiState.update { currentState ->
+            when (currentState) {
+                is ProfileContract.State.Failure ->
+                    ProfileContract.State.Success(
+                        profileModel = currentState.profileModel ?: throw Throwable(),
+                        photoItemModels = currentState.photoItemModels ?: throw Throwable(),
+                        isPagingLoadingError = false,
+                        isExitEnabled = currentState.isExitEnabled
+                    )
+
+                is ProfileContract.State.Success -> currentState.copy(isPagingLoadingError = false)
+                else -> currentState
+            }
         }
-        _uiState.update {
-            (it as ProfileContract.State.Success).copy(
-                isPagingLoadingError = null
-            )
-        }
+    }
+
+    private fun onPagingRetry(pagedItems: LazyPagingItems<PhotoItemModel>) {
+        pagedItems.retry()
     }
 
     private fun onPhotoDetails(photoId: String) {
@@ -225,10 +286,43 @@ class ProfileViewModel : ViewModel(), ProfileContract {
 
     private fun onExitConfirmed() {
         // clear all local data and logout
+        viewModelScope.launch {
+            saveScheduleFlagUseCase.execute(false)
+            clearAuthTokensUseCase.execute()
+            clearPhotosStorageUseCase.execute()
+            clearPhotosDatabaseUseCase.execute()
+            clearCollectionsDatabaseUseCase.execute()
+        }
         _effect.update {
             ProfileContract.Effect.Exit
         }
     }
+}
 
-
+internal class ProfileViewModelFactory @Inject constructor(
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val getLikedPhotosUseCase: GetLikedPhotosUseCase,
+    private val likePhotoRemoteUseCase: LikePhotoRemoteUseCase,
+    private val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase,
+    private val addDownloadLinkUseCase: AddDownloadLinkUseCase,
+    private val saveScheduleFlagUseCase: SaveScheduleFlagUseCase,
+    private val clearAuthTokensUseCase: ClearAuthTokensUseCase,
+    private val clearPhotosStorageUseCase: ClearPhotosStorageUseCase,
+    private val clearPhotosDatabaseUseCase: ClearPhotosDatabaseUseCase,
+    private val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return ProfileViewModel(
+            getUserInfoUseCase = getUserInfoUseCase,
+            getLikedPhotosUseCase = getLikedPhotosUseCase,
+            likePhotoRemoteUseCase = likePhotoRemoteUseCase,
+            unlikePhotoRemoteUseCase = unlikePhotoRemoteUseCase,
+            addDownloadLinkUseCase = addDownloadLinkUseCase,
+            saveScheduleFlagUseCase = saveScheduleFlagUseCase,
+            clearAuthTokensUseCase = clearAuthTokensUseCase,
+            clearPhotosStorageUseCase = clearPhotosStorageUseCase,
+            clearPhotosDatabaseUseCase = clearPhotosDatabaseUseCase,
+            clearCollectionsDatabaseUseCase = clearCollectionsDatabaseUseCase
+        ) as T
+    }
 }

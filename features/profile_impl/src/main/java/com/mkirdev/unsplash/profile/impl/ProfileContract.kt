@@ -1,6 +1,7 @@
 package com.mkirdev.unsplash.profile.impl
 
 import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.profile.models.ProfileModel
@@ -13,13 +14,13 @@ interface ProfileContract : UniFlowViewModel<ProfileContract.Event, ProfileContr
         data class Success(
             val profileModel: ProfileModel,
             val photoItemModels: Flow<PagingData<PhotoItemModel>>,
-            val isPagingLoadingError: Boolean?,
+            val isPagingLoadingError: Boolean,
             val isExitEnabled: Boolean
         ) : State
 
         data class Failure(
             val error: String,
-            val isPagingLoadingError: Boolean?,
+            val isPagingLoadingError: Boolean,
             val isExitEnabled: Boolean,
             val updatedCount: Int,
             val profileModel: ProfileModel?,
@@ -40,6 +41,8 @@ interface ProfileContract : UniFlowViewModel<ProfileContract.Event, ProfileContr
         data class PhotoUnlikedEvent(val photoId: String) : Event
 
         data class PhotoDetailsOpenedEvent(val photoId: String) : Event
+
+        data class PagingRetryEvent(val pagedItems: LazyPagingItems<PhotoItemModel>) : Event
 
         data object LoadingErrorEvent : Event
 
