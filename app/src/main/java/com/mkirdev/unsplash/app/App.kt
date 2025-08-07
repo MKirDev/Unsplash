@@ -2,7 +2,6 @@ package com.mkirdev.unsplash.app
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -16,6 +15,7 @@ import com.mkirdev.unsplash.di.DaggerAppComponent
 import com.mkirdev.unsplash.di.DaggerProvider
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
 import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependenciesProvider
+import com.mkirdev.unsplash.profile.di.ProfileDependenciesProvider
 import com.mkirdev.unsplash.workers.PhotoDownloadWorker
 import com.mkirdev.unsplash.workers.PhotoLikeWorker
 import com.mkirdev.unsplash.workers.PhotoUnlikeWorker
@@ -60,6 +60,7 @@ class App : Application() {
         DetailsDependenciesProvider.dependencies = appComponent
         CollectionsDependenciesProvider.dependencies = appComponent
         CollectionDetailsDependenciesProvider.dependencies = appComponent
+        ProfileDependenciesProvider.dependencies = appComponent
     }
 
     private fun launchCollectors() {
