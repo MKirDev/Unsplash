@@ -90,6 +90,7 @@ internal fun CollectionDetailsScreenWrapper(
         initialFirstVisibleItemIndex = scrollIndex,
         initialFirstVisibleItemScrollOffset = scrollOffset
     )
+
     LaunchedEffect(listState.isScrollInProgress) {
         if (!listState.isScrollInProgress) {
             scrollIndex = listState.firstVisibleItemIndex
@@ -124,7 +125,7 @@ internal fun CollectionDetailsScreenWrapper(
 
     photoModels?.let { flowPagingData ->
         val pagedItems = flowPagingData.collectAsLazyPagingItems()
-        CollectionDetailsScreen2(
+        CollectionDetailsScreen(
             listState = listState,
             collectionModel = collectionModel,
             pagedItems = pagedItems,
@@ -148,7 +149,7 @@ internal fun CollectionDetailsScreenWrapper(
 }
 
 @Composable
-private fun CollectionDetailsScreen2(
+private fun CollectionDetailsScreen(
     listState: LazyListState,
     collectionModel: CollectionDetailsModel?,
     pagedItems: LazyPagingItems<PhotoItemModel>,
@@ -172,7 +173,7 @@ private fun CollectionDetailsScreen2(
     val screenHeight = configuration.screenHeightDp.dp
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
-    val offsetY = if (isPortrait) screenHeight * 0.847f else screenHeight * 0.648f
+    val offsetY = if (isPortrait) screenHeight * 0.870f else screenHeight * 0.648f
 
     BackHandler(enabled = true) {
         onNavigateBack()
@@ -193,21 +194,6 @@ private fun CollectionDetailsScreen2(
             else if (loadState is LoadState.Loading && isPagingLoadingError) onPagingCloseFieldClick()
         }
     })
-
-    if (!errorText.isNullOrEmpty()) {
-        ClosableErrorField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(x = 0.dp, y = offsetY)
-                .zIndex(1f)
-                .alpha(0.9f)
-                .padding(horizontal = padding_10)
-                .testTag(CollectionDetailsTags.ERROR_FIELD),
-            text = errorText,
-            textStyle = MaterialTheme.typography.bodyLargeMedium,
-            onClick = onCloseFieldClick
-        )
-    }
 
     Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
         Column {
@@ -262,7 +248,7 @@ private fun CollectionDetailsScreen2(
                         }
                         items(
                             pagedItems.itemCount,
-                            key = pagedItems.itemKey { photoItemModel -> photoItemModel.id }) { index ->
+                            key = pagedItems.itemKey { photoItemModel -> photoItemModel.photoId }) { index ->
                             val item = pagedItems[index]
                             item?.let {
                                 PhotoItem(
@@ -270,7 +256,7 @@ private fun CollectionDetailsScreen2(
                                         .fillMaxWidth()
                                         .height(item_height_348)
                                         .clickable {
-                                            onPhotoItemClick(it.id)
+                                            onPhotoItemClick(it.photoId)
                                         },
                                     contentScale = ContentScale.FillBounds,
                                     photoItemModel = it,
@@ -289,7 +275,7 @@ private fun CollectionDetailsScreen2(
                                                 end = padding_6,
                                                 bottom = padding_10
                                             ),
-                                            photoId = it.id,
+                                            photoId = it.photoId,
                                             likes = it.likes,
                                             isLikedPhoto = it.isLiked,
                                             onLikeClick = onLike,
@@ -302,9 +288,8 @@ private fun CollectionDetailsScreen2(
                                             downloadText = stringResource(id = R.string.download),
                                             downloadLink = it.downloadLink,
                                             downloads = it.downloads,
-                                            modifier = modifier.padding(
-                                                bottom = padding_10
-                                            ).height(item_height_20),
+                                            modifier = modifier.padding(bottom = padding_10)
+                                                .height(item_height_20),
                                             textStyle = MaterialTheme.typography.bodyLarge,
                                             fontSize = 16.sp,
                                             color = MaterialTheme.colorScheme.onSecondary,
@@ -336,6 +321,21 @@ private fun CollectionDetailsScreen2(
                     }
                 }
             }
+        }
+    }
+    if (!errorText.isNullOrEmpty()) {
+        Box {
+            ClosableErrorField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(x = 0.dp, y = offsetY)
+                    .zIndex(1f)
+                    .alpha(0.9f)
+                    .testTag(CollectionDetailsTags.ERROR_FIELD),
+                text = errorText,
+                textStyle = MaterialTheme.typography.bodyLargeMedium,
+                onClick = onCloseFieldClick
+            )
         }
     }
 }
