@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.data.storages.database.entities
+package com.mkirdev.unsplash.data.storages.database.entities.collection
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
