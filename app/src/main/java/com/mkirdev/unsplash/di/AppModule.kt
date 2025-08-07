@@ -4,6 +4,7 @@ import android.content.Context
 import com.mkirdev.unsplash.collections.api.navigation.CollectionsTopLevelDestination
 import com.mkirdev.unsplash.core.navigation.TopDestinations
 import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.profile.api.navigation.ProfileTopLevelDestination
 import com.mkirdev.unsplash.schedulers.CacheScheduler
 import dagger.Module
 import dagger.Provides
@@ -23,7 +24,8 @@ class AppModule {
         return TopDestinations(
             destinations = listOf(
                 PhotoFeedTopLevelDestination,
-                CollectionsTopLevelDestination
+                CollectionsTopLevelDestination,
+                ProfileTopLevelDestination
             )
         )
     }

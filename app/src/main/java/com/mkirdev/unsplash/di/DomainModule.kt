@@ -3,10 +3,13 @@ package com.mkirdev.unsplash.di
 import com.mkirdev.unsplash.domain.repository.CollectionsRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
+import com.mkirdev.unsplash.domain.repository.CurrentUserRepository
+import com.mkirdev.unsplash.domain.usecases.collections.ClearCollectionsDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionInfoUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetLikedPhotoUseCase
@@ -21,6 +24,8 @@ import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.GetScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetUserInfoUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -29,6 +34,11 @@ class DomainModule {
     @Provides
     fun provideClearPhotosStorageUseCase(photosRepository: PhotosRepository): ClearPhotosStorageUseCase {
         return ClearPhotosStorageUseCase(photosRepository)
+    }
+
+    @Provides
+    fun provideClearPhotosDatabaseUseCase(photosRepository: PhotosRepository): ClearPhotosDatabaseUseCase {
+        return ClearPhotosDatabaseUseCase(photosRepository)
     }
 
     @Provides
@@ -99,6 +109,22 @@ class DomainModule {
     @Provides
     fun provideGetCollectionPhotosUseCase(collectionsRepository: CollectionsRepository): GetCollectionPhotosUseCase {
         return GetCollectionPhotosUseCase(collectionsRepository)
+    }
+
+    @Provides
+    fun provideClearCollectionsDatabaseUseCase(collectionsRepository: CollectionsRepository): ClearCollectionsDatabaseUseCase {
+        return ClearCollectionsDatabaseUseCase(collectionsRepository)
+    }
+
+
+    @Provides
+    fun provideGetLikedPhotosUseCase(currentUserRepository: CurrentUserRepository): GetLikedPhotosUseCase {
+        return GetLikedPhotosUseCase(currentUserRepository)
+    }
+
+    @Provides
+    fun provideGetUserInfoUseCase(currentUserRepository: CurrentUserRepository): GetUserInfoUseCase {
+        return GetUserInfoUseCase(currentUserRepository)
     }
 
     @Provides
