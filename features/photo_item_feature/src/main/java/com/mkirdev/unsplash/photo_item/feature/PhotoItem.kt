@@ -34,7 +34,6 @@ import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
-import kotlinx.coroutines.Dispatchers
 
 
 @Composable
@@ -129,7 +128,7 @@ private fun PhotoItemPreview() {
             likesInfo = { modifier, onLike, onRemoveLike ->
                 LikesInfoSmall(
                     modifier = modifier.padding(end = padding_6, bottom = padding_6),
-                    photoId = photoItemModel.id,
+                    photoId = photoItemModel.photoId,
                     likes = photoItemModel.likes,
                     isLikedPhoto = photoItemModel.isLiked,
                     onRemoveLikeClick = onRemoveLike,
