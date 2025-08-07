@@ -1,4 +1,4 @@
-package com.mkirdev.unsplash.data.storages.database.entities
+package com.mkirdev.unsplash.data.storages.database.entities.feed
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,21 +7,26 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = PhotoEntity.TABLE_NAME,
+    tableName = PhotoFeedEntity.TABLE_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = [UserEntity.ID],
-            childColumns = [PhotoEntity.USER_ID],
+            entity = UserFeedEntity::class,
+            parentColumns = [UserFeedEntity.USER_ID],
+            childColumns = [PhotoFeedEntity.USER_ID],
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(PhotoEntity.USER_ID)]
+    indices = [
+        Index(PhotoFeedEntity.USER_ID),
+        Index(value = [PhotoFeedEntity.PHOTO_ID], unique = true)
+    ]
 )
-data class PhotoEntity(
-    @PrimaryKey(autoGenerate = false)
-    val id: String,
+data class PhotoFeedEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    @ColumnInfo(name = PHOTO_ID)
+    val photoId: String,
     @ColumnInfo(name = WIDTH)
     val width: Int,
     @ColumnInfo(name = HEIGHT)
@@ -35,15 +40,13 @@ data class PhotoEntity(
     @ColumnInfo(name = LIKES)
     val likes: Int,
     @ColumnInfo(name = USER_ID)
-    val userId: String,
-    @ColumnInfo(name = SEARCH_TYPE)
-    val searchType: Int,
-    @ColumnInfo(name = POSITION)
-    val position: Int
+    val userId: String
 ) {
     companion object {
-        const val TABLE_NAME = "photo"
+        const val TABLE_NAME = "photo_feed"
         const val ID = "id"
+
+        const val PHOTO_ID = "photo_id"
         const val WIDTH = "width"
         const val HEIGHT = "height"
         const val IMAGE_URL = "image_url"
@@ -51,7 +54,5 @@ data class PhotoEntity(
         const val HTML_LINK = "html_link"
         const val LIKES = "likes"
         const val USER_ID = "user_id"
-        const val SEARCH_TYPE = "search_type"
-        const val POSITION = "position"
     }
 }
