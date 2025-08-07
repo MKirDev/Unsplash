@@ -5,7 +5,8 @@ import androidx.compose.ui.unit.Dp
 
 @Immutable
 data class PhotoItemModel(
-    val id: String,
+    val position: Int,
+    val photoId: String,
     val imageUrl: String,
     val width: Dp,
     val height: Dp,
