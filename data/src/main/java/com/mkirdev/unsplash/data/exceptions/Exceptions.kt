@@ -1,114 +1,132 @@
 package com.mkirdev.unsplash.data.exceptions
 
-sealed class OnboardingException : Throwable() {
-    data class SaveFlagException(
+internal sealed class OnboardingException : Throwable() {
+    internal data class SaveFlagException(
         override val cause: Throwable?
     ) : OnboardingException()
 
-    data class GetFlagException(
+    internal data class GetFlagException(
         override val cause: Throwable?
     ) : OnboardingException()
 
-    data class ClearDataException(
+    internal data class ClearDataException(
         override val cause: Throwable?
     ) : OnboardingException()
 }
 
-sealed class AuthException : Throwable() {
-    data class GetAuthRequestException(
+internal sealed class AuthException : Throwable() {
+    internal data class GetAuthRequestException(
         override val cause: Throwable?
     ) : AuthException()
 
-    data class PerformTokenRequestException(
+    internal data class PerformTokenRequestException(
         override val cause: Throwable?
     ) : AuthException()
 
-    data class GetSavedTokenRequestException(
+    internal data class GetSavedTokenRequestException(
         override val cause: Throwable?
     ) : AuthException()
 
-    data class ClearDataException(
+    internal data class ClearDataException(
         override val cause: Throwable?
     ) : AuthException()
 }
 
-sealed class PhotosException : Throwable() {
-    data class GetPhotosException(
+internal sealed class PhotosException : Throwable() {
+    internal data class GetPhotosException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class GetPhotoException(
+    internal data class GetPhotoException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class LikePhotoLocalException(
+    internal data class LikePhotoLocalException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class UnlikePhotoLocalException(
+    internal data class UnlikePhotoLocalException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class LikePhotoRemoteException(
+    internal data class LikePhotoRemoteException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class UnlikePhotoRemoteException(
+    internal data class UnlikePhotoRemoteException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class GetLikedPhotoException(
+    internal data class GetLikedPhotoException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class GetUnlikedPhotoException(
+    internal data class GetUnlikedPhotoException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class SearchPhotosException(
+    internal data class SearchPhotosException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class AddDownloadLinkException(
+    internal data class AddDownloadLinkException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class GetDownloadLinkException(
+    internal data class GetDownloadLinkException(
         override val cause: Throwable?
     ) : PhotosException()
 
-    data class ClearDataException(
+    internal data class ClearDataException(
+        override val cause: Throwable?
+    ) : PhotosException()
+
+    internal data class ClearPhotosFromDatabase(
         override val cause: Throwable?
     ) : PhotosException()
 }
 
-sealed class CollectionsException : Throwable() {
+internal sealed class CollectionsException : Throwable() {
 
-    data class GetCollectionsException(
+    internal data class GetCollectionsException(
         override val cause: Throwable?
     ) : CollectionsException()
 
-    data class GetCollectionInfoException(
+    internal data class GetCollectionInfoException(
         override val cause: Throwable?
     ) : CollectionsException()
 
-    data class GetCollectionPhotosException(
+    internal data class GetCollectionPhotosException(
+        override val cause: Throwable?
+    ) : CollectionsException()
+
+    internal data class ClearCollectionsFromDatabase(
         override val cause: Throwable?
     ) : CollectionsException()
 
 }
 
-sealed class PreferencesException : Throwable() {
+internal sealed class PreferencesException : Throwable() {
 
-    data class SaveScheduleFlagException(
+    internal data class SaveScheduleFlagException(
         override val cause: Throwable?
     ) : PreferencesException()
 
-    data class GetScheduleFlagException(
+    internal data class GetScheduleFlagException(
         override val cause: Throwable?
     ) : PreferencesException()
 
-    data class DeleteScheduleFlagException(
+    internal data class DeleteScheduleFlagException(
         override val cause: Throwable?
     ) : PreferencesException()
+}
+
+internal sealed class UsersException : Throwable() {
+    internal data class GetLikedPhotosException(
+        override val cause: Throwable?
+    ) : UsersException()
+
+    internal data class GetUserInfoException(
+        override val cause: Throwable?
+    ) : UsersException()
 }
