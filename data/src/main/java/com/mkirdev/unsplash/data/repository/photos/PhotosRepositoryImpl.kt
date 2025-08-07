@@ -12,7 +12,8 @@ import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.paging.PhotoFeedRemoteMediator
 import com.mkirdev.unsplash.data.paging.PhotoSearchRemoteMediator
-import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
+import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
+import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchJoinedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import com.mkirdev.unsplash.data.storages.datastore.photos.PhotosStorage
 import com.mkirdev.unsplash.domain.models.Photo
@@ -45,10 +46,10 @@ class PhotosRepositoryImpl @Inject constructor(
                 appDatabase = appDatabase
             ),
             pagingSourceFactory = {
-                appDatabase.photoFeedDao().getFeedPhotos()
+                appDatabase.photoFeedJoinedDao().getFeedJoinedPhotos()
             }
-        ).flow.map { value: PagingData<PhotoFeedDto> ->
-            value.map { photoFeedDto -> photoFeedDto.toDomain() }
+        ).flow.map { value: PagingData<PhotoFeedJoinedDto> ->
+            value.map { photoFeedJoinedDto -> photoFeedJoinedDto.toDomain() }
         }.flowOn(dispatcher).catch {
             throw PhotosException.GetPhotosException(it)
         }
@@ -63,10 +64,10 @@ class PhotosRepositoryImpl @Inject constructor(
                 appDatabase = appDatabase
             ),
             pagingSourceFactory = {
-                appDatabase.photoSearchDao().getSearchPhotos()
+                appDatabase.photoSearchJoinedDao().getSearchJoinedPhotos()
             }
-        ).flow.map { value: PagingData<PhotoFeedDto> ->
-            value.map { photoFeedDto -> photoFeedDto.toDomain() }
+        ).flow.map { value: PagingData<PhotoSearchJoinedDto> ->
+            value.map { photoSearchJoinedDto -> photoSearchJoinedDto.toDomain() }
         }.flowOn(dispatcher).catch {
             throw PhotosException.SearchPhotosException(it)
         }
@@ -82,19 +83,35 @@ class PhotosRepositoryImpl @Inject constructor(
 
     override suspend fun likePhotoLocal(photoId: String) = withContext(dispatcher) {
         try {
-            val reactionsTypeDao = appDatabase.reactionsTypeDao()
-            val photoDao = appDatabase.photoDao()
+            photosStorage.addLikedPhoto(photoId)
 
-            val photo = appDatabase.photoDao().getPhoto(photoId)
-            if (photo != null) {
-                val likes = (photo.likes + 1).toString()
+            val photoFeed = appDatabase.photoFeedDao().getPhoto(photoId)
+            val photoSearch = appDatabase.photoSearchDao().getPhoto(photoId)
+            val photoCollection = appDatabase.photoCollectionDao().getPhoto(photoId)
+
+            if (photoFeed != null || photoSearch != null || photoCollection != null) {
                 appDatabase.withTransaction {
-                    reactionsTypeDao.likePhoto(photoId)
-                    photoDao.updateLikes(likes, photoId)
+                    if (photoFeed != null) {
+                        val likes = (photoFeed.likes + 1).toString()
+                        appDatabase.reactionsFeedDao().likePhoto(photoId)
+                        appDatabase.photoFeedDao().updateLikes(likes, photoId)
+                        return@withTransaction
+                    }
+
+                    if (photoSearch != null) {
+                        val likes = (photoSearch.likes + 1).toString()
+                        appDatabase.reactionsSearchDao().likePhoto(photoId)
+                        appDatabase.photoSearchDao().updateLikes(likes, photoId)
+                        return@withTransaction
+                    }
+
+                    if (photoCollection != null) {
+                        val likes = (photoCollection.likes + 1).toString()
+                        appDatabase.reactionsCollectionDao().likePhoto(photoId)
+                        appDatabase.photoCollectionDao().updateLikes(likes, photoId)
+                        return@withTransaction
+                    }
                 }
-                photosStorage.addLikedPhoto(photoId)
-            } else {
-                photosStorage.addLikedPhoto(photoId)
             }
         } catch (t: Throwable) {
             throw PhotosException.LikePhotoLocalException(t)
@@ -103,19 +120,35 @@ class PhotosRepositoryImpl @Inject constructor(
 
     override suspend fun unlikePhotoLocal(photoId: String) = withContext(dispatcher) {
         try {
-            val reactionsTypeDao = appDatabase.reactionsTypeDao()
-            val photoDao = appDatabase.photoDao()
+            photosStorage.addUnlikedPhoto(photoId)
 
-            val photo = appDatabase.photoDao().getPhoto(photoId)
-            if (photo != null) {
-                val likes = (photo.likes - 1).toString()
+            val photoFeed = appDatabase.photoFeedDao().getPhoto(photoId)
+            val photoSearch = appDatabase.photoSearchDao().getPhoto(photoId)
+            val photoCollection = appDatabase.photoCollectionDao().getPhoto(photoId)
+
+            if (photoFeed != null || photoSearch != null || photoCollection != null) {
                 appDatabase.withTransaction {
-                    reactionsTypeDao.unlikePhoto(photoId)
-                    photoDao.updateLikes(likes, photoId)
+                    if (photoFeed != null) {
+                        val likes = (photoFeed.likes - 1).toString()
+                        appDatabase.reactionsFeedDao().unlikePhoto(photoId)
+                        appDatabase.photoFeedDao().updateLikes(likes, photoId)
+                        return@withTransaction
+                    }
+
+                    if (photoSearch != null) {
+                        val likes = (photoSearch.likes - 1).toString()
+                        appDatabase.reactionsSearchDao().unlikePhoto(photoId)
+                        appDatabase.photoSearchDao().updateLikes(likes, photoId)
+                        return@withTransaction
+                    }
+
+                    if (photoCollection != null) {
+                        val likes = (photoCollection.likes - 1).toString()
+                        appDatabase.reactionsCollectionDao().unlikePhoto(photoId)
+                        appDatabase.photoCollectionDao().updateLikes(likes, photoId)
+                        return@withTransaction
+                    }
                 }
-                photosStorage.addUnlikedPhoto(photoId)
-            } else {
-                photosStorage.addUnlikedPhoto(photoId)
             }
         } catch (t: Throwable) {
             throw PhotosException.UnlikePhotoLocalException(t)
@@ -169,6 +202,25 @@ class PhotosRepositoryImpl @Inject constructor(
             photosStorage.clear()
         } catch (t: Throwable) {
             throw PhotosException.ClearDataException(t)
+        }
+    }
+
+    override suspend fun clearPhotosFromDatabase(): Unit = withContext(dispatcher) {
+        try {
+            appDatabase.withTransaction {
+                appDatabase.apply {
+                    userFeedDao().deleteUsers()
+                    userSearchDao().deleteUsers()
+                    reactionsFeedDao().deleteReactionsTypes()
+                    reactionsSearchDao().deleteReactionsTypes()
+                    photoFeedDao().deletePhotos()
+                    photoSearchDao().deletePhotos()
+                    remoteKeysFeedDao().deleteAllRemoteKeys()
+                    remoteKeysSearchDao().deleteAllRemoteKeys()
+                }
+            }
+        } catch (t: Throwable) {
+            throw PhotosException.ClearPhotosFromDatabase(t)
         }
     }
 }

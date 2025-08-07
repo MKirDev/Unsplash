@@ -6,13 +6,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.mkirdev.unsplash.data.exceptions.CollectionsException
-import com.mkirdev.unsplash.data.mappers.toCollectionEntity
 import com.mkirdev.unsplash.data.mappers.toDomain
 import com.mkirdev.unsplash.data.network.collections.api.CollectionsApi
 import com.mkirdev.unsplash.data.network.models.collections.CollectionNetwork
 import com.mkirdev.unsplash.data.paging.CollectionPhotosRemoteMediator
 import com.mkirdev.unsplash.data.paging.CollectionsPagingSource
-import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoFromCollectionDto
+import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoCollectionJoinedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import com.mkirdev.unsplash.domain.models.Collection
 import com.mkirdev.unsplash.domain.models.Photo
@@ -50,7 +49,6 @@ class CollectionsRepositoryImpl @Inject constructor(
     override suspend fun getCollectionInfo(id: String): Collection = withContext(dispatcher) {
         try {
             val collectionNetwork = collectionsApi.getCollection(id)
-            appDatabase.collectionDao().addCollection(collectionNetwork.toCollectionEntity())
             collectionNetwork.toDomain()
         } catch (t: Throwable) {
             throw CollectionsException.GetCollectionInfoException(t)
@@ -58,7 +56,7 @@ class CollectionsRepositoryImpl @Inject constructor(
     }
 
     override fun getCollectionPhotos(id: String): Flow<PagingData<Photo>> {
-       return Pager(
+        return Pager(
             config = PagingConfig(pageSize = ITEMS_PER_PAGE),
             remoteMediator = CollectionPhotosRemoteMediator(
                 collectionId = id,
@@ -66,12 +64,23 @@ class CollectionsRepositoryImpl @Inject constructor(
                 appDatabase = appDatabase
             ),
             pagingSourceFactory = {
-                appDatabase.photoFromCollectionDao().getPhotosFromCollection()
+                appDatabase.photoCollectionJoinedDao().getCollectionJoinedPhotos()
             }
-        ).flow.map { value: PagingData<PhotoFromCollectionDto> ->
-            value.map { photoFromCollectionDto -> photoFromCollectionDto.toDomain() }
+        ).flow.map { value: PagingData<PhotoCollectionJoinedDto> ->
+            value.map { photoCollectionJoinedDto -> photoCollectionJoinedDto.toDomain() }
         }.flowOn(dispatcher).catch {
             throw CollectionsException.GetCollectionPhotosException(it)
+        }
+    }
+
+    override suspend fun clearCollectionsFromDatabase(): Unit = withContext(dispatcher) {
+        try {
+            appDatabase.photoCollectionDao().deletePhotos()
+            appDatabase.userCollectionDao().deleteUsers()
+            appDatabase.reactionsCollectionDao().deleteReactionsTypes()
+            appDatabase.remoteKeysCollectionDao().deleteAllRemoteKeys()
+        } catch (t: Throwable) {
+            throw CollectionsException.ClearCollectionsFromDatabase(t)
         }
     }
 }
