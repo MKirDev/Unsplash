@@ -1,12 +1,14 @@
 package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoSearchNetwork
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
-import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysSearchEntity
-
-internal fun PhotoSearchNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysSearchEntity {
+import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchJoinedDto
+import com.mkirdev.unsplash.data.storages.database.entities.search.RemoteKeysSearchEntity
+import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoReactionsSearchEntity
+import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoSearchEntity
+import com.mkirdev.unsplash.data.storages.database.entities.search.ReactionsSearchEntity
+import com.mkirdev.unsplash.domain.models.Links
+import com.mkirdev.unsplash.domain.models.Photo
+internal fun PhotoSearchNetwork.toKeysSearchEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysSearchEntity {
     return RemoteKeysSearchEntity(
         photoId = id,
         prevPage = prevPage,
@@ -14,7 +16,7 @@ internal fun PhotoSearchNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : R
     )
 }
 
-internal fun PhotoSearchNetwork.toPhotoEntity(position: Int): PhotoEntity {
+internal fun PhotoSearchNetwork.toPhotoSearchEntity(): PhotoSearchEntity {
     val displayWidth = when (width) {
         in 0..2500 -> 180
         in 2501..4000 -> 240
@@ -26,8 +28,8 @@ internal fun PhotoSearchNetwork.toPhotoEntity(position: Int): PhotoEntity {
         else -> 350
     }
 
-    return PhotoEntity(
-        id = id,
+    return PhotoSearchEntity(
+        photoId = id,
         width = displayWidth,
         height = displayHeight,
         imageUrl = imageUrl.toRegular(),
@@ -35,21 +37,37 @@ internal fun PhotoSearchNetwork.toPhotoEntity(position: Int): PhotoEntity {
         htmlLink = links.toHtml(),
         likes = likes,
         userId = user.id,
-        searchType = 1,
-        position = position
     )
 }
 
-internal fun PhotoSearchNetwork.toReactionsTypeEntity(): ReactionsTypeEntity {
-    return ReactionsTypeEntity(
-        id = id,
+internal fun PhotoSearchNetwork.toReactionsSearchEntity(): ReactionsSearchEntity {
+    return ReactionsSearchEntity(
+        photoId = id,
         liked = if (likedByUser) 1 else 0
     )
 }
 
-internal fun PhotoSearchNetwork.toPhotoReactionsEntity(): PhotoReactionsEntity {
-    return PhotoReactionsEntity(
+internal fun PhotoSearchNetwork.toPhotoReactionsSearchEntity(): PhotoReactionsSearchEntity {
+    return PhotoReactionsSearchEntity(
         photoId = id,
         reactionsId = id
+    )
+}
+
+internal fun PhotoSearchJoinedDto.toDomain(): Photo {
+    return Photo(
+        position = position,
+        id = photoId,
+        width = width,
+        height = height,
+        imageUrl = imageUrl,
+        links = Links(html = htmlLink, download = downloadLink),
+        likes = likes,
+        likedByUser = likedByUser == 1,
+        user = userSearchDto.toDomain(),
+        location = null,
+        exif = null,
+        tags = null,
+        downloads = null,
     )
 }

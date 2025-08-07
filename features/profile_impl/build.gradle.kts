@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":core:navigation"))
+    implementation(project(":core:contract:usecase"))
     implementation(project(":core:ui"))
     implementation(project(":domain"))
 

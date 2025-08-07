@@ -5,16 +5,16 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.mkirdev.unsplash.data.mappers.toKeysEntity
-import com.mkirdev.unsplash.data.mappers.toPhotoEntity
-import com.mkirdev.unsplash.data.mappers.toPhotoReactionsEntity
-import com.mkirdev.unsplash.data.mappers.toReactionsTypeEntity
-import com.mkirdev.unsplash.data.mappers.toUserEntity
+import com.mkirdev.unsplash.data.mappers.toKeysSearchEntity
+import com.mkirdev.unsplash.data.mappers.toPhotoReactionsSearchEntity
+import com.mkirdev.unsplash.data.mappers.toPhotoSearchEntity
+import com.mkirdev.unsplash.data.mappers.toReactionsSearchEntity
+import com.mkirdev.unsplash.data.mappers.toUserSearchEntity
 import com.mkirdev.unsplash.data.network.photos.api.SearchApi
-import com.mkirdev.unsplash.data.storages.database.dto.base.RemoteKeysDto
-import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
+import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchJoinedDto
+import com.mkirdev.unsplash.data.storages.database.dto.search.RemoteKeysSearchDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
-import kotlin.collections.forEach
+import kotlin.collections.map
 
 private const val ITEMS_PER_PAGE = 20
 @OptIn(ExperimentalPagingApi::class)
@@ -22,17 +22,17 @@ class PhotoSearchRemoteMediator(
     private val query: String,
     private val searchApi: SearchApi,
     private val appDatabase: AppDatabase
-) : RemoteMediator<Int, PhotoFeedDto>() {
+) : RemoteMediator<Int, PhotoSearchJoinedDto>() {
 
-    private val photoDao = appDatabase.photoDao()
-    private val reactionsTypeDao = appDatabase.reactionsTypeDao()
-    private val photoReactionsDao = appDatabase.photoReactionsDao()
-    private val userDao = appDatabase.userDao()
-    private val remoteKeysDao = appDatabase.remoteKeysSearchDao()
+    private val photoSearchDao = appDatabase.photoSearchDao()
+    private val reactionsSearchDao = appDatabase.reactionsSearchDao()
+    private val photoReactionsSearchDao = appDatabase.photoReactionsSearchDao()
+    private val userSearchDao = appDatabase.userSearchDao()
+    private val remoteKeysSearchDao = appDatabase.remoteKeysSearchDao()
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, PhotoFeedDto>
+        state: PagingState<Int, PhotoSearchJoinedDto>
     ): MediatorResult {
         return try {
             val currentPage = when (loadType) {
@@ -68,37 +68,39 @@ class PhotoSearchRemoteMediator(
 
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    photoDao.deleteSearchPhotos()
+                    photoSearchDao.deletePhotos()
+                    reactionsSearchDao.deleteReactionsTypes()
+                    photoReactionsSearchDao.deletePhotoReactions()
+                    userSearchDao.deleteUsers()
+                    remoteKeysSearchDao.deleteAllRemoteKeys()
                 }
 
                 val keys = response.results.map { photoSearchNetwork ->
-                    photoSearchNetwork.toKeysEntity(prevPage = prevPage, nextPage = nextPage)
+                    photoSearchNetwork.toKeysSearchEntity(prevPage = prevPage, nextPage = nextPage)
                 }
 
                 val reactions = response.results.map { photoSearchNetwork ->
-                    photoSearchNetwork.toReactionsTypeEntity()
+                    photoSearchNetwork.toReactionsSearchEntity()
                 }
 
                 val photoReactions = response.results.map { photoSearchNetwork ->
-                    photoSearchNetwork.toPhotoReactionsEntity()
+                    photoSearchNetwork.toPhotoReactionsSearchEntity()
                 }
 
                 val users = response.results.map { photoSearchNetwork ->
-                    photoSearchNetwork.user.toUserEntity()
+                    photoSearchNetwork.user.toUserSearchEntity()
                 }
 
-                remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
+                remoteKeysSearchDao.addAllRemoteKeys(remoteKeys = keys)
 
-                userDao.addUsers(users = users)
+                userSearchDao.addUsers(users = users)
 
-                response.results.forEach { photoSearchNetwork ->
-                    val maxPosition = photoDao.getMaxPosition() ?: 0
-                    val photo = photoSearchNetwork.toPhotoEntity(maxPosition + 1)
-                    photoDao.addPhoto(photo)
-                }
+                val photos = response.results.map { it.toPhotoSearchEntity() }
 
-                reactionsTypeDao.addReactionsTypes(reactions = reactions)
-                photoReactionsDao.addPhotoReactions(photoReactions = photoReactions)
+                photoSearchDao.addPhotos(photos)
+
+                reactionsSearchDao.addReactionsTypes(reactions = reactions)
+                photoReactionsSearchDao.addPhotoReactions(photoReactions = photoReactions)
             }
             MediatorResult.Success(endOfPaginationReached = endOfPagingReached)
         } catch (e: Exception) {
@@ -107,30 +109,30 @@ class PhotoSearchRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, PhotoFeedDto>
-    ): RemoteKeysDto? {
+        state: PagingState<Int, PhotoSearchJoinedDto>
+    ): RemoteKeysSearchDto? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                remoteKeysDao.getRemoteKeys(id = id)
+            state.closestItemToPosition(position)?.photoId?.let { id ->
+                remoteKeysSearchDao.getRemoteKeys(id = id)
             }
         }
     }
 
     private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, PhotoFeedDto>
-    ): RemoteKeysDto? {
+        state: PagingState<Int, PhotoSearchJoinedDto>
+    ): RemoteKeysSearchDto? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { photo ->
-                remoteKeysDao.getRemoteKeys(id = photo.id)
+                remoteKeysSearchDao.getRemoteKeys(id = photo.photoId)
             }
     }
 
     private suspend fun getRemoteKetForLastItem(
-        state: PagingState<Int, PhotoFeedDto>
-    ): RemoteKeysDto? {
+        state: PagingState<Int, PhotoSearchJoinedDto>
+    ): RemoteKeysSearchDto? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { photo ->
-                remoteKeysDao.getRemoteKeys(id = photo.id)
+                remoteKeysSearchDao.getRemoteKeys(id = photo.photoId)
             }
     }
 

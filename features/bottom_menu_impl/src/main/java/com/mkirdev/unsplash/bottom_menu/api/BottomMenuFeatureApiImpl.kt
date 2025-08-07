@@ -65,10 +65,15 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
                 mutableStateOf(bottomMenuComponent.collectionsFeatureApi)
             }
 
+            val profileFeatureApi by remember {
+                mutableStateOf(bottomMenuComponent.profileFeatureApi)
+            }
+
             BottomMenuScreenWrapper(
                 viewModel = viewModel,
                 photoFeedFeatureApi = photoFeedFeatureApi,
                 collectionsFeatureApi = collectionsFeatureApi,
+                profileFeatureApi = profileFeatureApi,
                 onPhotoSelected = onNavigateToPhotoDetails,
                 onCollectionSelected = onNavigateToCollectionDetails,
                 onLogout = onLogout

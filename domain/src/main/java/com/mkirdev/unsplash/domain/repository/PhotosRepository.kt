@@ -29,4 +29,6 @@ interface PhotosRepository {
 
     suspend fun clearPhotosStorage()
 
+    suspend fun clearPhotosFromDatabase()
+
 }

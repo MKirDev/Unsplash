@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mkirdev.unsplash.data.network.collections.api.CollectionsApi
 import com.mkirdev.unsplash.data.network.models.collections.CollectionNetwork
+private const val ITEMS_PER_PAGE = 20
 class CollectionsPagingSource(
     private val collectionsApi: CollectionsApi
 ) : PagingSource<Int, CollectionNetwork>() {
@@ -11,7 +12,7 @@ class CollectionsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CollectionNetwork> {
         val currentPage = params.key ?: 1
         return try {
-            val response = collectionsApi.getCollections(page = currentPage, perPage = 10)
+            val response = collectionsApi.getCollections(page = currentPage, perPage = ITEMS_PER_PAGE)
             val endOfPaginationReached = response.isEmpty()
             if (response.isNotEmpty()) {
                 LoadResult.Page(

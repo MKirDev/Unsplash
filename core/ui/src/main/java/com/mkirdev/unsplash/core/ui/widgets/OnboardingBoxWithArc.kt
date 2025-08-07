@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.core.ui.widgets
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
@@ -35,9 +37,6 @@ fun OnboardingBoxWithArc(
     contentAlignment: Alignment,
     function: @Composable () -> Unit
 ) {
-    var halfSize by remember {
-        mutableStateOf(Size(0f, 0f))
-    }
 
     val arcFactor by remember(arcHeightFactor) {
         derivedStateOf { 1.1f - arcHeightFactor * 0.03f }
@@ -57,16 +56,26 @@ fun OnboardingBoxWithArc(
         label = ""
     )
 
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = modifier
-            .onSizeChanged {
-                halfSize = it.toSize() / 2f
-            }
             .drawBehind {
+                val radius = if (isLandscape) {
+                    size.width * animatedArcHeightFactor * 1.2f
+                } else {
+                    size.width * animatedArcHeightFactor
+                }
+                val centerY =  if (isLandscape) {
+                    size.height * 2.6f
+                } else {
+                    size.height
+                }
                 drawCircle(
                     color = green.copy(alpha = 0.9f),
-                    radius = halfSize.height * animatedArcHeightFactor,
-                    center = Offset(size.width * animatedCenterOffsetFactor, size.height)
+                    radius = radius,
+                    center = Offset(size.width * animatedCenterOffsetFactor, centerY)
                 )
             },
         contentAlignment = contentAlignment

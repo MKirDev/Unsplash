@@ -7,7 +7,8 @@ import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 private const val EMPTY_STRING = ""
 
 internal fun Photo.toPresentation() = PhotoItemModel(
-    id = id,
+    position = 0,
+    photoId = id,
     imageUrl = imageUrl,
     width = width.dp,
     height = height.dp,

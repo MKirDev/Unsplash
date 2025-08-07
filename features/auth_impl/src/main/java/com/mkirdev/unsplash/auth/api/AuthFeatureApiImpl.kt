@@ -31,6 +31,11 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
         this.context.getString(com.mkirdev.unsplash.core.navigation.R.string.app_internal_scheme)
     }
 
+    override fun NavHostController.logout() {
+        popBackStack()
+        navigate(AuthDestination.route)
+    }
+
     override fun NavGraphBuilder.auth(
         schema: String,
         host: String,

@@ -20,10 +20,14 @@ import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
+import com.mkirdev.unsplash.domain.usecases.auth.ClearAuthTokensUseCase
+import com.mkirdev.unsplash.domain.usecases.collections.ClearCollectionsDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionInfoUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosDatabaseUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetLikedPhotoUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetPhotoUseCase
@@ -37,11 +41,15 @@ import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.GetScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetUserInfoUseCase
 import com.mkirdev.unsplash.notification.api.NotificationFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
 import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependencies
+import com.mkirdev.unsplash.profile.api.ProfileFeatureApi
+import com.mkirdev.unsplash.profile.di.ProfileDependencies
 import com.mkirdev.unsplash.schedulers.CacheScheduler
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
@@ -63,7 +71,8 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies,
-    PhotoFeedDependencies, DetailsDependencies, CollectionsDependencies, CollectionDetailsDependencies {
+    PhotoFeedDependencies, DetailsDependencies, CollectionsDependencies,
+    CollectionDetailsDependencies, ProfileDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -77,11 +86,18 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     override val authRepository: AuthRepository
     override val authService: AuthorizationService
 
+    override val clearAuthTokensUseCase: ClearAuthTokensUseCase
+
     val authFeatureApi: AuthFeatureApi
 
     val bottomMenuFeatureApi: BottomMenuFeatureApi
 
     override val photoFeedFeatureApi: PhotoFeedFeatureApi
+
+    override val collectionsFeatureApi: CollectionsFeatureApi
+
+    override val profileFeatureApi: ProfileFeatureApi
+
     override val topLevelDestination: TopDestinations
 
     override val getPhotosUseCase: GetPhotosUseCase
@@ -92,14 +108,24 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
 
     override val getPhotoUseCase: GetPhotoUseCase
 
+    override val clearPhotosStorageUseCase: ClearPhotosStorageUseCase
+
+    override val clearPhotosDatabaseUseCase: ClearPhotosDatabaseUseCase
+
+    override val getUserInfoUseCase: GetUserInfoUseCase
+
+    override val getLikedPhotosUseCase: GetLikedPhotosUseCase
+
     override val getCollectionsUseCase: GetCollectionsUseCase
 
     override val getCollectionInfoUseCase: GetCollectionInfoUseCase
 
     override val getCollectionPhotosUseCase: GetCollectionPhotosUseCase
 
-    val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
-    val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase
+    override val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase
+
+    override val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
+    override val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase
 
     val getLikedPhotoUseCase: GetLikedPhotoUseCase
     val getUnlikedPhotoUseCase: GetUnlikedPhotoUseCase
@@ -116,7 +142,7 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
 
     val cacheScheduler: CacheScheduler
 
-    val saveScheduleFlagUseCase: SaveScheduleFlagUseCase
+    override val saveScheduleFlagUseCase: SaveScheduleFlagUseCase
 
     val getScheduleFlagUseCase: GetScheduleFlagUseCase
 

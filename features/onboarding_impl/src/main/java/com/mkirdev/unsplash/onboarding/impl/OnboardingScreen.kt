@@ -36,15 +36,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
-import com.mkirdev.unsplash.core.ui.theme.padding_190
-import com.mkirdev.unsplash.core.ui.theme.padding_250
 import com.mkirdev.unsplash.core.ui.theme.padding_30
 import com.mkirdev.unsplash.core.ui.theme.padding_70
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
@@ -177,12 +177,24 @@ internal fun OnboardingScreen(
                         }
                     }
                 }
+
+                val configuration = LocalConfiguration.current
+                val screenHeight = configuration.screenHeightDp.dp
+
+                val topBottomPadding by remember(configuration) {
+                    derivedStateOf {
+                        val top = screenHeight * 0.28f
+                        val bottom = screenHeight * 0.12f
+                        PaddingValues(top = top, bottom = bottom)
+                    }
+                }
+
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier
                         .fillMaxSize(),
-                    contentPadding = PaddingValues(top = padding_250, bottom = padding_190),
-                    verticalAlignment = Alignment.Bottom
+                    contentPadding = topBottomPadding,
+                    verticalAlignment = Alignment.Top
                 ) { position ->
                     when (uiState.pages[position]) {
                         OnboardingPage.First -> {

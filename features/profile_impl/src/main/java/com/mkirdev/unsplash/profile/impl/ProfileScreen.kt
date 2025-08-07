@@ -1,29 +1,40 @@
 package com.mkirdev.unsplash.profile.impl
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
-import com.mkirdev.unsplash.core.ui.theme.item_width_64
-import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
+import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
+import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
+import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
+import com.mkirdev.unsplash.profile.models.ProfileModel
 import com.mkirdev.unsplash.profile.preview.createPhotoItemModelsPreviewData
 import com.mkirdev.unsplash.profile.preview.createProfileModelPreviewData
-import com.mkirdev.unsplash.profile.widgets.LogoutColumn
-import com.mkirdev.unsplash.profile.widgets.MainContentFailure
-import com.mkirdev.unsplash.profile.widgets.MainContentSuccess
+import com.mkirdev.unsplash.profile.widgets.MainContent
 
 @Composable
-fun ProfileScreen(
+internal fun ProfileScreenWrapper(
     uiState: ProfileContract.State,
     onPhotoItemClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
@@ -32,98 +43,151 @@ fun ProfileScreen(
     onLoadError: () -> Unit,
     onCloseFieldClick: () -> Unit,
     onPagingCloseFieldClick: () -> Unit,
+    onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit,
     onExitIconClick: () -> Unit,
     onCanceledLogoutClick: () -> Unit,
     onConfirmedLogoutClick: () -> Unit
 ) {
-    when (uiState) {
-        ProfileContract.State.Idle -> {}
-        ProfileContract.State.Loading -> {
-            Column(
+
+    var scrollIndex by rememberSaveable { mutableIntStateOf(0) }
+    var scrollOffset by rememberSaveable { mutableIntStateOf(0) }
+
+
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = scrollIndex,
+        initialFirstVisibleItemScrollOffset = scrollOffset
+    )
+
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (!listState.isScrollInProgress) {
+            scrollIndex = listState.firstVisibleItemIndex
+            scrollOffset = listState.firstVisibleItemScrollOffset
+        }
+    }
+
+    val profileModel = when (uiState) {
+        is ProfileContract.State.Failure -> uiState.profileModel
+        is ProfileContract.State.Success -> uiState.profileModel
+        else -> null
+    }
+
+    val photoItemModels = when (uiState) {
+        is ProfileContract.State.Failure -> uiState.photoItemModels
+        is ProfileContract.State.Success -> uiState.photoItemModels
+        else -> null
+    }
+
+    val isPagingLoadingError = when (uiState) {
+        is ProfileContract.State.Failure -> uiState.isPagingLoadingError
+        is ProfileContract.State.Success -> uiState.isPagingLoadingError
+        else -> false
+    }
+
+    val isExitEnabled = when (uiState) {
+        is ProfileContract.State.Failure -> uiState.isExitEnabled
+        is ProfileContract.State.Success -> uiState.isExitEnabled
+        else -> false
+    }
+
+    val errorText = when (uiState) {
+        is ProfileContract.State.Failure -> uiState.error
+        else -> null
+    }
+
+    photoItemModels?.let { flowPagingData ->
+        val pagedItems = flowPagingData.collectAsLazyPagingItems()
+        ProfileScreen(
+            listState = listState,
+            profileModel = profileModel,
+            pagedItems = pagedItems,
+            scrollIndex = scrollIndex,
+            scrollOffset = scrollOffset,
+            isPagingLoadingError = isPagingLoadingError,
+            isExitEnabled = isExitEnabled,
+            errorText = errorText,
+            onPhotoItemClick = onPhotoItemClick,
+            onLikeClick = onLikeClick,
+            onRemoveLikeClick = onRemoveLikeClick,
+            onDownloadClick = onDownloadClick,
+            onLoadError = onLoadError,
+            onCloseFieldClick = onCloseFieldClick,
+            onPagingCloseFieldClick = onPagingCloseFieldClick,
+            onPagingRetry = onPagingRetry,
+            onExitIconClick = onExitIconClick,
+            onCanceledLogoutClick = onCanceledLogoutClick,
+            onConfirmedLogoutClick = onConfirmedLogoutClick
+        )
+    }
+
+
+}
+
+@Composable
+fun ProfileScreen(
+    listState: LazyListState,
+    profileModel: ProfileModel?,
+    pagedItems: LazyPagingItems<PhotoItemModel>,
+    scrollIndex: Int,
+    scrollOffset: Int,
+    isPagingLoadingError: Boolean,
+    isExitEnabled: Boolean,
+    errorText: String?,
+    onPhotoItemClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit,
+    onRemoveLikeClick: (String) -> Unit,
+    onDownloadClick: (String) -> Unit,
+    onLoadError: () -> Unit,
+    onCloseFieldClick: () -> Unit,
+    onPagingCloseFieldClick: () -> Unit,
+    onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit,
+    onExitIconClick: () -> Unit,
+    onCanceledLogoutClick: () -> Unit,
+    onConfirmedLogoutClick: () -> Unit
+) {
+
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+    val offsetY = if (isPortrait) screenHeight * 0.847f else screenHeight * 0.648f
+
+    Box(Modifier.fillMaxSize()) {
+        MainContent(
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+            listState = listState,
+            profileModel = profileModel,
+            pagedItems = pagedItems,
+            scrollIndex = scrollIndex,
+            scrollOffset = scrollOffset,
+            isPagingLoadingError = isPagingLoadingError,
+            isExitEnabled = isExitEnabled,
+            onPhotoItemClick = onPhotoItemClick,
+            onLikeClick = onLikeClick,
+            onRemoveLikeClick = onRemoveLikeClick,
+            onDownloadClick = onDownloadClick,
+            onLoadError = onLoadError,
+            onPagingCloseFieldClick = onPagingCloseFieldClick,
+            onPagingRetry = onPagingRetry,
+            onExitIconClick = onExitIconClick,
+            onCanceledLogoutClick = onCanceledLogoutClick,
+            onConfirmedLogoutClick = onConfirmedLogoutClick
+        )
+
+
+    }
+    if (!errorText.isNullOrEmpty()) {
+        Box{
+            ClosableErrorField(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .width(item_width_64)
-                        .testTag(ProfileTags.LOADING_INDICATOR)
-                )
-            }
-        }
-
-        is ProfileContract.State.Failure -> {
-            Box {
-                uiState.profileModel?.let {
-                    uiState.photoItemModels?.let { it1 ->
-                        MainContentFailure(
-                            modifier = Modifier.background(MaterialTheme.colorScheme.background),
-                            error = uiState.error,
-                            profileModel = it,
-                            photoItemModels = it1,
-                            isPagingLoadingError = uiState.isPagingLoadingError,
-                            onExitIconClick = onExitIconClick,
-                            onPhotoItemClick = onPhotoItemClick,
-                            onLikeClick = onLikeClick,
-                            onRemoveLikeClick = onRemoveLikeClick,
-                            onDownloadClick = onDownloadClick,
-                            onLoadError = onLoadError,
-                            onCloseFieldClick = onCloseFieldClick
-                        )
-                    }
-                }
-                when (uiState.isExitEnabled) {
-                    true -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable(enabled = false) {}
-                        )
-                        LogoutColumn(
-                            modifier = Modifier.testTag(ProfileTags.LOGOUT_COLUMN),
-                            onCanceledClick = onCanceledLogoutClick,
-                            onConfirmedClick = onConfirmedLogoutClick
-                        )
-
-                    }
-                    false -> {}
-                }
-            }
-        }
-        is ProfileContract.State.Success -> {
-            Box {
-                MainContentSuccess(
-                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
-                    profileModel = uiState.profileModel,
-                    photoItemModels = uiState.photoItemModels,
-                    isPagingLoadingError = uiState.isPagingLoadingError,
-                    onExitIconClick = onExitIconClick,
-                    onPhotoItemClick = onPhotoItemClick,
-                    onLikeClick = onLikeClick,
-                    onRemoveLikeClick = onRemoveLikeClick,
-                    onDownloadClick = onDownloadClick,
-                    onLoadError = onLoadError,
-                    onPagingCloseFieldClick = onPagingCloseFieldClick
-                )
-                when (uiState.isExitEnabled) {
-                    true -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable(enabled = false) {}
-                        )
-                        LogoutColumn(
-                            modifier = Modifier.testTag(ProfileTags.LOGOUT_COLUMN),
-                            onCanceledClick = onCanceledLogoutClick,
-                            onConfirmedClick = onConfirmedLogoutClick
-                        )
-
-                    }
-                    false -> {}
-                }
-            }
+                    .fillMaxWidth()
+                    .offset(x = 0.dp, y = offsetY)
+                    .zIndex(1f)
+                    .alpha(0.9f)
+                    .testTag(ProfileTags.ERROR_FIELD),
+                text = errorText,
+                textStyle = MaterialTheme.typography.bodyLargeMedium,
+                onClick = onCloseFieldClick
+            )
         }
     }
 }
@@ -132,7 +196,7 @@ fun ProfileScreen(
 @Composable
 private fun ProfileScreenPreview() {
     UnsplashTheme(dynamicColor = false) {
-        ProfileScreen(
+        ProfileScreenWrapper(
             uiState = ProfileContract.State.Failure(
                 error = "Preview error",
                 profileModel = createProfileModelPreviewData(),
@@ -149,6 +213,7 @@ private fun ProfileScreenPreview() {
             onLoadError = { },
             onCloseFieldClick = {},
             onPagingCloseFieldClick = {},
+            onPagingRetry = {},
             onCanceledLogoutClick = {},
             onConfirmedLogoutClick = {}
         )

@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -261,14 +260,14 @@ private fun PhotoFeedScreen(
                     else -> {
                         items(
                             count = pagedItems.itemCount,
-                            key = pagedItems.itemKey { it.id }) { index ->
+                            key = pagedItems.itemKey { it.position }) { index ->
                             pagedItems[index]?.let { photoItem ->
                                 PhotoItem(
                                     modifier = Modifier
                                         .padding(vertical = padding_2)
                                         .fillMaxWidth()
                                         .height(350.dp)
-                                        .clickable { onPhotoClick(photoItem.id) },
+                                        .clickable { onPhotoClick(photoItem.photoId) },
                                     contentScale = contentScale,
                                     photoItemModel = photoItem,
                                     userImage = { UserImageSmall(imageUrl = photoItem.user.userImage) },
@@ -284,7 +283,7 @@ private fun PhotoFeedScreen(
                                                 end = padding_6,
                                                 bottom = padding_10
                                             ),
-                                            photoId = photoItem.id,
+                                            photoId = photoItem.photoId,
                                             likes = photoItem.likes,
                                             isLikedPhoto = photoItem.isLiked,
                                             onRemoveLikeClick = onRemoveLike,

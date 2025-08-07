@@ -18,6 +18,8 @@ import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApiImpl
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApiImpl
+import com.mkirdev.unsplash.profile.api.ProfileFeatureApi
+import com.mkirdev.unsplash.profile.api.ProfileFeatureApiImpl
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApiImpl
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
@@ -60,5 +62,8 @@ interface FeaturesModule {
 
     @Binds
     fun bindCollectionDetailsFeature(featureApi: CollectionDetailsFeatureApiImpl): CollectionDetailsFeatureApi
+
+    @Binds
+    fun bindProfileFeature(featureApi: ProfileFeatureApiImpl): ProfileFeatureApi
 
 }

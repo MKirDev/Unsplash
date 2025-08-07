@@ -1,6 +1,7 @@
 package com.mkirdev.unsplash.domain.models
 
 data class Photo(
+    val position: Int,
     val id: String,
     val width: Int,
     val height: Int,
@@ -13,7 +14,6 @@ data class Photo(
     val exif: Exif?,
     val tags: List<String?>?,
     val downloads: Int?,
-    val position: Int
 )
 
 

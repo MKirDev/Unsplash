@@ -13,4 +13,6 @@ interface CollectionsRepository {
 
     fun getCollectionPhotos(id: String): Flow<PagingData<Photo>>
 
+    suspend fun clearCollectionsFromDatabase()
+
 }

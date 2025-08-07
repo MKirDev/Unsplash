@@ -1,15 +1,16 @@
 package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoFeedNetwork
-import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoEntity
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
-import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysFeedEntity
+import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
+import com.mkirdev.unsplash.data.storages.database.entities.feed.RemoteKeysFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoReactionsFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.feed.ReactionsFeedEntity
 import com.mkirdev.unsplash.domain.models.Links
 import com.mkirdev.unsplash.domain.models.Photo
 
-internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysFeedEntity {
+
+internal fun PhotoFeedNetwork.toKeysFeedEntity(prevPage: Int?, nextPage: Int?) : RemoteKeysFeedEntity {
     return RemoteKeysFeedEntity(
         photoId = id,
         prevPage = prevPage,
@@ -17,7 +18,7 @@ internal fun PhotoFeedNetwork.toKeysEntity(prevPage: Int?, nextPage: Int?) : Rem
     )
 }
 
-internal fun PhotoFeedNetwork.toPhotoEntity(position: Int): PhotoEntity {
+internal fun PhotoFeedNetwork.toPhotoFeedEntity(): PhotoFeedEntity {
     val displayWidth = when (width) {
         in 0..2500 -> 180
         in 2501..4000 -> 240
@@ -29,48 +30,64 @@ internal fun PhotoFeedNetwork.toPhotoEntity(position: Int): PhotoEntity {
         else -> 350
     }
 
-    return PhotoEntity(
-        id = id,
+    return PhotoFeedEntity(
+        photoId = id,
         width = displayWidth,
         height = displayHeight,
         imageUrl = imageUrl.toRegular(),
         downloadLink = links.toDownload(),
         htmlLink = links.toHtml(),
         likes = likes,
-        userId = user.id,
-        searchType = 0,
-        position = position
+        userId = user.id
     )
 }
 
-internal fun PhotoFeedNetwork.toReactionsTypeEntity(): ReactionsTypeEntity {
-    return ReactionsTypeEntity(
-        id = id,
+internal fun PhotoFeedNetwork.toReactionsFeedEntity(): ReactionsFeedEntity {
+    return ReactionsFeedEntity(
+        photoId = id,
         liked = if (likedByUser) 1 else 0
     )
 }
 
-internal fun PhotoFeedNetwork.toPhotoReactionsEntity(): PhotoReactionsEntity {
-    return PhotoReactionsEntity(
+internal fun PhotoFeedNetwork.toPhotoReactionsFeedEntity(): PhotoReactionsFeedEntity {
+    return PhotoReactionsFeedEntity(
         photoId = id,
         reactionsId = id
     )
 }
 
-internal fun PhotoFeedDto.toDomain(): Photo {
+internal fun PhotoFeedNetwork.toDomain(): Photo {
     return Photo(
         id = id,
+        width = width,
+        height = height,
+        imageUrl = imageUrl.toRegular(),
+        links = Links(html = links.toHtml(), download = links.toDownload()),
+        likes = likes,
+        likedByUser = likedByUser,
+        user = user.toDomain(),
+        location = null,
+        exif = null,
+        tags = null,
+        downloads = null,
+        position = 0
+    )
+}
+
+internal fun PhotoFeedJoinedDto.toDomain(): Photo {
+    return Photo(
+        position = position,
+        id = photoId,
         width = width,
         height = height,
         imageUrl = imageUrl,
         links = Links(html = htmlLink, download = downloadLink),
         likes = likes,
         likedByUser = likedByUser == 1,
-        user = userDto.toDomain(),
+        user = userFeedDto.toDomain(),
         location = null,
         exif = null,
         tags = null,
         downloads = null,
-        position = position
     )
 }

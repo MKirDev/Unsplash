@@ -10,6 +10,7 @@ import com.mkirdev.unsplash.data.network.managers.AuthStateManager
 import com.mkirdev.unsplash.data.network.photos.api.DownloadApi
 import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
 import com.mkirdev.unsplash.data.network.photos.api.SearchApi
+import com.mkirdev.unsplash.data.network.photos.api.CurrentUserApi
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import dagger.Module
 import dagger.Provides
@@ -126,6 +127,14 @@ class NetworkModule {
         retrofit: Retrofit
     ): CollectionsApi {
         return retrofit.create(CollectionsApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUsersApi(
+        retrofit: Retrofit
+    ): CurrentUserApi {
+        return retrofit.create(CurrentUserApi::class.java)
     }
 
 

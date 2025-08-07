@@ -18,12 +18,14 @@ import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import com.mkirdev.unsplash.core.navigation.navigateSingleDestinationTo
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
 import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.profile.api.ProfileFeatureApi
 
 @Composable
 fun BottomMenuScreenWrapper(
     viewModel: BottomMenuViewModel,
     photoFeedFeatureApi: PhotoFeedFeatureApi,
     collectionsFeatureApi: CollectionsFeatureApi,
+    profileFeatureApi: ProfileFeatureApi,
     onPhotoSelected: (String) -> Unit,
     onCollectionSelected: (String) -> Unit,
     onLogout: () -> Unit
@@ -48,6 +50,7 @@ fun BottomMenuScreenWrapper(
         uiState = uiState,
         photoFeedFeatureApi = photoFeedFeatureApi,
         collectionsFeatureApi = collectionsFeatureApi,
+        profileFeatureApi = profileFeatureApi,
         navController = navController,
         currentRoute = currentRoute,
         onPhotoSelected = onPhotoSelected,
@@ -61,6 +64,7 @@ private fun BottomMenuScreen(
     uiState: BottomMenuContract.State,
     photoFeedFeatureApi: PhotoFeedFeatureApi,
     collectionsFeatureApi: CollectionsFeatureApi,
+    profileFeatureApi: ProfileFeatureApi,
     navController: NavHostController,
     currentRoute: String?,
     onPhotoSelected: (String) -> Unit,
@@ -103,6 +107,13 @@ private fun BottomMenuScreen(
                         with(collectionsFeatureApi) {
                             collections(
                                 onNavigateToCollectionDetails = onCollectionSelected
+                            )
+                        }
+
+                        with(profileFeatureApi) {
+                            profile(
+                                onLogout = onLogout,
+                                onNavigateToDetails = onPhotoSelected
                             )
                         }
                     }
