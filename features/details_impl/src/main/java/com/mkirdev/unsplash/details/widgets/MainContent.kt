@@ -98,7 +98,7 @@ fun MainContent(
                 likesInfo = { modifier, onLike, onRemoveLike ->
                     LikesInfo(
                         modifier = modifier.padding(end = padding_6, bottom = padding_10),
-                        photoId = detailsModel.photoItemModel.id,
+                        photoId = detailsModel.photoItemModel.photoId,
                         likes = detailsModel.photoItemModel.likes,
                         isLikedPhoto = detailsModel.photoItemModel.isLiked,
                         onLikeClick = onLike,
