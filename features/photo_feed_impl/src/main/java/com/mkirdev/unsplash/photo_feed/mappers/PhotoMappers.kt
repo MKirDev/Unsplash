@@ -8,7 +8,8 @@ private const val EMPTY_STRING = ""
 
 internal fun Photo.toPresentation(): PhotoItemModel {
     return PhotoItemModel(
-        id = id,
+        position = position,
+        photoId = id,
         imageUrl = imageUrl,
         width = width.dp,
         height = height.dp,
