@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 interface AuthFeatureApi {
     fun NavHostController.navigateToAuth(code: String?)
 
+    fun NavHostController.logout()
+
     fun NavGraphBuilder.auth(
         schema: String,
         host: String,
