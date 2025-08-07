@@ -28,6 +28,11 @@ val PATH_LIST_COLLECTIONS: String = gradleLocalProperties(rootDir, providers).ge
 val PATH_COLLECTION: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_COLLECTION")
 val PATH_COLLECTION_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_COLLECTION_PHOTOS")
 
+val FIRST_PATH_LIKED_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("FIRST_PATH_LIKED_PHOTOS")
+val SECOND_PATH_LIKED_PHOTOS: String = gradleLocalProperties(rootDir, providers).getProperty("SECOND_PATH_LIKED_PHOTOS")
+
+val PATH_USER_INFO: String = gradleLocalProperties(rootDir, providers).getProperty("PATH_USER_INFO")
+
 android {
     namespace = "com.mkirdev.unsplash.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -67,6 +72,11 @@ android {
             buildConfigField("String","PATH_LIST_COLLECTIONS", "\"${PATH_LIST_COLLECTIONS}\"")
             buildConfigField("String","PATH_COLLECTION", "\"${PATH_COLLECTION}\"")
             buildConfigField("String","PATH_COLLECTION_PHOTOS", "\"${PATH_COLLECTION_PHOTOS}\"")
+
+            buildConfigField("String","FIRST_PATH_LIKED_PHOTOS", "\"${FIRST_PATH_LIKED_PHOTOS}\"")
+            buildConfigField("String","SECOND_PATH_LIKED_PHOTOS", "\"${SECOND_PATH_LIKED_PHOTOS}\"")
+
+            buildConfigField("String","PATH_USER_INFO","\"${PATH_USER_INFO}\"")
         }
 
         release {
