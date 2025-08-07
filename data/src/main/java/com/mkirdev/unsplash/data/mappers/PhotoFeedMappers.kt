@@ -2,7 +2,7 @@ package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoFeedNetwork
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.feed.RemoteKeysFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoReactionsFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.ReactionsFeedEntity

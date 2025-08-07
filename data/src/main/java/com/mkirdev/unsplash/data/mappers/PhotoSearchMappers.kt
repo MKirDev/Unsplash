@@ -2,7 +2,7 @@ package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoSearchNetwork
 import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchJoinedDto
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysSearchEntity
+import com.mkirdev.unsplash.data.storages.database.entities.search.RemoteKeysSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoReactionsSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.ReactionsSearchEntity

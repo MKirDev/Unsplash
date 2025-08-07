@@ -2,8 +2,7 @@ package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoCollectionNetwork
 import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoCollectionJoinedDto
-import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoFromCollectionDto
-import com.mkirdev.unsplash.data.storages.database.entities.RemoteKeysCollectionEntity
+import com.mkirdev.unsplash.data.storages.database.entities.collection.RemoteKeysCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.collection.PhotoCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.collection.PhotoReactionsCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.collection.ReactionsCollectionEntity
@@ -74,23 +73,6 @@ internal fun PhotoCollectionJoinedDto.toDomain(): Photo {
         downloads = null,
     )
 }
-
-internal fun PhotoFromCollectionDto.toDomain() =
-    Photo(
-        id = id,
-        width = width,
-        height = height,
-        imageUrl = imageUrl,
-        links = Links(html = htmlLink, download = downloadLink),
-        likes = likes,
-        likedByUser = likedByUser == 1,
-        user = userDto.toDomain(),
-        location = null,
-        exif = null,
-        tags = null,
-        downloads = null,
-        position = position
-    )
 
 internal fun PhotoCollectionNetwork.toDomain() =
     Photo(

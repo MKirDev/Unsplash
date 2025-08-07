@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.common.UserNetwork
-import com.mkirdev.unsplash.data.storages.database.dto.base.UserDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.UserFeedDto
 import com.mkirdev.unsplash.data.storages.database.dto.search.UserSearchDto
 import com.mkirdev.unsplash.data.storages.database.entities.collection.UserCollectionEntity
@@ -50,17 +49,6 @@ internal fun UserNetwork.toDomain(): User {
         name = name,
         username = username,
         imageUrl = imageUrl.toSmall(),
-        bio = bio ?: EMPTY_STRING,
-        location = location ?: EMPTY_STRING
-    )
-}
-
-internal fun UserDto.toDomain(): User {
-    return User(
-        id = id,
-        name = fullName,
-        username = username,
-        imageUrl = imageUrl,
         bio = bio ?: EMPTY_STRING,
         location = location ?: EMPTY_STRING
     )
