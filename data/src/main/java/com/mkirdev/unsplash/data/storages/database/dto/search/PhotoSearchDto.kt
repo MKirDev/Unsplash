@@ -1,8 +1,8 @@
-package com.mkirdev.unsplash.data.storages.database.dto.feed
+package com.mkirdev.unsplash.data.storages.database.dto.search
 
 import androidx.room.ColumnInfo
 
-data class PhotoFeedDto(
+data class PhotoSearchDto(
     @ColumnInfo(name = ID)
     val id: Int,
     @ColumnInfo(name = PHOTO_ID)

@@ -1,8 +1,8 @@
-package com.mkirdev.unsplash.data.storages.database.dto.base
+package com.mkirdev.unsplash.data.storages.database.dto.collection
 
 import androidx.room.ColumnInfo
 
-data class RemoteKeysDto(
+data class RemoteKeysCollectionDto(
     @ColumnInfo(name = PHOTO_ID)
     val photoId: String,
     @ColumnInfo(name = PREV_PAGE)

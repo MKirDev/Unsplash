@@ -1,10 +1,11 @@
 package com.mkirdev.unsplash.data.storages.database.dto.feed
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 
-data class PhotoFeedDto(
+data class PhotoFeedJoinedDto(
     @ColumnInfo(name = ID)
-    val id: Int,
+    val position: Int,
     @ColumnInfo(name = PHOTO_ID)
     val photoId: String,
     @ColumnInfo(name = WIDTH)
@@ -19,8 +20,10 @@ data class PhotoFeedDto(
     val htmlLink: String,
     @ColumnInfo(name = LIKES)
     val likes: Int,
-    @ColumnInfo(name = USER_ID)
-    val userId: String
+    @ColumnInfo(name = LIKED)
+    val likedByUser: Int,
+    @Embedded
+    val userFeedDto: UserFeedDto,
 ) {
     companion object {
         const val ID = "id"
@@ -31,6 +34,6 @@ data class PhotoFeedDto(
         const val DOWNLOAD_LINK = "download_link"
         const val HTML_LINK = "html_link"
         const val LIKES = "likes"
-        const val USER_ID = "user_id"
+        const val LIKED = "liked"
     }
 }

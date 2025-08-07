@@ -2,10 +2,13 @@ package com.mkirdev.unsplash.data.storages.database.dto.collection
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
-import com.mkirdev.unsplash.data.storages.database.dto.base.UserDto
-data class PhotoFromCollectionDto(
+import com.mkirdev.unsplash.data.storages.database.dto.feed.UserFeedDto
+
+data class PhotoCollectionJoinedDto(
     @ColumnInfo(name = ID)
-    val id: String,
+    val position: Int,
+    @ColumnInfo(name = PHOTO_ID)
+    val photoId: String,
     @ColumnInfo(name = WIDTH)
     val width: Int,
     @ColumnInfo(name = HEIGHT)
@@ -20,26 +23,21 @@ data class PhotoFromCollectionDto(
     val likes: Int,
     @ColumnInfo(name = LIKED)
     val likedByUser: Int,
-    @ColumnInfo(name = COLLECTION)
-    val collection: String,
     @Embedded
-    val userDto: UserDto,
-    @ColumnInfo(name = POSITION)
-    val position: Int
+    val userFeedDto: UserFeedDto,
+    @ColumnInfo(name = COLLECTION_ID)
+    val collectionId: String
 ) {
-
     companion object {
         const val ID = "id"
+        const val PHOTO_ID = "photo_id"
         const val WIDTH = "width"
         const val HEIGHT = "height"
         const val IMAGE_URL = "image_url"
         const val DOWNLOAD_LINK = "download_link"
-
         const val HTML_LINK = "html_link"
         const val LIKES = "likes"
         const val LIKED = "liked"
-        const val COLLECTION = "collection_name"
-
-        const val POSITION = "position"
+        const val COLLECTION_ID = "collection_id"
     }
 }

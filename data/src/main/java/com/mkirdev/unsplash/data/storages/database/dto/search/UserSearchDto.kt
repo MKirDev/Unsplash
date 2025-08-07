@@ -1,12 +1,8 @@
-package com.mkirdev.unsplash.data.storages.database.entities
+package com.mkirdev.unsplash.data.storages.database.dto.search
 
 import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = UserEntity.TABLE_NAME)
-data class UserEntity(
-    @PrimaryKey(autoGenerate = false)
+data class UserSearchDto(
     @ColumnInfo(name = ID)
     val id: String,
     @ColumnInfo(name = FULL_NAME)
@@ -21,7 +17,6 @@ data class UserEntity(
     val location: String?
 ) {
     companion object {
-        const val TABLE_NAME = "user"
         const val ID = "user_id"
         const val FULL_NAME = "user_full_name"
         const val USERNAME = "user_username"

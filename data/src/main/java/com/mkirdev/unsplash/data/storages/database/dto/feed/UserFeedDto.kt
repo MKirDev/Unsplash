@@ -1,8 +1,8 @@
-package com.mkirdev.unsplash.data.storages.database.dto.base
+package com.mkirdev.unsplash.data.storages.database.dto.feed
 
 import androidx.room.ColumnInfo
 
-data class UserDto(
+data class UserFeedDto(
     @ColumnInfo(name = ID)
     val id: String,
     @ColumnInfo(name = FULL_NAME)
