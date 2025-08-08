@@ -1,6 +1,7 @@
 package com.mkirdev.unsplash.photo_feed.impl
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -59,6 +60,7 @@ import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.take
 
 private const val EMPTY_STRING = ""
@@ -78,18 +80,19 @@ internal fun PhotoFeedScreenWrapper(
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit
 ) {
 
-    var scrollIndex by rememberSaveable { mutableIntStateOf(0) }
-    var scrollOffset by rememberSaveable { mutableIntStateOf(0) }
+    val scrollIndex = rememberSaveable { mutableIntStateOf(0) }
+    val scrollOffset = rememberSaveable { mutableIntStateOf(0) }
 
 
     val gridState = rememberLazyGridState(
-        initialFirstVisibleItemIndex = scrollIndex,
-        initialFirstVisibleItemScrollOffset = scrollOffset
+        initialFirstVisibleItemIndex = scrollIndex.intValue,
+        initialFirstVisibleItemScrollOffset = scrollOffset.intValue
     )
+
     LaunchedEffect(gridState.isScrollInProgress) {
         if (!gridState.isScrollInProgress) {
-          scrollIndex = gridState.firstVisibleItemIndex
-          scrollOffset = gridState.firstVisibleItemScrollOffset
+            scrollIndex.intValue = gridState.firstVisibleItemIndex
+            scrollOffset.intValue = gridState.firstVisibleItemScrollOffset
         }
     }
 
@@ -122,12 +125,16 @@ internal fun PhotoFeedScreenWrapper(
         val pagedItems = flowPagingData.collectAsLazyPagingItems()
         PhotoFeedScreen(
             gridState = gridState,
-            scrollIndex = scrollIndex,
-            scrollOffset = scrollOffset,
+            scrollIndex = scrollIndex.intValue,
+            scrollOffset = scrollOffset.intValue,
             pagedItems = pagedItems,
             searchText = searchText,
             onSearch = onSearch,
-            onPhotoClick = onPhotoClick,
+            onPhotoClick = { id ->
+                scrollIndex.intValue = gridState.firstVisibleItemIndex
+                scrollOffset.intValue = gridState.firstVisibleItemScrollOffset
+                onPhotoClick(id)
+            },
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,
             onLoadError = onLoadError,
@@ -337,12 +344,12 @@ private fun PhotoFeedScreenPreview() {
     UnsplashTheme(dynamicColor = false) {
         PhotoFeedScreenWrapper(
             uiState = PhotoFeedContract.State.Failure(
-            search = "",
-            models = createPhotoFeedPreviewData(),
-            isPagingLoadingError = true,
-            error = "",
-            updatedCount = 1
-        ),
+                search = "",
+                models = createPhotoFeedPreviewData(),
+                isPagingLoadingError = true,
+                error = "",
+                updatedCount = 1
+            ),
             onSearch = {},
             onPhotoClick = {},
             onLikeClick = {},
