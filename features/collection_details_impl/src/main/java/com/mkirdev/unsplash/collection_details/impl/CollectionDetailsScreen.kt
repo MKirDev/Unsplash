@@ -82,19 +82,19 @@ internal fun CollectionDetailsScreenWrapper(
     onNavigateBack: () -> Unit
 ) {
 
-    var scrollIndex by rememberSaveable { mutableIntStateOf(0) }
-    var scrollOffset by rememberSaveable { mutableIntStateOf(0) }
+    val scrollIndex = rememberSaveable { mutableIntStateOf(0) }
+    val scrollOffset = rememberSaveable { mutableIntStateOf(0) }
 
 
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = scrollIndex,
-        initialFirstVisibleItemScrollOffset = scrollOffset
+        initialFirstVisibleItemIndex = scrollIndex.intValue,
+        initialFirstVisibleItemScrollOffset = scrollOffset.intValue
     )
 
     LaunchedEffect(listState.isScrollInProgress) {
         if (!listState.isScrollInProgress) {
-            scrollIndex = listState.firstVisibleItemIndex
-            scrollOffset = listState.firstVisibleItemScrollOffset
+            scrollIndex.intValue = listState.firstVisibleItemIndex
+            scrollOffset.intValue  = listState.firstVisibleItemScrollOffset
         }
     }
 
@@ -129,8 +129,8 @@ internal fun CollectionDetailsScreenWrapper(
             listState = listState,
             collectionModel = collectionModel,
             pagedItems = pagedItems,
-            scrollIndex = scrollIndex,
-            scrollOffset = scrollOffset,
+            scrollIndex = scrollIndex.intValue ,
+            scrollOffset = scrollOffset.intValue ,
             isPagingLoadingError = isPagingError,
             errorText = errorText,
             onPhotoItemClick = onPhotoItemClick,
