@@ -1,6 +1,9 @@
 package com.mkirdev.unsplash.workers
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import androidx.core.net.ConnectivityManagerCompat
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
@@ -29,9 +32,13 @@ class PhotoLikeWorker(
     override suspend fun doWork(): Result {
         return withContext(dispatcher) {
             try {
-                val photoId = inputData.getString(DATA) ?: EMPTY_ID
-                likePhotoRemoteUseCase.execute(photoId)
-                Result.success()
+                if (isNetworkAvailable(context)) {
+                    val photoId = inputData.getString(DATA) ?: EMPTY_ID
+                    likePhotoRemoteUseCase.execute(photoId)
+                    Result.success()
+                } else {
+                    Result.retry()
+                }
             } catch (e: Exception) {
                 Result.retry()
             }
@@ -40,7 +47,7 @@ class PhotoLikeWorker(
 
     companion object {
         private val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
             .build()
 
         private fun createWorkRequest(photoId: String): OneTimeWorkRequest {
@@ -54,6 +61,13 @@ class PhotoLikeWorker(
         internal fun enqueueUniqueWork(workManager: WorkManager, photoId: String?) {
             val workRequest = createWorkRequest(photoId ?: EMPTY_ID)
             workManager.enqueueUniqueWork(WORKER_NAME, ExistingWorkPolicy.REPLACE, workRequest)
+        }
+
+        private fun isNetworkAvailable(context: Context): Boolean {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork = connectivityManager.activeNetwork
+            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+            return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
         }
     }
 }
