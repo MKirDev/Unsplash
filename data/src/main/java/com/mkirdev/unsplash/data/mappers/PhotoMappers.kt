@@ -8,7 +8,7 @@ internal fun PhotoNetwork.toDomain(): Photo {
         id = id,
         width = width,
         height = height,
-        imageUrl = imageUrl.toRegular(),
+        imageUrl = imageUrl.toSmall(),
         links = links.toDomain(),
         likes = likes,
         likedByUser = likedByUser,
