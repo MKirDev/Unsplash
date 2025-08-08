@@ -11,6 +11,10 @@ plugins {
 val REDIRECT_SCHEME: String = gradleLocalProperties(rootDir, providers).getProperty("REDIRECT_SCHEME")
 val UNSPLASH_BASE_URL: String = gradleLocalProperties(rootDir, providers).getProperty("UNSPLASH_BASE_URL")
 
+val HOST: String = gradleLocalProperties(rootDir, providers).getProperty("HOST")
+val PATH: String = gradleLocalProperties(rootDir, providers).getProperty("PATH")
+val APP_EXTERNAL_SCHEME = gradleLocalProperties(rootDir, providers).getProperty("APP_EXTERNAL_SCHEME")
+
 android {
     namespace = "com.mkirdev.unsplash"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -24,6 +28,9 @@ android {
         manifestPlaceholders["appAuthRedirectScheme"] = "\"$REDIRECT_SCHEME\""
         android.buildFeatures.buildConfig = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resValue("string","host","\"${HOST}\"")
+        resValue("string","path","\"${PATH}\"")
+        resValue("string","app_external_scheme","\"${APP_EXTERNAL_SCHEME}\"")
         vectorDrawables {
             useSupportLibrary = true
         }
