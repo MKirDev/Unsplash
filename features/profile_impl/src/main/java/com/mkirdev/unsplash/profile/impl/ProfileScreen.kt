@@ -105,7 +105,11 @@ internal fun ProfileScreenWrapper(
             isPagingLoadingError = isPagingLoadingError,
             isExitEnabled = isExitEnabled,
             errorText = errorText,
-            onPhotoItemClick = onPhotoItemClick,
+            onPhotoItemClick = {
+                scrollIndex.intValue = listState.firstVisibleItemIndex
+                scrollOffset.intValue = listState.firstVisibleItemScrollOffset
+                onPhotoItemClick
+            },
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,
             onDownloadClick = onDownloadClick,
@@ -176,7 +180,7 @@ fun ProfileScreen(
 
     }
     if (!errorText.isNullOrEmpty()) {
-        Box{
+        Box {
             ClosableErrorField(
                 modifier = Modifier
                     .fillMaxWidth()
