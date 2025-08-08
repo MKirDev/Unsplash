@@ -49,19 +49,19 @@ internal fun ProfileScreenWrapper(
     onConfirmedLogoutClick: () -> Unit
 ) {
 
-    var scrollIndex by rememberSaveable { mutableIntStateOf(0) }
-    var scrollOffset by rememberSaveable { mutableIntStateOf(0) }
+    val scrollIndex = rememberSaveable { mutableIntStateOf(0) }
+    val scrollOffset = rememberSaveable { mutableIntStateOf(0) }
 
 
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = scrollIndex,
-        initialFirstVisibleItemScrollOffset = scrollOffset
+        initialFirstVisibleItemIndex = scrollIndex.intValue,
+        initialFirstVisibleItemScrollOffset = scrollOffset.intValue
     )
 
     LaunchedEffect(listState.isScrollInProgress) {
         if (!listState.isScrollInProgress) {
-            scrollIndex = listState.firstVisibleItemIndex
-            scrollOffset = listState.firstVisibleItemScrollOffset
+            scrollIndex.intValue = listState.firstVisibleItemIndex
+            scrollOffset.intValue = listState.firstVisibleItemScrollOffset
         }
     }
 
@@ -100,8 +100,8 @@ internal fun ProfileScreenWrapper(
             listState = listState,
             profileModel = profileModel,
             pagedItems = pagedItems,
-            scrollIndex = scrollIndex,
-            scrollOffset = scrollOffset,
+            scrollIndex = scrollIndex.intValue,
+            scrollOffset = scrollOffset.intValue,
             isPagingLoadingError = isPagingLoadingError,
             isExitEnabled = isExitEnabled,
             errorText = errorText,

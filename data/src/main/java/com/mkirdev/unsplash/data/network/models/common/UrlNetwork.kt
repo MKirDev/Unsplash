@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UrlNetwork(
     @SerializedName("regular")
-    val regular: String
+    val regular: String,
+    @SerializedName("small")
+    val small: String
 )

@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.photo_item.feature
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
@@ -17,6 +20,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -34,6 +38,8 @@ import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
 
 @Composable
@@ -53,19 +59,42 @@ fun PhotoItem(
     onRemoveLikeClick: (String) -> Unit,
     onDownloadClick: ((String) -> Unit)? = null
 ) {
+
+    val context = LocalContext.current
+
+    val imageLoader = remember {
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+
+        ImageLoader.Builder(context)
+            .okHttpClient(okHttpClient)
+            .allowHardware(false)
+            .crossfade(false)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .build()
+    }
+
+    LaunchedEffect(photoItemModel.imageUrl) {
+        imageLoader.enqueue(
+            ImageRequest.Builder(context)
+                .data(photoItemModel.imageUrl)
+                .build()
+        )
+    }
+
     Box(modifier) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
+            model = ImageRequest.Builder(context)
                 .data(photoItemModel.imageUrl)
-                .crossfade(true)
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .memoryCachePolicy(CachePolicy.ENABLED)
-                .precision(Precision.INEXACT)
                 .build(),
+            imageLoader = imageLoader,
             contentDescription = stringResource(id = R.string.photo_item),
             contentScale = contentScale,
             modifier = modifier.matchParentSize(),
-            filterQuality = FilterQuality.Low
+            filterQuality = FilterQuality.None
         )
         Row(
             modifier = Modifier

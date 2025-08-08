@@ -32,7 +32,7 @@ internal fun PhotoSearchNetwork.toPhotoSearchEntity(): PhotoSearchEntity {
         photoId = id,
         width = displayWidth,
         height = displayHeight,
-        imageUrl = imageUrl.toRegular(),
+        imageUrl = imageUrl.toSmall(),
         downloadLink = links.toDownload(),
         htmlLink = links.toHtml(),
         likes = likes,

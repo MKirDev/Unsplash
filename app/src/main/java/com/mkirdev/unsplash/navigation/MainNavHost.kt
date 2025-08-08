@@ -19,22 +19,24 @@ import com.mkirdev.unsplash.di.DaggerProvider
 import com.mkirdev.unsplash.onboarding.api.navigation.OnboardingDestination
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import androidx.compose.runtime.State
 
 private const val EMPTY_CODE = ""
 @Composable
 fun MainNavHost(
-    startedFromDeepLink: DeepLink = rememberStartedFromDeeplink(),
+    deepLinkIntent: State<Intent?>,
     navController: NavHostController = rememberNavController(),
     viewModel: MainViewModel = viewModel()
 ) {
 
     val context = LocalContext.current
 
-    LaunchedEffect(startedFromDeepLink) {
-        if (startedFromDeepLink.hasDeepLink()) {
+    LaunchedEffect(deepLinkIntent.value) {
+        val deepLink = deepLinkIntent.value.toDeepLink()
+        if (deepLink.hasDeepLink()) {
+            val intent = deepLink.intent
             val externalScheme = context.getString(R.string.app_external_scheme)
             val internalScheme = context.getString(R.string.app_internal_scheme)
-            val intent = startedFromDeepLink.intent
             intent.data = intent.data.toString().replace(externalScheme, internalScheme).toUri()
             navController.handleDeepLink(intent)
 
@@ -141,16 +143,9 @@ sealed class DeepLink {
     data class Link(val intent: Intent) : DeepLink()
 }
 
-@Composable
-private fun rememberStartedFromDeeplink(): DeepLink {
-    val context = LocalContext.current
-    return remember { isStartedFromDeepLink(context) }
-}
-
-private fun isStartedFromDeepLink(context: Context): DeepLink {
-    val intent = (context as Activity).intent
-    return if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
-        DeepLink.Link(intent = intent)
+private fun Intent?.toDeepLink(): DeepLink {
+    return if (this != null && action == Intent.ACTION_VIEW && data != null) {
+        DeepLink.Link(this)
     } else {
         DeepLink.None
     }

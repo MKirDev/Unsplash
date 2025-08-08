@@ -50,6 +50,7 @@ dependencies {
 
     // presentation
     implementation(libs.coil.compose)
+    implementation(libs.glide)
 
     // presentation compose
     implementation(platform(libs.compose.bom))
