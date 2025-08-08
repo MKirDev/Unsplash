@@ -94,7 +94,7 @@ internal fun CollectionDetailsScreenWrapper(
     LaunchedEffect(listState.isScrollInProgress) {
         if (!listState.isScrollInProgress) {
             scrollIndex.intValue = listState.firstVisibleItemIndex
-            scrollOffset.intValue  = listState.firstVisibleItemScrollOffset
+            scrollOffset.intValue = listState.firstVisibleItemScrollOffset
         }
     }
 
@@ -129,11 +129,15 @@ internal fun CollectionDetailsScreenWrapper(
             listState = listState,
             collectionModel = collectionModel,
             pagedItems = pagedItems,
-            scrollIndex = scrollIndex.intValue ,
-            scrollOffset = scrollOffset.intValue ,
+            scrollIndex = scrollIndex.intValue,
+            scrollOffset = scrollOffset.intValue,
             isPagingLoadingError = isPagingError,
             errorText = errorText,
-            onPhotoItemClick = onPhotoItemClick,
+            onPhotoItemClick = {
+                scrollIndex.intValue = listState.firstVisibleItemIndex
+                scrollOffset.intValue = listState.firstVisibleItemScrollOffset
+                onPhotoItemClick
+            },
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,
             onDownloadClick = onDownloadClick,
@@ -288,7 +292,8 @@ private fun CollectionDetailsScreen(
                                             downloadText = stringResource(id = R.string.download),
                                             downloadLink = it.downloadLink,
                                             downloads = it.downloads,
-                                            modifier = modifier.padding(bottom = padding_10)
+                                            modifier = modifier
+                                                .padding(bottom = padding_10)
                                                 .height(item_height_20),
                                             textStyle = MaterialTheme.typography.bodyLarge,
                                             fontSize = 16.sp,
@@ -339,7 +344,6 @@ private fun CollectionDetailsScreen(
         }
     }
 }
-
 
 
 internal object CollectionDetailsTags {
