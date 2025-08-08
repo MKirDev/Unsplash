@@ -133,10 +133,10 @@ internal fun CollectionDetailsScreenWrapper(
             scrollOffset = scrollOffset.intValue,
             isPagingLoadingError = isPagingError,
             errorText = errorText,
-            onPhotoItemClick = {
+            onPhotoItemClick = { id ->
                 scrollIndex.intValue = listState.firstVisibleItemIndex
                 scrollOffset.intValue = listState.firstVisibleItemScrollOffset
-                onPhotoItemClick
+                onPhotoItemClick(id)
             },
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,

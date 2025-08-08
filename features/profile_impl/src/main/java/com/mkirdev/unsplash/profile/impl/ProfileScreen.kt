@@ -105,10 +105,10 @@ internal fun ProfileScreenWrapper(
             isPagingLoadingError = isPagingLoadingError,
             isExitEnabled = isExitEnabled,
             errorText = errorText,
-            onPhotoItemClick = {
+            onPhotoItemClick = { id ->
                 scrollIndex.intValue = listState.firstVisibleItemIndex
                 scrollOffset.intValue = listState.firstVisibleItemScrollOffset
-                onPhotoItemClick
+                onPhotoItemClick(id)
             },
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,
