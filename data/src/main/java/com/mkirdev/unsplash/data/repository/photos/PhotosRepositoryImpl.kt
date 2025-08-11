@@ -20,6 +20,7 @@ import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -27,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private const val ITEMS_PER_PAGE = 20
+private const val ITEMS_PER_PAGE = 10
 
 @OptIn(ExperimentalPagingApi::class)
 class PhotosRepositoryImpl @Inject constructor(
@@ -88,29 +89,34 @@ class PhotosRepositoryImpl @Inject constructor(
             val photoFeed = appDatabase.photoFeedDao().getPhoto(photoId)
             val photoSearch = appDatabase.photoSearchDao().getPhoto(photoId)
             val photoCollection = appDatabase.photoCollectionDao().getPhoto(photoId)
+            val photoLiked = appDatabase.photoLikedDao().getPhoto(photoId)
 
-            if (photoFeed != null || photoSearch != null || photoCollection != null) {
-                appDatabase.withTransaction {
-                    if (photoFeed != null) {
-                        val likes = (photoFeed.likes + 1).toString()
-                        appDatabase.reactionsFeedDao().likePhoto(photoId)
-                        appDatabase.photoFeedDao().updateLikes(likes, photoId)
-                        return@withTransaction
-                    }
+            appDatabase.userProfileDao().addLike()
 
-                    if (photoSearch != null) {
-                        val likes = (photoSearch.likes + 1).toString()
-                        appDatabase.reactionsSearchDao().likePhoto(photoId)
-                        appDatabase.photoSearchDao().updateLikes(likes, photoId)
-                        return@withTransaction
-                    }
+            appDatabase.withTransaction {
 
-                    if (photoCollection != null) {
-                        val likes = (photoCollection.likes + 1).toString()
-                        appDatabase.reactionsCollectionDao().likePhoto(photoId)
-                        appDatabase.photoCollectionDao().updateLikes(likes, photoId)
-                        return@withTransaction
-                    }
+                if (photoFeed != null) {
+                    val likes = (photoFeed.likes + 1).toString()
+                    appDatabase.reactionsFeedDao().likePhoto(photoId)
+                    appDatabase.photoFeedDao().updateLikes(likes, photoId)
+                }
+
+                if (photoSearch != null) {
+                    val likes = (photoSearch.likes + 1).toString()
+                    appDatabase.reactionsSearchDao().likePhoto(photoId)
+                    appDatabase.photoSearchDao().updateLikes(likes, photoId)
+                }
+
+                if (photoCollection != null) {
+                    val likes = (photoCollection.likes + 1).toString()
+                    appDatabase.reactionsCollectionDao().likePhoto(photoId)
+                    appDatabase.photoCollectionDao().updateLikes(likes, photoId)
+                }
+
+                if (photoLiked != null) {
+                    val likes = (photoLiked.likes + 1).toString()
+                    appDatabase.reactionsLikedDao().likePhoto(photoId)
+                    appDatabase.photoLikedDao().updateLikes(likes, photoId)
                 }
             }
         } catch (t: Throwable) {
@@ -125,29 +131,34 @@ class PhotosRepositoryImpl @Inject constructor(
             val photoFeed = appDatabase.photoFeedDao().getPhoto(photoId)
             val photoSearch = appDatabase.photoSearchDao().getPhoto(photoId)
             val photoCollection = appDatabase.photoCollectionDao().getPhoto(photoId)
+            val photoLiked = appDatabase.photoLikedDao().getPhoto(photoId)
 
-            if (photoFeed != null || photoSearch != null || photoCollection != null) {
-                appDatabase.withTransaction {
-                    if (photoFeed != null) {
-                        val likes = (photoFeed.likes - 1).toString()
-                        appDatabase.reactionsFeedDao().unlikePhoto(photoId)
-                        appDatabase.photoFeedDao().updateLikes(likes, photoId)
-                        return@withTransaction
-                    }
 
-                    if (photoSearch != null) {
-                        val likes = (photoSearch.likes - 1).toString()
-                        appDatabase.reactionsSearchDao().unlikePhoto(photoId)
-                        appDatabase.photoSearchDao().updateLikes(likes, photoId)
-                        return@withTransaction
-                    }
+            appDatabase.userProfileDao().removeLike()
 
-                    if (photoCollection != null) {
-                        val likes = (photoCollection.likes - 1).toString()
-                        appDatabase.reactionsCollectionDao().unlikePhoto(photoId)
-                        appDatabase.photoCollectionDao().updateLikes(likes, photoId)
-                        return@withTransaction
-                    }
+            appDatabase.withTransaction {
+                if (photoFeed != null) {
+                    val likes = (photoFeed.likes - 1).toString()
+                    appDatabase.reactionsFeedDao().unlikePhoto(photoId)
+                    appDatabase.photoFeedDao().updateLikes(likes, photoId)
+                }
+
+                if (photoSearch != null) {
+                    val likes = (photoSearch.likes - 1).toString()
+                    appDatabase.reactionsSearchDao().unlikePhoto(photoId)
+                    appDatabase.photoSearchDao().updateLikes(likes, photoId)
+                }
+
+                if (photoCollection != null) {
+                    val likes = (photoCollection.likes - 1).toString()
+                    appDatabase.reactionsCollectionDao().unlikePhoto(photoId)
+                    appDatabase.photoCollectionDao().updateLikes(likes, photoId)
+                }
+
+                if (photoLiked != null) {
+                    val likes = (photoLiked.likes - 1).toString()
+                    appDatabase.reactionsLikedDao().unlikePhoto(photoId)
+                    appDatabase.photoLikedDao().updateLikes(likes, photoId)
                 }
             }
         } catch (t: Throwable) {
