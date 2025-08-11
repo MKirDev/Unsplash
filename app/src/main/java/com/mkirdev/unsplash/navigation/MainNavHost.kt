@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.navigation
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -104,7 +103,11 @@ fun MainNavHost(
                         navController.navigateToCollectionDetails(it)
                     }
                 },
-                onLogout = {}
+                onLogout = {
+                    with(authFeatureApi) {
+                        navController.logout()
+                    }
+                }
             )
         }
 
