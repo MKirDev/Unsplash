@@ -21,6 +21,8 @@ import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.user.GetCurrentUserUseCase
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.profile.mappers.toPresentation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -287,15 +289,25 @@ internal class ProfileViewModel(
     private fun onExitConfirmed() {
         // clear all local data and logout
         viewModelScope.launch {
-            saveScheduleFlagUseCase.execute(false)
-            clearAuthTokensUseCase.execute()
-            clearPhotosStorageUseCase.execute()
-            clearPhotosDatabaseUseCase.execute()
-            clearCollectionsDatabaseUseCase.execute()
-            clearUserDatabaseUseCase.execute()
-        }
-        _effect.update {
-            ProfileContract.Effect.Exit
+            async {
+                saveScheduleFlagUseCase.execute(false)
+                clearAuthTokensUseCase.execute()
+                clearPhotosStorageUseCase.execute()
+                clearPhotosDatabaseUseCase.execute()
+                clearCollectionsDatabaseUseCase.execute()
+                clearUserDatabaseUseCase.execute()
+            }.await()
+
+            launch(Dispatchers.Main) {
+                _uiState.update {
+                    (it as ProfileContract.State.Success).copy(
+                        isExitEnabled = false
+                    )
+                }
+                _effect.update {
+                    ProfileContract.Effect.Exit
+                }
+            }
         }
     }
 }
