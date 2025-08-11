@@ -28,4 +28,7 @@ interface PhotoSearchDao {
     @Query("DELETE FROM ${PhotoSearchEntity.TABLE_NAME} WHERE ${PhotoSearchEntity.PHOTO_ID} = :id")
     fun deletePhoto(id: String)
 
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${PhotoSearchEntity.TABLE_NAME}'")
+    fun resetIdSequence()
+
 }

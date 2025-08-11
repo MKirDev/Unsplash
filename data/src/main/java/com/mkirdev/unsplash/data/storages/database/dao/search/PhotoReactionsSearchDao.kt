@@ -17,4 +17,7 @@ interface PhotoReactionsSearchDao {
 
     @Query("DELETE FROM ${PhotoReactionsSearchEntity.TABLE_NAME}")
     fun deletePhotoReactions()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${PhotoReactionsSearchEntity.TABLE_NAME}'")
+    fun resetIdSequence()
 }
