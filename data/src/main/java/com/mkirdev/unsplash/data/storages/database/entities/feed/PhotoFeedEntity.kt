@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.mkirdev.unsplash.data.storages.database.entities.base.PhotoEntity
 
 @Entity(
     tableName = PhotoFeedEntity.TABLE_NAME,
@@ -24,24 +25,24 @@ import androidx.room.PrimaryKey
 )
 data class PhotoFeedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    override val id: Int = 0,
     @ColumnInfo(name = PHOTO_ID)
-    val photoId: String,
+    override val photoId: String,
     @ColumnInfo(name = WIDTH)
-    val width: Int,
+    override val width: Int,
     @ColumnInfo(name = HEIGHT)
-    val height: Int,
+    override val height: Int,
     @ColumnInfo(name = IMAGE_URL)
-    val imageUrl: String,
+    override val imageUrl: String,
     @ColumnInfo(name = DOWNLOAD_LINK)
-    val downloadLink: String,
+    override val downloadLink: String,
     @ColumnInfo(name = HTML_LINK)
-    val htmlLink: String,
+    override val htmlLink: String,
     @ColumnInfo(name = LIKES)
-    val likes: Int,
+    override val likes: Int,
     @ColumnInfo(name = USER_ID)
-    val userId: String
-) {
+    override val userId: String
+) : PhotoEntity {
     companion object {
         const val TABLE_NAME = "photo_feed"
         const val ID = "id"
