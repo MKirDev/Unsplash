@@ -33,7 +33,7 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
 
     override fun NavHostController.logout() {
         popBackStack()
-        navigate(AuthDestination.route)
+        navigate("${AuthDestination.route}/ ")
     }
 
     override fun NavGraphBuilder.auth(
