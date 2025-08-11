@@ -9,12 +9,15 @@ import com.mkirdev.unsplash.data.storages.database.entities.feed.RemoteKeysFeedE
 
 @Dao
 interface RemoteKeysFeedDao {
-    @Query("SELECT * FROM ${RemoteKeysFeedEntity.Companion.TABLE_NAME} rk WHERE rk.${RemoteKeysFeedEntity.Companion.PHOTO_ID} =:id")
+    @Query("SELECT * FROM ${RemoteKeysFeedEntity.TABLE_NAME} rk WHERE rk.${RemoteKeysFeedEntity.PHOTO_ID} =:id")
     fun getRemoteKeys(id: String): RemoteKeysFeedDto
 
-    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAllRemoteKeys(remoteKeys: List<RemoteKeysFeedEntity>)
 
-    @Query("DELETE FROM ${RemoteKeysFeedEntity.Companion.TABLE_NAME}")
+    @Query("DELETE FROM ${RemoteKeysFeedEntity.TABLE_NAME}")
     fun deleteAllRemoteKeys()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${RemoteKeysFeedEntity.TABLE_NAME}'")
+    fun resetIdSequence()
 }
