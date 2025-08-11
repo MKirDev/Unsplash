@@ -6,7 +6,7 @@ import com.mkirdev.unsplash.data.network.models.common.UrlNetwork
 import com.mkirdev.unsplash.data.network.models.common.UserNetwork
 import com.mkirdev.unsplash.data.network.models.list.interfaces.ListNetwork
 
-data class PhotoSearchNetwork(
+data class PhotoLikedNetwork(
     @SerializedName("id")
     override val id: String,
     @SerializedName("width")

@@ -4,22 +4,23 @@ import com.google.gson.annotations.SerializedName
 import com.mkirdev.unsplash.data.network.models.common.LinksNetwork
 import com.mkirdev.unsplash.data.network.models.common.UrlNetwork
 import com.mkirdev.unsplash.data.network.models.common.UserNetwork
+import com.mkirdev.unsplash.data.network.models.list.interfaces.ListNetwork
 
 data class PhotoFeedNetwork(
     @SerializedName("id")
-    val id: String,
+    override val id: String,
     @SerializedName("width")
-    val width: Int,
+    override val width: Int,
     @SerializedName("height")
-    val height: Int,
+    override val height: Int,
     @SerializedName("urls")
-    val imageUrl: UrlNetwork,
+    override val imageUrl: UrlNetwork,
     @SerializedName("links")
-    val links: LinksNetwork,
+    override val links: LinksNetwork,
     @SerializedName("likes")
-    val likes: Int,
+    override val likes: Int,
     @SerializedName("liked_by_user")
-    val likedByUser: Boolean,
+    override val likedByUser: Boolean,
     @SerializedName("user")
-    val user: UserNetwork
-)
+    override val user: UserNetwork
+) : ListNetwork
