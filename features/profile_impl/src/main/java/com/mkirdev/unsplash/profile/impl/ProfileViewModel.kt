@@ -1,30 +1,26 @@
 package com.mkirdev.unsplash.profile.impl
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
-import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.domain.usecases.auth.ClearAuthTokensUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.ClearCollectionsDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.ClearUserDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
-import com.mkirdev.unsplash.domain.usecases.user.GetUserInfoUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetCurrentUserUseCase
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.profile.mappers.toPresentation
-import com.mkirdev.unsplash.profile.preview.createPhotoItemModelsPreviewData
-import com.mkirdev.unsplash.profile.preview.createProfileModelPreviewData
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,25 +33,30 @@ private const val UPDATED_COUNT = 0
 private const val LIKED = true
 private const val UNLIKED = false
 
+@Stable
 internal class ProfileViewModel(
-    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getLikedPhotosUseCase: GetLikedPhotosUseCase,
-    private val likePhotoRemoteUseCase: LikePhotoRemoteUseCase,
-    private val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase,
+    private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
+    private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
     private val addDownloadLinkUseCase: AddDownloadLinkUseCase,
     private val clearAuthTokensUseCase: ClearAuthTokensUseCase,
     private val clearPhotosStorageUseCase: ClearPhotosStorageUseCase,
     private val clearPhotosDatabaseUseCase: ClearPhotosDatabaseUseCase,
     private val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase,
+    private val clearUserDatabaseUseCase: ClearUserDatabaseUseCase,
     private val saveScheduleFlagUseCase: SaveScheduleFlagUseCase
 ) : ViewModel(), ProfileContract {
 
     private val _uiState = MutableStateFlow<ProfileContract.State>(ProfileContract.State.Idle)
+
+    @Stable
     override val uiState: StateFlow<ProfileContract.State> = _uiState.asStateFlow()
 
     private val _effect = MutableStateFlow<ProfileContract.Effect?>(null)
-    override val effect: StateFlow<ProfileContract.Effect?> = _effect.asStateFlow()
 
+    @Stable
+    override val effect: StateFlow<ProfileContract.Effect?> = _effect.asStateFlow()
     init {
         loadData()
     }
@@ -86,7 +87,7 @@ internal class ProfileViewModel(
                 _uiState.update {
                     ProfileContract.State.Loading
                 }
-                val profileModel = getUserInfoUseCase.execute().toPresentation()
+                val profileModel = getCurrentUserUseCase.execute().toPresentation()
                 val photoItemModels = getLikedPhotosUseCase.execute(profileModel.username)
                     .map { pagingData -> pagingData.map { it.toPresentation() } }
                     .cachedIn(viewModelScope)
@@ -111,7 +112,6 @@ internal class ProfileViewModel(
             }
         }
     }
-
 
     private fun onDownloadClick(link: String) {
         viewModelScope.launch {
@@ -156,9 +156,9 @@ internal class ProfileViewModel(
         viewModelScope.launch {
             try {
                 if (isLiked) {
-                    likePhotoRemoteUseCase.execute(photoId)
+                    likePhotoLocalUseCase.execute(photoId)
                 } else {
-                    unlikePhotoRemoteUseCase.execute(photoId)
+                    unlikePhotoLocalUseCase.execute(photoId)
                 }
                 if (_uiState.value is ProfileContract.State.Failure) {
                     _uiState.update {
@@ -292,6 +292,7 @@ internal class ProfileViewModel(
             clearPhotosStorageUseCase.execute()
             clearPhotosDatabaseUseCase.execute()
             clearCollectionsDatabaseUseCase.execute()
+            clearUserDatabaseUseCase.execute()
         }
         _effect.update {
             ProfileContract.Effect.Exit
@@ -300,29 +301,31 @@ internal class ProfileViewModel(
 }
 
 internal class ProfileViewModelFactory @Inject constructor(
-    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getLikedPhotosUseCase: GetLikedPhotosUseCase,
-    private val likePhotoRemoteUseCase: LikePhotoRemoteUseCase,
-    private val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase,
+    private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
+    private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
     private val addDownloadLinkUseCase: AddDownloadLinkUseCase,
     private val saveScheduleFlagUseCase: SaveScheduleFlagUseCase,
     private val clearAuthTokensUseCase: ClearAuthTokensUseCase,
     private val clearPhotosStorageUseCase: ClearPhotosStorageUseCase,
     private val clearPhotosDatabaseUseCase: ClearPhotosDatabaseUseCase,
-    private val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase
+    private val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase,
+    private val clearUserDatabaseUseCase: ClearUserDatabaseUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return ProfileViewModel(
-            getUserInfoUseCase = getUserInfoUseCase,
+            getCurrentUserUseCase = getCurrentUserUseCase,
             getLikedPhotosUseCase = getLikedPhotosUseCase,
-            likePhotoRemoteUseCase = likePhotoRemoteUseCase,
-            unlikePhotoRemoteUseCase = unlikePhotoRemoteUseCase,
+            likePhotoLocalUseCase = likePhotoLocalUseCase,
+            unlikePhotoLocalUseCase = unlikePhotoLocalUseCase,
             addDownloadLinkUseCase = addDownloadLinkUseCase,
             saveScheduleFlagUseCase = saveScheduleFlagUseCase,
             clearAuthTokensUseCase = clearAuthTokensUseCase,
             clearPhotosStorageUseCase = clearPhotosStorageUseCase,
             clearPhotosDatabaseUseCase = clearPhotosDatabaseUseCase,
-            clearCollectionsDatabaseUseCase = clearCollectionsDatabaseUseCase
+            clearCollectionsDatabaseUseCase = clearCollectionsDatabaseUseCase,
+            clearUserDatabaseUseCase = clearUserDatabaseUseCase
         ) as T
     }
 }
