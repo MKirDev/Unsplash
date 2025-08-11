@@ -18,10 +18,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,12 +48,10 @@ import com.mkirdev.unsplash.core.ui.theme.item_height_348
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.theme.padding_10
 import com.mkirdev.unsplash.core.ui.theme.padding_6
-import com.mkirdev.unsplash.core.ui.theme.padding_70
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
 import com.mkirdev.unsplash.core.ui.widgets.LikesInfoMedium
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
-import com.mkirdev.unsplash.core.ui.widgets.StaticEmptyField
 import com.mkirdev.unsplash.core.ui.widgets.TitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageMedium
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoMedium
@@ -63,9 +59,6 @@ import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.take
-
-
-private const val REPEAT_TIMES = 4
 
 @Composable
 internal fun CollectionDetailsScreenWrapper(
@@ -206,45 +199,26 @@ private fun CollectionDetailsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onNavigateUp = onNavigateUp
             )
-            LazyColumn(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.secondary)
-                    .testTag(CollectionDetailsTags.LAZY_COLUMN),
-                state = listState
-            ) {
-                when (pagedItems.loadState.refresh) {
-                    LoadState.Loading -> {
-                        repeat(REPEAT_TIMES) {
-                            item {
-                                StaticEmptyField(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = padding_70)
-                                )
-                            }
-                        }
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LoadingIndicator(
-                                    modifier = Modifier
-                                        .width(item_width_64)
-                                        .padding(bottom = padding_6)
-                                )
-                            }
-                        }
-                        item {
-                            StaticEmptyField(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = padding_70)
-                            )
-                        }
+            when (pagedItems.loadState.refresh) {
+                LoadState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingIndicator(
+                            modifier = Modifier
+                                .width(item_width_64)
+                                .padding(bottom = padding_6)
+                        )
                     }
-
-                    else -> {
+                }
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.background)
+                            .testTag(CollectionDetailsTags.LAZY_COLUMN),
+                        state = listState
+                    ) {
                         collectionModel?.let {
                             item {
                                 CollectionDetailsInfo(collectionDetailsModel = it)
