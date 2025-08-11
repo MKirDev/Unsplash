@@ -95,7 +95,7 @@ internal fun CollectionsScreen(
                 )
 
                 LazyColumn(modifier = Modifier
-                    .background(MaterialTheme.colorScheme.secondary)
+                    .background(MaterialTheme.colorScheme.background)
                     .testTag(CollectionsTags.LAZY_COLUMN)
                 ) {
                     items(
