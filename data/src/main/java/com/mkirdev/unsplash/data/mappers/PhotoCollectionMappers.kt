@@ -1,11 +1,13 @@
 package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoCollectionNetwork
+import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoCollectionDto
 import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoCollectionJoinedDto
 import com.mkirdev.unsplash.data.storages.database.entities.collection.RemoteKeysCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.collection.PhotoCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.collection.PhotoReactionsCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.collection.ReactionsCollectionEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.PhotoLikedEntity
 import com.mkirdev.unsplash.domain.models.Links
 import com.mkirdev.unsplash.domain.models.Photo
 
@@ -56,6 +58,19 @@ internal fun PhotoCollectionNetwork.toPhotoCollectionEntity(collectionId: String
     )
 }
 
+internal fun PhotoCollectionDto.toPhotoLikedEntity(): PhotoLikedEntity {
+    return PhotoLikedEntity(
+        photoId = photoId,
+        width = width,
+        height = height,
+        imageUrl = imageUrl,
+        downloadLink = downloadLink,
+        htmlLink = htmlLink,
+        likes = likes,
+        userId = userId
+    )
+}
+
 internal fun PhotoCollectionJoinedDto.toDomain(): Photo {
     return Photo(
         position = position,
@@ -66,7 +81,7 @@ internal fun PhotoCollectionJoinedDto.toDomain(): Photo {
         links = Links(html = htmlLink, download = downloadLink),
         likes = likes,
         likedByUser = likedByUser == 1,
-        user = userFeedDto.toDomain(),
+        user = userCollectionDto.toDomain(),
         location = null,
         exif = null,
         tags = null,

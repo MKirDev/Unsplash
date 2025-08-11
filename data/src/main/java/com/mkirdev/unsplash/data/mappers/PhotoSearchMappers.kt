@@ -1,7 +1,9 @@
 package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoSearchNetwork
+import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchDto
 import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchJoinedDto
+import com.mkirdev.unsplash.data.storages.database.entities.liked.PhotoLikedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.RemoteKeysSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoReactionsSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoSearchEntity
@@ -51,6 +53,19 @@ internal fun PhotoSearchNetwork.toPhotoReactionsSearchEntity(): PhotoReactionsSe
     return PhotoReactionsSearchEntity(
         photoId = id,
         reactionsId = id
+    )
+}
+
+internal fun PhotoSearchDto.toPhotoLikedEntity(): PhotoLikedEntity {
+    return PhotoLikedEntity(
+        photoId = photoId,
+        width = width,
+        height = height,
+        imageUrl = imageUrl,
+        downloadLink = downloadLink,
+        htmlLink = htmlLink,
+        likes = likes,
+        userId = userId
     )
 }
 
