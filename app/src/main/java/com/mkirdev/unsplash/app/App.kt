@@ -121,7 +121,6 @@ class App : Application() {
         val cacheScheduler = DaggerProvider.appComponent.cacheScheduler
         val getScheduleFlagUseCase = DaggerProvider.appComponent.getScheduleFlagUseCase
         val saveScheduleFlagUseCase = DaggerProvider.appComponent.saveScheduleFlagUseCase
-        val deleteScheduleFlagUseCase = DaggerProvider.appComponent.deleteScheduleFlagUseCase
         val dispatcher = DaggerProvider.appComponent.coroutineDispatcher
 
         val coroutineScope = CoroutineScope(dispatcher)
@@ -129,14 +128,13 @@ class App : Application() {
         coroutineScope.launch {
             val flag = getScheduleFlagUseCase.execute()
             flag.collect {
-//                if (it == null) {
-//                    cacheScheduler.schedule()
-//                    saveScheduleFlagUseCase.execute(true)
-//                    Log.d("AAA","cacheScheduler $cacheScheduler started")
-//                }
-//                else if (!it) {
-//                    cacheScheduler.cancel()
-//                }
+                if (it == null) {
+                    cacheScheduler.schedule()
+                    saveScheduleFlagUseCase.execute(true)
+                }
+                else if (!it) {
+                    cacheScheduler.cancel()
+                }
             }
         }
     }
