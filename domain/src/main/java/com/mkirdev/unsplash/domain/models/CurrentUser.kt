@@ -10,6 +10,6 @@ data class CurrentUser(
     val totalLikes: Int,
     val bio: String?,
     val location: String?,
-    val downloads: Int?,
+    val downloads: Int,
     val email: String?
 )
