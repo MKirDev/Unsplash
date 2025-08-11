@@ -16,7 +16,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.RemoteKeysFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
-private const val ITEMS_PER_PAGE = 20
+private const val ITEMS_PER_PAGE = 10
 @OptIn(ExperimentalPagingApi::class)
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
@@ -68,10 +68,15 @@ class PhotoFeedRemoteMediator(
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     photoFeedDao.deletePhotos()
+                    photoFeedDao.resetIdSequence()
                     reactionsFeedDao.deleteReactionsTypes()
+                    reactionsFeedDao.resetIdSequence()
                     photoReactionsFeedDao.deletePhotoReactions()
+                    photoReactionsFeedDao.resetIdSequence()
                     userFeedDao.deleteUsers()
+                    userFeedDao.resetIdSequence()
                     remoteKeysFeedDao.deleteAllRemoteKeys()
+                    remoteKeysFeedDao.resetIdSequence()
                 }
 
                 val keys = response.map { photoFeedNetwork ->
@@ -90,20 +95,11 @@ class PhotoFeedRemoteMediator(
                     photoFeedNetwork.user.toUserFeedEntity()
                 }
 
-                Log.d("AAA","keys - $keys")
-                Log.d("AAA","reactions - $reactions")
-                Log.d("AAA","photoReactions - $photoReactions")
-                Log.d("AAA","users - $users")
-
-
-
-
                 remoteKeysFeedDao.addAllRemoteKeys(remoteKeys = keys)
 
                 userFeedDao.addUsers(users = users)
 
                 val photos = response.map { it.toPhotoFeedEntity() }
-                Log.d("AAA","photos - $photos")
 
                 photoFeedDao.addPhotos(photos)
 

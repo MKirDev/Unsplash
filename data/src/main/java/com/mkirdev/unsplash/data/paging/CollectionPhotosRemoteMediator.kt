@@ -15,7 +15,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.collection.PhotoCollectio
 import com.mkirdev.unsplash.data.storages.database.dto.collection.RemoteKeysCollectionDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
-private const val ITEMS_PER_PAGE = 20
+private const val ITEMS_PER_PAGE = 10
 
 @OptIn(ExperimentalPagingApi::class)
 class CollectionPhotosRemoteMediator(
@@ -70,10 +70,15 @@ class CollectionPhotosRemoteMediator(
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     photoCollectionDao.deletePhotos()
+                    photoCollectionDao.resetIdSequence()
                     reactionsCollectionDao.deleteReactionsTypes()
+                    reactionsCollectionDao.resetIdSequence()
                     photoReactionsCollectionDao.deletePhotoReactions()
+                    photoReactionsCollectionDao.resetIdSequence()
                     userCollectionDao.deleteUsers()
+                    userCollectionDao.resetIdSequence()
                     remoteKeysCollectionDao.deleteAllRemoteKeys()
+                    remoteKeysCollectionDao.resetIdSequence()
                 }
 
                 val keys = response.map { photoCollectionNetwork ->
