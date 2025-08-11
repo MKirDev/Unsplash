@@ -19,4 +19,7 @@ interface UserFeedDao {
 
     @Query("DELETE FROM ${UserFeedEntity.TABLE_NAME} WHERE ${UserFeedEntity.USER_ID} = :id")
     fun deleteUser(id: String)
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${UserFeedEntity.TABLE_NAME}'")
+    fun resetIdSequence()
 }

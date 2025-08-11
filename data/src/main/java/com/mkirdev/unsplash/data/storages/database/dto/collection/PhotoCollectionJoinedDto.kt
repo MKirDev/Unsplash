@@ -2,32 +2,32 @@ package com.mkirdev.unsplash.data.storages.database.dto.collection
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
-import com.mkirdev.unsplash.data.storages.database.dto.feed.UserFeedDto
+import com.mkirdev.unsplash.data.storages.database.dto.base.PhotoJoinedDto
 
 data class PhotoCollectionJoinedDto(
     @ColumnInfo(name = ID)
-    val position: Int,
+    override val position: Int,
     @ColumnInfo(name = PHOTO_ID)
-    val photoId: String,
+    override val photoId: String,
     @ColumnInfo(name = WIDTH)
-    val width: Int,
+    override val width: Int,
     @ColumnInfo(name = HEIGHT)
-    val height: Int,
+    override val height: Int,
     @ColumnInfo(name = IMAGE_URL)
-    val imageUrl: String,
+    override val imageUrl: String,
     @ColumnInfo(name = DOWNLOAD_LINK)
-    val downloadLink: String,
+    override  val downloadLink: String,
     @ColumnInfo(name = HTML_LINK)
-    val htmlLink: String,
+    override  val htmlLink: String,
     @ColumnInfo(name = LIKES)
-    val likes: Int,
+    override val likes: Int,
     @ColumnInfo(name = LIKED)
-    val likedByUser: Int,
+    override val likedByUser: Int,
     @Embedded
-    val userFeedDto: UserFeedDto,
+    val userCollectionDto: UserCollectionDto,
     @ColumnInfo(name = COLLECTION_ID)
     val collectionId: String
-) {
+) : PhotoJoinedDto {
     companion object {
         const val ID = "id"
         const val PHOTO_ID = "photo_id"

@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import com.mkirdev.unsplash.app.DataStoreManager
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
+import com.mkirdev.unsplash.data.storages.database.migrations.MIGRATION_1_2
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import com.mkirdev.unsplash.data.storages.datastore.onboarding.OnboardingStorage
 import com.mkirdev.unsplash.data.storages.datastore.photos.PhotosStorage
@@ -83,6 +84,8 @@ class StorageModule {
             context,
             AppDatabase::class.java,
             PROJECT_DATABASE
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
     }
 }

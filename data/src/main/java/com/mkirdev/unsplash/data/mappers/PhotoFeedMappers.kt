@@ -1,11 +1,16 @@
 package com.mkirdev.unsplash.data.mappers
 
 import com.mkirdev.unsplash.data.network.models.list.PhotoFeedNetwork
+import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
 import com.mkirdev.unsplash.data.storages.database.entities.feed.RemoteKeysFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoReactionsFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.ReactionsFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.PhotoLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.PhotoReactionsLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.ReactionsLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.RemoteKeysLikedEntity
 import com.mkirdev.unsplash.domain.models.Links
 import com.mkirdev.unsplash.domain.models.Photo
 
@@ -71,6 +76,19 @@ internal fun PhotoFeedNetwork.toDomain(): Photo {
         tags = null,
         downloads = null,
         position = 0
+    )
+}
+
+internal fun PhotoFeedDto.toPhotoLikedEntity(): PhotoLikedEntity {
+    return PhotoLikedEntity(
+        photoId = photoId,
+        width = width,
+        height = height,
+        imageUrl = imageUrl,
+        downloadLink = downloadLink,
+        htmlLink = htmlLink,
+        likes = likes,
+        userId = userId
     )
 }
 

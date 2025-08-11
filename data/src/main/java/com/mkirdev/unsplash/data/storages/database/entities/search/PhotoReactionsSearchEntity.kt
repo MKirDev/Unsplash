@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import com.mkirdev.unsplash.data.storages.database.entities.base.PhotoReactionsEntity
 
 @Entity(
     tableName = PhotoReactionsSearchEntity.TABLE_NAME,
@@ -34,10 +35,10 @@ import androidx.room.Index
 )
 data class PhotoReactionsSearchEntity(
     @ColumnInfo(name = PHOTO_ID)
-    val photoId: String,
+    override val photoId: String,
     @ColumnInfo(name = REACTIONS_ID)
-    val reactionsId: String
-) {
+    override val reactionsId: String
+) : PhotoReactionsEntity {
     companion object {
         const val TABLE_NAME = "photo_reactions_search"
         const val PHOTO_ID = "photo_id"

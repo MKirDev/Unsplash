@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 interface CurrentUserRepository {
     fun getLikedPhotos(username: String): Flow<PagingData<Photo>>
 
-    suspend fun getUserInfo(): CurrentUser
+    suspend fun getCurrentUser(): CurrentUser
 
+    suspend fun addCurrentUser()
+
+    suspend fun clearUserFromDatabase()
 }

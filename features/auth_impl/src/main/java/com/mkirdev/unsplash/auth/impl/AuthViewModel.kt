@@ -8,6 +8,8 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.mkirdev.unsplash.domain.usecases.auth.GetAuthRequestUseCase
 import com.mkirdev.unsplash.domain.usecases.auth.GetSavedTokenUseCase
 import com.mkirdev.unsplash.domain.usecases.auth.PerformTokensRequestUseCase
+import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.AddCurrentUserUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +21,9 @@ import kotlinx.coroutines.launch
 internal class AuthViewModel(
     private val getAuthRequestUseCase: GetAuthRequestUseCase,
     private val getSavedTokenUseCase: GetSavedTokenUseCase,
-    private val performTokensRequestUseCase: PerformTokensRequestUseCase
+    private val performTokensRequestUseCase: PerformTokensRequestUseCase,
+    private val addCurrentUserUseCase: AddCurrentUserUseCase,
+    private val deleteScheduleFlagUseCase: DeleteScheduleFlagUseCase
 ) : ViewModel(), AuthContract {
 
     private val _uiState = MutableStateFlow<AuthContract.State>(
@@ -64,6 +68,8 @@ internal class AuthViewModel(
         viewModelScope.launch {
             try {
                 performTokensRequestUseCase.execute(code)
+                addCurrentUserUseCase.execute()
+                deleteScheduleFlagUseCase.execute()
             } catch (t: Throwable) {
                 AuthContract.State.Error(t.message.toString())
             } finally {
@@ -103,14 +109,18 @@ internal class AuthViewModel(
 internal class AuthViewModelFactory(
     private val getAuthRequestUseCase: GetAuthRequestUseCase,
     private val getSavedTokenUseCase: GetSavedTokenUseCase,
-    private val performTokensRequestUseCase: PerformTokensRequestUseCase
+    private val performTokensRequestUseCase: PerformTokensRequestUseCase,
+    private val addCurrentUserUseCase: AddCurrentUserUseCase,
+    private val deleteScheduleFlagUseCase: DeleteScheduleFlagUseCase
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return AuthViewModel(
             getAuthRequestUseCase = getAuthRequestUseCase,
             getSavedTokenUseCase = getSavedTokenUseCase,
-            performTokensRequestUseCase = performTokensRequestUseCase
+            performTokensRequestUseCase = performTokensRequestUseCase,
+            addCurrentUserUseCase = addCurrentUserUseCase,
+            deleteScheduleFlagUseCase = deleteScheduleFlagUseCase
         ) as T
     }
 }

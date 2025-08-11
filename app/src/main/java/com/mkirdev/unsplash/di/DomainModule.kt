@@ -24,8 +24,10 @@ import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.GetScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.AddCurrentUserUseCase
+import com.mkirdev.unsplash.domain.usecases.user.ClearUserDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
-import com.mkirdev.unsplash.domain.usecases.user.GetUserInfoUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetCurrentUserUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -123,8 +125,18 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetUserInfoUseCase(currentUserRepository: CurrentUserRepository): GetUserInfoUseCase {
-        return GetUserInfoUseCase(currentUserRepository)
+    fun provideGetCurrentUserUseCase(currentUserRepository: CurrentUserRepository): GetCurrentUserUseCase {
+        return GetCurrentUserUseCase(currentUserRepository)
+    }
+
+    @Provides
+    fun provideAddCurrentUserUseCase(currentUserRepository: CurrentUserRepository): AddCurrentUserUseCase {
+        return AddCurrentUserUseCase(currentUserRepository)
+    }
+
+    @Provides
+    fun provideClearUserDatabaseUseCase(currentUserRepository: CurrentUserRepository): ClearUserDatabaseUseCase {
+        return ClearUserDatabaseUseCase(currentUserRepository)
     }
 
     @Provides

@@ -3,18 +3,19 @@ package com.mkirdev.unsplash.data.storages.database.entities.feed
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mkirdev.unsplash.data.storages.database.entities.base.RemoteKeysEntity
 
 @Entity(tableName = RemoteKeysFeedEntity.TABLE_NAME)
 data class RemoteKeysFeedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    override val id: Int = 0,
     @ColumnInfo(name = PHOTO_ID)
-    val photoId: String,
+    override val photoId: String,
     @ColumnInfo(name = PREV_PAGE)
-    val prevPage: Int?,
+    override val prevPage: Int?,
     @ColumnInfo(name = NEXT_PAGE)
-    val nextPage: Int?
-) {
+    override val nextPage: Int?
+) : RemoteKeysEntity {
     companion object {
         const val TABLE_NAME = "remote_keys_feed"
         const val ID = "id"

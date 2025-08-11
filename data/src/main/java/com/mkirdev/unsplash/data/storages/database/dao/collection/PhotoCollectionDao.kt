@@ -28,4 +28,7 @@ interface PhotoCollectionDao {
     @Query("DELETE FROM ${PhotoCollectionEntity.TABLE_NAME} WHERE ${PhotoCollectionEntity.PHOTO_ID} = :id")
     fun deletePhoto(id: String)
 
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${PhotoCollectionEntity.TABLE_NAME}'")
+    fun resetIdSequence()
+
 }

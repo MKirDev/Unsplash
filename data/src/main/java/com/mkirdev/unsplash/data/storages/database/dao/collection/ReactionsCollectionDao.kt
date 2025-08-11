@@ -34,4 +34,7 @@ interface ReactionsCollectionDao {
     @Query("DELETE FROM ${ReactionsCollectionEntity.TABLE_NAME} " +
             "WHERE ${ReactionsCollectionEntity.PHOTO_ID} = :id")
     fun deleteReactionsType(id: String)
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${ReactionsCollectionEntity.TABLE_NAME}'")
+    fun resetIdSequence()
 }

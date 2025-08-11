@@ -15,11 +15,18 @@ import com.mkirdev.unsplash.data.storages.database.dao.feed.PhotoFeedJoinedDao
 import com.mkirdev.unsplash.data.storages.database.dao.feed.PhotoReactionsFeedDao
 import com.mkirdev.unsplash.data.storages.database.dao.feed.ReactionsFeedDao
 import com.mkirdev.unsplash.data.storages.database.dao.feed.UserFeedDao
+import com.mkirdev.unsplash.data.storages.database.dao.liked.PhotoLikedDao
+import com.mkirdev.unsplash.data.storages.database.dao.liked.PhotoLikedJoinedDao
+import com.mkirdev.unsplash.data.storages.database.dao.liked.PhotoReactionsLikedDao
+import com.mkirdev.unsplash.data.storages.database.dao.liked.ReactionsLikedDao
+import com.mkirdev.unsplash.data.storages.database.dao.liked.RemoteKeysLikedDao
+import com.mkirdev.unsplash.data.storages.database.dao.liked.UserLikedDao
 import com.mkirdev.unsplash.data.storages.database.dao.search.PhotoReactionsSearchDao
 import com.mkirdev.unsplash.data.storages.database.dao.search.PhotoSearchDao
 import com.mkirdev.unsplash.data.storages.database.dao.search.PhotoSearchJoinedDao
 import com.mkirdev.unsplash.data.storages.database.dao.search.ReactionsSearchDao
 import com.mkirdev.unsplash.data.storages.database.dao.search.UserSearchDao
+import com.mkirdev.unsplash.data.storages.database.dao.user.UserProfileDao
 import com.mkirdev.unsplash.data.storages.database.entities.collection.RemoteKeysCollectionEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.RemoteKeysFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.RemoteKeysSearchEntity
@@ -31,12 +38,19 @@ import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoReactionsFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.ReactionsFeedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.feed.UserFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.PhotoLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.PhotoReactionsLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.ReactionsLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.RemoteKeysLikedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.liked.UserLikedEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoReactionsSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.PhotoSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.ReactionsSearchEntity
 import com.mkirdev.unsplash.data.storages.database.entities.search.UserSearchEntity
+import com.mkirdev.unsplash.data.storages.database.entities.user.UserProfileEntity
+import com.mkirdev.unsplash.data.storages.database.view.PhotoLikedJoinedView
 
-private const val DATABASE_VERSION = 1
+private const val DATABASE_VERSION = 2
 
 @Database(
     entities = [
@@ -55,7 +69,14 @@ private const val DATABASE_VERSION = 1
         ReactionsCollectionEntity::class,
         PhotoReactionsCollectionEntity::class,
         RemoteKeysCollectionEntity::class,
+        PhotoLikedEntity::class,
+        UserLikedEntity::class,
+        ReactionsLikedEntity::class,
+        PhotoReactionsLikedEntity::class,
+        RemoteKeysLikedEntity::class,
+        UserProfileEntity::class
     ],
+    views = [PhotoLikedJoinedView::class],
     version = DATABASE_VERSION
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -97,5 +118,20 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userCollectionDao(): UserCollectionDao
 
     abstract fun remoteKeysCollectionDao(): RemoteKeysCollectionDao
+
+
+    abstract fun photoLikedDao(): PhotoLikedDao
+
+    abstract fun photoLikedJoinedDao(): PhotoLikedJoinedDao
+
+    abstract fun photoReactionsLikedDao(): PhotoReactionsLikedDao
+
+    abstract fun reactionsLikedDao(): ReactionsLikedDao
+
+    abstract fun userLikedDao(): UserLikedDao
+
+    abstract fun remoteKeysLikedDao(): RemoteKeysLikedDao
+
+    abstract fun userProfileDao(): UserProfileDao
 
 }

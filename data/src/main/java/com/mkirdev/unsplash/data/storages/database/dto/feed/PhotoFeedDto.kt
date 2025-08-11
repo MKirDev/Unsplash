@@ -1,27 +1,28 @@
 package com.mkirdev.unsplash.data.storages.database.dto.feed
 
 import androidx.room.ColumnInfo
+import com.mkirdev.unsplash.data.storages.database.dto.base.PhotoDto
 
 data class PhotoFeedDto(
     @ColumnInfo(name = ID)
-    val id: Int,
+    override val id: Int,
     @ColumnInfo(name = PHOTO_ID)
-    val photoId: String,
+    override val photoId: String,
     @ColumnInfo(name = WIDTH)
-    val width: Int,
+    override val width: Int,
     @ColumnInfo(name = HEIGHT)
-    val height: Int,
+    override val height: Int,
     @ColumnInfo(name = IMAGE_URL)
-    val imageUrl: String,
+    override val imageUrl: String,
     @ColumnInfo(name = DOWNLOAD_LINK)
-    val downloadLink: String,
+    override val downloadLink: String,
     @ColumnInfo(name = HTML_LINK)
-    val htmlLink: String,
+    override val htmlLink: String,
     @ColumnInfo(name = LIKES)
-    val likes: Int,
+    override val likes: Int,
     @ColumnInfo(name = USER_ID)
-    val userId: String
-) {
+    override val userId: String
+) : PhotoDto {
     companion object {
         const val ID = "id"
         const val PHOTO_ID = "photo_id"

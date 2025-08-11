@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.mkirdev.unsplash.data.storages.database.entities.base.ReactionsEntity
 
 @Entity(
     tableName = ReactionsFeedEntity.TABLE_NAME,
@@ -11,12 +12,12 @@ import androidx.room.PrimaryKey
 )
 data class ReactionsFeedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    override val id: Int = 0,
     @ColumnInfo(name = PHOTO_ID)
-    val photoId: String,
+    override val photoId: String,
     @ColumnInfo(name = LIKED)
-    val liked: Int
-) {
+    override val liked: Int
+) : ReactionsEntity {
     companion object {
         const val TABLE_NAME = "reactions_feed"
         const val ID = "id"

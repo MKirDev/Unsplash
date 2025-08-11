@@ -22,7 +22,7 @@ data class CurrentUserNetwork(
     @SerializedName("location")
     val location: String?,
     @SerializedName("downloads")
-    val downloads: Int?,
+    val downloads: Int,
     @SerializedName("email")
     val email: String?
 )

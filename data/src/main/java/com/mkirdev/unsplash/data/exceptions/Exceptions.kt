@@ -121,12 +121,20 @@ internal sealed class PreferencesException : Throwable() {
     ) : PreferencesException()
 }
 
-internal sealed class UsersException : Throwable() {
+internal sealed class UserException : Throwable() {
     internal data class GetLikedPhotosException(
         override val cause: Throwable?
-    ) : UsersException()
+    ) : UserException()
 
-    internal data class GetUserInfoException(
+    internal data class GetCurrentUserException(
         override val cause: Throwable?
-    ) : UsersException()
+    ) : UserException()
+
+    internal data class AddCurrentUserException(
+        override val cause: Throwable?
+    ) : UserException()
+
+    internal data class ClearUserFromDatabase(
+        override val cause: Throwable?
+    ) : UserException()
 }

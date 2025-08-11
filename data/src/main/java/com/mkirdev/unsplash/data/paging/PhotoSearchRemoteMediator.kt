@@ -16,7 +16,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.search.RemoteKeysSearchDt
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import kotlin.collections.map
 
-private const val ITEMS_PER_PAGE = 20
+private const val ITEMS_PER_PAGE = 10
 @OptIn(ExperimentalPagingApi::class)
 class PhotoSearchRemoteMediator(
     private val query: String,
@@ -69,10 +69,15 @@ class PhotoSearchRemoteMediator(
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     photoSearchDao.deletePhotos()
+                    photoSearchDao.resetIdSequence()
                     reactionsSearchDao.deleteReactionsTypes()
+                    reactionsSearchDao.resetIdSequence()
                     photoReactionsSearchDao.deletePhotoReactions()
+                    photoReactionsSearchDao.resetIdSequence()
                     userSearchDao.deleteUsers()
+                    userSearchDao.resetIdSequence()
                     remoteKeysSearchDao.deleteAllRemoteKeys()
+                    remoteKeysSearchDao.resetIdSequence()
                 }
 
                 val keys = response.results.map { photoSearchNetwork ->

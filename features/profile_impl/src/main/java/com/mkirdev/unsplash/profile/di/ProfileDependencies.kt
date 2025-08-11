@@ -5,21 +5,24 @@ import com.mkirdev.unsplash.domain.usecases.collections.ClearCollectionsDatabase
 import com.mkirdev.unsplash.domain.usecases.photos.AddDownloadLinkUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.ClearPhotosStorageUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
+import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.SaveScheduleFlagUseCase
+import com.mkirdev.unsplash.domain.usecases.user.ClearUserDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
-import com.mkirdev.unsplash.domain.usecases.user.GetUserInfoUseCase
+import com.mkirdev.unsplash.domain.usecases.user.GetCurrentUserUseCase
 
 interface ProfileDependencies {
-    val getUserInfoUseCase: GetUserInfoUseCase
+    val getCurrentUserUseCase: GetCurrentUserUseCase
     val getLikedPhotosUseCase: GetLikedPhotosUseCase
-    val likePhotoRemoteUseCase: LikePhotoRemoteUseCase
-    val unlikePhotoRemoteUseCase: UnlikePhotoRemoteUseCase
+    val likePhotoLocalUseCase: LikePhotoLocalUseCase
+    val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase
     val addDownloadLinkUseCase: AddDownloadLinkUseCase
     val clearAuthTokensUseCase: ClearAuthTokensUseCase
     val clearPhotosStorageUseCase: ClearPhotosStorageUseCase
     val clearPhotosDatabaseUseCase: ClearPhotosDatabaseUseCase
     val clearCollectionsDatabaseUseCase: ClearCollectionsDatabaseUseCase
+
+    val clearUserDatabaseUseCase: ClearUserDatabaseUseCase
     val saveScheduleFlagUseCase: SaveScheduleFlagUseCase
 }

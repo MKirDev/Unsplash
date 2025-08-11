@@ -3,11 +3,12 @@ package com.mkirdev.unsplash.domain.usecases.user
 import com.mkirdev.unsplash.core.contract.usecase.UseCaseWithResult
 import com.mkirdev.unsplash.domain.models.CurrentUser
 import com.mkirdev.unsplash.domain.repository.CurrentUserRepository
+import kotlinx.coroutines.flow.Flow
 
-class GetUserInfoUseCase(
+class GetCurrentUserUseCase(
     private val currentUserRepository: CurrentUserRepository
 ) : UseCaseWithResult<CurrentUser> {
     override suspend fun execute(): CurrentUser {
-        return currentUserRepository.getUserInfo()
+        return currentUserRepository.getCurrentUser()
     }
 }

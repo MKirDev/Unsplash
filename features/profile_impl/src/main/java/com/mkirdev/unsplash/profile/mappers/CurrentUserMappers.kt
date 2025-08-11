@@ -14,6 +14,6 @@ internal fun CurrentUser.toPresentation() =
         bio = bio,
         location = location,
         totalLikes = if (totalLikes == 0) null else totalLikes.toString(),
-        downloads = downloads.toString(),
+        downloads = if (downloads == 0) null else downloads.toString(),
         email = email
     )

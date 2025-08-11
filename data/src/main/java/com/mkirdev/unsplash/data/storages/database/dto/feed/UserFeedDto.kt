@@ -1,21 +1,22 @@
 package com.mkirdev.unsplash.data.storages.database.dto.feed
 
 import androidx.room.ColumnInfo
+import com.mkirdev.unsplash.data.storages.database.dto.base.UserDto
 
 data class UserFeedDto(
     @ColumnInfo(name = ID)
-    val id: String,
+    override val id: String,
     @ColumnInfo(name = FULL_NAME)
-    val fullName: String,
+    override val fullName: String,
     @ColumnInfo(name = USERNAME)
-    val username: String,
+    override val username: String,
     @ColumnInfo(name = IMAGE_URL)
-    val imageUrl: String,
+    override val imageUrl: String,
     @ColumnInfo(name = BIO)
-    val bio: String?,
+    override val bio: String?,
     @ColumnInfo(name = LOCATION)
-    val location: String?
-) {
+    override val location: String?
+) : UserDto {
     companion object {
         const val ID = "user_id"
         const val FULL_NAME = "user_full_name"

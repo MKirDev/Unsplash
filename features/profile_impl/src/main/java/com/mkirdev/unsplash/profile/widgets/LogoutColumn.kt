@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,12 +37,11 @@ fun LogoutColumn(
         Column(
             Modifier
                 .weight(0.8f)
-                .alpha(0.5f)
+                .alpha(0f)
         ) {
             StaticEmptyField(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background)
-                    .fillMaxSize()
             )
         }
         Column(
