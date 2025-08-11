@@ -47,7 +47,7 @@
     <string name="preview_error">Preview error</string>
     <string name="mail">Mail</string>
     <string name="profile">Profile</string>
-    <string name="count_of_liked_images">%s\nlikes</string>
+    <string name="liked_photos">Liked photos</string>
     <string name="logout_question">Are you sure you want to logout? All local data will be deleted.</string>
     <string name="text_button_cancel">No</string>
     <string name="text_button_confirm">Yes</string>
