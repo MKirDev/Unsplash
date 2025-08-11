@@ -9,12 +9,15 @@ import com.mkirdev.unsplash.data.storages.database.entities.collection.RemoteKey
 
 @Dao
 interface RemoteKeysCollectionDao {
-    @Query("SELECT * FROM ${RemoteKeysCollectionEntity.Companion.TABLE_NAME} rk WHERE rk.${RemoteKeysCollectionEntity.Companion.PHOTO_ID} =:id ORDER BY ${RemoteKeysCollectionEntity.Companion.ID} ASC")
+    @Query("SELECT * FROM ${RemoteKeysCollectionEntity.TABLE_NAME} rk WHERE rk.${RemoteKeysCollectionEntity.PHOTO_ID} =:id ORDER BY ${RemoteKeysCollectionEntity.ID} ASC")
     fun getRemoteKeys(id: String): RemoteKeysCollectionDto
 
-    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAllRemoteKeys(remoteKeys: List<RemoteKeysCollectionEntity>)
 
-    @Query("DELETE FROM ${RemoteKeysCollectionEntity.Companion.TABLE_NAME}")
+    @Query("DELETE FROM ${RemoteKeysCollectionEntity.TABLE_NAME}")
     fun deleteAllRemoteKeys()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${RemoteKeysCollectionEntity.TABLE_NAME}'")
+    fun resetIdSequence()
 }

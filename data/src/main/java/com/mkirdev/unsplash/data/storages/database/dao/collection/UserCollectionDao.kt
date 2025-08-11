@@ -19,4 +19,7 @@ interface UserCollectionDao {
 
     @Query("DELETE FROM ${UserCollectionEntity.TABLE_NAME} WHERE ${UserCollectionEntity.USER_ID} = :id")
     fun deleteUser(id: String)
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = '${UserCollectionEntity.TABLE_NAME}'")
+    fun resetIdSequence()
 }
