@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.mkirdev.unsplash.data.storages.database.entities.base.UserEntity
 
 @Entity(
     tableName = UserCollectionEntity.TABLE_NAME,
@@ -11,20 +12,20 @@ import androidx.room.PrimaryKey
 )
 data class UserCollectionEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    override val id: Int = 0,
     @ColumnInfo(name = USER_ID)
-    val userId: String,
+    override val userId: String,
     @ColumnInfo(name = FULL_NAME)
-    val fullName: String,
+    override val fullName: String,
     @ColumnInfo(name = USERNAME)
-    val username: String,
+    override val username: String,
     @ColumnInfo(name = IMAGE_URL)
-    val imageUrl: String,
+    override val imageUrl: String,
     @ColumnInfo(name = BIO)
-    val bio: String?,
+    override val bio: String?,
     @ColumnInfo(name = LOCATION)
-    val location: String?
-) {
+    override val location: String?
+) : UserEntity {
     companion object {
         const val TABLE_NAME = "user_collection"
         const val ID = "id"
