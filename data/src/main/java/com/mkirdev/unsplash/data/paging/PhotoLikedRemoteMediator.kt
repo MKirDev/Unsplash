@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -12,7 +11,6 @@ import com.mkirdev.unsplash.data.mappers.toPhotoReactionsLikedEntity
 import com.mkirdev.unsplash.data.mappers.toReactionsLikedEntity
 import com.mkirdev.unsplash.data.mappers.toUserLikedEntity
 import com.mkirdev.unsplash.data.network.photos.api.CurrentUserApi
-import com.mkirdev.unsplash.data.storages.database.dto.liked.PhotoLikedJoinedDto
 import com.mkirdev.unsplash.data.storages.database.dto.liked.RemoteKeysLikedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import com.mkirdev.unsplash.data.storages.database.view.PhotoLikedJoinedView
@@ -83,8 +81,6 @@ class PhotoLikedRemoteMediator(
                     remoteKeysLikedDao.resetIdSequence()
                 }
 
-                Log.d("AAA","load with $response")
-
                 val keys = response.map { photoLikedNetwork ->
                     photoLikedNetwork.toKeysLikedEntity(prevPage = prevPage, nextPage = nextPage)
                 }
@@ -107,9 +103,6 @@ class PhotoLikedRemoteMediator(
 
                 val photos = response.map { it.toPhotoLikedEntity() }
                 photoLikedDao.addPhotos(photos)
-
-                Log.d("AAA","photos - $photos")
-                Log.d("AAA","users - $users")
 
                 reactionsLikedDao.addReactionsTypes(reactions = reactions)
                 photoReactionsLikedDao.addPhotoReactions(photoReactions = photoReactions)
