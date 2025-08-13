@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+private const val TIME_MILLIS = 250L
+
 @Stable
 internal class AuthViewModel(
     private val getAuthRequestUseCase: GetAuthRequestUseCase,
@@ -74,6 +76,10 @@ internal class AuthViewModel(
                     deleteScheduleFlagUseCase.execute()
                 }.await()
                 launch {
+                    _uiState.update {
+                        AuthContract.State.Loading
+                    }
+                    delay(TIME_MILLIS)
                     val token = getSavedTokenUseCase.execute()
                     if (token.isNotEmpty()) {
                         _uiState.update {
