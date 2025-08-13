@@ -23,12 +23,10 @@ class ProfileFeatureApiImpl @Inject constructor() : ProfileFeatureApi {
     ) {
         composable(route = ProfileTopLevelDestination.route) {
 
-            val profileComponent by remember {
-                mutableStateOf(
-                    DaggerProfileComponent.builder()
-                        .addDependencies(ProfileDependenciesProvider.dependencies)
-                        .build()
-                )
+            val profileComponent = remember {
+                DaggerProfileComponent.builder()
+                    .addDependencies(ProfileDependenciesProvider.dependencies)
+                    .build()
             }
 
             val viewModel: ProfileViewModel = viewModel(
@@ -55,6 +53,7 @@ class ProfileFeatureApiImpl @Inject constructor() : ProfileFeatureApi {
                 onCloseFieldClick = { viewModel.handleEvent(ProfileContract.Event.FieldClosedEvent) },
                 onPagingCloseFieldClick = { viewModel.handleEvent(ProfileContract.Event.PagingFieldClosedEvent) },
                 onPagingRetry = { viewModel.handleEvent(ProfileContract.Event.PagingRetryEvent(it)) },
+                onPagingRefresh = { viewModel.handleEvent(ProfileContract.Event.PagingRefreshEvent(it)) },
                 onExitIconClick = { viewModel.handleEvent(ProfileContract.Event.LogoutRequestedEvent) },
                 onCanceledLogoutClick = { viewModel.handleEvent(ProfileContract.Event.LogoutCanceledEvent) },
                 onConfirmedLogoutClick = { viewModel.handleEvent(ProfileContract.Event.LogoutConfirmedEvent) })
