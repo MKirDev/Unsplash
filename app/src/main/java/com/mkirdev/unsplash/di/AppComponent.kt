@@ -42,6 +42,7 @@ import com.mkirdev.unsplash.domain.usecases.user.AddCurrentUserUseCase
 import com.mkirdev.unsplash.domain.usecases.user.ClearUserDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.user.GetLikedPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.user.GetCurrentUserUseCase
+import com.mkirdev.unsplash.navigation.MainViewModelFactory
 import com.mkirdev.unsplash.notification.api.NotificationFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
@@ -150,6 +151,8 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
     val getScheduleFlagUseCase: GetScheduleFlagUseCase
 
     override val deleteScheduleFlagUseCase: DeleteScheduleFlagUseCase
+
+    val mainViewModelFactory: MainViewModelFactory
 
     @Component.Builder
     interface Builder {

@@ -45,28 +45,26 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
     ) {
         composable(route = BottomMenuDestination.route) {
 
-            val bottomMenuComponent by remember {
-                mutableStateOf(
-                    DaggerBottomMenuComponent.builder()
-                        .addDependencies(BottomMenuDependenciesProvider.dependencies)
-                        .build()
-                )
+            val bottomMenuComponent = remember {
+                DaggerBottomMenuComponent.builder()
+                    .addDependencies(BottomMenuDependenciesProvider.dependencies)
+                    .build()
             }
 
             val viewModel: BottomMenuViewModel = viewModel(
                 factory = bottomMenuComponent.bottomMenuViewModelFactory
             )
 
-            val photoFeedFeatureApi by remember {
-                mutableStateOf(bottomMenuComponent.photoFeedFeatureApi)
+            val photoFeedFeatureApi = remember {
+                bottomMenuComponent.photoFeedFeatureApi
             }
 
-            val collectionsFeatureApi by remember {
-                mutableStateOf(bottomMenuComponent.collectionsFeatureApi)
+            val collectionsFeatureApi = remember {
+                bottomMenuComponent.collectionsFeatureApi
             }
 
-            val profileFeatureApi by remember {
-                mutableStateOf(bottomMenuComponent.profileFeatureApi)
+            val profileFeatureApi = remember {
+                bottomMenuComponent.profileFeatureApi
             }
 
             BottomMenuScreenWrapper(

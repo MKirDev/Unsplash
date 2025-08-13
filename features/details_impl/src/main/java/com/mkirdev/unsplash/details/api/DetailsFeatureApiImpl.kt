@@ -32,12 +32,10 @@ class DetailsFeatureApiImpl @Inject constructor() : DetailsFeatureApi {
 
             val context = LocalContext.current
 
-            val detailsComponent by remember {
-                mutableStateOf(
-                    DaggerDetailsComponent.builder()
-                        .addDependencies(DetailsDependenciesProvider.dependencies)
-                        .build()
-                )
+            val detailsComponent = remember {
+                DaggerDetailsComponent.builder()
+                    .addDependencies(DetailsDependenciesProvider.dependencies)
+                    .build()
             }
 
             val photoId = navStackEntry.arguments?.getString(DetailsDestination.argumentName)

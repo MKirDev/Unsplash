@@ -5,7 +5,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,15 +24,20 @@ import net.openid.appauth.AuthorizationService
 import javax.inject.Inject
 
 class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
-    override fun NavHostController.navigateToAuth(code: String?) {
+    override fun NavHostController.navigateToAuth() {
         popBackStack()
-        navigate("${AuthDestination.route}/$code")
+        navigate(AuthDestination.routeWithArgs)
         this.context.getString(com.mkirdev.unsplash.core.navigation.R.string.app_internal_scheme)
     }
 
     override fun NavHostController.logout() {
         popBackStack()
-        navigate("${AuthDestination.route}/ ")
+        navigate(AuthDestination.routeWithArgs)
+    }
+
+    override fun NavHostController.logoutWithError() {
+        popBackStack()
+        navigate("${AuthDestination.route}?code=&error=${true}")
     }
 
     override fun NavGraphBuilder.auth(
@@ -47,20 +51,17 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
             arguments = AuthDestination.arguments,
             deepLinks = AuthDestination.deeplink(schema = schema, host =  host, path = path)
         ) {
-            val args by remember {
-                mutableStateOf(it.arguments?.getString(AuthDestination.codeArg))
+            val argString = it.arguments?.getString(AuthDestination.codeArg)
+            val argBoolean = it.arguments?.getBoolean(AuthDestination.errorArg)
+
+            val authComponent = remember {
+                DaggerAuthComponent.builder()
+                    .addDependencies(AuthDependenciesProvider.dependencies)
+                    .build()
             }
 
-            val authComponent by remember {
-                mutableStateOf(
-                    DaggerAuthComponent.builder()
-                        .addDependencies(AuthDependenciesProvider.dependencies)
-                        .build()
-                )
-            }
-
-            val authService by remember {
-                mutableStateOf(authComponent.authService)
+            val authService = remember {
+                authComponent.authService
             }
 
             val viewModel: AuthViewModel = viewModel(
@@ -71,13 +72,13 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
             val context = LocalContext.current
 
             LaunchedEffect(Unit) {
-                if (args == null) {
+                if (argBoolean == true) {
                     viewModel.handleEvent(AuthContract.Event.CodeReceivedFailureEvent(
                         context.getString(com.mkirdev.unsplash.core.ui.R.string.auth_network_error)
                     ))
                 } else {
-                    if (!args.isNullOrEmpty()) {
-                        args?.let {
+                    if (!argString.isNullOrEmpty()) {
+                        argString.let {
                             viewModel.handleEvent(AuthContract.Event.CodeReceivedSuccessEvent(it))
                         }
                     }

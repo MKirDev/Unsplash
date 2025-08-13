@@ -4,9 +4,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 
 interface AuthFeatureApi {
-    fun NavHostController.navigateToAuth(code: String?)
+    fun NavHostController.navigateToAuth()
 
     fun NavHostController.logout()
+
+    fun NavHostController.logoutWithError()
 
     fun NavGraphBuilder.auth(
         schema: String,

@@ -2,10 +2,12 @@ package com.mkirdev.unsplash.data.repository.auth
 
 import com.mkirdev.unsplash.data.exceptions.AuthException
 import com.mkirdev.unsplash.data.network.auth.appauth.AppAuth
+import com.mkirdev.unsplash.data.network.managers.AuthStateManager
 import com.mkirdev.unsplash.data.storages.datastore.auth.AuthStorage
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationService
 import javax.inject.Inject
@@ -14,11 +16,12 @@ class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthorizationService,
     private val appAuth: AppAuth,
     private val authStorage: AuthStorage,
+    private val authStateManager: AuthStateManager,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AuthRepository {
     override suspend fun getAuthRequest(): String = withContext(dispatcher) {
         try {
-           appAuth.getAuthRequest().jsonSerializeString()
+            appAuth.getAuthRequest().jsonSerializeString()
         } catch (throwable: Throwable) {
             throw AuthException.GetAuthRequestException(throwable)
         }
@@ -43,6 +46,10 @@ class AuthRepositoryImpl @Inject constructor(
         } catch (throwable: Throwable) {
             throw AuthException.GetSavedTokenRequestException(throwable)
         }
+    }
+
+    override suspend fun getLogoutEvent(): SharedFlow<Unit> {
+        return authStateManager.logoutEvents
     }
 
     override suspend fun clear() = withContext(dispatcher) {

@@ -2,6 +2,7 @@ package com.mkirdev.unsplash.collections.impl
 
 import androidx.compose.runtime.Immutable
 import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import com.mkirdev.unsplash.collection_item.models.CollectionItemModel
 import com.mkirdev.unsplash.core.contract.viewmodel.UniFlowViewModel
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,8 @@ interface CollectionsContract :
     sealed interface Event {
 
         data class CollectionDetailsOpenedEvent(val collectionId: String) : Event
+
+        data class PagingRetryEvent(val pagedItems: LazyPagingItems<CollectionItemModel>) : Event
         data object LoadingErrorEvent : Event
         data object FieldClosedEvent : Event
     }

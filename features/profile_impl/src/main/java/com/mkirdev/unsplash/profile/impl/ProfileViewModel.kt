@@ -22,6 +22,7 @@ import com.mkirdev.unsplash.domain.usecases.user.GetCurrentUserUseCase
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.profile.mappers.toPresentation
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -59,6 +60,9 @@ internal class ProfileViewModel(
 
     @Stable
     override val effect: StateFlow<ProfileContract.Effect?> = _effect.asStateFlow()
+
+    private var loadJob: Job? = null
+
     init {
         loadData()
     }
@@ -70,6 +74,7 @@ internal class ProfileViewModel(
             is ProfileContract.Event.PhotoUnlikedEvent -> onLikeClick(event.photoId, UNLIKED)
             is ProfileContract.Event.PhotoDetailsOpenedEvent -> onPhotoDetails(event.photoId)
             is ProfileContract.Event.PagingRetryEvent -> onPagingRetry(event.pagedItems)
+            is ProfileContract.Event.PagingRefreshEvent -> onPagingRefresh(event.pagedItems)
             ProfileContract.Event.LoadingErrorEvent -> onErrorLoad()
             ProfileContract.Event.FieldClosedEvent -> onCloseFieldClick()
             ProfileContract.Event.PagingFieldClosedEvent -> onPagingCloseFieldClick()
@@ -84,7 +89,9 @@ internal class ProfileViewModel(
     }
 
     private fun loadData() {
-        viewModelScope.launch {
+        loadJob?.cancel()
+
+        loadJob = viewModelScope.launch {
             try {
                 _uiState.update {
                     ProfileContract.State.Loading
@@ -248,6 +255,10 @@ internal class ProfileViewModel(
         pagedItems.retry()
     }
 
+    private fun onPagingRefresh(pagedItems: LazyPagingItems<PhotoItemModel>) {
+        pagedItems.refresh()
+    }
+
     private fun onPhotoDetails(photoId: String) {
         _effect.update {
             ProfileContract.Effect.PhotoDetails(photoId)
@@ -289,6 +300,8 @@ internal class ProfileViewModel(
     private fun onExitConfirmed() {
         // clear all local data and logout
         viewModelScope.launch {
+            loadJob?.cancel()
+
             async {
                 saveScheduleFlagUseCase.execute(false)
                 clearAuthTokensUseCase.execute()

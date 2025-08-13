@@ -7,12 +7,22 @@ import com.mkirdev.unsplash.core.navigation.ProjectNavDestination
 
 object AuthDestination : ProjectNavDestination {
     const val codeArg = "code"
-    override val route: String = "auth?code={$codeArg}"
-    val routeWithArgs = "$route/{$codeArg}"
-    val arguments = listOf(navArgument(codeArg) {
-        type = NavType.StringType
-        nullable = true
-    })
+    const val errorArg = "error"
+    override val route: String = "auth"
+    val routeWithArgs = "$route?code={$codeArg}&error={$errorArg}"
+    val arguments = listOf(
+        navArgument(codeArg) {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = ""
+        },
+        navArgument(errorArg) {
+            type = NavType.BoolType
+            nullable = false
+            defaultValue = false
+        }
+    )
+
     fun deeplink(schema: String, host: String, path: String) = listOf(navDeepLink {
         uriPattern = "$schema://$host$path?code={${codeArg}}"
     })

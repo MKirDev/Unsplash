@@ -28,32 +28,30 @@ class OnboardingFeatureApiImpl @Inject constructor(): OnboardingFeatureApi {
     override fun NavGraphBuilder.onboarding(onNavigateToAuth: () -> Unit) {
         composable(route = OnboardingDestination.route) {
 
-            val onboardingComponent by remember {
-                mutableStateOf(
-                    DaggerOnboardingComponent.builder()
-                        .addDependencies(OnboardingDependenciesProvider.dependencies)
-                        .build()
-                )
+            val onboardingComponent = remember {
+                DaggerOnboardingComponent.builder()
+                    .addDependencies(OnboardingDependenciesProvider.dependencies)
+                    .build()
             }
 
             val viewModel: OnboardingViewModel = viewModel(
                 factory = onboardingComponent.onboardingViewModelFactory
             )
 
-            val contentCreationFeatureApi by remember {
-                mutableStateOf(onboardingComponent.contentCreationFeatureApi)
+            val contentCreationFeatureApi = remember {
+                onboardingComponent.contentCreationFeatureApi
             }
 
-            val socialCollectionsFeatureApi by remember {
-                mutableStateOf(onboardingComponent.socialCollectionsFeatureApi)
+            val socialCollectionsFeatureApi = remember {
+                onboardingComponent.socialCollectionsFeatureApi
             }
 
-            val uploadAndTrackFeatureApi by remember {
-                mutableStateOf(onboardingComponent.uploadAndTrackFeatureApi)
+            val uploadAndTrackFeatureApi = remember {
+                onboardingComponent.uploadAndTrackFeatureApi
             }
 
-            val notificationFeatureApi by remember {
-                mutableStateOf(onboardingComponent.notificationFeatureApi)
+            val notificationFeatureApi = remember {
+                onboardingComponent.notificationFeatureApi
             }
 
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()

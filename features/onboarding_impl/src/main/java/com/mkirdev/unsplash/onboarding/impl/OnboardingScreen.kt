@@ -56,6 +56,10 @@ import com.mkirdev.unsplash.onboarding.widgets.FinishButton
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
 import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 
+
+private const val TOP_FACTOR = 0.28f
+private const val BOTTOM_FACTOR = 0.12f
+
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun OnboardingScreen(
@@ -78,6 +82,25 @@ internal fun OnboardingScreen(
 
             val context = LocalContext.current
             val activity = context as? Activity
+
+            val currentPage = pagerState.currentPage
+            val configuration = LocalConfiguration.current
+            val screenHeight = configuration.screenHeightDp.dp
+
+            val currentImageRes by remember(currentPage) {
+                derivedStateOf {
+                    when (uiState.pages[currentPage]) {
+                        OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third -> R.drawable.background_cameras
+                        OnboardingPage.Fourth -> R.drawable.notification
+                    }
+                }
+            }
+
+            val topBottomPadding = remember(configuration) {
+                val top = screenHeight * TOP_FACTOR
+                val bottom = screenHeight * BOTTOM_FACTOR
+                PaddingValues(top = top, bottom = bottom)
+            }
 
             val notificationPermissionLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission()
@@ -103,17 +126,6 @@ internal fun OnboardingScreen(
                 centerOffsetFactor = pagerState.currentPage.toFloat(),
                 contentAlignment = Alignment.TopCenter
             ) {
-
-                val currentPage = pagerState.currentPage
-
-                val currentImageRes by remember(currentPage) {
-                    derivedStateOf {
-                        when (uiState.pages[currentPage]) {
-                            OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third -> R.drawable.background_cameras
-                            OnboardingPage.Fourth -> R.drawable.notification
-                        }
-                    }
-                }
 
                 AnimatedContent(
                     targetState = currentImageRes,
@@ -175,17 +187,6 @@ internal fun OnboardingScreen(
                                 NotificationsFeature(text = stringResource(R.string.onboarding_notifications))
                             }
                         }
-                    }
-                }
-
-                val configuration = LocalConfiguration.current
-                val screenHeight = configuration.screenHeightDp.dp
-
-                val topBottomPadding by remember(configuration) {
-                    derivedStateOf {
-                        val top = screenHeight * 0.28f
-                        val bottom = screenHeight * 0.12f
-                        PaddingValues(top = top, bottom = bottom)
                     }
                 }
 

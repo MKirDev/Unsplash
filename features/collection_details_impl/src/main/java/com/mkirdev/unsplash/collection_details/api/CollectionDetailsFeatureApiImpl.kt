@@ -32,12 +32,10 @@ class CollectionDetailsFeatureApiImpl @Inject constructor() : CollectionDetailsF
             arguments = CollectionDetailsDestination.arguments
         ) { navStackEntry ->
 
-            val collectionDetailsComponent by remember {
-                mutableStateOf(
-                    DaggerCollectionDetailsComponent.builder()
-                        .addDependencies(CollectionDetailsDependenciesProvider.dependencies)
-                        .build()
-                )
+            val collectionDetailsComponent = remember {
+                DaggerCollectionDetailsComponent.builder()
+                    .addDependencies(CollectionDetailsDependenciesProvider.dependencies)
+                    .build()
             }
 
             val collectionId = navStackEntry.arguments?.getString(CollectionDetailsDestination.argumentName)
