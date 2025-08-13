@@ -72,6 +72,7 @@ fun MainContent(
     onLoadError: () -> Unit,
     onPagingCloseFieldClick: () -> Unit,
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit,
+    onPagingRefresh: (LazyPagingItems<PhotoItemModel>) -> Unit,
     onExitIconClick: () -> Unit,
     onCanceledLogoutClick: () -> Unit,
     onConfirmedLogoutClick: () -> Unit
@@ -151,7 +152,7 @@ fun MainContent(
                             .pullToRefresh(
                                 isRefreshing = pagedItems.loadState.refresh is LoadState.Loading,
                                 state = rememberPullToRefreshState(),
-                                onRefresh = { pagedItems.refresh() }
+                                onRefresh = { onPagingRefresh(pagedItems) }
                             )
                             .testTag(ProfileTags.LAZY_COLUMN)
                     ) {
