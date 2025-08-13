@@ -22,8 +22,10 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -67,6 +69,9 @@ private const val EMPTY_STRING = ""
 private const val FIXED_COUNT = 2
 private const val REPEAT_TIMES = 4
 
+private const val PORTRAIT_FACTOR = 0.847f
+
+private const val LANDSCAPE_FACTOR = 0.648f
 @Composable
 internal fun PhotoFeedScreenWrapper(
     uiState: PhotoFeedContract.State,
@@ -167,15 +172,22 @@ private fun PhotoFeedScreen(
 ) {
 
     val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp.dp
-    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
-    val offsetY = if (isPortrait) screenHeight * 0.847f else screenHeight * 0.648f
+    val isPortrait = remember(configuration) {
+        configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+    }
 
-    val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ContentScale.FillBounds
-    } else {
-        ContentScale.FillHeight
+    val offsetY = remember(isPortrait) {
+        val screenHeight = configuration.screenHeightDp.dp
+        if (isPortrait) screenHeight * PORTRAIT_FACTOR else screenHeight * LANDSCAPE_FACTOR
+    }
+
+    val contentScale = remember(configuration.orientation) {
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ContentScale.FillBounds
+        } else {
+            ContentScale.FillHeight
+        }
     }
 
     LaunchedEffect(key1 = pagedItems.loadState, block = {
