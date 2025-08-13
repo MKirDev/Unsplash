@@ -6,12 +6,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import com.mkirdev.unsplash.collection_item.models.CollectionItemModel
 import com.mkirdev.unsplash.collections.mappers.toPresentation
-import com.mkirdev.unsplash.collections.preview.createCollectionsPreviewData
 import com.mkirdev.unsplash.domain.models.Collection
-import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +38,7 @@ internal class CollectionsViewModel(
     override fun handleEvent(event: CollectionsContract.Event) {
         when (event) {
             is CollectionsContract.Event.CollectionDetailsOpenedEvent -> onCollection(event.collectionId)
+            is CollectionsContract.Event.PagingRetryEvent -> onPagingRetry(event.pagedItems)
             CollectionsContract.Event.LoadingErrorEvent -> onErrorLoad()
             CollectionsContract.Event.FieldClosedEvent -> onCloseFieldClick()
         }
@@ -72,6 +72,10 @@ internal class CollectionsViewModel(
         return flow
             .map { pagingData -> pagingData.map { it.toPresentation() } }
             .cachedIn(viewModelScope)
+    }
+
+    private fun onPagingRetry(pagedItems: LazyPagingItems<CollectionItemModel>) {
+        pagedItems.retry()
     }
 
     private fun onCollection(collectionId: String) {

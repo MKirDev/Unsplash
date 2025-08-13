@@ -15,6 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,16 +50,19 @@ import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 internal fun CollectionsScreen(
     uiState: CollectionsContract.State,
     onCollectionClick: (String) -> Unit,
+    onPagingRetry: (LazyPagingItems<CollectionItemModel>) -> Unit,
     onLoadError: () -> Unit,
     onCloseFieldClick: () -> Unit
 ) {
 
     val configuration = LocalConfiguration.current
 
-    val contentScale = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ContentScale.FillWidth
-    } else {
-        ContentScale.FillBounds
+    val contentScale = remember(configuration.orientation) {
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ContentScale.FillWidth
+        } else {
+            ContentScale.FillBounds
+        }
     }
 
     when (uiState) {
@@ -94,9 +100,10 @@ internal fun CollectionsScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                LazyColumn(modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .testTag(CollectionsTags.LAZY_COLUMN)
+                LazyColumn(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .testTag(CollectionsTags.LAZY_COLUMN)
                 ) {
                     items(
                         pagedItems.itemCount,
@@ -139,8 +146,9 @@ internal fun CollectionsScreen(
                                 )
                             }
                         }
+
                         false -> {
-                            pagedItems.retry()
+                            onPagingRetry(pagedItems)
                         }
 
                         else -> {}
@@ -196,6 +204,7 @@ private fun CollectionsPreview() {
                 isPagingLoadingError = true
             ),
             onCollectionClick = {},
+            onPagingRetry = {},
             onLoadError = {},
             onCloseFieldClick = {}
         )
