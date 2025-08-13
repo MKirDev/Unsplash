@@ -20,12 +20,10 @@ class PhotoFeedFeatureApiImpl @Inject constructor(): PhotoFeedFeatureApi {
     override fun NavGraphBuilder.photoFeed(onNavigateToDetails: (String) -> Unit) {
         composable(route = PhotoFeedTopLevelDestination.route) {
 
-            val photoFeedComponent by remember {
-                mutableStateOf(
-                    DaggerPhotoFeedComponent.builder()
-                        .addDependencies(PhotoFeedDependenciesProvider.dependencies)
-                        .build()
-                )
+            val photoFeedComponent = remember {
+                DaggerPhotoFeedComponent.builder()
+                    .addDependencies(PhotoFeedDependenciesProvider.dependencies)
+                    .build()
             }
 
             val viewModel: PhotoFeedViewModel = viewModel(
