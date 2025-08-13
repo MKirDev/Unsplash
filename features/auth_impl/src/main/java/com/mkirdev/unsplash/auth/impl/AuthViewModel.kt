@@ -10,6 +10,7 @@ import com.mkirdev.unsplash.domain.usecases.auth.GetSavedTokenUseCase
 import com.mkirdev.unsplash.domain.usecases.auth.PerformTokensRequestUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
 import com.mkirdev.unsplash.domain.usecases.user.AddCurrentUserUseCase
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -67,18 +68,13 @@ internal class AuthViewModel(
     private fun onCodeReceivedSuccess(code: String) {
         viewModelScope.launch {
             try {
-                performTokensRequestUseCase.execute(code)
-                addCurrentUserUseCase.execute()
-                deleteScheduleFlagUseCase.execute()
-            } catch (t: Throwable) {
-                AuthContract.State.Error(t.message.toString())
-            } finally {
-                val token = getSavedTokenUseCase.execute()
-                _uiState.update {
-                    AuthContract.State.Loading
-                }
+                async {
+                    performTokensRequestUseCase.execute(code)
+                    addCurrentUserUseCase.execute()
+                    deleteScheduleFlagUseCase.execute()
+                }.await()
                 launch {
-                    delay(1000)
+                    val token = getSavedTokenUseCase.execute()
                     if (token.isNotEmpty()) {
                         _uiState.update {
                             AuthContract.State.Success
@@ -88,6 +84,8 @@ internal class AuthViewModel(
                         }
                     }
                 }
+            } catch (t: Throwable) {
+                AuthContract.State.Error(t.message.toString())
             }
         }
     }
