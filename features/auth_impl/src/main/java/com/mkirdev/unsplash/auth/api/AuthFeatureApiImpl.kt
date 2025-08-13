@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.auth.api
 
 import android.content.Context
-import android.util.Log
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -73,8 +72,6 @@ class AuthFeatureApiImpl @Inject constructor(): AuthFeatureApi {
             val context = LocalContext.current
 
             LaunchedEffect(Unit) {
-                Log.d("AAA","argS - $argString")
-                Log.d("AAA","argB - $argBoolean")
                 if (argBoolean == true) {
                     viewModel.handleEvent(AuthContract.Event.CodeReceivedFailureEvent(
                         context.getString(com.mkirdev.unsplash.core.ui.R.string.auth_network_error)
