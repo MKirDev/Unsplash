@@ -42,6 +42,7 @@ internal fun ProfileScreenWrapper(
     onCloseFieldClick: () -> Unit,
     onPagingCloseFieldClick: () -> Unit,
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit,
+    onPagingRefresh: (LazyPagingItems<PhotoItemModel>) -> Unit,
     onExitIconClick: () -> Unit,
     onCanceledLogoutClick: () -> Unit,
     onConfirmedLogoutClick: () -> Unit
@@ -115,6 +116,7 @@ internal fun ProfileScreenWrapper(
             onCloseFieldClick = onCloseFieldClick,
             onPagingCloseFieldClick = onPagingCloseFieldClick,
             onPagingRetry = onPagingRetry,
+            onPagingRefresh = onPagingRefresh,
             onExitIconClick = onExitIconClick,
             onCanceledLogoutClick = onCanceledLogoutClick,
             onConfirmedLogoutClick = onConfirmedLogoutClick
@@ -142,6 +144,7 @@ fun ProfileScreen(
     onCloseFieldClick: () -> Unit,
     onPagingCloseFieldClick: () -> Unit,
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit,
+    onPagingRefresh: (LazyPagingItems<PhotoItemModel>) -> Unit,
     onExitIconClick: () -> Unit,
     onCanceledLogoutClick: () -> Unit,
     onConfirmedLogoutClick: () -> Unit
@@ -170,6 +173,7 @@ fun ProfileScreen(
             onLoadError = onLoadError,
             onPagingCloseFieldClick = onPagingCloseFieldClick,
             onPagingRetry = onPagingRetry,
+            onPagingRefresh = onPagingRefresh,
             onExitIconClick = onExitIconClick,
             onCanceledLogoutClick = onCanceledLogoutClick,
             onConfirmedLogoutClick = onConfirmedLogoutClick
@@ -216,6 +220,7 @@ private fun ProfileScreenPreview() {
             onCloseFieldClick = {},
             onPagingCloseFieldClick = {},
             onPagingRetry = {},
+            onPagingRefresh = {},
             onCanceledLogoutClick = {},
             onConfirmedLogoutClick = {}
         )

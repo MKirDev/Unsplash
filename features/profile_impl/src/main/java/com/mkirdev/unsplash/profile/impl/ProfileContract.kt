@@ -44,6 +44,8 @@ interface ProfileContract : UniFlowViewModel<ProfileContract.Event, ProfileContr
 
         data class PagingRetryEvent(val pagedItems: LazyPagingItems<PhotoItemModel>) : Event
 
+        data class PagingRefreshEvent(val pagedItems: LazyPagingItems<PhotoItemModel>) : Event
+
         data object LoadingErrorEvent : Event
 
         data object FieldClosedEvent : Event
