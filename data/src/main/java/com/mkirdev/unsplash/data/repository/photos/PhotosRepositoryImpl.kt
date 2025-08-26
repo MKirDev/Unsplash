@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private const val ITEMS_PER_PAGE = 10
+private const val ITEMS_PER_PAGE = 20
 
 @OptIn(ExperimentalPagingApi::class)
 class PhotosRepositoryImpl @Inject constructor(
