@@ -57,7 +57,7 @@ internal class PhotoItemTests {
                 likesInfo = { modifier, onLike, onRemoveLike ->
                     LikesInfoSmall(
                         modifier = modifier.padding(start = padding_6, bottom = padding_6),
-                        photoId = photoItemStub.id,
+                        photoId = photoItemStub.photoId,
                         likes = photoItemStub.likes,
                         isLikedPhoto = photoItemStub.isLiked,
                         onRemoveLikeClick = onRemoveLike,
@@ -93,7 +93,7 @@ internal class PhotoItemTests {
                 likesInfo = { modifier, onLike, onRemoveLike ->
                     LikesInfoSmall(
                         modifier = modifier.padding(start = padding_6, bottom = padding_6),
-                        photoId = photoItemStub.id,
+                        photoId = photoItemStub.photoId,
                         likes = photoItemStub.likes,
                         isLikedPhoto = photoItemStub.isLiked,
                         onRemoveLikeClick = onRemoveLike,
@@ -129,7 +129,7 @@ internal class PhotoItemTests {
                 likesInfo = { modifier, onLike, onRemoveLike ->
                     LikesInfoSmall(
                         modifier = modifier.padding(start = padding_6, bottom = padding_6),
-                        photoId = photoItemStub.id,
+                        photoId = photoItemStub.photoId,
                         likes = photoItemStub.likes,
                         isLikedPhoto = photoItemStub.isLiked,
                         onRemoveLikeClick = onRemoveLike,
