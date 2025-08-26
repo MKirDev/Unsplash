@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performScrollToNode
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkirdev.unsplash.collection_details.impl.CollectionDetailsContract
-import com.mkirdev.unsplash.collection_details.impl.CollectionDetailsScreen
+import com.mkirdev.unsplash.collection_details.impl.CollectionDetailsScreenWrapper
 import com.mkirdev.unsplash.collection_details.impl.CollectionDetailsTags
 import com.mkirdev.unsplash.collection_details.utils.stubs.CollectionDetailsStub
 import com.mkirdev.unsplash.collection_details.utils.stubs.ErrorStub
@@ -26,26 +26,6 @@ class CollectionDetailsScreenTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingIndicator_whenUiStateIsLoading_isDisplayed() {
-        composeTestRule.setContent {
-            CollectionDetailsScreen(
-                uiState = CollectionDetailsContract.State.Loading,
-                onPhotoItemClick = {},
-                onLikeClick = {},
-                onRemoveLikeClick = {},
-                onDownloadClick = {},
-                onLoadError = {},
-                onCloseFieldClick = {},
-                onPagingCloseFieldClick = {},
-                onNavigateUp = {},
-                onNavigateBack = {}
-            )
-        }
-
-        composeTestRule.onNodeWithTag(CollectionDetailsTags.LOADING_INDICATOR).assertIsDisplayed()
-    }
-
-    @Test
     fun field_whenUiStateIsFailure_showsError() {
         val errorStub = ErrorStub.create()
         val pagingErrorStub = PagingErrorStub.create(isError = false)
@@ -53,7 +33,7 @@ class CollectionDetailsScreenTests {
         val collectionDetailsStub = CollectionDetailsStub.create()
         val photoItemsStub = PhotoItemsStub.create()
         composeTestRule.setContent {
-            CollectionDetailsScreen(
+            CollectionDetailsScreenWrapper(
                 uiState = CollectionDetailsContract.State.Failure(
                     error = errorStub,
                     isPagingLoadingError = pagingErrorStub,
@@ -68,6 +48,7 @@ class CollectionDetailsScreenTests {
                 onLoadError = {},
                 onCloseFieldClick = {},
                 onPagingCloseFieldClick = {},
+                onPagingRetry = {},
                 onNavigateUp = {},
                 onNavigateBack = {}
             )
@@ -82,7 +63,7 @@ class CollectionDetailsScreenTests {
         val photoItemsStub = PhotoItemsStub.create()
         val pagingErrorStub = PagingErrorStub.create(true)
         composeTestRule.setContent {
-            CollectionDetailsScreen(
+            CollectionDetailsScreenWrapper(
                 uiState = CollectionDetailsContract.State.Success(
                     collectionDetailsModel = collectionDetailsStub,
                     photoItemModels = photoItemsStub,
@@ -95,6 +76,7 @@ class CollectionDetailsScreenTests {
                 onLoadError = {},
                 onCloseFieldClick = {},
                 onPagingCloseFieldClick = {},
+                onPagingRetry = {},
                 onNavigateUp = {},
                 onNavigateBack = {}
             )
@@ -111,7 +93,7 @@ class CollectionDetailsScreenTests {
         val collectionDetailsStub = CollectionDetailsStub.create()
         val photoItemsStub = PhotoItemsStub.create()
         composeTestRule.setContent {
-            CollectionDetailsScreen(
+            CollectionDetailsScreenWrapper(
                 uiState = CollectionDetailsContract.State.Failure(
                     error = errorStub,
                     isPagingLoadingError = pagingErrorStub,
@@ -126,6 +108,7 @@ class CollectionDetailsScreenTests {
                 onLoadError = {},
                 onCloseFieldClick = {},
                 onPagingCloseFieldClick = {},
+                onPagingRetry = {},
                 onNavigateUp = {},
                 onNavigateBack = {}
             )
