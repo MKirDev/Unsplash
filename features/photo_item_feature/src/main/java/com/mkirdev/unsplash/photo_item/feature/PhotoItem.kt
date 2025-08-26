@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.photo_item.feature
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,6 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import coil.size.Precision
 import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.padding_4
@@ -89,6 +87,7 @@ fun PhotoItem(
         AsyncImage(
             model = ImageRequest.Builder(context)
                 .data(photoItemModel.imageUrl)
+                .crossfade(true)
                 .build(),
             imageLoader = imageLoader,
             contentDescription = stringResource(id = R.string.photo_item),
