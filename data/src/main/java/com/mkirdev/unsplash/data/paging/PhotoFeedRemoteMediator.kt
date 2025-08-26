@@ -1,6 +1,5 @@
 package com.mkirdev.unsplash.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -16,7 +15,7 @@ import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
 import com.mkirdev.unsplash.data.storages.database.dto.feed.RemoteKeysFeedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 
-private const val ITEMS_PER_PAGE = 10
+private const val ITEMS_PER_PAGE = 20
 @OptIn(ExperimentalPagingApi::class)
 class PhotoFeedRemoteMediator(
     private val photosApi: PhotosApi,
