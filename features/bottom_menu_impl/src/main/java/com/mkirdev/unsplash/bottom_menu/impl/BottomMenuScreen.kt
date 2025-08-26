@@ -1,5 +1,6 @@
 package com.mkirdev.unsplash.bottom_menu.impl
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -58,7 +59,7 @@ fun BottomMenuScreenWrapper(
         onLogout = onLogout
     )
 }
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun BottomMenuScreen(
     uiState: BottomMenuContract.State,
@@ -87,13 +88,7 @@ private fun BottomMenuScreen(
                     )
                 }
             ) { innerPadding ->
-                Box(modifier = Modifier
-                    .padding(
-                        top = innerPadding.calculateTopPadding(),
-                        bottom = innerPadding.calculateTopPadding()
-                    )
-                    .padding(horizontal = innerPadding.calculateTopPadding())
-                ) {
+                Box(modifier = Modifier) {
                     NavHost(
                         navController = navController,
                         startDestination = PhotoFeedTopLevelDestination.route
