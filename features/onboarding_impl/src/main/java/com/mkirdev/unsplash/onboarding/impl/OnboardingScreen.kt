@@ -6,14 +6,6 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -35,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -59,6 +51,8 @@ import com.mkirdev.unsplash.upload_and_track.api.UploadAndTrackFeatureApi
 
 private const val TOP_FACTOR = 0.28f
 private const val BOTTOM_FACTOR = 0.12f
+
+private const val BEYOND_PAGE_COUNT = 1
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -87,11 +81,14 @@ internal fun OnboardingScreen(
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
 
+            val bgCamerasPainter = painterResource(R.drawable.background_cameras)
+            val notificationPainter = painterResource(R.drawable.notification)
+
             val currentImageRes by remember(currentPage) {
                 derivedStateOf {
                     when (uiState.pages[currentPage]) {
-                        OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third -> R.drawable.background_cameras
-                        OnboardingPage.Fourth -> R.drawable.notification
+                        OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third -> bgCamerasPainter
+                        OnboardingPage.Fourth -> notificationPainter
                     }
                 }
             }
@@ -127,65 +124,33 @@ internal fun OnboardingScreen(
                 contentAlignment = Alignment.TopCenter
             ) {
 
-                AnimatedContent(
-                    targetState = currentImageRes,
-                    transitionSpec = {
-                        val isForward = initialState == R.drawable.background_cameras &&
-                                targetState == R.drawable.notification
-                        val isBackward = initialState == R.drawable.notification &&
-                                targetState == R.drawable.background_cameras
-                        when {
-                            isForward -> {
-                                slideInHorizontally(
-                                    animationSpec = spring(
-                                        dampingRatio = Spring.DampingRatioNoBouncy,
-                                        stiffness = Spring.StiffnessMedium
-                                    )
-                                ) { fullWidth -> fullWidth } togetherWith
-                                        slideOutHorizontally(
-                                            animationSpec = spring(
-                                                Spring.DampingRatioNoBouncy,
-                                                stiffness = Spring.StiffnessMedium
-                                            )
-                                        ) { fullWidth -> -fullWidth }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    val offsetFraction = pagerState.currentPageOffsetFraction
+                    Image(
+                        painter = currentImageRes,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .graphicsLayer {
+                                if (uiState.pages[pagerState.currentPage] == OnboardingPage.Fourth) {
+                                    translationX = -offsetFraction * size.width
+                                }
                             }
+                            .padding(top = padding_70),
+                        contentScale = ContentScale.Fit
+                    )
 
-                            isBackward -> {
-                                slideInHorizontally(
-                                    animationSpec = spring(
-                                        Spring.DampingRatioNoBouncy,
-                                        stiffness = Spring.StiffnessMedium
-                                    )
-                                ) { fullWidth -> -fullWidth } togetherWith
-                                        slideOutHorizontally(
-                                            animationSpec = spring(
-                                                Spring.DampingRatioNoBouncy,
-                                                stiffness = Spring.StiffnessMedium
-                                            )
-                                        ) { fullWidth -> fullWidth }
+                    Box(
+                        modifier = Modifier
+                            .graphicsLayer {
+                                alpha = if (uiState.pages[pagerState.currentPage] == OnboardingPage.Fourth) 1f else 0f
+                                translationX = -offsetFraction * size.width
                             }
-
-                            else -> {
-                                fadeIn() togetherWith fadeOut()
-                            }
-                        }
-                    }
-                ) { res ->
-                    Column {
-                        Image(
-                            painter = painterResource(id = res),
-                            contentDescription = null,
-                            alignment = Alignment.Center,
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .align(Alignment.CenterHorizontally)
-                                .padding(top = padding_70),
-                            contentScale = ContentScale.Fit
-                        )
-                        if (res == R.drawable.notification) {
-                            with(notificationFeatureApi) {
-                                NotificationsFeature(text = stringResource(R.string.onboarding_notifications))
-                            }
+                    ) {
+                        with(notificationFeatureApi) {
+                            NotificationsFeature(text = stringResource(R.string.onboarding_notifications))
                         }
                     }
                 }
@@ -194,6 +159,7 @@ internal fun OnboardingScreen(
                     state = pagerState,
                     modifier = Modifier
                         .fillMaxSize(),
+                    beyondViewportPageCount = BEYOND_PAGE_COUNT,
                     contentPadding = topBottomPadding,
                     verticalAlignment = Alignment.Top
                 ) { position ->
