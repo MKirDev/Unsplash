@@ -29,8 +29,10 @@ class CollectionsScreenTests {
             CollectionsScreen(
                 uiState = CollectionsContract.State.Loading,
                 onCollectionClick = {},
+                onPagingRetry = {},
                 onLoadError = { },
-                onCloseFieldClick = {})
+                onCloseFieldClick = {}
+            )
         }
 
         composeTestRule.onNodeWithTag(CollectionsTags.LOADING_INDICATOR).assertIsDisplayed()
@@ -45,6 +47,7 @@ class CollectionsScreenTests {
                     error = errorStub
                 ),
                 onCollectionClick = {},
+                onPagingRetry = {},
                 onLoadError = { },
                 onCloseFieldClick = {})
         }
@@ -63,6 +66,7 @@ class CollectionsScreenTests {
                     isPagingLoadingError = pagingErrorStub
                 ),
                 onCollectionClick = {},
+                onPagingRetry = {},
                 onLoadError = { },
                 onCloseFieldClick = {})
         }
