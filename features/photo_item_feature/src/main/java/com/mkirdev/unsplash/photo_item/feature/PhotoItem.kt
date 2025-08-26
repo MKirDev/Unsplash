@@ -39,6 +39,7 @@ import com.mkirdev.unsplash.photo_item.preview.createPhotoItemPreviewData
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
+private const val CROSSFADE_MILLIS = 250
 
 @Composable
 fun PhotoItem(
@@ -88,6 +89,7 @@ fun PhotoItem(
             model = ImageRequest.Builder(context)
                 .data(photoItemModel.imageUrl)
                 .crossfade(true)
+                .crossfade(CROSSFADE_MILLIS)
                 .build(),
             imageLoader = imageLoader,
             contentDescription = stringResource(id = R.string.photo_item),
