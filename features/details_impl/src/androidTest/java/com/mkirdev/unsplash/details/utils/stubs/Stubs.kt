@@ -24,7 +24,8 @@ internal class PhotoDetailsStub {
 private class PhotoItemStub {
     companion object {
         fun create() = PhotoItemModel(
-            id = "IOsigyhdf",
+            position = 0,
+            photoId = "IOsigyhdf",
             imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             width = 100.dp,
             height = 250.dp,
@@ -32,7 +33,7 @@ private class PhotoItemStub {
             user = UserModelStub.create(),
             downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             downloads = "100",
-            likes = "3.4k",
+            likes = "3400",
             isLiked = false
         )
     }

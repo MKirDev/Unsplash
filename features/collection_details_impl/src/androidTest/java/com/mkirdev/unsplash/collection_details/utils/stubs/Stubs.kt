@@ -25,7 +25,8 @@ class PhotoItemsStub {
             PagingData.from(
                 persistentListOf(
                     PhotoItemModel(
-                        id = "IOsig125yhdf",
+                        position = 0,
+                        photoId = "IOsig125yhdf",
                         imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         width = 100.dp,
                         height = 250.dp,
@@ -37,10 +38,11 @@ class PhotoItemsStub {
                         ),
                         downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         downloads = "100",
-                        likes = "3.4k",
+                        likes = "3400",
                         isLiked = false
                     ), PhotoItemModel(
-                        id = "IOsig126yhdf",
+                        position = 1,
+                        photoId = "IOsig126yhdf",
                         imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         width = 100.dp,
                         height = 150.dp,
@@ -52,11 +54,12 @@ class PhotoItemsStub {
                         ),
                         downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         downloads = "100",
-                        likes = "3.4k",
+                        likes = "3400",
                         isLiked = false
                     ),
                     PhotoItemModel(
-                        id = "IOsig127yhdf",
+                        position = 2,
+                        photoId = "IOsig127yhdf",
                         imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         width = 100.dp,
                         height = 200.dp,
@@ -68,10 +71,11 @@ class PhotoItemsStub {
                         ),
                         downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         downloads = "100",
-                        likes = "3.4k",
+                        likes = "3400",
                         isLiked = false
                     ), PhotoItemModel(
-                        id = "IOsig128yhdf",
+                        position = 3,
+                        photoId = "IOsig128yhdf",
                         imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         width = 100.dp,
                         height = 270.dp,
@@ -83,10 +87,11 @@ class PhotoItemsStub {
                         ),
                         downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         downloads = "100",
-                        likes = "3.4k",
+                        likes = "3400",
                         isLiked = false
                     ), PhotoItemModel(
-                        id = "IOsig129yhdf",
+                        position = 4,
+                        photoId = "IOsig129yhdf",
                         imageUrl = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         width = 100.dp,
                         height = 250.dp,
@@ -98,7 +103,7 @@ class PhotoItemsStub {
                         ),
                         downloadLink = "https://images.unsplash.com/photo-1738807992185-76ab3a0573c4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         downloads = "100",
-                        likes = "3.4k",
+                        likes = "3400",
                         isLiked = false
                     )
                 )

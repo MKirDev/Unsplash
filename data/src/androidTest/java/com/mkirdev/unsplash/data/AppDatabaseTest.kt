@@ -1,46 +1,24 @@
 package com.mkirdev.unsplash.data
 
 import android.content.Context
-import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mkirdev.unsplash.data.models.createSingleReactionsType
-import com.mkirdev.unsplash.data.models.createSinglePhoto
-import com.mkirdev.unsplash.data.models.createSingleUser
-import com.mkirdev.unsplash.data.models.createCollections
-import com.mkirdev.unsplash.data.models.createPhotoCollections
-import com.mkirdev.unsplash.data.models.createPhotoReactionsForCollections
-import com.mkirdev.unsplash.data.models.createPhotoReactionsForFeed
-import com.mkirdev.unsplash.data.models.createPhotoReactionsForSearch
-import com.mkirdev.unsplash.data.models.createPhotosForCollections
+import com.mkirdev.unsplash.data.models.createReactionsFeedType
+import com.mkirdev.unsplash.data.models.createPhotoFeed
+import com.mkirdev.unsplash.data.models.createUserFeed
 import com.mkirdev.unsplash.data.models.createPhotosForFeed
-import com.mkirdev.unsplash.data.models.createPhotosForSearch
-import com.mkirdev.unsplash.data.models.createReactionsTypeForCollections
-import com.mkirdev.unsplash.data.models.createReactionsTypeForFeed
-import com.mkirdev.unsplash.data.models.createReactionsTypeForSearch
 import com.mkirdev.unsplash.data.models.createRemoteKeysFeed
-import com.mkirdev.unsplash.data.models.createRemoteKeysSearch
-import com.mkirdev.unsplash.data.models.createSinglePhotoReactions
-import com.mkirdev.unsplash.data.models.createUsersForCollections
+import com.mkirdev.unsplash.data.models.createPhotoReactionsFeed
 import com.mkirdev.unsplash.data.models.createUsersForFeed
-import com.mkirdev.unsplash.data.models.createUsersForSearch
-import com.mkirdev.unsplash.data.storages.database.dao.base.CollectionDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoCollectionDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.PhotoReactionsDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.ReactionsTypeDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysFeedDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.RemoteKeysSearchDao
-import com.mkirdev.unsplash.data.storages.database.dao.base.UserDao
-import com.mkirdev.unsplash.data.storages.database.dao.collection.PhotoFromCollectionDao
 import com.mkirdev.unsplash.data.storages.database.dao.feed.PhotoFeedDao
-import com.mkirdev.unsplash.data.storages.database.dao.search.PhotoSearchDao
-import com.mkirdev.unsplash.data.storages.database.entities.CollectionEntity
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoCollectionEntity
-import com.mkirdev.unsplash.data.storages.database.entities.PhotoReactionsEntity
-import com.mkirdev.unsplash.data.storages.database.entities.ReactionsTypeEntity
-import com.mkirdev.unsplash.data.storages.database.entities.UserEntity
+import com.mkirdev.unsplash.data.storages.database.dao.feed.PhotoReactionsFeedDao
+import com.mkirdev.unsplash.data.storages.database.dao.feed.ReactionsFeedDao
+import com.mkirdev.unsplash.data.storages.database.dao.feed.RemoteKeysFeedDao
+import com.mkirdev.unsplash.data.storages.database.dao.feed.UserFeedDao
+import com.mkirdev.unsplash.data.storages.database.entities.feed.PhotoReactionsFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.feed.ReactionsFeedEntity
+import com.mkirdev.unsplash.data.storages.database.entities.feed.UserFeedEntity
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import kotlinx.coroutines.test.runTest
 import org.junit.AfterClass
@@ -57,18 +35,11 @@ class AppDatabaseTest {
 
         private val context = ApplicationProvider.getApplicationContext<Context>()
 
-        private lateinit var collectionDao: CollectionDao
-        private lateinit var photoDao: PhotoDao
-
-        private lateinit var reactionsTypeDao: ReactionsTypeDao
-        private lateinit var photoCollectionDao: PhotoCollectionDao
-        private lateinit var photoReactionsDao: PhotoReactionsDao
-        private lateinit var remoteKeysFeedDao: RemoteKeysFeedDao
-        private lateinit var remoteKeysSearchDao: RemoteKeysSearchDao
-        private lateinit var userDao: UserDao
-        private lateinit var photoFromCollectionDao: PhotoFromCollectionDao
         private lateinit var photoFeedDao: PhotoFeedDao
-        private lateinit var photoSearchDao: PhotoSearchDao
+        private lateinit var reactionsFeedDao: ReactionsFeedDao
+        private lateinit var photoReactionsFeedDao: PhotoReactionsFeedDao
+        private lateinit var remoteKeysFeedDao: RemoteKeysFeedDao
+        private lateinit var userFeedDao: UserFeedDao
 
         @BeforeClass
         @JvmStatic
@@ -78,17 +49,13 @@ class AppDatabaseTest {
                 .allowMainThreadQueries()
                 .build()
 
-            collectionDao = db.collectionDao()
-            photoCollectionDao = db.photoCollectionDao()
-            photoDao = db.photoDao()
-            reactionsTypeDao = db.reactionsTypeDao()
-            photoReactionsDao = db.photoReactionsDao()
-            remoteKeysFeedDao = db.remoteKeysFeedDao()
-            remoteKeysSearchDao = db.remoteKeysSearchDao()
-            userDao = db.userDao()
-            photoFromCollectionDao = db.photoFromCollectionDao()
             photoFeedDao = db.photoFeedDao()
-            photoSearchDao = db.photoSearchDao()
+            reactionsFeedDao = db.reactionsFeedDao()
+            photoReactionsFeedDao = db.photoReactionsFeedDao()
+            remoteKeysFeedDao = db.remoteKeysFeedDao()
+            userFeedDao = db.userFeedDao()
+
+
         }
 
         @AfterClass
@@ -100,93 +67,50 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun givenCollectionsExist_whenDeleted_thenDatabaseIsEmpty() = runTest {
-        val collections = createCollections()
-
-        collections.forEach {
-            collectionDao.addCollection(it)
-        }
-
-        val result = db.query("SELECT * FROM ${CollectionEntity.TABLE_NAME}", null)
-        Assert.assertTrue(result.count > 0)
-
-        collectionDao.deleteCollections()
-        val afterDelete = db.query("SELECT * FROM ${CollectionEntity.TABLE_NAME}", null)
-        Assert.assertTrue(afterDelete.count == 0)
-    }
-
-    @Test
-    fun givenPhotoIsAdded_whenFetched_thenItMatchesExpectedData() = runTest {
+    fun givenPhotoFeedIsAdded_whenFetched_thenItMatchesExpectedData() = runTest {
         val userId = "user1"
         val photoId = "photo1"
-        val user = createSingleUser(userId)
-        val photo = createSinglePhoto(photoId, userId)
+        val user = createUserFeed(userId)
+        val photo = createPhotoFeed(photoId, userId)
 
-        userDao.addUser(user)
-        photoDao.addPhoto(photo)
+        userFeedDao.addUser(user)
+        photoFeedDao.addPhoto(photo)
 
-        val fetched = photoDao.getPhoto(photoId)
+        val fetched = photoFeedDao.getPhoto(photoId)
 
         Assert.assertNotNull(fetched)
-        Assert.assertEquals(photoId, fetched?.id)
+        Assert.assertEquals(photoId, fetched?.photoId)
     }
 
     @Test
-    fun givenUserIsAdded_whenDeleted_thenUserIsNoLongerInDatabase() = runTest {
-        val id = "id"
-        val user = createSingleUser(id)
+    fun givenUserFeedIsAdded_whenDeleted_thenUserIsNoLongerInDatabase() = runTest {
+        val userId = "id"
+        val user = createUserFeed(userId)
 
-        userDao.addUser(user)
+        userFeedDao.addUser(user)
 
-        val result = db.query("SELECT * FROM ${UserEntity.TABLE_NAME}", null)
+        val result = db.query("SELECT * FROM ${UserFeedEntity.TABLE_NAME}", null)
         Assert.assertTrue(result.count > 0)
 
-        userDao.deleteUser(id)
+        userFeedDao.deleteUser(userId)
         val afterDelete =
-            db.query("SELECT * FROM ${UserEntity.TABLE_NAME} WHERE user_id = '$id'", null)
+            db.query("SELECT * FROM ${UserFeedEntity.TABLE_NAME} WHERE user_id = '$userId'", null)
         Assert.assertTrue(afterDelete.count == 0)
     }
 
     @Test
-    fun givenPhotosCollectionsExist_whenDeleted_thenTableIsEmpty() {
+    fun givenReactionFeedExist_whenDeleted_thenReactionIsNoLongerInDatabase() {
+        val photoId = "id"
+        val reactionFeed = createReactionsFeedType(photoId)
 
-        val users = createUsersForCollections()
-        val photos = createPhotosForCollections()
-        val collections = createCollections()
+        reactionsFeedDao.addReactionType(reactionFeed)
 
-        userDao.addUsers(users)
-        photoDao.addPhotos(photos)
-        collections.forEach {
-            collectionDao.addCollection(it)
-        }
-
-        val photosCollections = createPhotoCollections()
-
-        photosCollections.forEach {
-            photoCollectionDao.addPhotoCollection(it)
-        }
-
-        val result = db.query("SELECT * FROM ${PhotoCollectionEntity.TABLE_NAME}", null)
+        val result = db.query("SELECT * FROM ${ReactionsFeedEntity.TABLE_NAME}", null)
         Assert.assertTrue(result.count > 0)
 
-        photoCollectionDao.deletePhotoCollection()
-        val afterDelete = db.query("SELECT * FROM ${PhotoCollectionEntity.TABLE_NAME}", null)
-        Assert.assertTrue(afterDelete.count == 0)
-    }
-
-    @Test
-    fun givenReactionTypeExist_whenDeleted_thenReactionIsNoLongerInDatabase() {
-        val id = "id"
-        val reactionType = createSingleReactionsType(id)
-
-        reactionsTypeDao.addReactionType(reactionType)
-
-        val result = db.query("SELECT * FROM ${ReactionsTypeEntity.TABLE_NAME}", null)
-        Assert.assertTrue(result.count > 0)
-
-        reactionsTypeDao.deleteReactionsType(id)
+        reactionsFeedDao.deleteReactionsType(photoId)
         val afterDelete =
-            db.query("SELECT * FROM ${ReactionsTypeEntity.TABLE_NAME} WHERE id = '$id'", null)
+            db.query("SELECT * FROM ${ReactionsFeedEntity.TABLE_NAME} WHERE photo_id = '$photoId'", null)
         Assert.assertTrue(afterDelete.count == 0)
     }
 
@@ -194,23 +118,23 @@ class AppDatabaseTest {
     @Test
     fun givenPhotoReactionsExist_whenDeleted_thenTableIsEmpty() {
         val id = "id"
-        val user = createSingleUser(id)
-        val photo = createSinglePhoto(id, id)
-        val reactionsType = createSingleReactionsType(id)
-        val photoReactions = createSinglePhotoReactions(id, id)
+        val user = createUserFeed(id)
+        val photo = createPhotoFeed(id, id)
+        val reactionsType = createReactionsFeedType(id)
+        val photoReactions = createPhotoReactionsFeed(id, id)
 
-        userDao.addUser(user)
-        photoDao.addPhoto(photo)
-        reactionsTypeDao.addReactionType(reactionsType)
+        userFeedDao.addUser(user)
+        photoFeedDao.addPhoto(photo)
+        reactionsFeedDao.addReactionType(reactionsType)
 
 
-        photoReactionsDao.addPhotoReaction(photoReactions)
+        photoReactionsFeedDao.addPhotoReaction(photoReactions)
 
-        val result = db.query("SELECT * FROM ${PhotoReactionsEntity.TABLE_NAME}", null)
+        val result = db.query("SELECT * FROM ${PhotoReactionsFeedEntity.TABLE_NAME}", null)
         Assert.assertTrue(result.count > 0)
 
-        photoReactionsDao.deletePhotoReactions()
-        val afterDelete = db.query("SELECT * FROM ${PhotoReactionsEntity.TABLE_NAME}", null)
+        photoReactionsFeedDao.deletePhotoReactions()
+        val afterDelete = db.query("SELECT * FROM ${PhotoReactionsFeedEntity.TABLE_NAME}", null)
         Assert.assertTrue(afterDelete.count == 0)
     }
 
@@ -220,158 +144,14 @@ class AppDatabaseTest {
         val photos = createPhotosForFeed()
         val keys = createRemoteKeysFeed()
 
-        userDao.addUsers(users)
-        photoDao.addPhotos(photos)
+        userFeedDao.addUsers(users)
+        photoFeedDao.addPhotos(photos)
         remoteKeysFeedDao.addAllRemoteKeys(keys)
 
-        val fetched = remoteKeysFeedDao.getRemoteKeys(photos.first().id)
+        val fetched = remoteKeysFeedDao.getRemoteKeys(photos.first().photoId)
 
         Assert.assertNotNull(fetched)
-        Assert.assertEquals(photos.first().id, fetched.id)
+        Assert.assertEquals(photos.first().photoId, fetched.photoId)
     }
-
-
-    @Test
-    fun givenRemoteKeysSearchIsAdded_whenFetched_thenItMatchesExpectedData() = runTest {
-        val users = createUsersForFeed()
-        val photos = createPhotosForFeed()
-        val keys = createRemoteKeysSearch()
-
-        userDao.addUsers(users)
-        photoDao.addPhotos(photos)
-        remoteKeysSearchDao.addAllRemoteKeys(keys)
-
-        val fetched = remoteKeysSearchDao.getRemoteKeys(photos.first().id)
-
-        Assert.assertNotNull(fetched)
-        Assert.assertEquals(photos.first().id, fetched.id)
-    }
-
-
-    @Test
-    fun givenPhotoFromCollectionExist_whenDeleted_thenTableIsEmpty() = runTest {
-        val users = createUsersForCollections()
-        val photos = createPhotosForCollections()
-        val reactionsType = createReactionsTypeForCollections()
-        val collections = createCollections()
-        val photoReactions = createPhotoReactionsForCollections()
-        val photosCollections = createPhotoCollections()
-
-        userDao.addUsers(users)
-        reactionsTypeDao.addReactionsTypes(reactionsType)
-        photoDao.addPhotos(photos)
-        collections.forEach {
-            collectionDao.addCollection(it)
-
-        }
-        photoReactionsDao.addPhotoReactions(photoReactions)
-        photosCollections.forEach {
-            photoCollectionDao.addPhotoCollection(it)
-        }
-        val result = photoFromCollectionDao.getPhotosFromCollection().load(
-            PagingSource.LoadParams.Refresh(
-                key = null,
-                loadSize = 6,
-                placeholdersEnabled = false
-            )
-        )
-
-        val data = (result as PagingSource.LoadResult.Page).data
-
-        Assert.assertTrue(data.isNotEmpty())
-
-        photoReactionsDao.deletePhotoReactions()
-        photoCollectionDao.deletePhotoCollection()
-        reactionsTypeDao.deleteReactionsTypes()
-        userDao.deleteUsers()
-        collectionDao.deleteCollections()
-        photoFromCollectionDao.deletePhotosFromCollections()
-
-        val afterDelete = photoFromCollectionDao.getPhotosFromCollection().load(
-            PagingSource.LoadParams.Refresh(
-                key = null,
-                loadSize = 6,
-                placeholdersEnabled = false
-            )
-        )
-        val afterDeleteData = (afterDelete as PagingSource.LoadResult.Page).data
-
-        Assert.assertTrue(afterDeleteData.isEmpty())
-    }
-
-
-    @Test
-    fun givenPhotoFeedExist_whenDeleted_thenTableIsEmpty() = runTest {
-        val users = createUsersForFeed()
-        val photos = createPhotosForFeed()
-        val reactionsType = createReactionsTypeForFeed()
-        val photoReactions = createPhotoReactionsForFeed()
-
-        userDao.addUsers(users)
-        reactionsTypeDao.addReactionsTypes(reactionsType)
-        photoDao.addPhotos(photos)
-        photoReactionsDao.addPhotoReactions(photoReactions)
-
-        val result = photoFeedDao.getFeedPhotos().load(
-            PagingSource.LoadParams.Refresh(
-                key = null,
-                loadSize = 6,
-                placeholdersEnabled = false
-            )
-        )
-        val data = (result as PagingSource.LoadResult.Page).data
-        Assert.assertTrue(data.isNotEmpty())
-
-        photoDao.deleteFeedPhotos()
-        reactionsTypeDao.deleteReactionsTypes()
-        userDao.deleteUsers()
-
-        val afterDelete = photoFeedDao.getFeedPhotos().load(
-            PagingSource.LoadParams.Refresh(
-                key = null,
-                loadSize = 6,
-                placeholdersEnabled = false
-            )
-        )
-        val afterDeleteData = (afterDelete as PagingSource.LoadResult.Page).data
-        Assert.assertTrue(afterDeleteData.isEmpty())
-    }
-
-
-    @Test
-    fun givenPhotoSearchExist_whenDeleted_thenTableIsEmpty() = runTest {
-        val users = createUsersForSearch()
-        val photos = createPhotosForSearch()
-        val reactionsType = createReactionsTypeForSearch()
-        val photoReactions = createPhotoReactionsForSearch()
-
-        userDao.addUsers(users)
-        reactionsTypeDao.addReactionsTypes(reactionsType)
-        photoDao.addPhotos(photos)
-        photoReactionsDao.addPhotoReactions(photoReactions)
-
-        val result = photoSearchDao.getSearchPhotos().load(
-            PagingSource.LoadParams.Refresh(
-                key = null,
-                loadSize = 6,
-                placeholdersEnabled = false
-            )
-        )
-        val data = (result as PagingSource.LoadResult.Page).data
-        Assert.assertTrue(data.isNotEmpty())
-
-        photoDao.deleteSearchPhotos()
-
-        val afterDelete = photoSearchDao.getSearchPhotos().load(
-            PagingSource.LoadParams.Refresh(
-                key = null,
-                loadSize = 6,
-                placeholdersEnabled = false
-            )
-        )
-        val afterDeleteData = (afterDelete as PagingSource.LoadResult.Page).data
-        Assert.assertTrue(afterDeleteData.isEmpty())
-    }
-
 
 }
