@@ -1,7 +1,7 @@
 package com.mkirdev.unsplash.bottom_menu.di
 
 import com.mkirdev.unsplash.bottom_menu.impl.BottomMenuViewModelFactory
-import com.mkirdev.unsplash.core.navigation.TopDestinations
+import com.mkirdev.unsplash.core.navigation.IconicTopDestinations
 import dagger.Module
 import dagger.Provides
 
@@ -10,10 +10,10 @@ internal class BottomMenuModule {
 
     @Provides
     fun provideBottomMenuViewModelFactory(
-        topDestinations: TopDestinations
+        iconicTopDestinations: IconicTopDestinations,
     ): BottomMenuViewModelFactory {
         return BottomMenuViewModelFactory(
-            topLevelDestination = topDestinations
+            iconicTopDestination = iconicTopDestinations
         )
     }
 }
