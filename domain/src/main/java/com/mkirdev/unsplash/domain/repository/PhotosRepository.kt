@@ -7,8 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface PhotosRepository {
     fun getPhotos(): Flow<PagingData<Photo>>
 
-    fun searchPhotos(query: String): Flow<PagingData<Photo>>
-
     suspend fun getPhoto(id: String): Photo
 
     suspend fun likePhotoLocal(photoId: String)
