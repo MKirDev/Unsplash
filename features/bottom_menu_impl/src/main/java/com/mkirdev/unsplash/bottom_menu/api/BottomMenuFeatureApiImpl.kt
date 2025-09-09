@@ -1,7 +1,5 @@
 package com.mkirdev.unsplash.bottom_menu.api
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -55,10 +53,6 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
                 factory = bottomMenuComponent.bottomMenuViewModelFactory
             )
 
-            val photoFeedFeatureApi = remember {
-                bottomMenuComponent.photoFeedFeatureApi
-            }
-
             val collectionsFeatureApi = remember {
                 bottomMenuComponent.collectionsFeatureApi
             }
@@ -67,9 +61,13 @@ class BottomMenuFeatureApiImpl @Inject constructor() : BottomMenuFeatureApi {
                 bottomMenuComponent.profileFeatureApi
             }
 
+            val photoExploreFeatureApi = remember {
+                bottomMenuComponent.photoExploreFeatureApi
+            }
+
             BottomMenuScreenWrapper(
                 viewModel = viewModel,
-                photoFeedFeatureApi = photoFeedFeatureApi,
+                photoExploreFeatureApi = photoExploreFeatureApi,
                 collectionsFeatureApi = collectionsFeatureApi,
                 profileFeatureApi = profileFeatureApi,
                 onPhotoSelected = onNavigateToPhotoDetails,
