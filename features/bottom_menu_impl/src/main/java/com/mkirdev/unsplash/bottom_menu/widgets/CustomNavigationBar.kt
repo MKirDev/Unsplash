@@ -14,14 +14,14 @@ import com.mkirdev.unsplash.core.navigation.TopLevelDestination
 @Composable
 fun CustomNavigationBar(
     currentDestination: String?,
-    destinations: List<TopLevelDestination>,
+    iconicDestinations: List<TopLevelDestination>,
     onNavigateToTopLevel: (topRoute: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.background,
     ) {
-        destinations.forEachIndexed { index, item ->
+        iconicDestinations.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = {
                     Icon(
