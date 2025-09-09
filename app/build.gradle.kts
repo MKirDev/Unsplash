@@ -101,8 +101,14 @@ dependencies {
     implementation(project(":features:onboarding_api"))
     implementation(project(":features:onboarding_impl"))
 
+    implementation(project(":features:photo_explore_api"))
+    implementation(project(":features:photo_explore_impl"))
+
     implementation(project(":features:photo_feed_api"))
     implementation(project(":features:photo_feed_impl"))
+
+    implementation(project(":features:photo_search_api"))
+    implementation(project(":features:photo_search_impl"))
 
     implementation(project(":features:profile_api"))
     implementation(project(":features:profile_impl"))
