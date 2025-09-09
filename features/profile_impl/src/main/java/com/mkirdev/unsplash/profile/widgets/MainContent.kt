@@ -45,6 +45,7 @@ import com.mkirdev.unsplash.core.ui.widgets.HyperlinkText
 import com.mkirdev.unsplash.core.ui.widgets.LikesInfoMedium
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.TitleField
+import com.mkirdev.unsplash.core.ui.widgets.TransparentTitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
@@ -73,7 +74,6 @@ fun MainContent(
     onPagingCloseFieldClick: () -> Unit,
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit,
     onPagingRefresh: (LazyPagingItems<PhotoItemModel>) -> Unit,
-    onExitIconClick: () -> Unit,
     onCanceledLogoutClick: () -> Unit,
     onConfirmedLogoutClick: () -> Unit
 ) {
@@ -97,12 +97,6 @@ fun MainContent(
 
     Box(modifier = modifier) {
         Column {
-            TitleField(
-                titleText = stringResource(id = R.string.profile),
-                trailingIcon = R.drawable.ic_exit,
-                modifier = Modifier.fillMaxWidth(),
-                onTrailingClick = onExitIconClick
-            )
             profileModel?.let { model ->
                 ProfileInfo(
                     userImageUrl = model.userImage,
