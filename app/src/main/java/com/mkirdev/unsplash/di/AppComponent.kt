@@ -11,7 +11,7 @@ import com.mkirdev.unsplash.collection_details.di.CollectionDetailsDependencies
 import com.mkirdev.unsplash.collections.api.CollectionsFeatureApi
 import com.mkirdev.unsplash.collections.di.CollectionsDependencies
 import com.mkirdev.unsplash.content_creation.api.ContentCreationFeatureApi
-import com.mkirdev.unsplash.core.navigation.TopDestinations
+import com.mkirdev.unsplash.core.navigation.IconicTopDestinations
 import com.mkirdev.unsplash.data.network.photos.api.DownloadApi
 import com.mkirdev.unsplash.details.api.DetailsFeatureApi
 import com.mkirdev.unsplash.details.di.DetailsDependencies
@@ -32,7 +32,7 @@ import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetUnlikedPhotoUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.search.SearchPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
@@ -46,8 +46,12 @@ import com.mkirdev.unsplash.navigation.MainViewModelFactory
 import com.mkirdev.unsplash.notification.api.NotificationFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependencies
+import com.mkirdev.unsplash.photo_explore.api.PhotoExploreFeatureApi
+import com.mkirdev.unsplash.photo_explore.di.PhotoExploreDependencies
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
 import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependencies
+import com.mkirdev.unsplash.photo_search.api.PhotoSearchFeatureApi
+import com.mkirdev.unsplash.photo_search.di.PhotoSearchDependencies
 import com.mkirdev.unsplash.profile.api.ProfileFeatureApi
 import com.mkirdev.unsplash.profile.di.ProfileDependencies
 import com.mkirdev.unsplash.schedulers.CacheScheduler
@@ -71,8 +75,8 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDependencies,
-    PhotoFeedDependencies, DetailsDependencies, CollectionsDependencies,
-    CollectionDetailsDependencies, ProfileDependencies {
+    PhotoExploreDependencies, PhotoFeedDependencies, PhotoSearchDependencies, DetailsDependencies,
+    CollectionsDependencies, CollectionDetailsDependencies, ProfileDependencies {
 
     override val onboardingRepository: OnboardingRepository
     override val contentCreationFeatureApi: ContentCreationFeatureApi
@@ -92,16 +96,21 @@ interface AppComponent : OnboardingDependencies, AuthDependencies, BottomMenuDep
 
     val bottomMenuFeatureApi: BottomMenuFeatureApi
 
+    override val photoExploreFeatureApi: PhotoExploreFeatureApi
+
     override val photoFeedFeatureApi: PhotoFeedFeatureApi
+
+    override val photoSearchFeatureApi: PhotoSearchFeatureApi
 
     override val collectionsFeatureApi: CollectionsFeatureApi
 
     override val profileFeatureApi: ProfileFeatureApi
 
-    override val topLevelDestination: TopDestinations
+    override val iconicTopDestination: IconicTopDestinations
 
     override val getPhotosUseCase: GetPhotosUseCase
     override val searchPhotosUseCase: SearchPhotosUseCase
+
     override val likePhotoLocalUseCase: LikePhotoLocalUseCase
     override val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase
     override val addDownloadLinkUseCase: AddDownloadLinkUseCase

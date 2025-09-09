@@ -2,7 +2,6 @@ package com.mkirdev.unsplash.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import com.mkirdev.unsplash.app.DataStoreManager

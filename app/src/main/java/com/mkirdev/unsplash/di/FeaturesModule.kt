@@ -16,8 +16,12 @@ import com.mkirdev.unsplash.notification.api.NotificationFeatureApi
 import com.mkirdev.unsplash.notification.api.NotificationFeatureApiImpl
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApi
 import com.mkirdev.unsplash.onboarding.api.OnboardingFeatureApiImpl
+import com.mkirdev.unsplash.photo_explore.api.PhotoExploreFeatureApi
+import com.mkirdev.unsplash.photo_explore.api.PhotoExploreFeatureApiImpl
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
 import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApiImpl
+import com.mkirdev.unsplash.photo_search.api.PhotoSearchFeatureApi
+import com.mkirdev.unsplash.photo_search.api.PhotoSearchFeatureApiImpl
 import com.mkirdev.unsplash.profile.api.ProfileFeatureApi
 import com.mkirdev.unsplash.profile.api.ProfileFeatureApiImpl
 import com.mkirdev.unsplash.social_collections.api.SocialCollectionsFeatureApi
@@ -49,10 +53,16 @@ interface FeaturesModule {
     fun bindAuthFeature(featureApi: AuthFeatureApiImpl): AuthFeatureApi
 
     @Binds
-    fun bindBottomMenuFeature(featureApiImpl: BottomMenuFeatureApiImpl): BottomMenuFeatureApi
+    fun bindBottomMenuFeature(featureApi: BottomMenuFeatureApiImpl): BottomMenuFeatureApi
+
+    @Binds
+    fun bindPhotoExploreFeature(featureApi: PhotoExploreFeatureApiImpl): PhotoExploreFeatureApi
 
     @Binds
     fun bindPhotoFeedFeature(featureApi: PhotoFeedFeatureApiImpl): PhotoFeedFeatureApi
+
+    @Binds
+    fun bindPhotoSearchFeature(featureApi: PhotoSearchFeatureApiImpl): PhotoSearchFeatureApi
 
     @Binds
     fun bindDetailsFeature(featureApi: DetailsFeatureApiImpl): DetailsFeatureApi
