@@ -34,13 +34,11 @@ internal interface PhotoSearchContract :
 
         data class Loading(
             val search: String = EMPTY_STRING,
-            val models: Flow<PagingData<PhotoItemModel>> = flow { PagingData.empty<PhotoItemModel>() },
             val scrollState: ScrollState = ScrollState()
         ) : State
 
         data class Idle(
             val search: String = EMPTY_STRING,
-            val models: Flow<PagingData<PhotoItemModel>> = flow { PagingData.empty<PhotoItemModel>() },
             val scrollState: ScrollState = ScrollState()
         ) : State
     }
