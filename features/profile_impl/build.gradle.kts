@@ -50,7 +50,7 @@ dependencies {
     implementation(project(":features:profile_api"))
     implementation(project(":features:photo_item_feature"))
 
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
+    implementation(libs.accompanist.swiperefresh)
 
     // di
     implementation(libs.dagger)
