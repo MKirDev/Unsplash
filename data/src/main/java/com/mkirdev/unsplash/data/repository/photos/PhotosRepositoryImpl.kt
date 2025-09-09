@@ -9,18 +9,14 @@ import androidx.room.withTransaction
 import com.mkirdev.unsplash.data.exceptions.PhotosException
 import com.mkirdev.unsplash.data.mappers.toDomain
 import com.mkirdev.unsplash.data.network.photos.api.PhotosApi
-import com.mkirdev.unsplash.data.network.photos.api.SearchApi
 import com.mkirdev.unsplash.data.paging.PhotoFeedRemoteMediator
-import com.mkirdev.unsplash.data.paging.PhotoSearchRemoteMediator
 import com.mkirdev.unsplash.data.storages.database.dto.feed.PhotoFeedJoinedDto
-import com.mkirdev.unsplash.data.storages.database.dto.search.PhotoSearchJoinedDto
 import com.mkirdev.unsplash.data.storages.database.factory.AppDatabase
 import com.mkirdev.unsplash.data.storages.datastore.photos.PhotosStorage
 import com.mkirdev.unsplash.domain.models.Photo
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -33,7 +29,6 @@ private const val ITEMS_PER_PAGE = 20
 @OptIn(ExperimentalPagingApi::class)
 class PhotosRepositoryImpl @Inject constructor(
     private val photosApi: PhotosApi,
-    private val searchApi: SearchApi,
     private val appDatabase: AppDatabase,
     private val photosStorage: PhotosStorage,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -53,24 +48,6 @@ class PhotosRepositoryImpl @Inject constructor(
             value.map { photoFeedJoinedDto -> photoFeedJoinedDto.toDomain() }
         }.flowOn(dispatcher).catch {
             throw PhotosException.GetPhotosException(it)
-        }
-    }
-
-    override fun searchPhotos(query: String): Flow<PagingData<Photo>> {
-        return Pager(
-            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
-            remoteMediator = PhotoSearchRemoteMediator(
-                query = query,
-                searchApi = searchApi,
-                appDatabase = appDatabase
-            ),
-            pagingSourceFactory = {
-                appDatabase.photoSearchJoinedDao().getSearchJoinedPhotos()
-            }
-        ).flow.map { value: PagingData<PhotoSearchJoinedDto> ->
-            value.map { photoSearchJoinedDto -> photoSearchJoinedDto.toDomain() }
-        }.flowOn(dispatcher).catch {
-            throw PhotosException.SearchPhotosException(it)
         }
     }
 
