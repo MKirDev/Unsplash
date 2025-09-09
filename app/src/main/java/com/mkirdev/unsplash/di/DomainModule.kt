@@ -4,6 +4,7 @@ import com.mkirdev.unsplash.domain.repository.CollectionsRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
 import com.mkirdev.unsplash.domain.repository.CurrentUserRepository
+import com.mkirdev.unsplash.domain.repository.SearchRepository
 import com.mkirdev.unsplash.domain.usecases.collections.ClearCollectionsDatabaseUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionInfoUseCase
 import com.mkirdev.unsplash.domain.usecases.collections.GetCollectionPhotosUseCase
@@ -18,7 +19,7 @@ import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.GetUnlikedPhotoUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoRemoteUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.search.SearchPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoRemoteUseCase
 import com.mkirdev.unsplash.domain.usecases.preferences.DeleteScheduleFlagUseCase
@@ -44,6 +45,11 @@ class DomainModule {
     }
 
     @Provides
+    fun provideSearchPhotosUseCase(searchRepository: SearchRepository): SearchPhotosUseCase {
+        return SearchPhotosUseCase(searchRepository)
+    }
+
+    @Provides
     fun provideGetLikedPhotoUseCase(photosRepository: PhotosRepository): GetLikedPhotoUseCase {
         return GetLikedPhotoUseCase(photosRepository)
     }
@@ -56,11 +62,6 @@ class DomainModule {
     @Provides
     fun provideGetPhotosUseCase(photosRepository: PhotosRepository): GetPhotosUseCase {
         return GetPhotosUseCase(photosRepository)
-    }
-
-    @Provides
-    fun provideSearchPhotosUseCase(photosRepository: PhotosRepository): SearchPhotosUseCase {
-        return SearchPhotosUseCase(photosRepository)
     }
 
     @Provides

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.mkirdev.unsplash.core.navigation.TopDestinations
+import com.mkirdev.unsplash.core.navigation.IconicTopDestinations
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.update
 
 @Stable
 class BottomMenuViewModel(
-    private val topLevelDestination: TopDestinations
+    private val iconicTopDestination: IconicTopDestinations,
 ) : ViewModel(), BottomMenuContract {
 
     private val _uiState = MutableStateFlow<BottomMenuContract.State>(
@@ -31,7 +31,7 @@ class BottomMenuViewModel(
     init {
         _uiState.update {
             BottomMenuContract.State.Success(
-                topLevelDestination = topLevelDestination.destinations.toPersistentList()
+                iconicTopDestinations = iconicTopDestination.destinations.toPersistentList(),
             )
         }
     }
@@ -54,12 +54,12 @@ class BottomMenuViewModel(
 }
 
 internal class BottomMenuViewModelFactory(
-    private val topLevelDestination: TopDestinations
+    private val iconicTopDestination: IconicTopDestinations,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return BottomMenuViewModel(
-            topLevelDestination = topLevelDestination
+            iconicTopDestination = iconicTopDestination,
         ) as T
     }
 }

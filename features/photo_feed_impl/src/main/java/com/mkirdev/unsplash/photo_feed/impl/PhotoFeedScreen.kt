@@ -1,7 +1,6 @@
 package com.mkirdev.unsplash.photo_feed.impl
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,13 +20,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +38,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.mkirdev.unsplash.core.ui.R
-import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.theme.item_width_64
 import com.mkirdev.unsplash.core.ui.theme.padding_10
@@ -52,65 +46,50 @@ import com.mkirdev.unsplash.core.ui.theme.padding_6
 import com.mkirdev.unsplash.core.ui.theme.padding_70
 import com.mkirdev.unsplash.core.ui.theme.space_6
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
+import com.mkirdev.unsplash.core.ui.widgets.DisabledSearchField
 import com.mkirdev.unsplash.core.ui.widgets.LikesInfoSmall
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
-import com.mkirdev.unsplash.core.ui.widgets.SearchField
 import com.mkirdev.unsplash.core.ui.widgets.StaticEmptyField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
-import com.mkirdev.unsplash.photo_feed.preview.createPhotoFeedPreviewData
+import com.mkirdev.unsplash.photo_feed.models.ScrollState
 import com.mkirdev.unsplash.photo_item.feature.PhotoItem
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.take
 
-private const val EMPTY_STRING = ""
 private const val FIXED_COUNT = 2
 private const val REPEAT_TIMES = 4
 
 private const val PORTRAIT_FACTOR = 0.847f
 
 private const val LANDSCAPE_FACTOR = 0.648f
+
 @Composable
 internal fun PhotoFeedScreenWrapper(
     uiState: PhotoFeedContract.State,
-    onSearch: (String) -> Unit,
     onPhotoClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
     onLoadError: () -> Unit,
+    onSaveScrollState: (ScrollState) -> Unit,
     onCloseFieldClick: () -> Unit,
     onPagingCloseField: () -> Unit,
     onPagingRetry: (LazyPagingItems<PhotoItemModel>) -> Unit
 ) {
 
-    val scrollIndex = rememberSaveable { mutableIntStateOf(0) }
-    val scrollOffset = rememberSaveable { mutableIntStateOf(0) }
-
-
-    val gridState = rememberLazyGridState(
-        initialFirstVisibleItemIndex = scrollIndex.intValue,
-        initialFirstVisibleItemScrollOffset = scrollOffset.intValue
-    )
-
-    LaunchedEffect(gridState.isScrollInProgress) {
-        if (!gridState.isScrollInProgress) {
-            scrollIndex.intValue = gridState.firstVisibleItemIndex
-            scrollOffset.intValue = gridState.firstVisibleItemScrollOffset
-        }
+    val scrollState = when (uiState) {
+        is PhotoFeedContract.State.Success -> uiState.scrollState
+        is PhotoFeedContract.State.Failure -> uiState.scrollState
+        is PhotoFeedContract.State.Loading -> uiState.scrollState
+        is PhotoFeedContract.State.Idle -> uiState.scrollState
     }
 
     val models = when (uiState) {
         is PhotoFeedContract.State.Success -> uiState.models
         is PhotoFeedContract.State.Failure -> uiState.models
         else -> null
-    }
-
-    val searchText = when (uiState) {
-        is PhotoFeedContract.State.Success -> uiState.search
-        is PhotoFeedContract.State.Failure -> uiState.search
-        else -> EMPTY_STRING
     }
 
     val errorText = when (uiState) {
@@ -126,22 +105,46 @@ internal fun PhotoFeedScreenWrapper(
         else -> false
     }
 
+    val gridState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = scrollState.index,
+        initialFirstVisibleItemScrollOffset = scrollState.offset
+    )
+
+    LaunchedEffect(gridState.isScrollInProgress) {
+        if (!gridState.isScrollInProgress) {
+            onSaveScrollState(
+                ScrollState(
+                    gridState.firstVisibleItemIndex,
+                    gridState.firstVisibleItemScrollOffset
+                )
+            )
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            onSaveScrollState(
+                ScrollState(
+                    gridState.firstVisibleItemIndex,
+                    gridState.firstVisibleItemScrollOffset
+                )
+            )
+        }
+    }
+
     models?.let { flowPagingData ->
         val pagedItems = flowPagingData.collectAsLazyPagingItems()
         PhotoFeedScreen(
             gridState = gridState,
-            scrollIndex = scrollIndex.intValue,
-            scrollOffset = scrollOffset.intValue,
+            scrollIndex = scrollState.index,
+            scrollOffset = scrollState.offset,
             pagedItems = pagedItems,
-            searchText = searchText,
-            onSearch = onSearch,
             onPhotoClick = { id ->
-                scrollIndex.intValue = gridState.firstVisibleItemIndex
-                scrollOffset.intValue = gridState.firstVisibleItemScrollOffset
                 onPhotoClick(id)
             },
             onLikeClick = onLikeClick,
             onRemoveLikeClick = onRemoveLikeClick,
+            onSearchClick = onSearchClick,
             onLoadError = onLoadError,
             isPagingLoadingError = isPagingError,
             errorText = errorText,
@@ -158,11 +161,10 @@ private fun PhotoFeedScreen(
     scrollIndex: Int,
     scrollOffset: Int,
     pagedItems: LazyPagingItems<PhotoItemModel>,
-    searchText: String,
-    onSearch: (String) -> Unit,
     onPhotoClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onRemoveLikeClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
     onLoadError: () -> Unit,
     isPagingLoadingError: Boolean,
     errorText: String?,
@@ -222,14 +224,11 @@ private fun PhotoFeedScreen(
 
     Box(Modifier.fillMaxSize()) {
         Column {
-            SearchField(
-                text = searchText,
-                onValueChange = {
-                    onSearch(it)
-                },
+            DisabledSearchField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag(PhotoFeedTags.SEARCH_FIELD)
+                    .testTag(PhotoFeedTags.SEARCH_FIELD),
+                onTrailingIconClick = onSearchClick
             )
             LazyVerticalGrid(
                 columns = GridCells.Fixed(FIXED_COUNT),
@@ -353,22 +352,23 @@ internal object PhotoFeedTags {
 @Preview
 @Composable
 private fun PhotoFeedScreenPreview() {
-    UnsplashTheme(dynamicColor = false) {
-        PhotoFeedScreenWrapper(
-            uiState = PhotoFeedContract.State.Failure(
-                search = "",
-                models = createPhotoFeedPreviewData(),
-                isPagingLoadingError = true,
-                error = "",
-                updatedCount = 1
-            ),
-            onSearch = {},
-            onPhotoClick = {},
-            onLikeClick = {},
-            onRemoveLikeClick = {},
-            onLoadError = {},
-            onCloseFieldClick = {},
-            onPagingCloseField = {},
-            onPagingRetry = {})
-    }
+//    UnsplashTheme(dynamicColor = false) {
+//        PhotoFeedScreenWrapper(
+//            uiState = PhotoFeedContract.State.Failure(
+////                search = "",
+//                models = createPhotoFeedPreviewData(),
+//                isPagingLoadingError = true,
+//                error = "",
+//                updatedCount = 1
+//            ),
+////            onSearch = {},
+//            onPhotoClick = {},
+//            onSearchClick = {},
+//            onLikeClick = {},
+//            onRemoveLikeClick = {},
+//            onLoadError = {},
+//            onCloseFieldClick = {},
+//            onPagingCloseField = {},
+//            onPagingRetry = {})
+//    }
 }

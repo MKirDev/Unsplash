@@ -3,6 +3,7 @@ package com.mkirdev.unsplash.profile.impl
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -17,14 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.mkirdev.unsplash.core.ui.R
 import com.mkirdev.unsplash.core.ui.theme.UnsplashTheme
 import com.mkirdev.unsplash.core.ui.theme.bodyLargeMedium
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
+import com.mkirdev.unsplash.core.ui.widgets.TransparentTitleField
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import com.mkirdev.unsplash.profile.models.ProfileModel
 import com.mkirdev.unsplash.profile.preview.createPhotoItemModelsPreviewData
@@ -157,29 +161,34 @@ fun ProfileScreen(
     val offsetY = if (isPortrait) screenHeight * 0.847f else screenHeight * 0.648f
 
     Box(Modifier.fillMaxSize()) {
-        MainContent(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
-            listState = listState,
-            profileModel = profileModel,
-            pagedItems = pagedItems,
-            scrollIndex = scrollIndex,
-            scrollOffset = scrollOffset,
-            isPagingLoadingError = isPagingLoadingError,
-            isExitEnabled = isExitEnabled,
-            onPhotoItemClick = onPhotoItemClick,
-            onLikeClick = onLikeClick,
-            onRemoveLikeClick = onRemoveLikeClick,
-            onDownloadClick = onDownloadClick,
-            onLoadError = onLoadError,
-            onPagingCloseFieldClick = onPagingCloseFieldClick,
-            onPagingRetry = onPagingRetry,
-            onPagingRefresh = onPagingRefresh,
-            onExitIconClick = onExitIconClick,
-            onCanceledLogoutClick = onCanceledLogoutClick,
-            onConfirmedLogoutClick = onConfirmedLogoutClick
-        )
-
-
+        Column {
+            TransparentTitleField(
+                titleText = stringResource(id = R.string.profile),
+                trailingIcon = R.drawable.ic_exit,
+                modifier = Modifier.fillMaxWidth(),
+                onTrailingClick = onExitIconClick
+            )
+            MainContent(
+                modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                listState = listState,
+                profileModel = profileModel,
+                pagedItems = pagedItems,
+                scrollIndex = scrollIndex,
+                scrollOffset = scrollOffset,
+                isPagingLoadingError = isPagingLoadingError,
+                isExitEnabled = isExitEnabled,
+                onPhotoItemClick = onPhotoItemClick,
+                onLikeClick = onLikeClick,
+                onRemoveLikeClick = onRemoveLikeClick,
+                onDownloadClick = onDownloadClick,
+                onLoadError = onLoadError,
+                onPagingCloseFieldClick = onPagingCloseFieldClick,
+                onPagingRetry = onPagingRetry,
+                onPagingRefresh = onPagingRefresh,
+                onCanceledLogoutClick = onCanceledLogoutClick,
+                onConfirmedLogoutClick = onConfirmedLogoutClick
+            )
+        }
     }
     if (!errorText.isNullOrEmpty()) {
         Box {

@@ -5,6 +5,7 @@ import com.mkirdev.unsplash.data.repository.collections.CollectionsRepositoryImp
 import com.mkirdev.unsplash.data.repository.onboarding.OnboardingRepositoryImpl
 import com.mkirdev.unsplash.data.repository.photos.PhotosRepositoryImpl
 import com.mkirdev.unsplash.data.repository.preferences.PreferencesRepositoryImpl
+import com.mkirdev.unsplash.data.repository.search.SearchRepositoryImpl
 import com.mkirdev.unsplash.data.repository.users.CurrentUserRepositoryImpl
 import com.mkirdev.unsplash.domain.repository.AuthRepository
 import com.mkirdev.unsplash.domain.repository.CollectionsRepository
@@ -12,6 +13,7 @@ import com.mkirdev.unsplash.domain.repository.OnboardingRepository
 import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.repository.PreferencesRepository
 import com.mkirdev.unsplash.domain.repository.CurrentUserRepository
+import com.mkirdev.unsplash.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
 
@@ -26,6 +28,9 @@ interface RepositoriesModule {
 
     @Binds
     fun bindPhotosRepository(repository: PhotosRepositoryImpl): PhotosRepository
+
+    @Binds
+    fun bindSearchRepository(repository: SearchRepositoryImpl): SearchRepository
 
     @Binds
     fun bindCollectionsRepository(repository: CollectionsRepositoryImpl): CollectionsRepository

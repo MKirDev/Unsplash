@@ -48,7 +48,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(project(":features:bottom_menu_api"))
-    implementation(project(":features:photo_feed_api"))
+    implementation(project(":features:photo_explore_api"))
     implementation(project(":features:collections_api"))
     implementation(project(":features:profile_api"))
 
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.collections.immutable)
+
 
     // navigation
     implementation(libs.navigation)

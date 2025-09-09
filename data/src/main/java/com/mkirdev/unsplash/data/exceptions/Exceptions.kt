@@ -65,10 +65,6 @@ internal sealed class PhotosException : Throwable() {
         override val cause: Throwable?
     ) : PhotosException()
 
-    internal data class SearchPhotosException(
-        override val cause: Throwable?
-    ) : PhotosException()
-
     internal data class AddDownloadLinkException(
         override val cause: Throwable?
     ) : PhotosException()
@@ -84,6 +80,12 @@ internal sealed class PhotosException : Throwable() {
     internal data class ClearPhotosFromDatabase(
         override val cause: Throwable?
     ) : PhotosException()
+}
+
+internal sealed class SearchException : Throwable() {
+    internal data class SearchPhotosException(
+        override val cause: Throwable?
+    ) : SearchException()
 }
 
 internal sealed class CollectionsException : Throwable() {

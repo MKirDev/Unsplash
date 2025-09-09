@@ -2,12 +2,12 @@ package com.mkirdev.unsplash.di
 
 import android.content.Context
 import com.mkirdev.unsplash.collections.api.navigation.CollectionsTopLevelDestination
-import com.mkirdev.unsplash.core.navigation.TopDestinations
+import com.mkirdev.unsplash.core.navigation.IconicTopDestinations
 import com.mkirdev.unsplash.domain.usecases.auth.GetLogoutEventUseCase
 import com.mkirdev.unsplash.domain.usecases.auth.GetSavedTokenUseCase
 import com.mkirdev.unsplash.domain.usecases.onboarding.GetOnboardingFlagUseCase
 import com.mkirdev.unsplash.navigation.MainViewModelFactory
-import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.photo_explore.api.navigation.PhotoExploreTopLevelDestination
 import com.mkirdev.unsplash.profile.api.navigation.ProfileTopLevelDestination
 import com.mkirdev.unsplash.schedulers.CacheScheduler
 import dagger.Module
@@ -24,10 +24,10 @@ class AppModule {
     }
 
     @Provides
-    fun provideTopDestinations(): TopDestinations {
-        return TopDestinations(
+    fun provideIconicTopDestinations(): IconicTopDestinations {
+        return IconicTopDestinations(
             destinations = listOf(
-                PhotoFeedTopLevelDestination,
+                PhotoExploreTopLevelDestination,
                 CollectionsTopLevelDestination,
                 ProfileTopLevelDestination
             )

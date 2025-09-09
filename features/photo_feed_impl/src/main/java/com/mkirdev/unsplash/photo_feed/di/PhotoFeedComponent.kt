@@ -1,9 +1,8 @@
 package com.mkirdev.unsplash.photo_feed.di
 
-import com.mkirdev.unsplash.domain.repository.PhotosRepository
 import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
+import com.mkirdev.unsplash.domain.usecases.search.SearchPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.photo_feed.impl.PhotoFeedViewModelFactory
 import dagger.Component
