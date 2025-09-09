@@ -40,8 +40,10 @@ private const val ONE_LINE = 1
 @Composable
 fun SearchField(
     text: String,
+    modifier: Modifier,
     onValueChange: (String) -> Unit,
-    modifier: Modifier
+    onSearchClicked: () -> Unit,
+    onFeedClicked: () -> Unit
 ) {
 
     var isEnabled by rememberSaveable {
@@ -75,12 +77,17 @@ fun SearchField(
             }
         },
         trailingIcon = {
-            TrailingIcon(isEnabled = isEnabled) {
-                isEnabled = !isEnabled
-                if (!isEnabled) {
-                    onValueChange(EMPTY_STRING)
-                }
-            }
+            TrailingIcon(
+                isEnabled = isEnabled,
+                onClick = {
+                    isEnabled = !isEnabled
+                    if (!isEnabled) {
+                        onValueChange(EMPTY_STRING)
+                    }
+                },
+                onSearchClicked = onSearchClicked,
+                onFeedClicked = onFeedClicked
+            )
         },
         keyboardActions = KeyboardActions(
             onDone = {
@@ -94,28 +101,39 @@ fun SearchField(
             focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             disabledPrefixColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
             focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-            unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
             cursorColor = Color.Transparent
         )
     )
 }
 
 @Composable
-private fun TrailingIcon(isEnabled: Boolean, onClick: () -> Unit) {
+private fun TrailingIcon(
+    isEnabled: Boolean,
+    onClick: () -> Unit,
+    onSearchClicked: () -> Unit,
+    onFeedClicked: () -> Unit
+) {
     if (isEnabled) {
-        IconButton(onClick = onClick) {
+        IconButton(onClick = {
+            onClick()
+            onFeedClicked()
+        }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_close_24),
                 contentDescription = stringResource(id = R.string.close)
             )
         }
     } else {
-        IconButton(onClick = onClick) {
+        IconButton(onClick = {
+            onClick()
+            onSearchClicked()
+        }) {
             Icon(
                 painter = painterResource(id = R.drawable.search),
                 contentDescription = stringResource(
@@ -133,7 +151,12 @@ private fun TrailingIcon(isEnabled: Boolean, onClick: () -> Unit) {
 private fun SearchFieldPreview() {
     UnsplashTheme(dynamicColor = false) {
         Column(Modifier.fillMaxSize()) {
-            SearchField(text = EMPTY_STRING, onValueChange = {}, modifier = Modifier.fillMaxWidth())
+            SearchField(
+                text = EMPTY_STRING, modifier = Modifier.fillMaxWidth(),
+                onValueChange = {},
+                onSearchClicked = {},
+                onFeedClicked = {}
+            )
         }
     }
 }

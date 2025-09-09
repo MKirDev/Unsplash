@@ -24,6 +24,8 @@
     <string name="close">Close</string>
     <string name="trailing_icon">Trailing icon</string>
     <string name="photo_feed">Photo feed</string>
+    <string name="photo_search">Photo search</string>
+    <string name="photo_explore">Photo explore</string>
     <string name="collections">Collections</string>
     <string name="details">Details</string>
     <string name="photo_details">Photo Details</string>
@@ -57,4 +59,5 @@
     <string name="description_channel">Notifications about uploaded photos</string>
     <string name="onboarding_notifications">"Enable notification to get a message when a photo finishes downloading.\nTap it to go straight to the gallery"</string>
     <string name="onboarding_settings_for_notifications">Make sure the “Notifications” is on in the settings</string>
+    <string name="text_for_searching">Enter text to search…</string>
 </resources>
