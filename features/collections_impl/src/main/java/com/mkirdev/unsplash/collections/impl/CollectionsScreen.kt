@@ -15,8 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -42,7 +40,7 @@ import com.mkirdev.unsplash.core.ui.theme.padding_78
 import com.mkirdev.unsplash.core.ui.widgets.ClosableErrorField
 import com.mkirdev.unsplash.core.ui.widgets.LoadingIndicator
 import com.mkirdev.unsplash.core.ui.widgets.StaticEmptyField
-import com.mkirdev.unsplash.core.ui.widgets.TitleField
+import com.mkirdev.unsplash.core.ui.widgets.TransparentTitleField
 import com.mkirdev.unsplash.core.ui.widgets.UserImageSmall
 import com.mkirdev.unsplash.core.ui.widgets.UserInfoSmall
 
@@ -95,7 +93,7 @@ internal fun CollectionsScreen(
             })
 
             Column {
-                TitleField(
+                TransparentTitleField(
                     titleText = stringResource(id = R.string.collections_title),
                     modifier = Modifier.fillMaxWidth()
                 )
