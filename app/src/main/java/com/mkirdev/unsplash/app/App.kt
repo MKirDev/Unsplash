@@ -14,7 +14,9 @@ import com.mkirdev.unsplash.details.di.DetailsDependenciesProvider
 import com.mkirdev.unsplash.di.DaggerAppComponent
 import com.mkirdev.unsplash.di.DaggerProvider
 import com.mkirdev.unsplash.onboarding.di.OnboardingDependenciesProvider
+import com.mkirdev.unsplash.photo_explore.di.PhotoExploreDependenciesProvider
 import com.mkirdev.unsplash.photo_feed.di.PhotoFeedDependenciesProvider
+import com.mkirdev.unsplash.photo_search.di.PhotoSearchDependenciesProvider
 import com.mkirdev.unsplash.profile.di.ProfileDependenciesProvider
 import com.mkirdev.unsplash.workers.PhotoDownloadWorker
 import com.mkirdev.unsplash.workers.PhotoLikeWorker
@@ -56,7 +58,9 @@ class App : Application() {
         OnboardingDependenciesProvider.dependencies = appComponent
         AuthDependenciesProvider.dependencies = appComponent
         BottomMenuDependenciesProvider.dependencies = appComponent
+        PhotoExploreDependenciesProvider.dependencies = appComponent
         PhotoFeedDependenciesProvider.dependencies = appComponent
+        PhotoSearchDependenciesProvider.dependencies = appComponent
         DetailsDependenciesProvider.dependencies = appComponent
         CollectionsDependenciesProvider.dependencies = appComponent
         CollectionDetailsDependenciesProvider.dependencies = appComponent
