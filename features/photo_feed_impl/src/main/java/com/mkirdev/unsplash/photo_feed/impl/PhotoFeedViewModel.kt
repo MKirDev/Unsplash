@@ -10,30 +10,24 @@ import androidx.paging.cachedIn
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import com.mkirdev.unsplash.domain.models.Photo
-import com.mkirdev.unsplash.domain.models.PhotoSearch
 import com.mkirdev.unsplash.domain.usecases.photos.GetPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.LikePhotoLocalUseCase
-import com.mkirdev.unsplash.domain.usecases.photos.SearchPhotosUseCase
 import com.mkirdev.unsplash.domain.usecases.photos.UnlikePhotoLocalUseCase
 import com.mkirdev.unsplash.photo_feed.mappers.toPresentation
+import com.mkirdev.unsplash.photo_feed.models.ScrollState
 import com.mkirdev.unsplash.photo_item.models.PhotoItemModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private const val EMPTY_STRING = ""
 private const val UPDATED_COUNT = 0
 private const val LIKED = true
 private const val UNLIKED = false
-private const val DEBOUNCE_SEARCH = 700L
 
 @OptIn(FlowPreview::class)
 @Stable
@@ -41,11 +35,10 @@ internal class PhotoFeedViewModel(
     private val getPhotosUseCase: GetPhotosUseCase,
     private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
     private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
-    private val searchPhotosUseCase: SearchPhotosUseCase
 ) : ViewModel(), PhotoFeedContract {
 
     private val _uiState = MutableStateFlow<PhotoFeedContract.State>(
-        PhotoFeedContract.State.Idle
+        PhotoFeedContract.State.Idle()
     )
 
     @Stable
@@ -56,10 +49,8 @@ internal class PhotoFeedViewModel(
     @Stable
     override val effect: StateFlow<PhotoFeedContract.Effect?> = _effect.asStateFlow()
 
-    private val searchState = MutableStateFlow(PhotoSearch())
-
     init {
-        observeSearch()
+        loadPhotos()
     }
 
     override fun handleEvent(event: PhotoFeedContract.Event) {
@@ -76,9 +67,11 @@ internal class PhotoFeedViewModel(
                 isLiked = UNLIKED
             )
 
-            is PhotoFeedContract.Event.SearchEvent -> onSearch(text = event.search)
+            PhotoFeedContract.Event.PhotoSearchClickedEvent -> onSearchClick()
 
             is PhotoFeedContract.Event.PagingRetryEvent -> onPagingRetry(event.pagedItems)
+
+            is PhotoFeedContract.Event.ScrollStateSavedEvent -> onScrollStateSave(scrollState = event.scrollState)
 
             PhotoFeedContract.Event.PagingFieldClosedEvent -> onPagingFieldClose()
 
@@ -96,24 +89,25 @@ internal class PhotoFeedViewModel(
             .cachedIn(viewModelScope)
     }
 
-    private fun loadPhotos(photos: Flow<PagingData<PhotoItemModel>>) {
+    private fun loadPhotos() {
         viewModelScope.launch {
             try {
+                val photos = transformPagingData(getPhotosUseCase.execute())
                 _uiState.update {
-                    PhotoFeedContract.State.Loading
+                    PhotoFeedContract.State.Loading()
                 }
                 _uiState.update {
                     PhotoFeedContract.State.Success(
-                        search = EMPTY_STRING,
                         models = photos,
+                        scrollState = ScrollState(),
                         isPagingLoadingError = false
                     )
                 }
             } catch (t: Throwable) {
                 _uiState.update {
                     PhotoFeedContract.State.Failure(
-                        search = EMPTY_STRING,
                         isPagingLoadingError = false,
+                        scrollState = ScrollState(),
                         models = null,
                         error = t.message.toString(),
                         updatedCount = UPDATED_COUNT
@@ -127,8 +121,8 @@ internal class PhotoFeedViewModel(
         if (_uiState.value is PhotoFeedContract.State.Failure) {
             _uiState.update {
                 PhotoFeedContract.State.Success(
-                    search = (it as PhotoFeedContract.State.Failure).search,
-                    models = it.models ?: throw Throwable(),
+                    models = (it as PhotoFeedContract.State.Failure).models ?: throw Throwable(),
+                    scrollState = it.scrollState,
                     isPagingLoadingError = it.isPagingLoadingError
                 )
             }
@@ -140,8 +134,8 @@ internal class PhotoFeedViewModel(
             when (currentState) {
                 is PhotoFeedContract.State.Failure ->
                     PhotoFeedContract.State.Success(
-                        search = currentState.search,
                         models = currentState.models ?: throw Throwable(),
+                        scrollState = currentState.scrollState,
                         isPagingLoadingError = false
                     )
 
@@ -153,6 +147,26 @@ internal class PhotoFeedViewModel(
 
     private fun onPagingRetry(pagedItems: LazyPagingItems<PhotoItemModel>) {
         pagedItems.retry()
+    }
+
+    private fun onSearchClick() {
+        _effect.update {
+            PhotoFeedContract.Effect.Search
+        }
+    }
+
+    private fun onScrollStateSave(scrollState: ScrollState) {
+        _uiState.update { currentState ->
+            when (currentState) {
+                is PhotoFeedContract.State.Success -> currentState.copy(
+                    scrollState = scrollState
+                )
+                is PhotoFeedContract.State.Failure -> currentState.copy(
+                    scrollState = scrollState
+                )
+                else -> currentState
+            }
+        }
     }
 
     private fun onErrorLoad() {
@@ -192,33 +206,12 @@ internal class PhotoFeedViewModel(
         }
     }
 
-    private fun onSearch(text: String) {
-        if (_uiState.value is PhotoFeedContract.State.Failure) {
-            _uiState.update {
-                PhotoFeedContract.State.Success(
-                    search = text,
-                    models = (it as PhotoFeedContract.State.Failure).models ?: throw Throwable(),
-                    isPagingLoadingError = it.isPagingLoadingError
-                )
-            }
-        } else if (_uiState.value is PhotoFeedContract.State.Success) {
-            _uiState.update {
-                (it as PhotoFeedContract.State.Success).copy(
-                    search = text
-                )
-            }
-        }
-        searchState.update {
-            it.copy(search = text)
-        }
-    }
-
     private fun successLoadedPhotos() {
         if (_uiState.value is PhotoFeedContract.State.Failure) {
             _uiState.update {
                 PhotoFeedContract.State.Success(
-                    search = (it as PhotoFeedContract.State.Failure).search,
-                    models = it.models ?: throw Throwable(),
+                    models = (it as PhotoFeedContract.State.Failure).models ?: throw Throwable(),
+                    scrollState = it.scrollState,
                     isPagingLoadingError = it.isPagingLoadingError
                 )
             }
@@ -236,9 +229,9 @@ internal class PhotoFeedViewModel(
         } else if (_uiState.value is PhotoFeedContract.State.Success) {
             _uiState.update {
                 PhotoFeedContract.State.Failure(
-                    search = (it as PhotoFeedContract.State.Success).search,
+                    models = (it as PhotoFeedContract.State.Success).models,
+                    scrollState = it.scrollState,
                     isPagingLoadingError = it.isPagingLoadingError,
-                    models = it.models,
                     error = error,
                     updatedCount = UPDATED_COUNT
                 )
@@ -246,63 +239,20 @@ internal class PhotoFeedViewModel(
         }
     }
 
-    private fun observeSearch() {
-        viewModelScope.launch {
-            searchState
-                .debounce(DEBOUNCE_SEARCH)
-                .distinctUntilChanged()
-                .map {
-                    if (it.search.isEmpty()) getPhotosUseCase.execute()
-                    else searchPhotosUseCase.execute(query = it.search)
-                }
-                .catch { throwable ->
-                    if (_uiState.value is PhotoFeedContract.State.Failure) {
-                        _uiState.update {
-                            (it as PhotoFeedContract.State.Failure).copy(
-                                error = throwable.message.toString()
-                            )
-                        }
-                    } else if (_uiState.value is PhotoFeedContract.State.Success) {
-                        _uiState.update {
-                            PhotoFeedContract.State.Failure(
-                                search = (it as PhotoFeedContract.State.Success).search,
-                                models = it.models,
-                                isPagingLoadingError = it.isPagingLoadingError,
-                                error = throwable.message.toString(),
-                                updatedCount = UPDATED_COUNT
-                            )
-                        }
-                    }
-                }
-                .collect { flowPagingData ->
-                    val photos = transformPagingData(flowPagingData)
-                    if (searchState.value.search.isNotEmpty()) {
-                        _uiState.update {
-                            (it as PhotoFeedContract.State.Success).copy(
-                                models = photos
-                            )
-                        }
-                    } else {
-                        loadPhotos(photos)
-                    }
-                }
-        }
-    }
+
 }
 
 internal class PhotoFeedViewModelFactory(
     private val getPhotosUseCase: GetPhotosUseCase,
     private val likePhotoLocalUseCase: LikePhotoLocalUseCase,
     private val unlikePhotoLocalUseCase: UnlikePhotoLocalUseCase,
-    private val searchPhotosUseCase: SearchPhotosUseCase
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return PhotoFeedViewModel(
             getPhotosUseCase = getPhotosUseCase,
             likePhotoLocalUseCase = likePhotoLocalUseCase,
-            unlikePhotoLocalUseCase = unlikePhotoLocalUseCase,
-            searchPhotosUseCase = searchPhotosUseCase
+            unlikePhotoLocalUseCase = unlikePhotoLocalUseCase
         ) as T
     }
 }
