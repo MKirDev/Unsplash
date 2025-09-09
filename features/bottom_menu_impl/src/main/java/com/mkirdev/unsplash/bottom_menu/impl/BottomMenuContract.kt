@@ -12,8 +12,8 @@ interface BottomMenuContract : UniFlowViewModel<BottomMenuContract.Event, Bottom
 
         @Immutable
         data class Success(
-            val topLevelDestination: ImmutableList<TopLevelDestination>
-        ) : State
+            val iconicTopDestinations: ImmutableList<TopLevelDestination>,
+            ) : State
     }
 
     sealed interface Event {

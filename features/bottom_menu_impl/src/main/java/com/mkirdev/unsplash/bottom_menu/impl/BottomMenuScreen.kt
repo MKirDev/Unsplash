@@ -2,6 +2,7 @@ package com.mkirdev.unsplash.bottom_menu.impl
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,17 +15,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mkirdev.unsplash.bottom_menu.widgets.CustomNavigationBar
+import com.mkirdev.unsplash.bottom_menu.widgets.CustomTopBar
 import com.mkirdev.unsplash.collections.api.CollectionsFeatureApi
 import com.mkirdev.unsplash.core.contract.viewmodel.applyEffect
 import com.mkirdev.unsplash.core.navigation.navigateSingleDestinationTo
-import com.mkirdev.unsplash.photo_feed.api.PhotoFeedFeatureApi
-import com.mkirdev.unsplash.photo_feed.api.navigation.PhotoFeedTopLevelDestination
+import com.mkirdev.unsplash.photo_explore.api.PhotoExploreFeatureApi
+import com.mkirdev.unsplash.photo_explore.api.navigation.PhotoExploreTopLevelDestination
 import com.mkirdev.unsplash.profile.api.ProfileFeatureApi
 
 @Composable
 fun BottomMenuScreenWrapper(
     viewModel: BottomMenuViewModel,
-    photoFeedFeatureApi: PhotoFeedFeatureApi,
+    photoExploreFeatureApi: PhotoExploreFeatureApi,
     collectionsFeatureApi: CollectionsFeatureApi,
     profileFeatureApi: ProfileFeatureApi,
     onPhotoSelected: (String) -> Unit,
@@ -41,6 +43,7 @@ fun BottomMenuScreenWrapper(
             is BottomMenuContract.Effect.TopLevelDestination -> {
                 navController.navigateSingleDestinationTo(effect.route)
             }
+
             null -> Unit
         }
     })
@@ -49,7 +52,7 @@ fun BottomMenuScreenWrapper(
 
     BottomMenuScreen(
         uiState = uiState,
-        photoFeedFeatureApi = photoFeedFeatureApi,
+        photoExploreFeatureApi = photoExploreFeatureApi,
         collectionsFeatureApi = collectionsFeatureApi,
         profileFeatureApi = profileFeatureApi,
         navController = navController,
@@ -59,11 +62,12 @@ fun BottomMenuScreenWrapper(
         onLogout = onLogout
     )
 }
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun BottomMenuScreen(
     uiState: BottomMenuContract.State,
-    photoFeedFeatureApi: PhotoFeedFeatureApi,
+    photoExploreFeatureApi: PhotoExploreFeatureApi,
     collectionsFeatureApi: CollectionsFeatureApi,
     profileFeatureApi: ProfileFeatureApi,
     navController: NavHostController,
@@ -75,12 +79,12 @@ private fun BottomMenuScreen(
     when (uiState) {
         BottomMenuContract.State.Idle -> {}
         is BottomMenuContract.State.Success -> {
-
             Scaffold(
+                modifier = Modifier,
                 bottomBar = {
                     CustomNavigationBar(
                         currentDestination = currentRoute,
-                        destinations = uiState.topLevelDestination,
+                        iconicDestinations = uiState.iconicTopDestinations,
                         onNavigateToTopLevel = { route ->
                             navController.navigateSingleDestinationTo(route = route)
                         },
@@ -88,14 +92,16 @@ private fun BottomMenuScreen(
                     )
                 }
             ) { innerPadding ->
-                Box(modifier = Modifier) {
+                Box(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
                     NavHost(
                         navController = navController,
-                        startDestination = PhotoFeedTopLevelDestination.route
+                        modifier = Modifier.zIndex(1f),
+                        startDestination = PhotoExploreTopLevelDestination.route,
                     ) {
-                        with(photoFeedFeatureApi) {
-                            photoFeed(
-                                onNavigateToDetails = onPhotoSelected
+
+                        with(photoExploreFeatureApi) {
+                            photoExplore(
+                                onNavigateToDetails = onPhotoSelected,
                             )
                         }
 
@@ -112,9 +118,13 @@ private fun BottomMenuScreen(
                             )
                         }
                     }
+                    CustomTopBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
                 }
             }
+
         }
     }
-
 }
